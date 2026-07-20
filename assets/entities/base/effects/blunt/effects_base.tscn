@@ -1,0 +1,48 @@
+[gd_scene load_steps=11 format=3 uid="uid://clg46y2c4e7rt"]
+
+[ext_resource type="PackedScene" uid="uid://c5eauk5i5s64k" path="res://assets/entities/base/effects/effects_base.tscn" id="1_dfgus"]
+[ext_resource type="Texture2D" uid="uid://ba76fjqae1cgi" path="res://assets/entities/base/effects/blunt/hit-effect-blunt-000.png" id="2_ocbmy"]
+[ext_resource type="Script" path="res://assets/entities/base/effects/blunt/effects_base.gd" id="2_wr6e6"]
+[ext_resource type="Texture2D" uid="uid://cl05q0bjbtteb" path="res://assets/entities/base/effects/blunt/hit-effect-blunt-001.png" id="3_0oucp"]
+[ext_resource type="Texture2D" uid="uid://cw6j34gu4nvwk" path="res://assets/entities/base/effects/blunt/hit-effect-blunt-002.png" id="4_2m4dd"]
+[ext_resource type="Texture2D" uid="uid://brgpi4w0bwopg" path="res://assets/entities/base/effects/blunt/hit-effect-blunt-003.png" id="5_uilvk"]
+[ext_resource type="Texture2D" uid="uid://cmivdl78e403x" path="res://assets/entities/base/effects/blunt/hit-effect-blunt-004.png" id="6_h11ql"]
+[ext_resource type="Texture2D" uid="uid://c48w15crtd2k5" path="res://assets/entities/base/effects/blunt/hit-effect-blunt-005.png" id="7_rawd5"]
+[ext_resource type="Texture2D" uid="uid://bywt8jfx6p76i" path="res://assets/entities/base/effects/blunt/hit-effect-blunt-006.png" id="8_dl0uu"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_gd1rb"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_ocbmy")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_0oucp")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_2m4dd")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_uilvk")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_h11ql")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_rawd5")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_dl0uu")
+}],
+"loop": false,
+"name": &"default",
+"speed": 30.0
+}]
+
+[node name="EffectsBase" instance=ExtResource("1_dfgus")]
+script = ExtResource("2_wr6e6")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." index="0"]
+position = Vector2(9, 3)
+scale = Vector2(1.36232, 1.36232)
+sprite_frames = SubResource("SpriteFrames_gd1rb")

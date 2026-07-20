@@ -1,0 +1,403 @@
+[gd_scene format=3 uid="uid://bm64qd55fymjs"]
+
+[ext_resource type="PackedScene" uid="uid://byxftnoxwqc7n" path="res://scenes/hp_bar.tscn" id="1_7aqo2"]
+[ext_resource type="FontFile" uid="uid://bm1uk84yuviwu" path="res://assets/fonts/main.ttf" id="2_ddsjy"]
+[ext_resource type="Texture2D" uid="uid://caqgmeqf836wc" path="res://assets/UI/test.png" id="2_udapt"]
+[ext_resource type="PackedScene" uid="uid://cv8a5ugpbxby" path="res://scenes/ultimate_panel.tscn" id="3_boxky"]
+[ext_resource type="PackedScene" uid="uid://b6pu1aclxit80" path="res://scenes/protections.tscn" id="4_ux8b0"]
+[ext_resource type="Texture2D" uid="uid://x3nwt2x0olum" path="res://assets/entities/base/portraits/icon_battle.png" id="5_oblql"]
+[ext_resource type="Texture2D" uid="uid://d16d34rtri0ow" path="res://assets/UI/hpBarAvatar.png" id="6_cqbtd"]
+[ext_resource type="Texture2D" uid="uid://bp2x7lloqjywk" path="res://assets/UI/X.png" id="6_m0jmm"]
+[ext_resource type="PackedScene" uid="uid://r28cm3ixih6s" path="res://scenes/digit_display.tscn" id="6_qry0c"]
+[ext_resource type="Texture2D" uid="uid://ckxsrvbc3ler4" path="res://assets/UI/roundsNum/roundNumBg-anim_1-000.png" id="6_s5wy5"]
+[ext_resource type="Texture2D" uid="uid://ca3vp5m4ac7em" path="res://assets/UI/roundsNum/roundNum-1-000.png" id="7_81at2"]
+[ext_resource type="Texture2D" uid="uid://dukymvpf0lo80" path="res://assets/UI/number/stylizedWhite.png" id="7_becnu"]
+[ext_resource type="PackedScene" uid="uid://bc682xa1501r3" path="res://scenes/round_animation.tscn" id="10_ysc1e"]
+
+[sub_resource type="Animation" id="Animation_ae7pq"]
+resource_name = "Jump"
+length = 1.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Label:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.166667),
+"transitions": PackedFloat32Array(2.2974, 1),
+"update": 0,
+"values": [Vector2(1.4, 1.4), Vector2(1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Label:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.0666667, 1.16667, 1.3),
+"transitions": PackedFloat32Array(0.435275, 1, 1.68179, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_aleun"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Label:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1.6, 1.6)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Label:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_a4qnt"]
+_data = {
+&"Jump": SubResource("Animation_ae7pq"),
+&"RESET": SubResource("Animation_aleun")
+}
+
+[node name="FightUI" type="CanvasLayer" unique_id=810376416]
+
+[node name="P1_Info" type="Control" parent="." unique_id=1328816255]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 25.0
+offset_top = 6.0
+offset_right = 25.0
+offset_bottom = 6.0
+scale = Vector2(0.586, 0.586)
+
+[node name="HpBar" parent="P1_Info" unique_id=2077118642 instance=ExtResource("1_7aqo2")]
+layout_mode = 1
+
+[node name="Title" type="Label" parent="P1_Info" unique_id=995083072]
+layout_mode = 0
+offset_left = 187.273
+offset_top = 14.5455
+offset_right = 1002.27
+offset_bottom = 63.5455
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 6
+theme_override_fonts/font = ExtResource("2_ddsjy")
+theme_override_font_sizes/font_size = 33
+text = "旗木卡卡西[万花筒写轮眼](小作坊大投入)"
+
+[node name="UltimatePanel" parent="P1_Info" unique_id=1869858177 instance=ExtResource("3_boxky")]
+layout_mode = 0
+offset_left = 142.0
+offset_top = 72.0
+offset_right = 142.0
+offset_bottom = 72.0
+scale = Vector2(1.685, 1.685)
+
+[node name="Protections" parent="P1_Info" unique_id=788370927 instance=ExtResource("4_ux8b0")]
+layout_mode = 1
+offset_top = -6.826
+offset_bottom = -6.826
+scale = Vector2(0.78, 0.78)
+pivot_offset = Vector2(-6.826, -15.358)
+
+[node name="Avatar2" type="TextureRect" parent="P1_Info/Protections" unique_id=294607929]
+layout_mode = 0
+offset_left = -110.0
+offset_top = -28.939
+offset_right = 334.0
+offset_bottom = 193.061
+texture = ExtResource("5_oblql")
+
+[node name="X" type="TextureRect" parent="P1_Info/Protections" unique_id=824271060]
+layout_mode = 0
+offset_right = 227.0
+offset_bottom = 227.0
+texture = ExtResource("6_m0jmm")
+
+[node name="Avatar2" type="TextureRect" parent="P1_Info" unique_id=866216643]
+layout_mode = 0
+offset_left = 552.901
+offset_top = 63.1399
+offset_right = 698.901
+offset_bottom = 211.14
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("6_cqbtd")
+
+[node name="Avatar2" type="TextureRect" parent="P1_Info/Avatar2" unique_id=849958786]
+layout_mode = 0
+offset_left = -126.555
+offset_top = -59.335
+offset_right = 273.445
+offset_bottom = 140.665
+texture = ExtResource("5_oblql")
+
+[node name="X" type="TextureRect" parent="P1_Info/Avatar2" unique_id=1429060318]
+layout_mode = 0
+offset_left = -6.82596
+offset_top = 3.41296
+offset_right = 157.174
+offset_bottom = 167.413
+texture = ExtResource("6_m0jmm")
+
+[node name="Avatar3" type="TextureRect" parent="P1_Info" unique_id=1747325323]
+layout_mode = 0
+offset_left = 634.813
+offset_top = 63.1399
+offset_right = 780.813
+offset_bottom = 211.14
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("6_cqbtd")
+
+[node name="Avatar2" type="TextureRect" parent="P1_Info/Avatar3" unique_id=829511943]
+layout_mode = 0
+offset_left = -126.555
+offset_top = -59.335
+offset_right = 273.445
+offset_bottom = 140.665
+texture = ExtResource("5_oblql")
+
+[node name="X" type="TextureRect" parent="P1_Info/Avatar3" unique_id=1321108676]
+layout_mode = 0
+offset_left = -6.82596
+offset_top = 3.41296
+offset_right = 157.174
+offset_bottom = 167.413
+texture = ExtResource("6_m0jmm")
+
+[node name="P2_Info" type="Control" parent="." unique_id=600913319]
+layout_mode = 3
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -28.0
+offset_top = 6.0
+offset_right = -28.0
+offset_bottom = 6.0
+grow_horizontal = 0
+scale = Vector2(0.586, 0.586)
+size_flags_horizontal = 8
+
+[node name="HpBar" parent="P2_Info" unique_id=907758784 instance=ExtResource("1_7aqo2")]
+layout_mode = 1
+scale = Vector2(-1, 1)
+
+[node name="Title" type="Label" parent="P2_Info" unique_id=1253449666]
+layout_mode = 0
+offset_left = -996.363
+offset_top = 14.5455
+offset_right = -181.363
+offset_bottom = 63.5455
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 6
+theme_override_fonts/font = ExtResource("2_ddsjy")
+theme_override_font_sizes/font_size = 33
+text = "旗木卡卡西[万花筒写轮眼](小作坊大投入)"
+horizontal_alignment = 2
+
+[node name="UltimatePanel" parent="P2_Info" unique_id=151099050 instance=ExtResource("3_boxky")]
+layout_mode = 0
+offset_left = -142.0
+offset_top = 72.0
+offset_right = -142.0
+offset_bottom = 72.0
+scale = Vector2(-1.685, 1.685)
+
+[node name="Protections" parent="P2_Info" unique_id=285120591 instance=ExtResource("4_ux8b0")]
+layout_mode = 1
+offset_left = -10.2393
+offset_top = -6.82594
+offset_right = -10.2393
+offset_bottom = -6.82594
+scale = Vector2(-0.78, 0.78)
+pivot_offset = Vector2(6.826, -15.358)
+
+[node name="Avatar2" type="TextureRect" parent="P2_Info/Protections" unique_id=960087113]
+layout_mode = 0
+offset_left = 332.808
+offset_top = -28.485
+offset_right = 776.808
+offset_bottom = 193.515
+scale = Vector2(-1, 1)
+texture = ExtResource("5_oblql")
+
+[node name="X" type="TextureRect" parent="P2_Info/Protections" unique_id=1301210932]
+layout_mode = 0
+offset_left = 220.968
+offset_right = 447.968
+offset_bottom = 227.0
+scale = Vector2(-1, 1)
+texture = ExtResource("6_m0jmm")
+
+[node name="Avatar2" type="TextureRect" parent="P2_Info" unique_id=795520005]
+layout_mode = 0
+offset_left = -552.901
+offset_top = 63.14
+offset_right = -406.901
+offset_bottom = 211.14
+scale = Vector2(-0.5, 0.5)
+texture = ExtResource("6_cqbtd")
+
+[node name="Avatar2" type="TextureRect" parent="P2_Info/Avatar2" unique_id=700068260]
+layout_mode = 0
+offset_left = 272.762
+offset_top = -59.335
+offset_right = 672.762
+offset_bottom = 140.665
+scale = Vector2(-1, 1)
+texture = ExtResource("5_oblql")
+
+[node name="X" type="TextureRect" parent="P2_Info/Avatar2" unique_id=170182063]
+layout_mode = 0
+offset_left = 153.583
+offset_top = 3.41296
+offset_right = 317.583
+offset_bottom = 167.413
+scale = Vector2(-1, 1)
+texture = ExtResource("6_m0jmm")
+
+[node name="Avatar3" type="TextureRect" parent="P2_Info" unique_id=2028837635]
+layout_mode = 0
+offset_left = -634.813
+offset_top = 63.14
+offset_right = -488.813
+offset_bottom = 211.14
+scale = Vector2(-0.5, 0.5)
+texture = ExtResource("6_cqbtd")
+
+[node name="Avatar2" type="TextureRect" parent="P2_Info/Avatar3" unique_id=115129183]
+layout_mode = 0
+offset_left = 272.762
+offset_top = -59.335
+offset_right = 672.762
+offset_bottom = 140.665
+scale = Vector2(-1, 1)
+texture = ExtResource("5_oblql")
+
+[node name="X" type="TextureRect" parent="P2_Info/Avatar3" unique_id=244293687]
+layout_mode = 0
+offset_left = 153.583
+offset_top = 3.41296
+offset_right = 317.583
+offset_bottom = 167.413
+scale = Vector2(-1, 1)
+texture = ExtResource("6_m0jmm")
+
+[node name="Test" type="Sprite2D" parent="." unique_id=419453681]
+visible = false
+position = Vector2(577, 316)
+scale = Vector2(2.10833, 2.10833)
+texture = ExtResource("2_udapt")
+
+[node name="RoundsNumber" type="Control" parent="." unique_id=260324727]
+layout_mode = 3
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -20.0
+offset_right = 20.0
+offset_bottom = 40.0
+grow_horizontal = 2
+
+[node name="Background" type="TextureRect" parent="RoundsNumber" unique_id=158101500]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -94.0
+offset_top = 2.0
+offset_right = 94.0
+offset_bottom = 42.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("6_s5wy5")
+
+[node name="TextureRect" type="TextureRect" parent="RoundsNumber" unique_id=909727584]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -34.0
+offset_top = -24.0
+offset_right = 6.0
+offset_bottom = 34.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.45, 0.45)
+pivot_offset = Vector2(44.5867, 61.8608)
+texture = ExtResource("7_81at2")
+
+[node name="Timer" parent="RoundsNumber" unique_id=804333434 instance=ExtResource("6_qry0c")]
+position = Vector2(20, 102)
+texture = ExtResource("7_becnu")
+char_set = "0123456789"
+columns = 5
+spacing = -23
+scale_factor = 0.7
+
+[node name="RoundAnimationControl" type="Control" parent="." unique_id=1333294917]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+
+[node name="RoundAnimation" parent="RoundAnimationControl" unique_id=186125950 instance=ExtResource("10_ysc1e")]
+
+[node name="Info" type="Control" parent="." unique_id=1746300117]
+layout_mode = 3
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -20.0
+offset_right = 20.0
+offset_bottom = 40.0
+grow_horizontal = 2
+
+[node name="Label" type="Label" parent="Info" unique_id=1604496015]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -576.0
+offset_top = 144.0
+offset_right = 576.0
+offset_bottom = 224.0
+grow_horizontal = 2
+scale = Vector2(1.6, 1.6)
+pivot_offset = Vector2(576, 16)
+size_flags_horizontal = 4
+theme_override_constants/outline_size = 7
+theme_override_fonts/font = ExtResource("2_ddsjy")
+theme_override_font_sizes/font_size = 24
+text = "一串文本"
+horizontal_alignment = 1
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Info" unique_id=300046788]
+libraries/ = SubResource("AnimationLibrary_a4qnt")

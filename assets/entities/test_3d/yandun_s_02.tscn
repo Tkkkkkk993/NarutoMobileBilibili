@@ -1,0 +1,257 @@
+[gd_scene format=3 uid="uid://b1w0qcom0hogy"]
+
+[ext_resource type="PackedScene" uid="uid://cggck2vvvmqy6" path="res://assets/entities/test_3d/yandunS02/yandunS02.fbx" id="1_lbyso"]
+
+[node name="yandunS02" unique_id=382320045 instance=ExtResource("1_lbyso")]
+
+[node name="90313413" parent="." index="0" unique_id=864056157]
+transform = Transform3D(4, 0, 0, 0, 4, 0, 0, 0, 4, 0, 0, 0)
+
+[node name="Skeleton3D" parent="90313413/GameObject/90313_S02(Clone)/Scale/model/yandunS02/3sss00T0 Trall" parent_id_path=PackedInt32Array(1904679592) index="0" unique_id=353139301]
+bones/0/position = Vector3(0.00017000001, 1.0000001e-05, -0.0033399998)
+bones/0/rotation = Quaternion(0.026991703, 0.035636693, -0.5788464, 0.81421024)
+bones/1/rotation = Quaternion(0.4008458, 0.58251387, 0.4008453, -0.5825147)
+bones/2/position = Vector3(0.00558, -1.0000001e-05, 0)
+bones/2/rotation = Quaternion(0.2256747, -0.10371896, 0.16388668, 0.9547013)
+bones/3/position = Vector3(0.0126, -1.0000001e-05, 0)
+bones/3/rotation = Quaternion(0.22974747, -0.03219647, 0.24148038, 0.9422668)
+bones/5/rotation = Quaternion(-0.4141755, -0.016165001, -0.2860637, 0.8639241)
+bones/6/rotation = Quaternion(0.58067864, -0.2682561, 0.75184864, -0.1599213)
+bones/7/rotation = Quaternion(-0.063445136, 0.24997385, -0.08407689, 0.96250653)
+bones/11/rotation = Quaternion(2.8247484e-08, -9.500451e-09, -0.31878218, 0.9478281)
+bones/15/rotation = Quaternion(-0.6755811, 0.010506569, 0.19299714, 0.71149975)
+bones/16/rotation = Quaternion(0.6128123, 0.26129434, 0.1191727, 0.73619586)
+bones/17/rotation = Quaternion(-2.6784631e-08, -1.3067593e-08, 0.43847567, 0.8987431)
+bones/18/rotation = Quaternion(2.9198763e-08, -2.7518283e-08, 0.42096806, 0.90707546)
+bones/19/rotation = Quaternion(0.052125216, 0.023433084, 0.6275337, 0.7764891)
+bones/20/rotation = Quaternion(2.2140034e-08, 2.129574e-08, 0.84733224, 0.53106314)
+bones/21/rotation = Quaternion(-1.1942963e-09, -1.8588121e-08, 0.54747075, 0.83682483)
+bones/22/rotation = Quaternion(0.0051484294, 0.007057201, 0.6255415, 0.78014207)
+bones/23/rotation = Quaternion(8.31301e-09, 1.2366828e-08, 0.8299238, 0.55787677)
+bones/24/rotation = Quaternion(-1.0779174e-08, -2.4605981e-08, 0.5395511, 0.84195286)
+bones/25/rotation = Quaternion(-0.03728381, -0.00066224294, 0.6880245, 0.72472876)
+bones/26/rotation = Quaternion(1.1735662e-08, -9.182523e-09, 0.7875671, 0.61622894)
+bones/27/rotation = Quaternion(5.031688e-08, -1.8835909e-08, 0.5847702, 0.811199)
+bones/28/rotation = Quaternion(-0.06748456, 0.010903537, 0.74873716, 0.6593327)
+bones/29/rotation = Quaternion(-8.153267e-09, -3.230708e-08, 0.75780517, 0.6524809)
+bones/30/rotation = Quaternion(2.9932373e-08, -2.4716993e-09, 0.42300302, 0.9061283)
+bones/33/rotation = Quaternion(0.7917503, -0.049917534, -0.6087589, -0.0072256885)
+bones/34/rotation = Quaternion(0.38597932, -0.24245878, -0.39830124, 0.7959835)
+bones/38/rotation = Quaternion(-5.8314377e-08, -2.4417952e-08, -0.37912518, 0.9253454)
+bones/42/rotation = Quaternion(0.8662011, 0.065385796, 0.4707087, 0.15444608)
+bones/43/rotation = Quaternion(-0.6128123, -0.26129434, 0.11917259, 0.7361958)
+bones/44/rotation = Quaternion(2.6784633e-08, 1.3067595e-08, 0.43847573, 0.89874303)
+bones/45/rotation = Quaternion(-1.9789391e-08, 7.243562e-09, 0.42096806, 0.90707546)
+bones/46/rotation = Quaternion(-0.052125186, -0.023433134, 0.6275337, 0.7764892)
+bones/47/rotation = Quaternion(1.658296e-08, -1.6003412e-09, 0.84733224, 0.53106314)
+bones/48/rotation = Quaternion(-2.0394881e-09, 3.1174165e-09, 0.54747075, 0.83682483)
+bones/49/rotation = Quaternion(-0.005148446, -0.0070572626, 0.6255415, 0.78014195)
+bones/50/rotation = Quaternion(4.053817e-09, -2.0679837e-08, 0.8299238, 0.55787677)
+bones/51/rotation = Quaternion(-7.455805e-10, -1.2645397e-08, 0.539551, 0.8419529)
+bones/52/rotation = Quaternion(0.03728381, 0.000662215, 0.6880245, 0.72472876)
+bones/53/rotation = Quaternion(-6.8868946e-09, -8.801749e-09, 0.78756714, 0.6162289)
+bones/54/rotation = Quaternion(-6.5353176e-09, 9.065855e-09, 0.5847702, 0.811199)
+bones/55/rotation = Quaternion(0.06748456, -0.010903537, 0.7487371, 0.65933275)
+bones/56/rotation = Quaternion(-1.29381315e-08, -3.6077719e-09, 0.75780517, 0.6524809)
+bones/57/rotation = Quaternion(-8.3714774e-10, 1.793282e-09, 0.423003, 0.9061283)
+bones/58/rotation = Quaternion(-0.086876474, 0.8511399, 0.20608714, 0.47491208)
+bones/60/rotation = Quaternion(0.016947642, -0.18785492, 0.77411366, 0.6042941)
+bones/62/position = Vector3(0.023219999, 0.02432, 0.0070200004)
+bones/62/rotation = Quaternion(-0.0015406909, -0.7093736, -0.67690295, -0.19644147)
+bones/64/rotation = Quaternion(-0.021358857, -0.002147448, -0.004666956, 0.99975866)
+bones/65/rotation = Quaternion(-0.020662311, -0.0021802788, -0.004480305, 0.9997741)
+bones/66/rotation = Quaternion(-0.019296339, -0.003040149, -0.004017331, 0.9998011)
+bones/67/rotation = Quaternion(-0.017318044, -0.003889911, -0.0033732243, 0.9998368)
+bones/68/rotation = Quaternion(-0.014804435, -0.0052150846, -0.0025559824, 0.99987364)
+
+[node name="3sss00T0 Footsteps" parent="90313413/GameObject/90313_S02(Clone)/Scale/model/yandunS02/3sss00T0 Trall/Skeleton3D" index="0" unique_id=1078683376]
+transform = Transform3D(0.32733372, 0.94452906, 0.026783422, -0.9406814, 0.32841656, -0.08521018, -0.089279614, 0.0026974974, 0.996003, 0.00017000001, 1.0000001e-05, -0.0033399998)
+bone_idx = 0
+
+[node name="3sss00T0 Footsteps" parent="90313413/GameObject/90313_S02(Clone)/Scale/model/yandunS02/3sss00T0 Trall/Skeleton3D/3sss00T0 Footsteps" index="0" unique_id=1311664440]
+transform = Transform3D(0.045573935, -0.7076619, 0.70508003, -0.9086454, 0.263904, 0.32360205, -0.41507423, -0.65541553, -0.6309866, -0.03483, -0.00557, -0.04528)
+
+[node name="3sss00T0 L Thigh" parent="90313413/GameObject/90313_S02(Clone)/Scale/model/yandunS02/3sss00T0 Trall/Skeleton3D" index="1" unique_id=795999537]
+transform = Transform3D(0.4040833, 0.83722353, 0.36847433, -0.10651977, -0.35701674, 0.9280045, 0.9084992, -0.41424093, -0.05508373, 0.00031302182, -0.000457868, 0.0022185212)
+bone_idx = 2
+
+[node name="3sss00T0 R Thigh" parent="90313413/GameObject/90313_S02(Clone)/Scale/model/yandunS02/3sss00T0 Trall/Skeleton3D" index="2" unique_id=801324690]
+transform = Transform3D(0.4040833, 0.83722353, 0.36847433, -0.10651977, -0.35701674, 0.9280045, 0.9084992, -0.41424093, -0.05508373, 0.00031302182, -0.000457868, 0.0022185212)
+bone_idx = 2
+
+[node name="3sss00T0 face" parent="90313413/GameObject/90313_S02(Clone)/Scale/model/yandunS02/3sss00T0 Trall/Skeleton3D" index="3" unique_id=99979521]
+transform = Transform3D(0.43225935, 0.7127461, 0.5523992, 0.11520444, -0.6512155, 0.7500973, 0.89436054, -0.26059753, -0.3636056, 0.018526353, -0.00325246, 0.023418713)
+bone_idx = 5
+
+[node name="3sss00T0 HeadNub" parent="90313413/GameObject/90313_S02(Clone)/Scale/model/yandunS02/3sss00T0 Trall/Skeleton3D" index="4" unique_id=273170141]
+transform = Transform3D(0.43225935, 0.7127461, 0.5523992, 0.11520444, -0.6512155, 0.7500973, 0.89436054, -0.26059753, -0.3636056, 0.018526353, -0.00325246, 0.023418713)
+bone_idx = 5
+
+[node name="3sss00T0 L arm bone01" parent="90313413/GameObject/90313_S02(Clone)/Scale/model/yandunS02/3sss00T0 Trall/Skeleton3D" index="5" unique_id=1606104389]
+transform = Transform3D(-0.70171964, -0.6548715, 0.28059363, 0.710241, -0.6119918, 0.3478844, -0.05609878, 0.44340658, 0.89456373, 0.008362962, 0.005466315, 0.0226985)
+bone_idx = 8
+
+[node name="3sss00T0 L arm bone02" parent="90313413/GameObject/90313_S02(Clone)/Scale/model/yandunS02/3sss00T0 Trall/Skeleton3D" index="6" unique_id=263967227]
+transform = Transform3D(-0.70171964, -0.6548715, 0.28059363, 0.710241, -0.6119918, 0.3478844, -0.05609878, 0.44340658, 0.89456373, 0.004152641, 0.009727763, 0.022361906)
+bone_idx = 9
+
+[node name="3sss00T0 L arm bone03" parent="90313413/GameObject/90313_S02(Clone)/Scale/model/yandunS02/3sss00T0 Trall/Skeleton3D" index="7" unique_id=2005591443]
+transform = Transform3D(-0.70171964, -0.6548715, 0.28059363, 0.710241, -0.6119918, 0.3478844, -0.05609878, 0.44340658, 0.89456373, -5.7674944e-05, 0.013989205, 0.02202531)
+bone_idx = 10
+
+[node name="3sss00T0 L arm bone04" parent="90313413/GameObject/90313_S02(Clone)/Scale/model/yandunS02/3sss00T0 Trall/Skeleton3D" index="8" unique_id=21535730]
+transform = Transform3D(-0.16335957, -0.94582313, 0.2805934, 0.93571603, -0.058408573, 0.34788463, -0.31264845, 0.31938612, 0.89456373, -0.0010210768, 0.016890246, 0.021199318)
+bone_idx = 12
+
+[node name="3sss00T0 L arm bone05" parent="90313413/GameObject/90313_S02(Clone)/Scale/model/yandunS02/3sss00T0 Trall/Skeleton3D" index="9" unique_id=1627082582]
+transform = Transform3D(-0.16335957, -0.94582313, 0.2805934, 0.93571603, -0.058408573, 0.34788463, -0.31264845, 0.31938612, 0.89456373, -0.001756198, 0.021100972, 0.019792402)
+bone_idx = 13
+
+[node name="3sss00T0 L arm bone06" parent="90313413/GameObject/90313_S02(Clone)/Scale/model/yandunS02/3sss00T0 Trall/Skeleton3D" index="10" unique_id=627738910]
+transform = Transform3D(-0.16335957, -0.94582313, 0.2805934, 0.93571603, -0.058408573, 0.34788463, -0.31264845, 0.31938612, 0.89456373, -0.0024913126, 0.02531169, 0.01838548)
+bone_idx = 14
+
+[node name="3sss00T0 L Finger0Nub" parent="90313413/GameObject/90313_S02(Clone)/Scale/model/yandunS02/3sss00T0 Trall/Skeleton3D" index="11" unique_id=265828087]
+transform = Transform3D(-0.8554988, 0.49520248, -0.15131555, -0.3454589, -0.3281584, 0.87918705, 0.38572064, 0.804417, 0.45181122, -0.004387292, 0.027773887, 0.012241359)
+bone_idx = 18
+
+[node name="3sss00T0 L Finger1Nub" parent="90313413/GameObject/90313_S02(Clone)/Scale/model/yandunS02/3sss00T0 Trall/Skeleton3D" index="12" unique_id=1100535935]
+transform = Transform3D(0.34030363, -0.33315524, -0.87931865, 0.47232345, 0.86916244, -0.14651431, 0.8130828, -0.36546382, 0.45313656, -0.0040133125, 0.02822859, 0.013449)
+bone_idx = 21
+
+[node name="3sss00T0 L Finger2Nub" parent="90313413/GameObject/90313_S02(Clone)/Scale/model/yandunS02/3sss00T0 Trall/Skeleton3D" index="13" unique_id=1928280057]
+transform = Transform3D(0.34429625, -0.3836651, -0.85689044, 0.3858039, 0.88988733, -0.24342428, 0.85592973, -0.24678181, 0.45440462, -0.0050305976, 0.027788414, 0.013988205)
+bone_idx = 24
+
+[node name="3sss00T0 L Finger3Nub" parent="90313413/GameObject/90313_S02(Clone)/Scale/model/yandunS02/3sss00T0 Trall/Skeleton3D" index="14" unique_id=318137249]
+transform = Transform3D(0.25466043, -0.48987097, -0.8337714, 0.4871777, 0.80978054, -0.3269756, 0.83534765, -0.32292753, 0.4448736, -0.0058300323, 0.02700321, 0.014846453)
+bone_idx = 27
+
+[node name="3sss00T0 L Finger4Nub" parent="90313413/GameObject/90313_S02(Clone)/Scale/model/yandunS02/3sss00T0 Trall/Skeleton3D" index="15" unique_id=776782084]
+transform = Transform3D(0.35626605, -0.44048965, -0.82404095, 0.2230566, 0.89650345, -0.382788, 0.9073702, -0.047433652, 0.41764823, -0.0065781353, 0.026587365, 0.015793238)
+bone_idx = 30
+
+[node name="3sss00T0 L Forearm02" parent="90313413/GameObject/90313_S02(Clone)/Scale/model/yandunS02/3sss00T0 Trall/Skeleton3D" index="16" unique_id=762224399]
+transform = Transform3D(-0.41577888, -0.8741432, 0.25100195, 0.7574159, -0.180044, 0.62761825, -0.50343716, 0.45106372, 0.73694867, -0.0020086826, 0.026886042, 0.020800946)
+bone_idx = 31
+
+[node name="3sss00T0 L Forearm03" parent="90313413/GameObject/90313_S02(Clone)/Scale/model/yandunS02/3sss00T0 Trall/Skeleton3D" index="17" unique_id=654544646]
+transform = Transform3D(-0.4263715, -0.8845378, 0.18921031, 0.75629765, -0.23385763, 0.6110023, -0.4962067, 0.40361372, 0.7686844, 0.0029552206, 0.019894477, 0.027429024)
+bone_idx = 32
+
+[node name="3sss00T0 R arm bone01" parent="90313413/GameObject/90313_S02(Clone)/Scale/model/yandunS02/3sss00T0 Trall/Skeleton3D" index="18" unique_id=743116474]
+transform = Transform3D(-0.55942976, 0.7628242, -0.32424888, 0.4756325, 0.6158097, 0.6281338, 0.6788309, 0.19717385, -0.7073269, 0.01347154, -0.012530785, 0.018583518)
+bone_idx = 35
+
+[node name="3sss00T0 R arm bone02" parent="90313413/GameObject/90313_S02(Clone)/Scale/model/yandunS02/3sss00T0 Trall/Skeleton3D" index="19" unique_id=1579868873]
+transform = Transform3D(-0.55942976, 0.7628242, -0.32424888, 0.4756325, 0.6158097, 0.6281338, 0.6788309, 0.19717385, -0.7073269, 0.016828118, -0.015384577, 0.014510532)
+bone_idx = 36
+
+[node name="3sss00T0 R arm bone03" parent="90313413/GameObject/90313_S02(Clone)/Scale/model/yandunS02/3sss00T0 Trall/Skeleton3D" index="20" unique_id=190668403]
+transform = Transform3D(-0.55942976, 0.7628242, -0.32424888, 0.4756325, 0.6158097, 0.6281338, 0.6788309, 0.19717385, -0.7073269, 0.020184694, -0.018238373, 0.010437544)
+bone_idx = 37
+
+[node name="3sss00T0 R arm bone04" parent="90313413/GameObject/90313_S02(Clone)/Scale/model/yandunS02/3sss00T0 Trall/Skeleton3D" index="21" unique_id=597960350]
+transform = Transform3D(0.93384004, -0.15101172, -0.32424998, 0.09317907, -0.77250665, 0.62813276, -0.34534025, -0.6167888, -0.7073272, 0.02296178, -0.018381597, 0.009037301)
+bone_idx = 39
+
+[node name="3sss00T0 R arm bone05" parent="90313413/GameObject/90313_S02(Clone)/Scale/model/yandunS02/3sss00T0 Trall/Skeleton3D" index="22" unique_id=1374247415]
+transform = Transform3D(0.93384004, -0.15101168, -0.32424998, 0.093179084, -0.77250665, 0.6281327, -0.34534022, -0.6167888, -0.7073272, 0.027164064, -0.017962292, 0.0074832677)
+bone_idx = 40
+
+[node name="3sss00T0 R arm bone06" parent="90313413/GameObject/90313_S02(Clone)/Scale/model/yandunS02/3sss00T0 Trall/Skeleton3D" index="23" unique_id=710751257]
+transform = Transform3D(0.93384004, -0.15101168, -0.32424998, 0.093179084, -0.77250665, 0.6281327, -0.34534022, -0.6167888, -0.7073272, 0.03136634, -0.017542984, 0.005929235)
+bone_idx = 41
+
+[node name="3sss00T0 R Finger0Nub" parent="90313413/GameObject/90313_S02(Clone)/Scale/model/yandunS02/3sss00T0 Trall/Skeleton3D" index="24" unique_id=2098063577]
+transform = Transform3D(-0.975338, -0.22071686, 0.00043329826, 0.178769, -0.78881705, 0.58805496, -0.12945276, 0.57363, 0.8088204, 0.034479294, -0.0123522775, 0.0026474742)
+bone_idx = 45
+
+[node name="3sss00T0 R Finger1Nub" parent="90313413/GameObject/90313_S02(Clone)/Scale/model/yandunS02/3sss00T0 Trall/Skeleton3D" index="25" unique_id=943857349]
+transform = Transform3D(-0.010457091, 0.31633365, 0.9485904, -0.98168993, 0.17719099, -0.06991142, -0.19019654, -0.93195283, 0.30868953, 0.034267493, -0.013671611, 0.0025079264)
+bone_idx = 48
+
+[node name="3sss00T0 R Finger2Nub" parent="90313413/GameObject/90313_S02(Clone)/Scale/model/yandunS02/3sss00T0 Trall/Skeleton3D" index="26" unique_id=265290178]
+transform = Transform3D(-0.06668232, 0.22243771, 0.9726636, -0.9914435, 0.09486443, -0.089664504, -0.11221569, -0.9703204, 0.21420957, 0.033051066, -0.01351659, 0.0023828214)
+bone_idx = 51
+
+[node name="3sss00T0 R Finger3Nub" parent="90313413/GameObject/90313_S02(Clone)/Scale/model/yandunS02/3sss00T0 Trall/Skeleton3D" index="27" unique_id=524992978]
+transform = Transform3D(-0.0788209, 0.15483913, 0.9847905, -0.9660183, 0.23206854, -0.113806926, -0.24616027, -0.9602963, 0.13128655, 0.03167478, -0.013615418, 0.002679958)
+bone_idx = 54
+
+[node name="3sss00T0 R Finger4Nub" parent="90313413/GameObject/90313_S02(Clone)/Scale/model/yandunS02/3sss00T0 Trall/Skeleton3D" index="28" unique_id=1810959247]
+transform = Transform3D(-0.15305945, 0.073507175, 0.98547983, -0.98758143, -0.047133654, -0.14987047, 0.035432965, -0.9961801, 0.07980956, 0.030437728, -0.013929356, 0.0026920415)
+bone_idx = 57
+
+[node name="3sss00T0 R Forearm02" parent="90313413/GameObject/90313_S02(Clone)/Scale/model/yandunS02/3sss00T0 Trall/Skeleton3D" index="29" unique_id=1791068620]
+transform = Transform3D(-0.061398923, -0.9657471, 0.2521155, -0.3058652, -0.22223428, -0.92577446, 0.9500933, -0.13395555, -0.28174308, 0.020618364, -0.01859737, 0.009893481)
+bone_idx = 58
+
+[node name="3sss00T0 R Forearm03" parent="90313413/GameObject/90313_S02(Clone)/Scale/model/yandunS02/3sss00T0 Trall/Skeleton3D" index="30" unique_id=190654721]
+transform = Transform3D(-0.061398916, -0.9657471, 0.25211546, -0.30586517, -0.22223428, -0.92577434, 0.9500932, -0.13395555, -0.28174305, 0.022383172, -0.025077792, 0.00792128)
+bone_idx = 59
+
+[node name="3sss00T0 R Hand02" parent="90313413/GameObject/90313_S02(Clone)/Scale/model/yandunS02/3sss00T0 Trall/Skeleton3D" index="31" unique_id=2135167097]
+transform = Transform3D(-0.81701213, 0.18193236, 0.5471665, -0.35867918, 0.5826441, -0.7292973, -0.45148683, -0.7921027, -0.4107715, 0.023580719, -0.02947522, 0.006582999)
+bone_idx = 60
+
+[node name="3sss00T0 tuno" parent="90313413/GameObject/90313_S02(Clone)/Scale/model/yandunS02/3sss00T0 Trall/Skeleton3D" index="32" unique_id=1232247315]
+transform = Transform3D(0.12653187, -0.78450716, 0.60707355, 0.67315996, -0.3815968, -0.6334347, 0.72859156, 0.4888072, 0.47981507, 0.01827636, -0.001451893, 0.013236724)
+bone_idx = 61
+
+[node name="3ssssword1_Trall" parent="90313413/GameObject/90313_S02(Clone)/Scale/model/yandunS02/3sss00T0 Trall/Skeleton3D" index="33" unique_id=1318670311]
+transform = Transform3D(0.018363703, 0.056221724, 0.99824953, 0.19368528, -0.97970474, 0.051614314, 0.9808919, 0.19239846, -0.02888043, 0.029769577, -0.014777229, 0.0017793417)
+bone_idx = 63
+
+[node name="3ssssword1_bone01" parent="90313413/GameObject/90313_S02(Clone)/Scale/model/yandunS02/3sss00T0 Trall/Skeleton3D" index="34" unique_id=1647773575]
+transform = Transform3D(0.022328604, 0.013728388, 0.99965656, 0.20295937, -0.9791463, 0.008913416, 0.97893256, 0.20269069, -0.024649378, 0.034760825, -0.014519158, 0.0016349396)
+bone_idx = 64
+
+[node name="3ssssword1_bone02" parent="90313413/GameObject/90313_S02(Clone)/Scale/model/yandunS02/3sss00T0 Trall/Skeleton3D" index="35" unique_id=1970244000]
+transform = Transform3D(0.026748905, -0.02736341, 0.99926776, 0.21167336, -0.97680247, -0.032414358, 0.9769744, 0.21238545, -0.020336395, 0.04475739, -0.014430024, 0.0013884457)
+bone_idx = 65
+
+[node name="3ssssword1_bone03" parent="90313413/GameObject/90313_S02(Clone)/Scale/model/yandunS02/3sss00T0 Trall/Skeleton3D" index="36" unique_id=2087032801]
+transform = Transform3D(0.03319371, -0.065656476, 0.9972902, 0.21919265, -0.9730684, -0.07135737, 0.97511685, 0.22096734, -0.017908439, 0.054750066, -0.014754167, 0.0011850818)
+bone_idx = 66
+
+[node name="3ssssword1_bone04" parent="90313413/GameObject/90313_S02(Clone)/Scale/model/yandunS02/3sss00T0 Trall/Skeleton3D" index="37" unique_id=562647103]
+transform = Transform3D(0.041499972, -0.09989765, 0.9941321, 0.22505021, -0.9684853, -0.10671511, 0.973463, 0.22815835, -0.01771023, 0.06472297, -0.015467741, 0.0010059974)
+bone_idx = 67
+
+[node name="3ssssword1_bone05" parent="90313413/GameObject/90313_S02(Clone)/Scale/model/yandunS02/3sss00T0 Trall/Skeleton3D" index="38" unique_id=1995880526]
+transform = Transform3D(0.052435245, -0.12903893, 0.9902525, 0.22871472, -0.9637066, -0.13769045, 0.97208035, 0.23370521, -0.021019192, 0.074664295, -0.016534891, 0.00082889514)
+bone_idx = 68
+
+[node name="3ssssword1_dmybone00" parent="90313413/GameObject/90313_S02(Clone)/Scale/model/yandunS02/3sss00T0 Trall/Skeleton3D" index="39" unique_id=1057990446]
+transform = Transform3D(0.052435245, -0.12903893, 0.9902525, 0.22871472, -0.9637066, -0.13769045, 0.97208035, 0.23370521, -0.021019192, 0.074664295, -0.016534891, 0.00082889514)
+bone_idx = 68
+
+[node name="3ssssword1_bone06" parent="90313413/GameObject/90313_S02(Clone)/Scale/model/yandunS02/3sss00T0 Trall/Skeleton3D" index="40" unique_id=429868781]
+transform = Transform3D(0.018363703, 0.056221724, 0.99824953, 0.19368528, -0.97970474, 0.051614314, 0.9808919, 0.19239846, -0.02888043, 0.029769577, -0.014777229, 0.0017793417)
+bone_idx = 69
+
+[node name="3ssssword1_bone07" parent="90313413/GameObject/90313_S02(Clone)/Scale/model/yandunS02/3sss00T0 Trall/Skeleton3D" index="41" unique_id=469796272]
+transform = Transform3D(0.018363703, 0.056221724, 0.99824953, 0.19368528, -0.97970474, 0.051614314, 0.9808919, 0.19239846, -0.02888043, 0.027273953, -0.014906265, 0.0018515429)
+bone_idx = 70
+
+[node name="3ssssword1_bone08" parent="90313413/GameObject/90313_S02(Clone)/Scale/model/yandunS02/3sss00T0 Trall/Skeleton3D" index="42" unique_id=1726419081]
+transform = Transform3D(0.018363703, 0.056221724, 0.99824953, 0.19368528, -0.97970474, 0.051614314, 0.9808919, 0.19239846, -0.02888043, 0.024778329, -0.0150353, 0.0019237469)
+bone_idx = 71
+
+[node name="Dummy001" parent="90313413/GameObject/90313_S02(Clone)/Scale/model/yandunS02/3sss00T0 Trall/Skeleton3D" index="43" unique_id=785808992]
+transform = Transform3D(-0.05622168, 0.018363712, 0.99824953, 0.9797051, 0.19368415, 0.051614296, -0.19239733, 0.98089224, -0.028880367, 0.030929655, -0.014443706, 0.0016444717)
+bone_idx = 62
+
+[node name="Object001" parent="90313413/GameObject/90313_S02(Clone)/Scale/model/yandunS02" parent_id_path=PackedInt32Array(46796254) index="1" unique_id=658243828]
+visible = false
+
+[node name="Object002" parent="90313413/GameObject/90313_S02(Clone)/Scale/model/yandunS02" parent_id_path=PackedInt32Array(46796254) index="2" unique_id=1919811852]
+visible = false
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." index="2" unique_id=1198910039]
+transform = Transform3D(-0.8648546, -0.10425169, 0.49107862, 0.02587555, 0.96764314, 0.2509924, -0.5013553, 0.22977886, -0.834173, 0.1244047, 0.096938275, 0.087537326)
+
+[node name="Camera3D" type="Camera3D" parent="." index="3" unique_id=1557643842]
+transform = Transform3D(-0.9960443, 3.7252903e-09, 0.08885943, 0.021171857, 0.9712009, 0.23731977, -0.08630039, 0.23826224, -0.96735895, 0.033534367, 0.23142631, -0.4507933)
+current = true

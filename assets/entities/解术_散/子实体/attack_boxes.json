@@ -1,0 +1,64 @@
+{
+	"attack_boxes": [
+		{
+			"bind_animation": "attack",
+			"bind_frames": [
+				0,
+				1,
+				2
+			],
+			"box_id": "box_1776141533.517_655",
+			"box_name": "attack",
+			"frame_configs": {
+				"0": {
+					"pivot_offset": {
+						"x": 0,
+						"y": 0
+					},
+					"position": {
+						"x": 0,
+						"y": 0,
+						"z": 0
+					},
+					"size": {
+						"x": 100,
+						"y": 100,
+						"z": 100
+					}
+				},
+				"1": {
+					"pivot_offset": {
+						"x": 0,
+						"y": 0
+					},
+					"position": {
+						"x": 0,
+						"y": 0,
+						"z": 0
+					},
+					"size": {
+						"x": 500,
+						"y": 200,
+						"z": 200
+					}
+				},
+				"2": {
+					"pivot_offset": {
+						"x": 0,
+						"y": 0
+					},
+					"position": {
+						"x": 0,
+						"y": 0,
+						"z": -150
+					},
+					"size": {
+						"x": 800,
+						"y": 500,
+						"z": 800
+					}
+				}
+			}
+		}
+	]
+}

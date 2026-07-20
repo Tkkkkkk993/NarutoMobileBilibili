@@ -1,0 +1,65 @@
+[gd_scene load_steps=11 format=3 uid="uid://bcgyp82qe0efh"]
+
+[ext_resource type="PackedScene" uid="uid://c5eauk5i5s64k" path="res://assets/entities/base/effects/effects_base.tscn" id="1_m2dpq"]
+[ext_resource type="Script" path="res://assets/entities/base/effects/common/_common_hit.gd" id="2_7l4qh"]
+[ext_resource type="Texture2D" uid="uid://tdujqojtkwce" path="res://assets/entities/base/effects/common/commonHit.png" id="2_3333d"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cejk2"]
+atlas = ExtResource("2_3333d")
+region = Rect2(0, 0, 128, 256)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qxcpl"]
+atlas = ExtResource("2_3333d")
+region = Rect2(128, 0, 128, 256)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6ltcl"]
+atlas = ExtResource("2_3333d")
+region = Rect2(256, 0, 128, 256)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_omqt8"]
+atlas = ExtResource("2_3333d")
+region = Rect2(384, 0, 128, 256)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_emcju"]
+atlas = ExtResource("2_3333d")
+region = Rect2(0, 256, 128, 256)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_msa5f"]
+atlas = ExtResource("2_3333d")
+region = Rect2(128, 256, 128, 256)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_gjcwb"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cejk2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qxcpl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6ltcl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_omqt8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_emcju")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_msa5f")
+}],
+"loop": false,
+"name": &"default",
+"speed": 18.0
+}]
+
+[node name="EffectsBase" instance=ExtResource("1_m2dpq")]
+script = ExtResource("2_7l4qh")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." index="0"]
+position = Vector2(34, -28)
+scale = Vector2(0.898438, 0.898438)
+sprite_frames = SubResource("SpriteFrames_gjcwb")
+frame = 5
+frame_progress = 1.0

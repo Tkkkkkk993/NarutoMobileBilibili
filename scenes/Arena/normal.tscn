@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=3 uid="uid://d1vs386a4hl66"]
+
+[ext_resource type="Texture2D" uid="uid://i3xk2e43v608" path="res://assets/stages/normal.png" id="1_7xmtb"]
+[ext_resource type="Script" path="res://scripts/Arena/normal.gd" id="2_1m284"]
+
+[node name="Normal" type="Sprite2D"]
+scale = Vector2(1.24684, 1.24684)
+texture = ExtResource("1_7xmtb")
+script = ExtResource("2_1m284")

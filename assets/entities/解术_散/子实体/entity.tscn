@@ -1,0 +1,29 @@
+[gd_scene format=3 uid="uid://icb66u82jaah"]
+
+[ext_resource type="PackedScene" uid="uid://gkn20f0aex3q" path="res://assets/entities/base/animated_sprite_2d_entity.tscn" id="1_q7txn"]
+[ext_resource type="Script" uid="uid://ddp0fq2xi6ly0" path="res://assets/entities/解术_散/子实体/entity.gd" id="2_651ls"]
+[ext_resource type="Texture2D" uid="uid://de2iknu33fhof" path="res://assets/UI/empty.png" id="2_y2p1g"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_d8hgw"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_y2p1g")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_y2p1g")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_y2p1g")
+}],
+"loop": false,
+"name": &"attack",
+"speed": 12.0
+}]
+
+[node name="Entity" instance=ExtResource("1_q7txn")]
+script = ExtResource("2_651ls")
+
+[node name="AnimatedSprite2D" parent="Visuals" index="0"]
+sprite_frames = SubResource("SpriteFrames_d8hgw")
+animation = &"attack"

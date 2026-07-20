@@ -1,0 +1,274 @@
+[gd_scene format=3 uid="uid://byney1jam4cq0"]
+
+[ext_resource type="PackedScene" uid="uid://gkn20f0aex3q" path="res://assets/entities/base/animated_sprite_2d_entity.tscn" id="1_abljq"]
+[ext_resource type="Script" uid="uid://ck2hjh6fvteh0" path="res://assets/entities/骨架（已由TK拼好）/entity.gd" id="2_0nraj"]
+[ext_resource type="Texture2D" uid="uid://dpar73tvq31vx" path="res://assets/entities/骨架（已由TK拼好）/idle动画/idle_idle_0000_A.png" id="2_8u1e7"]
+[ext_resource type="Texture2D" uid="uid://csucx8si36bpt" path="res://assets/entities/骨架（已由TK拼好）/idle动画/idle_idle_0008_A.png" id="3_0nraj"]
+[ext_resource type="Texture2D" uid="uid://cof5tnogfl4mc" path="res://assets/entities/骨架（已由TK拼好）/受击/shouji_shouji_0011_A.png" id="3_wsjtb"]
+[ext_resource type="Texture2D" uid="uid://b122lxsedqjyh" path="res://assets/entities/骨架（已由TK拼好）/受击/shouji_shouji_0015_A.png" id="4_bljiy"]
+[ext_resource type="Texture2D" uid="uid://bvppcmh2whhsc" path="res://assets/entities/骨架（已由TK拼好）/idle动画/idle_idle_0016_A.png" id="4_gndne"]
+[ext_resource type="Texture2D" uid="uid://ccqmdwc1puvke" path="res://assets/entities/骨架（已由TK拼好）/受击/shouji_shouji_0026_A.png" id="5_ilken"]
+[ext_resource type="Texture2D" uid="uid://bbt3d2q36u57h" path="res://assets/entities/骨架（已由TK拼好）/idle动画/idle_idle_0024_A.png" id="5_xv1jn"]
+[ext_resource type="Texture2D" uid="uid://c0c5t0bfx234b" path="res://assets/entities/骨架（已由TK拼好）/idle动画/idle_idle_0033_A.png" id="6_kxcv5"]
+[ext_resource type="Texture2D" uid="uid://b86p7o6dt60ff" path="res://assets/entities/骨架（已由TK拼好）/受击/shouji_shouji_0025_A.png" id="6_q5mhs"]
+[ext_resource type="Texture2D" uid="uid://bw02ilawerhwk" path="res://assets/entities/骨架（已由TK拼好）/idle动画/idle_idle_0041_A.png" id="7_7ft41"]
+[ext_resource type="Texture2D" uid="uid://6qe47qf04fr0" path="res://assets/entities/骨架（已由TK拼好）/受击/shouji_shouji_0005_A.png" id="7_cvh0m"]
+[ext_resource type="Texture2D" uid="uid://dwi80sg51om1k" path="res://assets/entities/骨架（已由TK拼好）/idle动画/idle_idle_0051_A.png" id="8_80njw"]
+[ext_resource type="Texture2D" uid="uid://c1vswfxvtjtdi" path="res://assets/entities/骨架（已由TK拼好）/受击/shouji_shouji_0006_A.png" id="8_tqfci"]
+[ext_resource type="Texture2D" uid="uid://qvakjvpx4flh" path="res://assets/entities/骨架（已由TK拼好）/idle动画/idle_idle_0058_A.png" id="9_8vwv5"]
+[ext_resource type="Texture2D" uid="uid://c7ppbdpt8i00n" path="res://assets/entities/骨架（已由TK拼好）/奔跑/run_run_0000_A.png" id="10_bm1l3"]
+[ext_resource type="Texture2D" uid="uid://ccqx71bs6qams" path="res://assets/entities/骨架（已由TK拼好）/奔跑/run_run_0002_A.png" id="11_acmks"]
+[ext_resource type="Texture2D" uid="uid://ch1on528m12fp" path="res://assets/entities/骨架（已由TK拼好）/受击/shouji_shouji_0004_A.png" id="12_3267h"]
+[ext_resource type="Texture2D" uid="uid://baeiqbmjqj11" path="res://assets/entities/骨架（已由TK拼好）/奔跑/run_run_0004_A.png" id="12_wsjtb"]
+[ext_resource type="Texture2D" uid="uid://dp4jpuy7j21m2" path="res://assets/entities/骨架（已由TK拼好）/受击/shouji_shouji_0007_A.png" id="13_2qcc3"]
+[ext_resource type="Texture2D" uid="uid://cfa50w2t3mbwg" path="res://assets/entities/骨架（已由TK拼好）/奔跑/run_run_0005_A.png" id="13_3267h"]
+[ext_resource type="Texture2D" uid="uid://c8pjqw3s0yexo" path="res://assets/entities/骨架（已由TK拼好）/奔跑/run_run_0007_A.png" id="14_2qcc3"]
+[ext_resource type="Texture2D" uid="uid://b6qi0mwjulkw1" path="res://assets/entities/骨架（已由TK拼好）/受击/shouji_shouji_0008_A.png" id="14_gsmkl"]
+[ext_resource type="Texture2D" uid="uid://ceymu7s8saqra" path="res://assets/entities/骨架（已由TK拼好）/受击/shouji_shouji_0009_A.png" id="15_fl38v"]
+[ext_resource type="Texture2D" uid="uid://rdtmyjlpoiwp" path="res://assets/entities/骨架（已由TK拼好）/奔跑/run_run_0009_A.png" id="15_gsmkl"]
+[ext_resource type="Texture2D" uid="uid://bxjd405ini4ee" path="res://assets/entities/骨架（已由TK拼好）/受击/shouji_shouji_0010_A.png" id="16_bljiy"]
+[ext_resource type="Texture2D" uid="uid://dylp7mnmrb6dv" path="res://assets/entities/骨架（已由TK拼好）/奔跑/run_run_0010_A.png" id="16_fl38v"]
+[ext_resource type="Texture2D" uid="uid://wppqyb1n5svy" path="res://assets/entities/骨架（已由TK拼好）/奔跑/run_run_0011_A.png" id="17_bljiy"]
+[ext_resource type="Texture2D" uid="uid://o48f8gppyrh7" path="res://assets/entities/骨架（已由TK拼好）/奔跑/run_run_0012_A.png" id="18_ilken"]
+[ext_resource type="Texture2D" uid="uid://7b0us8tsa1kq" path="res://assets/entities/骨架（已由TK拼好）/受击/shouji_shouji_0000_A.png" id="26_ilken"]
+[ext_resource type="Texture2D" uid="uid://bkka5i2gfnfb3" path="res://assets/entities/骨架（已由TK拼好）/受击/shouji_shouji_0001_A.png" id="27_q5mhs"]
+[ext_resource type="Texture2D" uid="uid://nvnbkj50b0kk" path="res://assets/entities/骨架（已由TK拼好）/受击/shouji_shouji_0002_A.png" id="28_cvh0m"]
+[ext_resource type="Texture2D" uid="uid://bkongsjpvgovs" path="res://assets/entities/骨架（已由TK拼好）/受击/shouji_shouji_0003_A.png" id="29_tqfci"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_q5mhs"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_wsjtb")
+}],
+"loop": true,
+"name": &"downed",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("4_bljiy")
+}],
+"loop": true,
+"name": &"entry",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("5_ilken")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_q5mhs")
+}],
+"loop": false,
+"name": &"entry_e",
+"speed": 6.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("7_cvh0m")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_tqfci")
+}],
+"loop": false,
+"name": &"getup",
+"speed": 6.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_8u1e7")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_0nraj")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_gndne")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_xv1jn")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_kxcv5")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_7ft41")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_80njw")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_8vwv5")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 8.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("12_3267h")
+}],
+"loop": true,
+"name": &"immobilize",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("13_2qcc3")
+}],
+"loop": true,
+"name": &"launch1",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("14_gsmkl")
+}],
+"loop": true,
+"name": &"launch2",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("15_fl38v")
+}],
+"loop": true,
+"name": &"launch_e",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("16_bljiy")
+}],
+"loop": true,
+"name": &"launched",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("10_bm1l3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_acmks")
+}, {
+"duration": 1.0,
+"texture": ExtResource("12_wsjtb")
+}, {
+"duration": 1.0,
+"texture": ExtResource("13_3267h")
+}, {
+"duration": 1.0,
+"texture": ExtResource("14_2qcc3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("15_gsmkl")
+}, {
+"duration": 1.0,
+"texture": ExtResource("16_fl38v")
+}, {
+"duration": 1.0,
+"texture": ExtResource("17_bljiy")
+}, {
+"duration": 1.0,
+"texture": ExtResource("18_ilken")
+}],
+"loop": true,
+"name": &"run",
+"speed": 16.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("6_q5mhs")
+}, {
+"duration": 2.0,
+"texture": ExtResource("5_ilken")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_q5mhs")
+}],
+"loop": false,
+"name": &"scroll",
+"speed": 6.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("26_ilken")
+}],
+"loop": true,
+"name": &"stun1",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("27_q5mhs")
+}],
+"loop": true,
+"name": &"stun2",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("28_cvh0m")
+}],
+"loop": true,
+"name": &"stun3",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("29_tqfci")
+}],
+"loop": true,
+"name": &"stun4",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("5_ilken")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_q5mhs")
+}],
+"loop": false,
+"name": &"substitution",
+"speed": 6.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("6_q5mhs")
+}, {
+"duration": 2.0,
+"texture": ExtResource("5_ilken")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_q5mhs")
+}],
+"loop": false,
+"name": &"summon",
+"speed": 6.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3jhxi"]
+
+[node name="Entity" unique_id=1152390372 instance=ExtResource("1_abljq")]
+script = ExtResource("2_0nraj")
+
+[node name="AnimatedSprite2D" parent="Visuals" parent_id_path=PackedInt32Array(599763896) index="0" unique_id=318864051]
+position = Vector2(0, -6.5000176)
+scale = Vector2(1.2, 1.2)
+sprite_frames = SubResource("SpriteFrames_q5mhs")
+animation = &"summon"
+
+[node name="HitboxArea2" type="Area2D" parent="Visuals/AnimatedSprite2D" index="1" unique_id=1473240358]
+collision_layer = 0
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Visuals/AnimatedSprite2D/HitboxArea2" index="0" unique_id=1292980637]
+shape = SubResource("RectangleShape2D_3jhxi")
+
+[node name="HitboxArea3" type="Area2D" parent="Visuals/AnimatedSprite2D" index="2" unique_id=1768615807]
+collision_layer = 0
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Visuals/AnimatedSprite2D/HitboxArea3" index="0" unique_id=409145147]
+shape = SubResource("RectangleShape2D_3jhxi")

@@ -1,0 +1,47 @@
+[gd_scene format=3 uid="uid://dqdbudpe6617j"]
+
+[ext_resource type="PackedScene" uid="uid://gkn20f0aex3q" path="res://assets/entities/base/animated_sprite_2d_entity.tscn" id="1_1bb4m"]
+[ext_resource type="Script" uid="uid://c7a66ir7unsax" path="res://assets/entities/entities_switch_test/entity.gd" id="2_1uwmc"]
+[ext_resource type="Texture2D" uid="uid://de2iknu33fhof" path="res://assets/UI/empty.png" id="2_4k7kb"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_o1hed"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_4k7kb")
+}],
+"loop": true,
+"name": &"control",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_4k7kb")
+}],
+"loop": true,
+"name": &"entry",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_4k7kb")
+}],
+"loop": false,
+"name": &"entry_e",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_4k7kb")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}]
+
+[node name="Entity" instance=ExtResource("1_1bb4m")]
+script = ExtResource("2_1uwmc")
+
+[node name="AnimatedSprite2D" parent="Visuals" index="0"]
+sprite_frames = SubResource("SpriteFrames_o1hed")
+animation = &"control"

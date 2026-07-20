@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="EntityData" format=3 uid="uid://dw7r6e13uxdug"]
+
+[ext_resource type="Script" uid="uid://cm7ar1dcvtpvt" path="res://assets/entities/base/entity_data.gd" id="1_ayluu"]
+
+[resource]
+script = ExtResource("1_ayluu")
+floder_path = "res://assets/entities/斑的大须佐/"
+metadata/_custom_type_script = "uid://cm7ar1dcvtpvt"

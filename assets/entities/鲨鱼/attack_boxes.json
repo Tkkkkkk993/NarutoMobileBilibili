@@ -1,0 +1,56 @@
+{
+	"attack_boxes": [
+		{
+			"bind_animation": "attack",
+			"bind_frames": [
+				0
+			],
+			"box_id": "box_1776064069.317_504",
+			"box_name": "a1",
+			"frame_configs": {
+				"0": {
+					"pivot_offset": {
+						"x": 0,
+						"y": 0
+					},
+					"position": {
+						"x": 150,
+						"y": 0,
+						"z": 0
+					},
+					"size": {
+						"x": 400,
+						"y": 200,
+						"z": 300
+					}
+				}
+			}
+		},
+		{
+			"bind_animation": "attack",
+			"bind_frames": [
+				1
+			],
+			"box_id": "box_1776064245.001_145",
+			"box_name": "a2",
+			"frame_configs": {
+				"1": {
+					"pivot_offset": {
+						"x": 0,
+						"y": 0
+					},
+					"position": {
+						"x": 200,
+						"y": 0,
+						"z": 0
+					},
+					"size": {
+						"x": 800,
+						"y": 200,
+						"z": 400
+					}
+				}
+			}
+		}
+	]
+}

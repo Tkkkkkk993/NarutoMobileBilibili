@@ -1,0 +1,13 @@
+[gd_scene load_steps=4 format=3 uid="uid://j75xp608h4aq"]
+
+[ext_resource type="PackedScene" uid="uid://c5eauk5i5s64k" path="res://assets/entities/base/effects/effects_base.tscn" id="1_0trqx"]
+[ext_resource type="Texture2D" uid="uid://d2tn2hjgvuln2" path="res://assets/entities/base/effects/summon/summon.png" id="2_ajfcr"]
+[ext_resource type="Script" path="res://assets/entities/base/effects/summon/effects_base.gd" id="2_g86bq"]
+
+[node name="EffectsBase" instance=ExtResource("1_0trqx")]
+script = ExtResource("2_g86bq")
+
+[node name="Sprite2D" type="Sprite2D" parent="." index="0"]
+position = Vector2(86, 0)
+scale = Vector2(1, 0.780488)
+texture = ExtResource("2_ajfcr")

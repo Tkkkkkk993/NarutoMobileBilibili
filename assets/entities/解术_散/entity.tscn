@@ -1,0 +1,19 @@
+[gd_scene format=3 uid="uid://b3yl2q37bvh1t"]
+
+[ext_resource type="PackedScene" uid="uid://gkn20f0aex3q" path="res://assets/entities/base/animated_sprite_2d_entity.tscn" id="1_mg2bi"]
+[ext_resource type="Script" uid="uid://cpc60sj4mngtg" path="res://assets/entities/解术_散/entity.gd" id="2_ditwx"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_80dgn"]
+animations = [{
+"frames": [],
+"loop": true,
+"name": &"attack",
+"speed": 5.0
+}]
+
+[node name="Entity" instance=ExtResource("1_mg2bi")]
+script = ExtResource("2_ditwx")
+
+[node name="AnimatedSprite2D" parent="Visuals" index="0"]
+sprite_frames = SubResource("SpriteFrames_80dgn")
+animation = &"attack"

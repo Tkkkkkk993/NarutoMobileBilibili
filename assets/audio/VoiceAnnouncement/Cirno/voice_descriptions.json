@@ -1,0 +1,52 @@
+{
+	"voice_library": {
+		"round_1": {
+			"text": "第一回合",
+			"audio": "Battle_UI_Naruto_E_01.wav"
+		},
+		"round_2": {
+			"text": "第二回合",
+			"audio": "Battle_UI_Naruto_F_01.wav"
+		},
+		"round_3": {
+			"text": "第三回合",
+			"audio": "Battle_UI_Naruto_G_01.wav"
+		},
+		"round_4": {
+			"text": "第四回合",
+			"audio": "Battle_UI_Naruto_H_01.wav"
+		},
+		"round_5": {
+			"text": "第五回合",
+			"audio": "Battle_UI_Naruto_I_01.wav"
+		},
+		"round_6": {
+			"text": "第六回合",
+			"audio": "Battle_UI_Naruto_J_01.wav"
+		},
+		"round_final": {
+			"text": "最终回合",
+			"audio": "Battle_UI_Naruto_L_01.wav"
+		},
+		"battle_start": {
+			"text": "战斗开始",
+			"audio": "Battle_UI_Naruto_B_01.wav"
+		},
+		"victory": {
+			"text": "胜利",
+			"audio": "Battle_UI_Naruto_Q_01.wav"
+		},
+		"victory_perfect": {
+			"text": "完美胜利",
+			"audio": "Battle_UI_Naruto_N_01.wav"
+		},
+		"winner_decided": {
+			"text": "胜负已分",
+			"audio": "Battle_UI_Naruto_M_01.wav"
+		},
+		"load_complete": {
+			"text": "加载完成",
+			"audio": "Battle_UI_Naruto_P_01.wav"
+		}
+	}
+}

@@ -1,0 +1,362 @@
+[gd_scene format=3 uid="uid://g1cllcf4oeux"]
+
+[ext_resource type="Theme" uid="uid://dphev0gwjsvmx" path="res://theme/normal.tres" id="1_0lgsw"]
+[ext_resource type="Texture2D" uid="uid://cemagnfdggan1" path="res://assets/UI/charSelect/background.png" id="1_ssbu4"]
+[ext_resource type="Script" uid="uid://dh8b4pmvnid6k" path="res://scripts/char_select_main.gd" id="1_tc0kb"]
+[ext_resource type="Texture2D" uid="uid://de2iknu33fhof" path="res://assets/UI/empty.png" id="3_03d5g"]
+[ext_resource type="Texture2D" uid="uid://bkjwlxog4hh5x" path="res://assets/entities/KuramaLinkMode_NamikazeMinato/portraits/idle.png" id="3_qgbth"]
+[ext_resource type="Script" uid="uid://c5pw7s46setq1" path="res://scripts/char_icon_manager.gd" id="5_pe1b5"]
+[ext_resource type="PackedScene" uid="uid://dh62yy8oi7evg" path="res://scenes/char_icon.tscn" id="5_wv62h"]
+[ext_resource type="Texture2D" uid="uid://d3o4lqws1fluq" path="res://assets/UI/charSelect/kihan/人物头像背景.png" id="6_3ypcw"]
+[ext_resource type="PackedScene" uid="uid://q52sflnmpu8m" path="res://scenes/tab_slot.tscn" id="6_acpbg"]
+[ext_resource type="Script" uid="uid://4l6psncttik8" path="res://scripts/tab_slot_manager.gd" id="6_xpj2n"]
+[ext_resource type="Texture2D" uid="uid://btvt7j3n8ar0l" path="res://assets/UI/charSelect/kihan/人物立绘遮挡云.png" id="7_brd6k"]
+[ext_resource type="Texture2D" uid="uid://b44sutwkc42qi" path="res://assets/UI/charSelect/kihan/人物头像背景2.png" id="8_mv8se"]
+[ext_resource type="Script" uid="uid://b5j14gh7eiwnw" path="res://scripts/button.gd" id="8_tgrbt"]
+[ext_resource type="Texture2D" uid="uid://cre2868qddqb8" path="res://assets/UI/charSelect/kihan/圆形选择框背景.png" id="9_kwfps"]
+[ext_resource type="Texture2D" uid="uid://dkthhkvs1d57p" path="res://assets/UI/charSelect/kihan/道具标题框.png" id="10_gnx5l"]
+[ext_resource type="Script" uid="uid://fmouqw08wick" path="res://scripts/scroll_icon_manager.gd" id="10_pxlw5"]
+[ext_resource type="Script" uid="uid://eyoae2ciunr7" path="res://scripts/summon_icon_manager.gd" id="10_yxjlj"]
+[ext_resource type="PackedScene" uid="uid://d22ajpo50qki5" path="res://scenes/scroll_icon_slot.tscn" id="11_m77ld"]
+[ext_resource type="Texture2D" uid="uid://b7hlq36m3tjsi" path="res://assets/UI/charSelect/kihan/绿条.png" id="11_tq266"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ptpbk"]
+size = Vector2(155, 250)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_w44oa"]
+size = Vector2(125, 250)
+
+[node name="CharSelect" type="CanvasLayer" unique_id=1251504813]
+
+[node name="Main" type="Control" parent="." unique_id=172860876]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 6
+size_flags_vertical = 6
+theme = ExtResource("1_0lgsw")
+script = ExtResource("1_tc0kb")
+metadata/_edit_use_anchors_ = true
+
+[node name="Portrait1" type="TextureRect" parent="Main" unique_id=396432477]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -461.0
+offset_top = -225.0
+offset_right = -61.0001
+offset_bottom = 375.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.7, 0.7)
+texture = ExtResource("3_qgbth")
+
+[node name="Portrait2" type="TextureRect" parent="Main" unique_id=273757240]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -303.0
+offset_top = -225.0
+offset_right = 97.0
+offset_bottom = 375.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.7, 0.7)
+texture = ExtResource("3_qgbth")
+
+[node name="Portrait3" type="TextureRect" parent="Main" unique_id=1573356566]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -144.0
+offset_top = -225.0
+offset_right = 256.0
+offset_bottom = 375.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.7, 0.7)
+texture = ExtResource("3_qgbth")
+
+[node name="Portrait1Touch" type="TouchScreenButton" parent="Main" unique_id=1783397374]
+position = Vector2(-318, 0)
+texture_normal = ExtResource("3_03d5g")
+shape = SubResource("RectangleShape2D_ptpbk")
+
+[node name="Portrait2Touch" type="TouchScreenButton" parent="Main" unique_id=1764732173]
+position = Vector2(-159, 0)
+shape = SubResource("RectangleShape2D_ptpbk")
+
+[node name="Portrait3Touch" type="TouchScreenButton" parent="Main" unique_id=935969916]
+position = Vector2(-15, 0)
+shape = SubResource("RectangleShape2D_w44oa")
+
+[node name="Background" type="TextureRect" parent="Main" unique_id=213978670]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -576.0
+offset_top = -202.4
+offset_right = 576.0
+offset_bottom = 202.4
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_ssbu4")
+
+[node name="TextureRect" type="TextureRect" parent="Main/Background" unique_id=1592822842]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 88.0
+offset_top = -196.0
+offset_right = 538.0
+offset_bottom = 291.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.8066997, 0.8057755)
+texture = ExtResource("6_3ypcw")
+
+[node name="TextureRect2" type="TextureRect" parent="Main/Background" unique_id=829131372]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -464.0
+offset_top = 92.0
+offset_right = 244.0
+offset_bottom = 177.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.78190327, 1.2001035)
+texture = ExtResource("7_brd6k")
+
+[node name="TextureRect3" type="TextureRect" parent="Main/Background" unique_id=1938891737]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 104.0
+offset_top = 128.99997
+offset_right = 811.99976
+offset_bottom = 213.99997
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.46458042, 0.78563887)
+texture = ExtResource("8_mv8se")
+
+[node name="TextureRect4" type="TextureRect" parent="Main/Background" unique_id=1831008218]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -464.0
+offset_top = 112.99997
+offset_right = 244.0
+offset_bottom = 197.99997
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.78277934, 1.0911182)
+texture = ExtResource("9_kwfps")
+
+[node name="TextureRect5" type="TextureRect" parent="Main/Background" unique_id=1808714643]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -447.0
+offset_top = 114.0
+offset_right = -406.0
+offset_bottom = 209.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.7550508, 0.80882174)
+texture = ExtResource("10_gnx5l")
+
+[node name="TextureRect6" type="TextureRect" parent="Main/Background" unique_id=948212756]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -185.0
+offset_top = 114.0
+offset_right = -144.0
+offset_bottom = 209.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.7550508, 0.80882174)
+texture = ExtResource("10_gnx5l")
+
+[node name="TextureRect7" type="TextureRect" parent="Main/Background" unique_id=1655338068]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -472.0
+offset_top = 195.00003
+offset_right = -297.0
+offset_bottom = 205.00003
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.7550508, 0.80882174)
+texture = ExtResource("11_tq266")
+
+[node name="Tabs" type="Control" parent="Main" unique_id=252465589]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("6_xpj2n")
+
+[node name="Tab3" parent="Main/Tabs" unique_id=63410917 instance=ExtResource("6_acpbg")]
+layout_mode = 0
+offset_left = 126.0
+offset_top = -13.38
+offset_right = 126.0
+offset_bottom = -13.38
+
+[node name="Tab2" parent="Main/Tabs" unique_id=989010416 instance=ExtResource("6_acpbg")]
+layout_mode = 0
+offset_left = 126.0
+offset_top = -94.19
+offset_right = 126.0
+offset_bottom = -94.19
+
+[node name="Tab1" parent="Main/Tabs" unique_id=1929165866 instance=ExtResource("6_acpbg")]
+layout_mode = 0
+offset_left = 126.0
+offset_top = -175.0
+offset_right = 126.0
+offset_bottom = -175.0
+
+[node name="CharIconManager" type="Control" parent="Main" unique_id=1877374046]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("5_pe1b5")
+json_data_path = "res://data/characters.json"
+icon_scene = ExtResource("5_wv62h")
+
+[node name="SummonIconManager" type="Control" parent="Main" unique_id=1944629711]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("10_yxjlj")
+json_data_path = "res://data/summons.json"
+icon_scene = ExtResource("11_m77ld")
+
+[node name="ScrollIconManager" type="Control" parent="Main" unique_id=1482522949]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("10_pxlw5")
+json_data_path = "res://data/scrolls.json"
+icon_scene = ExtResource("11_m77ld")
+
+[node name="Summons" type="Control" parent="Main" unique_id=1282016451]
+anchors_preset = 0
+offset_left = -398.0
+offset_top = 131.0
+offset_right = -358.0
+offset_bottom = 171.0
+
+[node name="Item1" parent="Main/Summons" unique_id=2018933486 instance=ExtResource("11_m77ld")]
+layout_mode = 0
+scale = Vector2(0.87, 0.87)
+
+[node name="Item2" parent="Main/Summons" unique_id=1129699230 instance=ExtResource("11_m77ld")]
+layout_mode = 0
+offset_left = 73.0
+offset_right = 73.0
+scale = Vector2(0.87, 0.87)
+
+[node name="Item3" parent="Main/Summons" unique_id=705265363 instance=ExtResource("11_m77ld")]
+layout_mode = 0
+offset_left = 146.0
+offset_right = 146.0
+scale = Vector2(0.87, 0.87)
+
+[node name="Scrolls" type="Control" parent="Main" unique_id=2009135659]
+anchors_preset = 0
+offset_left = -135.0
+offset_top = 131.0
+offset_right = -95.0
+offset_bottom = 171.0
+
+[node name="Item1" parent="Main/Scrolls" unique_id=1542601131 instance=ExtResource("11_m77ld")]
+layout_mode = 0
+scale = Vector2(0.87, 0.87)
+
+[node name="Item2" parent="Main/Scrolls" unique_id=40277178 instance=ExtResource("11_m77ld")]
+layout_mode = 0
+offset_left = 73.0
+offset_right = 73.0
+scale = Vector2(0.87, 0.87)
+
+[node name="Item3" parent="Main/Scrolls" unique_id=765868401 instance=ExtResource("11_m77ld")]
+layout_mode = 0
+offset_left = 146.0
+offset_right = 146.0
+scale = Vector2(0.87, 0.87)
+
+[node name="StartButton" type="Button" parent="Main" unique_id=537767721]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 225.5
+offset_top = 150.0
+offset_right = 408.5
+offset_bottom = 225.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.5, 0.5)
+text = "出战"
+script = ExtResource("8_tgrbt")

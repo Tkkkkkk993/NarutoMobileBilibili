@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://cvu6ta6iwmt3h"]
+
+[ext_resource type="Texture2D" uid="uid://e5j8bf7jtjq8" path="res://assets/stages/华强买瓜遗址.png" id="1_rx4tw"]
+[ext_resource type="Script" path="res://scripts/Arena/华强买瓜遗址.gd" id="2_k3neo"]
+
+[node name="华强买瓜遗址" type="Sprite2D"]
+position = Vector2(0, -166)
+scale = Vector2(1.3125, 1.3125)
+texture = ExtResource("1_rx4tw")
+script = ExtResource("2_k3neo")

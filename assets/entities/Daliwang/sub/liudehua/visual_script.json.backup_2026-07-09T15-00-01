@@ -1,0 +1,140 @@
+{
+	"blocks": [
+		{
+			"id": 0,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": false,
+			"is_var_ref": false,
+			"name": "when_entity_create",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+
+			},
+			"position": {
+				"x": -293,
+				"y": -292
+			},
+			"source_block_id": -1,
+			"stack_below_id": 1,
+			"type": "EVENT",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 1,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": false,
+			"is_var_ref": false,
+			"name": "play_animation",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"anim_name": "attack"
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": -1,
+			"type": "ACTION",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 2,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": false,
+			"is_var_ref": false,
+			"name": "when_attack",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+
+			},
+			"position": {
+				"x": -53,
+				"y": -299
+			},
+			"source_block_id": -1,
+			"stack_below_id": 3,
+			"type": "EVENT",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 3,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": false,
+			"is_var_ref": false,
+			"name": "set_entity_immobilize",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"ani": "immobilize",
+				"bs": 2,
+				"g": 700,
+				"kt": 0,
+				"pos": {
+					"x": 0,
+					"y": 0,
+					"z": 0
+				},
+				"rpos": {
+					"x": 0,
+					"y": 0
+				},
+				"target": "",
+				"time": -1,
+				"v": {
+					"x": 0,
+					"y": 0,
+					"z": 0
+				}
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": -1,
+			"type": "ACTION",
+			"value_slots": {
+				"target": 4
+			}
+		},
+		{
+			"id": 4,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": true,
+			"is_var_ref": true,
+			"name": "_var_ref_target",
+			"output_label": "目标",
+			"output_name": "target",
+			"output_type": "node",
+			"params": {
+
+			},
+			"position": {
+
+			},
+			"source_block_id": 2,
+			"stack_below_id": -1,
+			"type": "VALUE",
+			"value_slots": {
+
+			}
+		}
+	]
+}

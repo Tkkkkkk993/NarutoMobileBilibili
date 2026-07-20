@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://cvcgd21qvhni5"]
+
+[ext_resource type="Texture2D" uid="uid://cx24jsye82k4m" path="res://assets/stages/雾之湖.png" id="1_vsbm1"]
+[ext_resource type="Script" path="res://scripts/Arena/雾之湖.gd" id="2_rbqdp"]
+
+[node name="雾之湖" type="Sprite2D"]
+position = Vector2(0, -162)
+scale = Vector2(1.24684, 1.24684)
+texture = ExtResource("1_vsbm1")
+script = ExtResource("2_rbqdp")

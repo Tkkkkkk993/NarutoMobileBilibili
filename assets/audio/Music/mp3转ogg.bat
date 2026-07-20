@@ -1,0 +1,1 @@
+ffmpeg -i input.mp3 -acodec libvorbis -aq 5 output.ogg

@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://bv7ugld7utrl2"]
+
+[ext_resource type="Script" path="res://addons/entityeditor/attack_box_editor.gd" id="1_lw5tt"]
+
+[node name="Window" type="Window"]
+title = "攻击框编辑器（Y=深度, Z=高度）"
+position = Vector2i(260, 90)
+size = Vector2i(1400, 900)
+min_size = Vector2i(900, 700)
+script = ExtResource("1_lw5tt")

@@ -1,0 +1,46 @@
+[gd_scene load_steps=3 format=3 uid="uid://blytjckipxc6m"]
+
+[ext_resource type="Script" path="res://addons/entityeditor/entity_editor_window.gd" id="1_cwfao"]
+[ext_resource type="Script" path="res://addons/entityeditor/entity_editor.gd" id="1_w2s1r"]
+
+[node name="Window" type="Window"]
+position = Vector2i(0, 36)
+size = Vector2i(1200, 800)
+min_size = Vector2i(800, 600)
+script = ExtResource("1_cwfao")
+
+[node name="EntityEditor" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_w2s1r")
+
+[node name="MenuBar" type="MenuBar" parent="EntityEditor"]
+visible = false
+layout_mode = 2
+offset_right = 93.0
+offset_bottom = 40.0
+
+[node name="实体" type="PopupMenu" parent="EntityEditor/MenuBar"]
+auto_translate_mode = 1
+item_count = 2
+item_0/text = "选择实体..."
+item_1/text = "保存实体..."
+item_1/id = 1
+
+[node name="ToolContainer" type="VBoxContainer" parent="EntityEditor"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -40.0
+offset_top = -40.0
+grow_horizontal = 0
+grow_vertical = 0
+
+[connection signal="id_pressed" from="EntityEditor/MenuBar/实体" to="EntityEditor" method="_on_entity_id_pressed"]

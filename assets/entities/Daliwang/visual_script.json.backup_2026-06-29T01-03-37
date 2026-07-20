@@ -1,0 +1,6477 @@
+{
+	"blocks": [
+		{
+			"id": 34,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": false,
+			"is_var_ref": false,
+			"name": "when_animation_exit",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"anim_name": "a3"
+			},
+			"position": {
+				"x": -745,
+				"y": -147
+			},
+			"source_block_id": -1,
+			"stack_below_id": 35,
+			"type": "EVENT",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 35,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": false,
+			"is_var_ref": false,
+			"name": "play_animation",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"anim_name": "idle"
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": -1,
+			"type": "ACTION",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 96,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": false,
+			"is_var_ref": false,
+			"name": "when_animation_playing",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"anim_name": "a2"
+			},
+			"position": {
+				"x": 263.48583984375,
+				"y": -230.55908203125
+			},
+			"source_block_id": -1,
+			"stack_below_id": -1,
+			"type": "EVENT",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 114,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": false,
+			"is_var_ref": false,
+			"name": "when_animation_playing",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"anim_name": "a2"
+			},
+			"position": {
+				"x": 263.48583984375,
+				"y": -230.55908203125
+			},
+			"source_block_id": -1,
+			"stack_below_id": -1,
+			"type": "EVENT",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 56,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": false,
+			"is_var_ref": false,
+			"name": "when_animation_playing",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"anim_name": "a4"
+			},
+			"position": {
+				"x": 263.48583984375,
+				"y": 396.986419677734
+			},
+			"source_block_id": -1,
+			"stack_below_id": 57,
+			"type": "EVENT",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 57,
+			"inner_block_ids": [
+				60,
+				61
+			],
+			"inner_else_ids": [],
+			"is_in_slot": false,
+			"is_var_ref": false,
+			"name": "if_condition",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"condition": true
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": 83,
+			"type": "CONDITION",
+			"value_slots": {
+				"condition": 58
+			}
+		},
+		{
+			"id": 58,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": true,
+			"is_var_ref": false,
+			"name": "val_in_a_and_b",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"a": 6,
+				"b": 7,
+				"val": 0
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": -1,
+			"type": "VALUE",
+			"value_slots": {
+				"val": 59
+			}
+		},
+		{
+			"id": 59,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": true,
+			"is_var_ref": true,
+			"name": "_var_ref_frame_idx",
+			"output_label": "当前帧",
+			"output_name": "frame_idx",
+			"output_type": "node",
+			"params": {
+
+			},
+			"position": {
+
+			},
+			"source_block_id": 56,
+			"stack_below_id": -1,
+			"type": "VALUE",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 83,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": false,
+			"is_var_ref": false,
+			"name": "turn_by_input",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": -1,
+			"type": "ACTION",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 60,
+			"inner_block_ids": [
+				119,
+				135,
+				62
+			],
+			"inner_else_ids": [],
+			"is_in_slot": false,
+			"is_var_ref": false,
+			"name": "if_condition",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"condition": true
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": -1,
+			"type": "CONDITION",
+			"value_slots": {
+				"condition": 63
+			}
+		},
+		{
+			"id": 63,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": true,
+			"is_var_ref": false,
+			"name": "not_bool",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"bool": false
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": -1,
+			"type": "VALUE",
+			"value_slots": {
+				"bool": 61
+			}
+		},
+		{
+			"id": 61,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": true,
+			"is_var_ref": false,
+			"name": "is_press_key",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"key": 0
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": -1,
+			"type": "VALUE",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 119,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": false,
+			"is_var_ref": false,
+			"name": "stop_freemove",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": 135,
+			"type": "ACTION",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 135,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": false,
+			"is_var_ref": false,
+			"name": "slide",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"g": 0,
+				"m": "facing",
+				"r": {
+					"x": 10,
+					"y": 0
+				},
+				"v": {
+					"x": 1000,
+					"y": 0,
+					"z": 0
+				}
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": 62,
+			"type": "ACTION",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 62,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": false,
+			"is_var_ref": false,
+			"name": "play_animation",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"anim_name": "a4e"
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": -1,
+			"type": "ACTION",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 151,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": false,
+			"is_var_ref": false,
+			"name": "when_attack",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+
+			},
+			"position": {
+				"x": -743,
+				"y": 168
+			},
+			"source_block_id": -1,
+			"stack_below_id": -1,
+			"type": "EVENT",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 49,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": false,
+			"is_var_ref": false,
+			"name": "when_animation_playing",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"anim_name": "a3"
+			},
+			"position": {
+				"x": -280.373657226563,
+				"y": 397.126892089844
+			},
+			"source_block_id": -1,
+			"stack_below_id": 50,
+			"type": "EVENT",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 50,
+			"inner_block_ids": [
+				53,
+				54
+			],
+			"inner_else_ids": [],
+			"is_in_slot": false,
+			"is_var_ref": false,
+			"name": "if_condition",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"condition": true
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": 111,
+			"type": "CONDITION",
+			"value_slots": {
+				"condition": 51
+			}
+		},
+		{
+			"id": 111,
+			"inner_block_ids": [
+				115
+			],
+			"inner_else_ids": [],
+			"is_in_slot": false,
+			"is_var_ref": false,
+			"name": "if_condition",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"condition": true
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": 112,
+			"type": "CONDITION",
+			"value_slots": {
+				"condition": 112
+			}
+		},
+		{
+			"id": 112,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": true,
+			"is_var_ref": false,
+			"name": "compare",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"left": "",
+				"op": "=",
+				"right": "1"
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": -1,
+			"type": "VALUE",
+			"value_slots": {
+				"left": 116
+			}
+		},
+		{
+			"id": 116,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": true,
+			"is_var_ref": true,
+			"name": "_var_ref_frame_idx",
+			"output_label": "当前帧",
+			"output_name": "frame_idx",
+			"output_type": "node",
+			"params": {
+
+			},
+			"position": {
+
+			},
+			"source_block_id": 49,
+			"stack_below_id": -1,
+			"type": "VALUE",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 115,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": false,
+			"is_var_ref": false,
+			"name": "slide",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"g": 0,
+				"m": "facing",
+				"r": {
+					"x": 16,
+					"y": 0
+				},
+				"v": {
+					"x": 4500,
+					"y": 0,
+					"z": 0
+				}
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": -1,
+			"type": "ACTION",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 53,
+			"inner_block_ids": [
+				120,
+				131
+			],
+			"inner_else_ids": [],
+			"is_in_slot": false,
+			"is_var_ref": false,
+			"name": "if_condition",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"condition": true
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": -1,
+			"type": "CONDITION",
+			"value_slots": {
+				"condition": 54
+			}
+		},
+		{
+			"id": 54,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": true,
+			"is_var_ref": false,
+			"name": "is_press_key",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"key": 0
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": -1,
+			"type": "VALUE",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 120,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": false,
+			"is_var_ref": false,
+			"name": "slide",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"g": 0,
+				"m": "facing",
+				"r": {
+					"x": 10,
+					"y": 0
+				},
+				"v": {
+					"x": 1000,
+					"y": 0,
+					"z": 0
+				}
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": 131,
+			"type": "ACTION",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 131,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": false,
+			"is_var_ref": false,
+			"name": "play_animation",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"anim_name": "a4b"
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": -1,
+			"type": "ACTION",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 51,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": true,
+			"is_var_ref": false,
+			"name": "val_in_a_and_b",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"a": 3,
+				"b": 3,
+				"val": 0
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": -1,
+			"type": "VALUE",
+			"value_slots": {
+				"val": 95
+			}
+		},
+		{
+			"id": 95,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": true,
+			"is_var_ref": true,
+			"name": "_var_ref_frame_idx",
+			"output_label": "当前帧",
+			"output_name": "frame_idx",
+			"output_type": "node",
+			"params": {
+
+			},
+			"position": {
+
+			},
+			"source_block_id": 49,
+			"stack_below_id": -1,
+			"type": "VALUE",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 136,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": false,
+			"is_var_ref": false,
+			"name": "when_attack",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+
+			},
+			"position": {
+				"x": -743,
+				"y": 168
+			},
+			"source_block_id": -1,
+			"stack_below_id": -1,
+			"type": "EVENT",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 163,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": false,
+			"is_var_ref": false,
+			"name": "when_attack",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+
+			},
+			"position": {
+				"x": -743,
+				"y": 168
+			},
+			"source_block_id": -1,
+			"stack_below_id": -1,
+			"type": "EVENT",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 164,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": false,
+			"is_var_ref": true,
+			"name": "_var_ref_abox_name",
+			"output_label": "攻击框名",
+			"output_name": "abox_name",
+			"output_type": "node",
+			"params": {
+
+			},
+			"position": {
+				"x": -636,
+				"y": 326.5
+			},
+			"source_block_id": 163,
+			"stack_below_id": -1,
+			"type": "VALUE",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 169,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": false,
+			"is_var_ref": false,
+			"name": "when_attack",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+
+			},
+			"position": {
+				"x": -743,
+				"y": 168
+			},
+			"source_block_id": -1,
+			"stack_below_id": -1,
+			"type": "EVENT",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 170,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": false,
+			"is_var_ref": true,
+			"name": "_var_ref_abox_name",
+			"output_label": "攻击框名",
+			"output_name": "abox_name",
+			"output_type": "node",
+			"params": {
+
+			},
+			"position": {
+				"x": -636,
+				"y": 326.5
+			},
+			"source_block_id": 169,
+			"stack_below_id": -1,
+			"type": "VALUE",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 175,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": false,
+			"is_var_ref": false,
+			"name": "when_attack",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+
+			},
+			"position": {
+				"x": -743,
+				"y": 168
+			},
+			"source_block_id": -1,
+			"stack_below_id": -1,
+			"type": "EVENT",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 176,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": false,
+			"is_var_ref": true,
+			"name": "_var_ref_abox_name",
+			"output_label": "攻击框名",
+			"output_name": "abox_name",
+			"output_type": "node",
+			"params": {
+
+			},
+			"position": {
+				"x": -636,
+				"y": 326.5
+			},
+			"source_block_id": 175,
+			"stack_below_id": -1,
+			"type": "VALUE",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 180,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": false,
+			"is_var_ref": false,
+			"name": "when_attack",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+
+			},
+			"position": {
+				"x": -743,
+				"y": 168
+			},
+			"source_block_id": -1,
+			"stack_below_id": -1,
+			"type": "EVENT",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 187,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": false,
+			"is_var_ref": false,
+			"name": "when_attack",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+
+			},
+			"position": {
+				"x": -743,
+				"y": 168
+			},
+			"source_block_id": -1,
+			"stack_below_id": -1,
+			"type": "EVENT",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 188,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": false,
+			"is_var_ref": true,
+			"name": "_var_ref_abox_name",
+			"output_label": "攻击框名",
+			"output_name": "abox_name",
+			"output_type": "node",
+			"params": {
+
+			},
+			"position": {
+				"x": -636,
+				"y": 326.5
+			},
+			"source_block_id": 187,
+			"stack_below_id": -1,
+			"type": "VALUE",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 192,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": false,
+			"is_var_ref": false,
+			"name": "when_attack",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+
+			},
+			"position": {
+				"x": -743,
+				"y": 168
+			},
+			"source_block_id": -1,
+			"stack_below_id": -1,
+			"type": "EVENT",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 199,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": false,
+			"is_var_ref": false,
+			"name": "when_attack",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+
+			},
+			"position": {
+				"x": -743,
+				"y": 168
+			},
+			"source_block_id": -1,
+			"stack_below_id": -1,
+			"type": "EVENT",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 200,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": false,
+			"is_var_ref": true,
+			"name": "_var_ref_abox_name",
+			"output_label": "攻击框名",
+			"output_name": "abox_name",
+			"output_type": "node",
+			"params": {
+
+			},
+			"position": {
+				"x": -636,
+				"y": 326.5
+			},
+			"source_block_id": 199,
+			"stack_below_id": -1,
+			"type": "VALUE",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 204,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": false,
+			"is_var_ref": false,
+			"name": "when_attack",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+
+			},
+			"position": {
+				"x": -743,
+				"y": 168
+			},
+			"source_block_id": -1,
+			"stack_below_id": -1,
+			"type": "EVENT",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 211,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": false,
+			"is_var_ref": false,
+			"name": "when_attack",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+
+			},
+			"position": {
+				"x": -743,
+				"y": 168
+			},
+			"source_block_id": -1,
+			"stack_below_id": -1,
+			"type": "EVENT",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 212,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": false,
+			"is_var_ref": true,
+			"name": "_var_ref_abox_name",
+			"output_label": "攻击框名",
+			"output_name": "abox_name",
+			"output_type": "node",
+			"params": {
+
+			},
+			"position": {
+				"x": -636,
+				"y": 326.5
+			},
+			"source_block_id": 211,
+			"stack_below_id": -1,
+			"type": "VALUE",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 221,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": false,
+			"is_var_ref": false,
+			"name": "when_attack",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+
+			},
+			"position": {
+				"x": -743,
+				"y": 168
+			},
+			"source_block_id": -1,
+			"stack_below_id": -1,
+			"type": "EVENT",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 228,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": false,
+			"is_var_ref": false,
+			"name": "when_attack",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+
+			},
+			"position": {
+				"x": -743,
+				"y": 168
+			},
+			"source_block_id": -1,
+			"stack_below_id": -1,
+			"type": "EVENT",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 229,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": false,
+			"is_var_ref": true,
+			"name": "_var_ref_abox_name",
+			"output_label": "攻击框名",
+			"output_name": "abox_name",
+			"output_type": "node",
+			"params": {
+
+			},
+			"position": {
+				"x": -636,
+				"y": 326.5
+			},
+			"source_block_id": 228,
+			"stack_below_id": -1,
+			"type": "VALUE",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 232,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": false,
+			"is_var_ref": false,
+			"name": "when_attack",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+
+			},
+			"position": {
+				"x": -743,
+				"y": 168
+			},
+			"source_block_id": -1,
+			"stack_below_id": -1,
+			"type": "EVENT",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 239,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": false,
+			"is_var_ref": false,
+			"name": "when_attack",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+
+			},
+			"position": {
+				"x": -743,
+				"y": 168
+			},
+			"source_block_id": -1,
+			"stack_below_id": -1,
+			"type": "EVENT",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 240,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": false,
+			"is_var_ref": true,
+			"name": "_var_ref_abox_name",
+			"output_label": "攻击框名",
+			"output_name": "abox_name",
+			"output_type": "node",
+			"params": {
+
+			},
+			"position": {
+				"x": -636,
+				"y": 326.5
+			},
+			"source_block_id": 239,
+			"stack_below_id": -1,
+			"type": "VALUE",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 243,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": false,
+			"is_var_ref": false,
+			"name": "when_attack",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+
+			},
+			"position": {
+				"x": -743,
+				"y": 168
+			},
+			"source_block_id": -1,
+			"stack_below_id": -1,
+			"type": "EVENT",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 250,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": false,
+			"is_var_ref": false,
+			"name": "when_attack",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+
+			},
+			"position": {
+				"x": -743,
+				"y": 168
+			},
+			"source_block_id": -1,
+			"stack_below_id": -1,
+			"type": "EVENT",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 251,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": false,
+			"is_var_ref": true,
+			"name": "_var_ref_abox_name",
+			"output_label": "攻击框名",
+			"output_name": "abox_name",
+			"output_type": "node",
+			"params": {
+
+			},
+			"position": {
+				"x": -636,
+				"y": 326.5
+			},
+			"source_block_id": 250,
+			"stack_below_id": -1,
+			"type": "VALUE",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 260,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": false,
+			"is_var_ref": false,
+			"name": "when_attack",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+
+			},
+			"position": {
+				"x": -743,
+				"y": 168
+			},
+			"source_block_id": -1,
+			"stack_below_id": -1,
+			"type": "EVENT",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 261,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": false,
+			"is_var_ref": true,
+			"name": "_var_ref_abox_name",
+			"output_label": "攻击框名",
+			"output_name": "abox_name",
+			"output_type": "node",
+			"params": {
+
+			},
+			"position": {
+				"x": -636,
+				"y": 326.5
+			},
+			"source_block_id": 260,
+			"stack_below_id": -1,
+			"type": "VALUE",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 264,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": false,
+			"is_var_ref": false,
+			"name": "when_attack",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+
+			},
+			"position": {
+				"x": -743,
+				"y": 168
+			},
+			"source_block_id": -1,
+			"stack_below_id": -1,
+			"type": "EVENT",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 213,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": false,
+			"is_var_ref": false,
+			"name": "when_attack",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+
+			},
+			"position": {
+				"x": -1352,
+				"y": 214
+			},
+			"source_block_id": -1,
+			"stack_below_id": 214,
+			"type": "EVENT",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 214,
+			"inner_block_ids": [
+				267,
+				268,
+				269,
+				273,
+				274,
+				270,
+				266,
+				265,
+				275
+			],
+			"inner_else_ids": [],
+			"is_in_slot": false,
+			"is_var_ref": false,
+			"name": "if_condition",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"condition": true
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": -1,
+			"type": "CONDITION",
+			"value_slots": {
+				"condition": 271
+			}
+		},
+		{
+			"id": 271,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": true,
+			"is_var_ref": false,
+			"name": "a_front_b",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"a": "",
+				"b": "a4_"
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": -1,
+			"type": "VALUE",
+			"value_slots": {
+				"a": 272
+			}
+		},
+		{
+			"id": 272,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": true,
+			"is_var_ref": true,
+			"name": "_var_ref_abox_name",
+			"output_label": "攻击框名",
+			"output_name": "abox_name",
+			"output_type": "node",
+			"params": {
+
+			},
+			"position": {
+
+			},
+			"source_block_id": 213,
+			"stack_below_id": -1,
+			"type": "VALUE",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 265,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": true,
+			"is_var_ref": true,
+			"name": "_var_ref_target",
+			"output_label": "目标",
+			"output_name": "target",
+			"output_type": "node",
+			"params": {
+
+			},
+			"position": {
+
+			},
+			"source_block_id": 264,
+			"stack_below_id": 275,
+			"type": "VALUE",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 266,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": true,
+			"is_var_ref": true,
+			"name": "_var_ref_target",
+			"output_label": "目标",
+			"output_name": "target",
+			"output_type": "node",
+			"params": {
+
+			},
+			"position": {
+
+			},
+			"source_block_id": 264,
+			"stack_below_id": 265,
+			"type": "VALUE",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 267,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": false,
+			"is_var_ref": false,
+			"name": "hit_entity",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"bs": 0,
+				"cotg": true,
+				"hst": 0.400000000001455,
+				"isgd": true,
+				"ish": false,
+				"target": "",
+				"type": "push",
+				"v": {
+					"x": 0,
+					"y": 0,
+					"z": 60
+				}
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": 268,
+			"type": "ACTION",
+			"value_slots": {
+				"target": 265
+			}
+		},
+		{
+			"id": 268,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": false,
+			"is_var_ref": false,
+			"name": "hit_stop_entity",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"d": 0.0100000000002183,
+				"target": ""
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": 269,
+			"type": "ACTION",
+			"value_slots": {
+				"target": 270
+			}
+		},
+		{
+			"id": 269,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": false,
+			"is_var_ref": false,
+			"name": "hit_stop_entity",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"d": 0.0200000000004366,
+				"target": ""
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": 273,
+			"type": "ACTION",
+			"value_slots": {
+				"target": 266
+			}
+		},
+		{
+			"id": 270,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": true,
+			"is_var_ref": false,
+			"name": "self_entity",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": 266,
+			"type": "VALUE",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 273,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": false,
+			"is_var_ref": false,
+			"name": "magnetism_entity",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"d": 0.0300000000006548,
+				"mpos": {
+					"x": 0,
+					"y": 0
+				},
+				"spe": {
+					"x": 2000,
+					"y": 1600
+				},
+				"target": ""
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": 274,
+			"type": "ACTION",
+			"value_slots": {
+				"mpos": 275,
+				"target": 274
+			}
+		},
+		{
+			"id": 274,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": true,
+			"is_var_ref": true,
+			"name": "_var_ref_target",
+			"output_label": "目标",
+			"output_name": "target",
+			"output_type": "node",
+			"params": {
+
+			},
+			"position": {
+
+			},
+			"source_block_id": 213,
+			"stack_below_id": 270,
+			"type": "VALUE",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 275,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": true,
+			"is_var_ref": false,
+			"name": "now_pos2d",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": -1,
+			"type": "VALUE",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 101,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": false,
+			"is_var_ref": false,
+			"name": "when_animation_playing",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"anim_name": "a1"
+			},
+			"position": {
+				"x": -299.125732421875,
+				"y": -221.55908203125
+			},
+			"source_block_id": -1,
+			"stack_below_id": -1,
+			"type": "EVENT",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 23,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": false,
+			"is_var_ref": false,
+			"name": "when_animation_playing",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"anim_name": "a1"
+			},
+			"position": {
+				"x": -299.125732421875,
+				"y": -221.55908203125
+			},
+			"source_block_id": -1,
+			"stack_below_id": 14,
+			"type": "EVENT",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 14,
+			"inner_block_ids": [
+				17,
+				18
+			],
+			"inner_else_ids": [],
+			"is_in_slot": false,
+			"is_var_ref": false,
+			"name": "if_condition",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"condition": true
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": 43,
+			"type": "CONDITION",
+			"value_slots": {
+				"condition": 15
+			}
+		},
+		{
+			"id": 15,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": true,
+			"is_var_ref": false,
+			"name": "val_in_a_and_b",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"a": 5,
+				"b": 6,
+				"val": 0
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": -1,
+			"type": "VALUE",
+			"value_slots": {
+				"val": 41
+			}
+		},
+		{
+			"id": 43,
+			"inner_block_ids": [
+				93
+			],
+			"inner_else_ids": [],
+			"is_in_slot": false,
+			"is_var_ref": false,
+			"name": "if_condition",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"condition": true
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": 92,
+			"type": "CONDITION",
+			"value_slots": {
+				"condition": 92
+			}
+		},
+		{
+			"id": 92,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": true,
+			"is_var_ref": false,
+			"name": "compare",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"left": "",
+				"op": "=",
+				"right": "1"
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": -1,
+			"type": "VALUE",
+			"value_slots": {
+				"left": 97
+			}
+		},
+		{
+			"id": 97,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": true,
+			"is_var_ref": true,
+			"name": "_var_ref_frame_idx",
+			"output_label": "当前帧",
+			"output_name": "frame_idx",
+			"output_type": "node",
+			"params": {
+
+			},
+			"position": {
+
+			},
+			"source_block_id": 23,
+			"stack_below_id": -1,
+			"type": "VALUE",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 93,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": false,
+			"is_var_ref": false,
+			"name": "slide",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"g": 0,
+				"m": "facing",
+				"r": {
+					"x": 16,
+					"y": 0
+				},
+				"v": {
+					"x": 1300,
+					"y": 0,
+					"z": 0
+				}
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": -1,
+			"type": "ACTION",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 17,
+			"inner_block_ids": [
+				82,
+				19
+			],
+			"inner_else_ids": [],
+			"is_in_slot": false,
+			"is_var_ref": false,
+			"name": "if_condition",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"condition": true
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": 18,
+			"type": "CONDITION",
+			"value_slots": {
+				"condition": 18
+			}
+		},
+		{
+			"id": 18,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": true,
+			"is_var_ref": false,
+			"name": "is_press_key",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"key": 0
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": -1,
+			"type": "VALUE",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 82,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": false,
+			"is_var_ref": false,
+			"name": "turn_by_input",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": 19,
+			"type": "ACTION",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 19,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": false,
+			"is_var_ref": false,
+			"name": "play_animation",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"anim_name": "a2"
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": -1,
+			"type": "ACTION",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 145,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": false,
+			"is_var_ref": false,
+			"name": "when_attack",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+
+			},
+			"position": {
+				"x": -743,
+				"y": 168
+			},
+			"source_block_id": -1,
+			"stack_below_id": 139,
+			"type": "EVENT",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 139,
+			"inner_block_ids": [
+				137,
+				156,
+				154,
+				157,
+				155,
+				138
+			],
+			"inner_else_ids": [],
+			"is_in_slot": false,
+			"is_var_ref": false,
+			"name": "if_condition",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"condition": true
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": 142,
+			"type": "CONDITION",
+			"value_slots": {
+				"condition": 140
+			}
+		},
+		{
+			"id": 140,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": true,
+			"is_var_ref": false,
+			"name": "compare",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"left": "",
+				"op": "=",
+				"right": "a1"
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": -1,
+			"type": "VALUE",
+			"value_slots": {
+				"left": 141
+			}
+		},
+		{
+			"id": 141,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": true,
+			"is_var_ref": true,
+			"name": "_var_ref_abox_name",
+			"output_label": "攻击框名",
+			"output_name": "abox_name",
+			"output_type": "node",
+			"params": {
+
+			},
+			"position": {
+
+			},
+			"source_block_id": 136,
+			"stack_below_id": -1,
+			"type": "VALUE",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 142,
+			"inner_block_ids": [
+				147,
+				158,
+				159,
+				160,
+				161,
+				146
+			],
+			"inner_else_ids": [],
+			"is_in_slot": false,
+			"is_var_ref": false,
+			"name": "if_condition",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"condition": true
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": 148,
+			"type": "CONDITION",
+			"value_slots": {
+				"condition": 143
+			}
+		},
+		{
+			"id": 143,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": true,
+			"is_var_ref": false,
+			"name": "compare",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"left": "",
+				"op": "=",
+				"right": "a2"
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": -1,
+			"type": "VALUE",
+			"value_slots": {
+				"left": 144
+			}
+		},
+		{
+			"id": 144,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": true,
+			"is_var_ref": true,
+			"name": "_var_ref_abox_name",
+			"output_label": "攻击框名",
+			"output_name": "abox_name",
+			"output_type": "node",
+			"params": {
+
+			},
+			"position": {
+
+			},
+			"source_block_id": 145,
+			"stack_below_id": -1,
+			"type": "VALUE",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 148,
+			"inner_block_ids": [
+				153,
+				171,
+				172,
+				173,
+				174,
+				152
+			],
+			"inner_else_ids": [],
+			"is_in_slot": false,
+			"is_var_ref": false,
+			"name": "if_condition",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"condition": true
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": 177,
+			"type": "CONDITION",
+			"value_slots": {
+				"condition": 149
+			}
+		},
+		{
+			"id": 149,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": true,
+			"is_var_ref": false,
+			"name": "compare",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"left": "",
+				"op": "=",
+				"right": "a3"
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": -1,
+			"type": "VALUE",
+			"value_slots": {
+				"left": 150
+			}
+		},
+		{
+			"id": 150,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": true,
+			"is_var_ref": true,
+			"name": "_var_ref_abox_name",
+			"output_label": "攻击框名",
+			"output_name": "abox_name",
+			"output_type": "node",
+			"params": {
+
+			},
+			"position": {
+
+			},
+			"source_block_id": 151,
+			"stack_below_id": -1,
+			"type": "VALUE",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 177,
+			"inner_block_ids": [
+				182,
+				183,
+				184,
+				185,
+				186,
+				181
+			],
+			"inner_else_ids": [],
+			"is_in_slot": false,
+			"is_var_ref": false,
+			"name": "if_condition",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"condition": true
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": 189,
+			"type": "CONDITION",
+			"value_slots": {
+				"condition": 178
+			}
+		},
+		{
+			"id": 178,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": true,
+			"is_var_ref": false,
+			"name": "compare",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"left": "",
+				"op": "=",
+				"right": "a4b"
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": -1,
+			"type": "VALUE",
+			"value_slots": {
+				"left": 179
+			}
+		},
+		{
+			"id": 179,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": true,
+			"is_var_ref": true,
+			"name": "_var_ref_abox_name",
+			"output_label": "攻击框名",
+			"output_name": "abox_name",
+			"output_type": "node",
+			"params": {
+
+			},
+			"position": {
+
+			},
+			"source_block_id": 180,
+			"stack_below_id": -1,
+			"type": "VALUE",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 189,
+			"inner_block_ids": [
+				194,
+				195,
+				196,
+				197,
+				198,
+				193
+			],
+			"inner_else_ids": [],
+			"is_in_slot": false,
+			"is_var_ref": false,
+			"name": "if_condition",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"condition": true
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": -1,
+			"type": "CONDITION",
+			"value_slots": {
+				"condition": 190
+			}
+		},
+		{
+			"id": 190,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": true,
+			"is_var_ref": false,
+			"name": "compare",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"left": "",
+				"op": "=",
+				"right": "a4e"
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": -1,
+			"type": "VALUE",
+			"value_slots": {
+				"left": 191
+			}
+		},
+		{
+			"id": 191,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": true,
+			"is_var_ref": true,
+			"name": "_var_ref_abox_name",
+			"output_label": "攻击框名",
+			"output_name": "abox_name",
+			"output_type": "node",
+			"params": {
+
+			},
+			"position": {
+
+			},
+			"source_block_id": 192,
+			"stack_below_id": -1,
+			"type": "VALUE",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 181,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": true,
+			"is_var_ref": true,
+			"name": "_var_ref_target",
+			"output_label": "目标",
+			"output_name": "target",
+			"output_type": "node",
+			"params": {
+
+			},
+			"position": {
+
+			},
+			"source_block_id": 180,
+			"stack_below_id": -1,
+			"type": "VALUE",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 182,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": false,
+			"is_var_ref": false,
+			"name": "hit_entity",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"bs": 0,
+				"cotg": true,
+				"hst": 0,
+				"isgd": true,
+				"ish": false,
+				"target": "",
+				"type": "launch",
+				"v": {
+					"x": 800,
+					"y": 0,
+					"z": 200
+				}
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": 183,
+			"type": "ACTION",
+			"value_slots": {
+				"target": 181
+			}
+		},
+		{
+			"id": 183,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": false,
+			"is_var_ref": false,
+			"name": "hit_stop_entity",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"d": 0.0300000000006548,
+				"target": ""
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": 184,
+			"type": "ACTION",
+			"value_slots": {
+				"target": 185
+			}
+		},
+		{
+			"id": 184,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": false,
+			"is_var_ref": false,
+			"name": "hit_stop_entity",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"d": 0.0799999999999272,
+				"target": ""
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": 185,
+			"type": "ACTION",
+			"value_slots": {
+				"target": 186
+			}
+		},
+		{
+			"id": 185,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": true,
+			"is_var_ref": false,
+			"name": "self_entity",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": 186,
+			"type": "VALUE",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 186,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": true,
+			"is_var_ref": true,
+			"name": "_var_ref_target",
+			"output_label": "目标",
+			"output_name": "target",
+			"output_type": "node",
+			"params": {
+
+			},
+			"position": {
+
+			},
+			"source_block_id": 187,
+			"stack_below_id": 181,
+			"type": "VALUE",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 193,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": true,
+			"is_var_ref": true,
+			"name": "_var_ref_target",
+			"output_label": "目标",
+			"output_name": "target",
+			"output_type": "node",
+			"params": {
+
+			},
+			"position": {
+
+			},
+			"source_block_id": 192,
+			"stack_below_id": -1,
+			"type": "VALUE",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 194,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": false,
+			"is_var_ref": false,
+			"name": "hit_entity",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"bs": 0,
+				"cotg": true,
+				"hst": 0,
+				"isgd": true,
+				"ish": false,
+				"target": "",
+				"type": "launch",
+				"v": {
+					"x": 500,
+					"y": 0,
+					"z": 220
+				}
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": 195,
+			"type": "ACTION",
+			"value_slots": {
+				"target": 193
+			}
+		},
+		{
+			"id": 195,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": false,
+			"is_var_ref": false,
+			"name": "hit_stop_entity",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"d": 0.0300000000006548,
+				"target": ""
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": 196,
+			"type": "ACTION",
+			"value_slots": {
+				"target": 197
+			}
+		},
+		{
+			"id": 196,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": false,
+			"is_var_ref": false,
+			"name": "hit_stop_entity",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"d": 0.0799999999999272,
+				"target": ""
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": 197,
+			"type": "ACTION",
+			"value_slots": {
+				"target": 198
+			}
+		},
+		{
+			"id": 197,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": true,
+			"is_var_ref": false,
+			"name": "self_entity",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": 198,
+			"type": "VALUE",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 198,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": true,
+			"is_var_ref": true,
+			"name": "_var_ref_target",
+			"output_label": "目标",
+			"output_name": "target",
+			"output_type": "node",
+			"params": {
+
+			},
+			"position": {
+
+			},
+			"source_block_id": 199,
+			"stack_below_id": 193,
+			"type": "VALUE",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 152,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": true,
+			"is_var_ref": true,
+			"name": "_var_ref_target",
+			"output_label": "目标",
+			"output_name": "target",
+			"output_type": "node",
+			"params": {
+
+			},
+			"position": {
+
+			},
+			"source_block_id": 151,
+			"stack_below_id": -1,
+			"type": "VALUE",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 153,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": false,
+			"is_var_ref": false,
+			"name": "hit_entity",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"bs": 0,
+				"cotg": false,
+				"hst": 0.400000000001455,
+				"isgd": true,
+				"ish": true,
+				"target": "",
+				"type": "push",
+				"v": {
+					"x": 2000,
+					"y": 0,
+					"z": 250
+				}
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": 171,
+			"type": "ACTION",
+			"value_slots": {
+				"target": 152
+			}
+		},
+		{
+			"id": 171,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": false,
+			"is_var_ref": false,
+			"name": "hit_stop_entity",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"d": 0.100000000000364,
+				"target": ""
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": 172,
+			"type": "ACTION",
+			"value_slots": {
+				"target": 173
+			}
+		},
+		{
+			"id": 172,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": false,
+			"is_var_ref": false,
+			"name": "hit_stop_entity",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"d": 0.200000000000728,
+				"target": ""
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": 173,
+			"type": "ACTION",
+			"value_slots": {
+				"target": 174
+			}
+		},
+		{
+			"id": 173,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": true,
+			"is_var_ref": false,
+			"name": "self_entity",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": 174,
+			"type": "VALUE",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 174,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": true,
+			"is_var_ref": true,
+			"name": "_var_ref_target",
+			"output_label": "目标",
+			"output_name": "target",
+			"output_type": "node",
+			"params": {
+
+			},
+			"position": {
+
+			},
+			"source_block_id": 175,
+			"stack_below_id": 152,
+			"type": "VALUE",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 146,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": true,
+			"is_var_ref": true,
+			"name": "_var_ref_target",
+			"output_label": "目标",
+			"output_name": "target",
+			"output_type": "node",
+			"params": {
+
+			},
+			"position": {
+
+			},
+			"source_block_id": 145,
+			"stack_below_id": -1,
+			"type": "VALUE",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 147,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": false,
+			"is_var_ref": false,
+			"name": "hit_entity",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"bs": 0,
+				"cotg": false,
+				"hst": 0.450000000000728,
+				"isgd": true,
+				"ish": false,
+				"target": "",
+				"type": "push",
+				"v": {
+					"x": 700,
+					"y": 0,
+					"z": 150
+				}
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": 158,
+			"type": "ACTION",
+			"value_slots": {
+				"target": 146
+			}
+		},
+		{
+			"id": 158,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": false,
+			"is_var_ref": false,
+			"name": "hit_stop_entity",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"d": 0.0500000000010914,
+				"target": ""
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": 159,
+			"type": "ACTION",
+			"value_slots": {
+				"target": 160
+			}
+		},
+		{
+			"id": 159,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": false,
+			"is_var_ref": false,
+			"name": "hit_stop_entity",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"d": 0.100000000000364,
+				"target": ""
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": 160,
+			"type": "ACTION",
+			"value_slots": {
+				"target": 161
+			}
+		},
+		{
+			"id": 160,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": true,
+			"is_var_ref": false,
+			"name": "self_entity",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": 161,
+			"type": "VALUE",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 161,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": true,
+			"is_var_ref": true,
+			"name": "_var_ref_target",
+			"output_label": "目标",
+			"output_name": "target",
+			"output_type": "node",
+			"params": {
+
+			},
+			"position": {
+
+			},
+			"source_block_id": 163,
+			"stack_below_id": 146,
+			"type": "VALUE",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 137,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": false,
+			"is_var_ref": false,
+			"name": "hit_entity",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"bs": 0,
+				"cotg": false,
+				"hst": 0.400000000001455,
+				"isgd": true,
+				"ish": false,
+				"target": "",
+				"type": "push",
+				"v": {
+					"x": 800,
+					"y": 0,
+					"z": 200
+				}
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": 156,
+			"type": "ACTION",
+			"value_slots": {
+				"target": 138
+			}
+		},
+		{
+			"id": 138,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": true,
+			"is_var_ref": true,
+			"name": "_var_ref_target",
+			"output_label": "目标",
+			"output_name": "target",
+			"output_type": "node",
+			"params": {
+
+			},
+			"position": {
+
+			},
+			"source_block_id": 136,
+			"stack_below_id": -1,
+			"type": "VALUE",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 156,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": false,
+			"is_var_ref": false,
+			"name": "hit_stop_entity",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"d": 0.0500000000010914,
+				"target": ""
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": 154,
+			"type": "ACTION",
+			"value_slots": {
+				"target": 157
+			}
+		},
+		{
+			"id": 154,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": false,
+			"is_var_ref": false,
+			"name": "hit_stop_entity",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"d": 0.100000000000364,
+				"target": ""
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": 157,
+			"type": "ACTION",
+			"value_slots": {
+				"target": 155
+			}
+		},
+		{
+			"id": 155,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": true,
+			"is_var_ref": true,
+			"name": "_var_ref_target",
+			"output_label": "目标",
+			"output_name": "target",
+			"output_type": "node",
+			"params": {
+
+			},
+			"position": {
+
+			},
+			"source_block_id": 136,
+			"stack_below_id": 138,
+			"type": "VALUE",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 157,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": true,
+			"is_var_ref": false,
+			"name": "self_entity",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": 155,
+			"type": "VALUE",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 41,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": true,
+			"is_var_ref": true,
+			"name": "_var_ref_frame_idx",
+			"output_label": "当前帧",
+			"output_name": "frame_idx",
+			"output_type": "node",
+			"params": {
+
+			},
+			"position": {
+
+			},
+			"source_block_id": 23,
+			"stack_below_id": -1,
+			"type": "VALUE",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 38,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": false,
+			"is_var_ref": false,
+			"name": "when_animation_exit",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"anim_name": "a4e"
+			},
+			"position": {
+				"x": -536,
+				"y": -417
+			},
+			"source_block_id": -1,
+			"stack_below_id": 39,
+			"type": "EVENT",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 39,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": false,
+			"is_var_ref": false,
+			"name": "play_animation",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"anim_name": "idle"
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": -1,
+			"type": "ACTION",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 36,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": false,
+			"is_var_ref": false,
+			"name": "when_animation_exit",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"anim_name": "a4b"
+			},
+			"position": {
+				"x": -744,
+				"y": -7
+			},
+			"source_block_id": -1,
+			"stack_below_id": 37,
+			"type": "EVENT",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 37,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": false,
+			"is_var_ref": false,
+			"name": "play_animation",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"anim_name": "a4"
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": 117,
+			"type": "ACTION",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 117,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": false,
+			"is_var_ref": false,
+			"name": "start_freemove",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"v": {
+					"x": 600,
+					"y": 300
+				}
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": -1,
+			"type": "ACTION",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 42,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": false,
+			"is_var_ref": false,
+			"name": "when_animation_playing",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"anim_name": "a2"
+			},
+			"position": {
+				"x": 259.799926757813,
+				"y": -227.873138427734
+			},
+			"source_block_id": -1,
+			"stack_below_id": 84,
+			"type": "EVENT",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 84,
+			"inner_block_ids": [
+				88,
+				89
+			],
+			"inner_else_ids": [],
+			"is_in_slot": false,
+			"is_var_ref": false,
+			"name": "if_condition",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"condition": true
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": 98,
+			"type": "CONDITION",
+			"value_slots": {
+				"condition": 85
+			}
+		},
+		{
+			"id": 88,
+			"inner_block_ids": [
+				90,
+				91
+			],
+			"inner_else_ids": [],
+			"is_in_slot": false,
+			"is_var_ref": false,
+			"name": "if_condition",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"condition": true
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": -1,
+			"type": "CONDITION",
+			"value_slots": {
+				"condition": 89
+			}
+		},
+		{
+			"id": 89,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": true,
+			"is_var_ref": false,
+			"name": "is_press_key",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"key": 0
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": -1,
+			"type": "VALUE",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 90,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": false,
+			"is_var_ref": false,
+			"name": "turn_by_input",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": 91,
+			"type": "ACTION",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 91,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": false,
+			"is_var_ref": false,
+			"name": "play_animation",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"anim_name": "a3"
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": -1,
+			"type": "ACTION",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 85,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": true,
+			"is_var_ref": false,
+			"name": "val_in_a_and_b",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"a": 4,
+				"b": 4,
+				"val": 0
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": -1,
+			"type": "VALUE",
+			"value_slots": {
+				"val": 94
+			}
+		},
+		{
+			"id": 94,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": true,
+			"is_var_ref": true,
+			"name": "_var_ref_frame_idx",
+			"output_label": "当前帧",
+			"output_name": "frame_idx",
+			"output_type": "node",
+			"params": {
+
+			},
+			"position": {
+
+			},
+			"source_block_id": 42,
+			"stack_below_id": -1,
+			"type": "VALUE",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 98,
+			"inner_block_ids": [
+				109
+			],
+			"inner_else_ids": [],
+			"is_in_slot": false,
+			"is_var_ref": false,
+			"name": "if_condition",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"condition": true
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": 99,
+			"type": "CONDITION",
+			"value_slots": {
+				"condition": 99
+			}
+		},
+		{
+			"id": 99,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": true,
+			"is_var_ref": false,
+			"name": "compare",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"left": "",
+				"op": "=",
+				"right": "1"
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": -1,
+			"type": "VALUE",
+			"value_slots": {
+				"left": 110
+			}
+		},
+		{
+			"id": 110,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": true,
+			"is_var_ref": true,
+			"name": "_var_ref_frame_idx",
+			"output_label": "当前帧",
+			"output_name": "frame_idx",
+			"output_type": "node",
+			"params": {
+
+			},
+			"position": {
+
+			},
+			"source_block_id": 96,
+			"stack_below_id": -1,
+			"type": "VALUE",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 109,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": false,
+			"is_var_ref": false,
+			"name": "slide",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"g": 0,
+				"m": "facing",
+				"r": {
+					"x": 18,
+					"y": 0
+				},
+				"v": {
+					"x": 1300,
+					"y": 0,
+					"z": 0
+				}
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": -1,
+			"type": "ACTION",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 295,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": false,
+			"is_var_ref": false,
+			"name": "when_animation_playing",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"anim_name": "a2"
+			},
+			"position": {
+				"x": 263.48583984375,
+				"y": -230.55908203125
+			},
+			"source_block_id": -1,
+			"stack_below_id": -1,
+			"type": "EVENT",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 287,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": false,
+			"is_var_ref": false,
+			"name": "when_timer_out",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"cd_id": 1
+			},
+			"position": {
+				"x": 793,
+				"y": 128
+			},
+			"source_block_id": -1,
+			"stack_below_id": 288,
+			"type": "EVENT",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 288,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": false,
+			"is_var_ref": false,
+			"name": "bind_cd",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"cd_id": 1,
+				"slot_id": 1
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": -1,
+			"type": "ACTION",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 291,
+			"inner_block_ids": [
+				299,
+				300
+			],
+			"inner_else_ids": [],
+			"is_in_slot": false,
+			"is_var_ref": false,
+			"name": "if_condition",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"condition": true
+			},
+			"position": {
+				"x": 1273.79992675781,
+				"y": 92.1268615722656
+			},
+			"source_block_id": -1,
+			"stack_below_id": -1,
+			"type": "CONDITION",
+			"value_slots": {
+				"condition": 297
+			}
+		},
+		{
+			"id": 299,
+			"inner_block_ids": [
+				301,
+				302
+			],
+			"inner_else_ids": [],
+			"is_in_slot": false,
+			"is_var_ref": false,
+			"name": "if_condition",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"condition": true
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": -1,
+			"type": "CONDITION",
+			"value_slots": {
+				"condition": 300
+			}
+		},
+		{
+			"id": 300,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": true,
+			"is_var_ref": false,
+			"name": "is_press_key",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"key": 0
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": -1,
+			"type": "VALUE",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 301,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": false,
+			"is_var_ref": false,
+			"name": "turn_by_input",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": 302,
+			"type": "ACTION",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 302,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": false,
+			"is_var_ref": false,
+			"name": "play_animation",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"anim_name": "a3"
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": -1,
+			"type": "ACTION",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 297,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": true,
+			"is_var_ref": false,
+			"name": "val_in_a_and_b",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"a": 4,
+				"b": 4,
+				"val": 0
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": -1,
+			"type": "VALUE",
+			"value_slots": {
+				"val": -1
+			}
+		},
+		{
+			"id": 309,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": false,
+			"is_var_ref": false,
+			"name": "when_animation_playing",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"anim_name": "s1"
+			},
+			"position": {
+				"x": 1714.79992675781,
+				"y": -44.8731384277344
+			},
+			"source_block_id": -1,
+			"stack_below_id": -1,
+			"type": "EVENT",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 342,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": false,
+			"is_var_ref": false,
+			"name": "when_animation_playing",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"anim_name": "s1"
+			},
+			"position": {
+				"x": 1714.79992675781,
+				"y": -44.8731384277344
+			},
+			"source_block_id": -1,
+			"stack_below_id": -1,
+			"type": "EVENT",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 332,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": false,
+			"is_var_ref": false,
+			"name": "when_animation_playing",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"anim_name": "s1"
+			},
+			"position": {
+				"x": 1714.79992675781,
+				"y": -44.8731384277344
+			},
+			"source_block_id": -1,
+			"stack_below_id": 292,
+			"type": "EVENT",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 292,
+			"inner_block_ids": [
+				296
+			],
+			"inner_else_ids": [],
+			"is_in_slot": false,
+			"is_var_ref": false,
+			"name": "if_condition",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"condition": true
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": 314,
+			"type": "CONDITION",
+			"value_slots": {
+				"condition": 293
+			}
+		},
+		{
+			"id": 296,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": false,
+			"is_var_ref": false,
+			"name": "slide",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"g": 0,
+				"m": "facing",
+				"r": {
+					"x": 6,
+					"y": 0
+				},
+				"v": {
+					"x": 4000,
+					"y": 0,
+					"z": 0
+				}
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": -1,
+			"type": "ACTION",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 314,
+			"inner_block_ids": [
+				323
+			],
+			"inner_else_ids": [],
+			"is_in_slot": false,
+			"is_var_ref": false,
+			"name": "if_condition",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"condition": true
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": 306,
+			"type": "CONDITION",
+			"value_slots": {
+				"condition": 340
+			}
+		},
+		{
+			"id": 323,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": false,
+			"is_var_ref": false,
+			"name": "slide",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"g": 0,
+				"m": "facing",
+				"r": {
+					"x": 0,
+					"y": 0
+				},
+				"v": {
+					"x": 1600,
+					"y": 0,
+					"z": 0
+				}
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": -1,
+			"type": "ACTION",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 306,
+			"inner_block_ids": [
+				311
+			],
+			"inner_else_ids": [],
+			"is_in_slot": false,
+			"is_var_ref": false,
+			"name": "if_condition",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"condition": true
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": -1,
+			"type": "CONDITION",
+			"value_slots": {
+				"condition": 343
+			}
+		},
+		{
+			"id": 311,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": false,
+			"is_var_ref": false,
+			"name": "slide",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"g": 0,
+				"m": "facing",
+				"r": {
+					"x": 10,
+					"y": 0
+				},
+				"v": {
+					"x": 800,
+					"y": 0,
+					"z": 0
+				}
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": -1,
+			"type": "ACTION",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 345,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": false,
+			"is_var_ref": false,
+			"name": "when_animation_playing",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"anim_name": "s1"
+			},
+			"position": {
+				"x": 1714.79992675781,
+				"y": -44.8731384277344
+			},
+			"source_block_id": -1,
+			"stack_below_id": -1,
+			"type": "EVENT",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 293,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": true,
+			"is_var_ref": false,
+			"name": "compare",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"left": "",
+				"op": "=",
+				"right": "1"
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": -1,
+			"type": "VALUE",
+			"value_slots": {
+				"left": 329
+			}
+		},
+		{
+			"id": 329,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": true,
+			"is_var_ref": true,
+			"name": "_var_ref_frame_idx",
+			"output_label": "当前帧",
+			"output_name": "frame_idx",
+			"output_type": "node",
+			"params": {
+
+			},
+			"position": {
+
+			},
+			"source_block_id": 309,
+			"stack_below_id": -1,
+			"type": "VALUE",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 340,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": true,
+			"is_var_ref": false,
+			"name": "compare",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"left": "",
+				"op": "=",
+				"right": "2"
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": -1,
+			"type": "VALUE",
+			"value_slots": {
+				"left": 341
+			}
+		},
+		{
+			"id": 341,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": true,
+			"is_var_ref": true,
+			"name": "_var_ref_frame_idx",
+			"output_label": "当前帧",
+			"output_name": "frame_idx",
+			"output_type": "node",
+			"params": {
+
+			},
+			"position": {
+
+			},
+			"source_block_id": 342,
+			"stack_below_id": -1,
+			"type": "VALUE",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 343,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": true,
+			"is_var_ref": false,
+			"name": "compare",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"left": "",
+				"op": "=",
+				"right": "4"
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": -1,
+			"type": "VALUE",
+			"value_slots": {
+				"left": 344
+			}
+		},
+		{
+			"id": 344,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": true,
+			"is_var_ref": true,
+			"name": "_var_ref_frame_idx",
+			"output_label": "当前帧",
+			"output_name": "frame_idx",
+			"output_type": "node",
+			"params": {
+
+			},
+			"position": {
+
+			},
+			"source_block_id": 345,
+			"stack_below_id": -1,
+			"type": "VALUE",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 276,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": false,
+			"is_var_ref": false,
+			"name": "when_press_input",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"key": 1
+			},
+			"position": {
+				"x": 766,
+				"y": -914
+			},
+			"source_block_id": -1,
+			"stack_below_id": 277,
+			"type": "EVENT",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 277,
+			"inner_block_ids": [
+				283,
+				284,
+				325,
+				346,
+				326
+			],
+			"inner_else_ids": [],
+			"is_in_slot": false,
+			"is_var_ref": false,
+			"name": "if_condition",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"condition": true
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": -1,
+			"type": "CONDITION",
+			"value_slots": {
+				"condition": 278
+			}
+		},
+		{
+			"id": 278,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": true,
+			"is_var_ref": false,
+			"name": "compare",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"left": "",
+				"op": "或",
+				"right": ""
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": -1,
+			"type": "VALUE",
+			"value_slots": {
+				"left": 279,
+				"right": 281
+			}
+		},
+		{
+			"id": 281,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": true,
+			"is_var_ref": false,
+			"name": "compare",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"left": "",
+				"op": "=",
+				"right": "run"
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": -1,
+			"type": "VALUE",
+			"value_slots": {
+				"left": 282
+			}
+		},
+		{
+			"id": 282,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": true,
+			"is_var_ref": false,
+			"name": "now_animation",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": -1,
+			"type": "VALUE",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 279,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": true,
+			"is_var_ref": false,
+			"name": "compare",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"left": "",
+				"op": "=",
+				"right": "idle"
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": -1,
+			"type": "VALUE",
+			"value_slots": {
+				"left": 280
+			}
+		},
+		{
+			"id": 280,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": true,
+			"is_var_ref": false,
+			"name": "now_animation",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": -1,
+			"type": "VALUE",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 283,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": false,
+			"is_var_ref": false,
+			"name": "turn_by_input",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": 284,
+			"type": "ACTION",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 284,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": false,
+			"is_var_ref": false,
+			"name": "play_animation",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"anim_name": "s1"
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": 325,
+			"type": "ACTION",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 325,
+			"inner_block_ids": [
+				327,
+				328
+			],
+			"inner_else_ids": [
+				285,
+				286,
+				347
+			],
+			"is_in_slot": false,
+			"is_var_ref": false,
+			"name": "if_else",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"condition": true
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": 346,
+			"type": "CONDITION",
+			"value_slots": {
+				"condition": 326
+			}
+		},
+		{
+			"id": 326,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": true,
+			"is_var_ref": false,
+			"name": "timer_alive",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"cd_id": 1
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": -1,
+			"type": "VALUE",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 327,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": false,
+			"is_var_ref": false,
+			"name": "set_cd",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"cd": 12,
+				"cd_id": 1,
+				"slot_id": 1
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": 328,
+			"type": "ACTION",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 328,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": false,
+			"is_var_ref": false,
+			"name": "set_timer",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"cd": 0,
+				"cd_id": 1,
+				"cd_max": 0,
+				"slot_id": 1
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": -1,
+			"type": "ACTION",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 285,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": false,
+			"is_var_ref": false,
+			"name": "set_cd",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"cd": 8,
+				"cd_id": 1,
+				"slot_id": -1
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": 286,
+			"type": "ACTION",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 286,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": false,
+			"is_var_ref": false,
+			"name": "set_timer",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"cd": 3,
+				"cd_id": 1,
+				"cd_max": 3,
+				"slot_id": 1
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": 347,
+			"type": "ACTION",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 346,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": false,
+			"is_var_ref": false,
+			"name": "set_entity_modifiers",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"d": -2,
+				"pow": 1,
+				"target": "",
+				"type": "customBodyState"
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": 326,
+			"type": "ACTION",
+			"value_slots": {
+				"target": 347
+			}
+		},
+		{
+			"id": 347,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": true,
+			"is_var_ref": false,
+			"name": "self_entity",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": -1,
+			"type": "VALUE",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 304,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": false,
+			"is_var_ref": false,
+			"name": "when_animation_exit",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"anim_name": "s1"
+			},
+			"position": {
+				"x": -529,
+				"y": -275
+			},
+			"source_block_id": -1,
+			"stack_below_id": 312,
+			"type": "EVENT",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 305,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": false,
+			"is_var_ref": false,
+			"name": "play_animation",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"anim_name": "idle"
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": 348,
+			"type": "ACTION",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 312,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": false,
+			"is_var_ref": false,
+			"name": "slide",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"g": 0,
+				"m": "facing",
+				"r": {
+					"x": 0,
+					"y": 0
+				},
+				"v": {
+					"x": 0,
+					"y": 0,
+					"z": 0
+				}
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": 305,
+			"type": "ACTION",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 348,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": false,
+			"is_var_ref": false,
+			"name": "set_entity_modifiers",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"d": -2,
+				"pow": 0,
+				"target": "",
+				"type": "customBodyState"
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": -1,
+			"type": "ACTION",
+			"value_slots": {
+				"target": 350
+			}
+		},
+		{
+			"id": 350,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": true,
+			"is_var_ref": false,
+			"name": "self_entity",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": -1,
+			"type": "VALUE",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 369,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": false,
+			"is_var_ref": false,
+			"name": "when_animation_exit",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"anim_name": "s2"
+			},
+			"position": {
+				"x": -529,
+				"y": 16
+			},
+			"source_block_id": -1,
+			"stack_below_id": 371,
+			"type": "EVENT",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 371,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": false,
+			"is_var_ref": false,
+			"name": "play_animation",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"anim_name": "idle"
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": 372,
+			"type": "ACTION",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 372,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": false,
+			"is_var_ref": false,
+			"name": "set_entity_modifiers",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"d": -2,
+				"pow": 0,
+				"target": "",
+				"type": "customBodyState"
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": -1,
+			"type": "ACTION",
+			"value_slots": {
+				"target": 373
+			}
+		},
+		{
+			"id": 373,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": true,
+			"is_var_ref": false,
+			"name": "self_entity",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": -1,
+			"type": "VALUE",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 376,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": false,
+			"is_var_ref": false,
+			"name": "compare",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"left": "",
+				"op": "=",
+				"right": "idle"
+			},
+			"position": {
+				"x": 1221,
+				"y": 21
+			},
+			"source_block_id": -1,
+			"stack_below_id": -1,
+			"type": "VALUE",
+			"value_slots": {
+				"left": 377
+			}
+		},
+		{
+			"id": 377,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": true,
+			"is_var_ref": false,
+			"name": "now_animation",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": -1,
+			"type": "VALUE",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 378,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": false,
+			"is_var_ref": false,
+			"name": "compare",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"left": "",
+				"op": "或",
+				"right": ""
+			},
+			"position": {
+				"x": 1222,
+				"y": -4
+			},
+			"source_block_id": -1,
+			"stack_below_id": -1,
+			"type": "VALUE",
+			"value_slots": {
+				"left": 379,
+				"right": 381
+			}
+		},
+		{
+			"id": 379,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": true,
+			"is_var_ref": false,
+			"name": "compare",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"left": "",
+				"op": "=",
+				"right": "idle"
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": -1,
+			"type": "VALUE",
+			"value_slots": {
+				"left": 380
+			}
+		},
+		{
+			"id": 380,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": true,
+			"is_var_ref": false,
+			"name": "now_animation",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": -1,
+			"type": "VALUE",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 381,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": true,
+			"is_var_ref": false,
+			"name": "compare",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"left": "",
+				"op": "=",
+				"right": "run"
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": -1,
+			"type": "VALUE",
+			"value_slots": {
+				"left": 382
+			}
+		},
+		{
+			"id": 382,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": true,
+			"is_var_ref": false,
+			"name": "now_animation",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": -1,
+			"type": "VALUE",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 351,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": false,
+			"is_var_ref": false,
+			"name": "when_press_input",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"key": 2
+			},
+			"position": {
+				"x": 1988,
+				"y": -918
+			},
+			"source_block_id": -1,
+			"stack_below_id": 352,
+			"type": "EVENT",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 352,
+			"inner_block_ids": [
+				358,
+				359,
+				361
+			],
+			"inner_else_ids": [],
+			"is_in_slot": false,
+			"is_var_ref": false,
+			"name": "if_condition",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"condition": true
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": -1,
+			"type": "CONDITION",
+			"value_slots": {
+				"condition": 353
+			}
+		},
+		{
+			"id": 358,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": false,
+			"is_var_ref": false,
+			"name": "turn_by_input",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": 359,
+			"type": "ACTION",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 359,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": false,
+			"is_var_ref": false,
+			"name": "play_animation",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"anim_name": "s2"
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": 361,
+			"type": "ACTION",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 361,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": false,
+			"is_var_ref": false,
+			"name": "set_entity_modifiers",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"d": -2,
+				"pow": 2,
+				"target": "",
+				"type": "customBodyState"
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": -1,
+			"type": "ACTION",
+			"value_slots": {
+				"target": 368
+			}
+		},
+		{
+			"id": 368,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": true,
+			"is_var_ref": false,
+			"name": "self_entity",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": -1,
+			"type": "VALUE",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 353,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": true,
+			"is_var_ref": false,
+			"name": "compare",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"left": "",
+				"op": "或",
+				"right": ""
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": -1,
+			"type": "VALUE",
+			"value_slots": {
+				"left": 354,
+				"right": 356
+			}
+		},
+		{
+			"id": 356,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": true,
+			"is_var_ref": false,
+			"name": "compare",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"left": "",
+				"op": "=",
+				"right": "run"
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": -1,
+			"type": "VALUE",
+			"value_slots": {
+				"left": 357
+			}
+		},
+		{
+			"id": 357,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": true,
+			"is_var_ref": false,
+			"name": "now_animation",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": -1,
+			"type": "VALUE",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 354,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": true,
+			"is_var_ref": false,
+			"name": "compare",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"left": "",
+				"op": "=",
+				"right": "idle"
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": -1,
+			"type": "VALUE",
+			"value_slots": {
+				"left": 355
+			}
+		},
+		{
+			"id": 355,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": true,
+			"is_var_ref": false,
+			"name": "now_animation",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": -1,
+			"type": "VALUE",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 389,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": false,
+			"is_var_ref": false,
+			"name": "when_hit",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+
+			},
+			"position": {
+				"x": 1995,
+				"y": -621
+			},
+			"source_block_id": -1,
+			"stack_below_id": 375,
+			"type": "EVENT",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 375,
+			"inner_block_ids": [
+				388,
+				390,
+				391,
+				392
+			],
+			"inner_else_ids": [],
+			"is_in_slot": false,
+			"is_var_ref": false,
+			"name": "if_condition",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"condition": true
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": -1,
+			"type": "CONDITION",
+			"value_slots": {
+				"condition": 384
+			}
+		},
+		{
+			"id": 384,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": true,
+			"is_var_ref": false,
+			"name": "compare",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"left": "",
+				"op": "=",
+				"right": "s2"
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": -1,
+			"type": "VALUE",
+			"value_slots": {
+				"left": 385
+			}
+		},
+		{
+			"id": 385,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": true,
+			"is_var_ref": false,
+			"name": "now_animation",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": -1,
+			"type": "VALUE",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 388,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": false,
+			"is_var_ref": false,
+			"name": "print",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"text": "被打了：防反"
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": 390,
+			"type": "ACTION",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 390,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": false,
+			"is_var_ref": false,
+			"name": "move_pos3d_immd",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"pos": {
+					"x": 0,
+					"y": 0,
+					"z": 0
+				}
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": 391,
+			"type": "ACTION",
+			"value_slots": {
+				"pos": 391
+			}
+		},
+		{
+			"id": 391,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": true,
+			"is_var_ref": false,
+			"name": "get_entity_data",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"data_type": "position_3d",
+				"entity": ""
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": 392,
+			"type": "VALUE",
+			"value_slots": {
+				"entity": 392
+			}
+		},
+		{
+			"id": 392,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": true,
+			"is_var_ref": true,
+			"name": "_var_ref_entity",
+			"output_label": "实体",
+			"output_name": "entity",
+			"output_type": "node",
+			"params": {
+
+			},
+			"position": {
+
+			},
+			"source_block_id": 389,
+			"stack_below_id": -1,
+			"type": "VALUE",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 394,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": false,
+			"is_var_ref": false,
+			"name": "when_a_entity_create",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+
+			},
+			"position": {
+				"x": -1367.1396484375,
+				"y": -694.259399414063
+			},
+			"source_block_id": -1,
+			"stack_below_id": 395,
+			"type": "EVENT",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 395,
+			"inner_block_ids": [
+				401,
+				402
+			],
+			"inner_else_ids": [],
+			"is_in_slot": false,
+			"is_var_ref": false,
+			"name": "if_condition",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"condition": true
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": -1,
+			"type": "CONDITION",
+			"value_slots": {
+				"condition": 396
+			}
+		},
+		{
+			"id": 396,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": true,
+			"is_var_ref": false,
+			"name": "is_ourside_entity",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"entity": ""
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": -1,
+			"type": "VALUE",
+			"value_slots": {
+				"entity": 397
+			}
+		},
+		{
+			"id": 397,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": true,
+			"is_var_ref": true,
+			"name": "_var_ref_entity",
+			"output_label": "实体",
+			"output_name": "entity",
+			"output_type": "node",
+			"params": {
+
+			},
+			"position": {
+
+			},
+			"source_block_id": 394,
+			"stack_below_id": -1,
+			"type": "VALUE",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 401,
+			"inner_block_ids": [
+				398,
+				403,
+				399,
+				404,
+				405,
+				400
+			],
+			"inner_else_ids": [],
+			"is_in_slot": false,
+			"is_var_ref": false,
+			"name": "if_condition",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"condition": true
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": 402,
+			"type": "CONDITION",
+			"value_slots": {
+				"condition": 402
+			}
+		},
+		{
+			"id": 402,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": true,
+			"is_var_ref": false,
+			"name": "a_have_b",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"a": "",
+				"b": "liudehua"
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": -1,
+			"type": "VALUE",
+			"value_slots": {
+				"a": 403
+			}
+		},
+		{
+			"id": 398,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": false,
+			"is_var_ref": false,
+			"name": "move_entity_pos3d_immd",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"pos": {
+					"x": 0,
+					"y": 0,
+					"z": 0
+				},
+				"target": ""
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": 403,
+			"type": "ACTION",
+			"value_slots": {
+				"pos": 405,
+				"target": 399
+			}
+		},
+		{
+			"id": 399,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": true,
+			"is_var_ref": true,
+			"name": "_var_ref_entity",
+			"output_label": "实体",
+			"output_name": "entity",
+			"output_type": "node",
+			"params": {
+
+			},
+			"position": {
+
+			},
+			"source_block_id": 394,
+			"stack_below_id": 404,
+			"type": "VALUE",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 403,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": true,
+			"is_var_ref": false,
+			"name": "get_entity_data",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"data_type": "name",
+				"entity": ""
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": 399,
+			"type": "VALUE",
+			"value_slots": {
+				"entity": 404
+			}
+		},
+		{
+			"id": 404,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": true,
+			"is_var_ref": true,
+			"name": "_var_ref_entity",
+			"output_label": "实体",
+			"output_name": "entity",
+			"output_type": "node",
+			"params": {
+
+			},
+			"position": {
+
+			},
+			"source_block_id": 394,
+			"stack_below_id": 405,
+			"type": "VALUE",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 405,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": true,
+			"is_var_ref": false,
+			"name": "add_pos3d_to_spos2d",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"spos2d": {
+					"x": 0,
+					"y": 0
+				}
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": 400,
+			"type": "VALUE",
+			"value_slots": {
+				"spos2d": 400
+			}
+		},
+		{
+			"id": 400,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": true,
+			"is_var_ref": false,
+			"name": "get_info_point",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"name": "zd"
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": -1,
+			"type": "VALUE",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 5,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": false,
+			"is_var_ref": false,
+			"name": "when_animation_exit",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"anim_name": "a1"
+			},
+			"position": {
+				"x": -761,
+				"y": -703
+			},
+			"source_block_id": -1,
+			"stack_below_id": 6,
+			"type": "EVENT",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 6,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": false,
+			"is_var_ref": false,
+			"name": "play_animation",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"anim_name": "idle"
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": 393,
+			"type": "ACTION",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 393,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": false,
+			"is_var_ref": false,
+			"name": "create_entity_by_path",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"name": "liudehua",
+				"path": "res://assets/entities/Daliwang/sub/liudehua/entity.tscn"
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": -1,
+			"type": "ACTION",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 7,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": false,
+			"is_var_ref": false,
+			"name": "when_press_input",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"key": 0
+			},
+			"position": {
+				"x": -305,
+				"y": -440
+			},
+			"source_block_id": -1,
+			"stack_below_id": 1,
+			"type": "EVENT",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 1,
+			"inner_block_ids": [
+				77,
+				4
+			],
+			"inner_else_ids": [],
+			"is_in_slot": false,
+			"is_var_ref": false,
+			"name": "if_condition",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"condition": true
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": -1,
+			"type": "CONDITION",
+			"value_slots": {
+				"condition": 12
+			}
+		},
+		{
+			"id": 12,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": true,
+			"is_var_ref": false,
+			"name": "compare",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"left": "",
+				"op": "或",
+				"right": ""
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": -1,
+			"type": "VALUE",
+			"value_slots": {
+				"left": 8,
+				"right": 11
+			}
+		},
+		{
+			"id": 8,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": true,
+			"is_var_ref": false,
+			"name": "compare",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"left": "",
+				"op": "=",
+				"right": "idle"
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": -1,
+			"type": "VALUE",
+			"value_slots": {
+				"left": 9
+			}
+		},
+		{
+			"id": 9,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": true,
+			"is_var_ref": false,
+			"name": "now_animation",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": -1,
+			"type": "VALUE",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 11,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": true,
+			"is_var_ref": false,
+			"name": "compare",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"left": "",
+				"op": "=",
+				"right": "run"
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": -1,
+			"type": "VALUE",
+			"value_slots": {
+				"left": 10
+			}
+		},
+		{
+			"id": 10,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": true,
+			"is_var_ref": false,
+			"name": "now_animation",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": -1,
+			"type": "VALUE",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 77,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": false,
+			"is_var_ref": false,
+			"name": "turn_by_input",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": 4,
+			"type": "ACTION",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 4,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": false,
+			"is_var_ref": false,
+			"name": "play_animation",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"anim_name": "a1"
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": -1,
+			"type": "ACTION",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 417,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": false,
+			"is_var_ref": false,
+			"name": "when_attack",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+
+			},
+			"position": {
+				"x": -743,
+				"y": 168
+			},
+			"source_block_id": -1,
+			"stack_below_id": -1,
+			"type": "EVENT",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 424,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": false,
+			"is_var_ref": false,
+			"name": "when_attack",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+
+			},
+			"position": {
+				"x": -743,
+				"y": 168
+			},
+			"source_block_id": -1,
+			"stack_below_id": -1,
+			"type": "EVENT",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 428,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": false,
+			"is_var_ref": false,
+			"name": "when_attack",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+
+			},
+			"position": {
+				"x": -743,
+				"y": 168
+			},
+			"source_block_id": -1,
+			"stack_below_id": -1,
+			"type": "EVENT",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 435,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": false,
+			"is_var_ref": false,
+			"name": "when_attack",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+
+			},
+			"position": {
+				"x": -743,
+				"y": 168
+			},
+			"source_block_id": -1,
+			"stack_below_id": -1,
+			"type": "EVENT",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 439,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": false,
+			"is_var_ref": false,
+			"name": "when_attack",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+
+			},
+			"position": {
+				"x": -743,
+				"y": 168
+			},
+			"source_block_id": -1,
+			"stack_below_id": -1,
+			"type": "EVENT",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 446,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": false,
+			"is_var_ref": false,
+			"name": "when_attack",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+
+			},
+			"position": {
+				"x": -743,
+				"y": 168
+			},
+			"source_block_id": -1,
+			"stack_below_id": -1,
+			"type": "EVENT",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 456,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": false,
+			"is_var_ref": false,
+			"name": "when_attack",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+
+			},
+			"position": {
+				"x": -743,
+				"y": 168
+			},
+			"source_block_id": -1,
+			"stack_below_id": -1,
+			"type": "EVENT",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 460,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": false,
+			"is_var_ref": false,
+			"name": "when_attack",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+
+			},
+			"position": {
+				"x": -743,
+				"y": 168
+			},
+			"source_block_id": -1,
+			"stack_below_id": -1,
+			"type": "EVENT",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 32,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": false,
+			"is_var_ref": false,
+			"name": "when_animation_exit",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"anim_name": "a2"
+			},
+			"position": {
+				"x": -770,
+				"y": -1022
+			},
+			"source_block_id": -1,
+			"stack_below_id": 33,
+			"type": "EVENT",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 33,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": false,
+			"is_var_ref": false,
+			"name": "play_animation",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"anim_name": "idle"
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": 406,
+			"type": "ACTION",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 406,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": false,
+			"is_var_ref": false,
+			"name": "set_global_magnetism",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"affected_teams": "",
+				"center": {
+					"x": 500,
+					"y": 0
+				},
+				"duration": 9999,
+				"force": {
+					"x": 300,
+					"y": 150
+				},
+				"name": "万象天引",
+				"range_x1": -1000,
+				"range_x2": 1000,
+				"range_y1": 0,
+				"range_y2": 250
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": -1,
+			"type": "ACTION",
+			"value_slots": {
+				"affected_teams": 408
+			}
+		},
+		{
+			"id": 408,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": true,
+			"is_var_ref": false,
+			"name": "get_opponent_team",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": -1,
+			"type": "VALUE",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 462,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": false,
+			"is_var_ref": false,
+			"name": "play_voice",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"isz": true,
+				"path": ""
+			},
+			"position": {
+				"x": -1606,
+				"y": 997
+			},
+			"source_block_id": -1,
+			"stack_below_id": 463,
+			"type": "ACTION",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 463,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_in_slot": false,
+			"is_var_ref": false,
+			"name": "play_sound",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"isz": true,
+				"path": ""
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": -1,
+			"type": "ACTION",
+			"value_slots": {
+
+			}
+		}
+	]
+}

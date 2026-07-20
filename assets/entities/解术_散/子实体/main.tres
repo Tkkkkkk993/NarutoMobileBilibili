@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="EntityData" load_steps=2 format=3 uid="uid://dimdl5xahmdek"]
+
+[ext_resource type="Script" path="res://assets/entities/base/entity_data.gd" id="1_0owh4"]
+
+[resource]
+script = ExtResource("1_0owh4")
+entity_name = "Name[Title]"
+max_health = 3105960
+move_speed_x = 300.0
+move_speed_y = 150.0
+substitution_distance = 500.0
+floder_path = "res://assets/entities/解术_散/子实体/"

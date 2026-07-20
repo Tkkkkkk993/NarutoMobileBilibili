@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://b1fj4md3t2d05"]
+
+[ext_resource type="PackedScene" uid="uid://c5eauk5i5s64k" path="res://assets/entities/base/effects/effects_base.tscn" id="1_svtol"]
+[ext_resource type="Script" path="res://assets/entities/base/effects/cancel_white/cancel_white.gd" id="2_volef"]
+
+[node name="CancelWhite" instance=ExtResource("1_svtol")]
+script = ExtResource("2_volef")

@@ -1,0 +1,29 @@
+[gd_scene load_steps=5 format=3 uid="uid://vkihd4ag5twb"]
+
+[ext_resource type="Script" path="res://scripts/joystick.gd" id="1_31vn5"]
+[ext_resource type="Texture2D" uid="uid://codp15a8us5vx" path="res://assets/UI/joystick_background.png" id="2_mtys5"]
+[ext_resource type="Texture2D" uid="uid://ccmkv52tg73nn" path="res://assets/UI/joystick_handle.png" id="3_wghgk"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_8in66"]
+size = Vector2(50, 775.098)
+
+[node name="Joystick" type="Area2D"]
+script = ExtResource("1_31vn5")
+
+[node name="Background" type="TextureRect" parent="."]
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("2_mtys5")
+
+[node name="Handle" type="TextureRect" parent="."]
+offset_left = 42.0
+offset_top = 38.0
+offset_right = 202.0
+offset_bottom = 198.0
+scale = Vector2(0.57, 0.57)
+texture = ExtResource("3_wghgk")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(85.5, 86.5)
+scale = Vector2(3.40544, -0.212876)
+shape = SubResource("RectangleShape2D_8in66")

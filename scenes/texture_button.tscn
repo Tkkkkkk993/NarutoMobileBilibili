@@ -1,0 +1,18 @@
+[gd_scene load_steps=5 format=3 uid="uid://cfln1d8srcrgf"]
+
+[ext_resource type="Texture2D" uid="uid://de2iknu33fhof" path="res://assets/UI/empty.png" id="1_jt8gi"]
+[ext_resource type="Texture2D" uid="uid://bp2x7lloqjywk" path="res://assets/UI/X.png" id="2_jiagt"]
+[ext_resource type="Script" path="res://scripts/texture_button.gd" id="2_r12ex"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bw3xd"]
+size = Vector2(100, 100)
+
+[node name="TextureButton" type="TouchScreenButton"]
+texture_normal = ExtResource("1_jt8gi")
+shape = SubResource("RectangleShape2D_bw3xd")
+script = ExtResource("2_r12ex")
+pending_texture = ExtResource("2_jiagt")
+
+[node name="Icon" type="Sprite2D" parent="."]
+scale = Vector2(1.3, 1.3)
+texture = ExtResource("2_jiagt")

@@ -1,0 +1,28 @@
+[gd_scene load_steps=4 format=3 uid="uid://b6pu1aclxit80"]
+
+[ext_resource type="Script" path="res://scripts/protections.gd" id="1_724c3"]
+[ext_resource type="Texture2D" uid="uid://dbq5irlu4ildp" path="res://assets/UI/protection_yellow.png" id="1_eki2l"]
+[ext_resource type="Texture2D" uid="uid://d16d34rtri0ow" path="res://assets/UI/hpBarAvatar.png" id="3_uyyfu"]
+
+[node name="Protections" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_724c3")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 0
+offset_right = 223.0
+offset_bottom = 223.0
+texture = ExtResource("1_eki2l")
+
+[node name="Avatar" type="TextureRect" parent="."]
+layout_mode = 0
+offset_left = 22.0
+offset_top = 22.0
+offset_right = 200.0
+offset_bottom = 203.0
+texture = ExtResource("3_uyyfu")

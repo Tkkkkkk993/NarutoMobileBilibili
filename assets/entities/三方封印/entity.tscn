@@ -1,0 +1,41 @@
+[gd_scene format=3 uid="uid://cf48sh3fed7sa"]
+
+[ext_resource type="PackedScene" uid="uid://gkn20f0aex3q" path="res://assets/entities/base/animated_sprite_2d_entity.tscn" id="1_qlvdm"]
+[ext_resource type="Script" uid="uid://ds4bs18xssbgb" path="res://assets/entities/三方封印/entity.gd" id="2_6efx5"]
+[ext_resource type="Texture2D" uid="uid://cbooefvvntbxi" path="res://assets/entities/三方封印/0.png" id="2_lmol6"]
+[ext_resource type="Texture2D" uid="uid://de2iknu33fhof" path="res://assets/UI/empty.png" id="4_hj7qc"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_oc07l"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_lmol6")
+}],
+"loop": true,
+"name": &"attack",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_lmol6")
+}],
+"loop": true,
+"name": &"attack2",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("4_hj7qc")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}]
+
+[node name="Entity" instance=ExtResource("1_qlvdm")]
+script = ExtResource("2_6efx5")
+
+[node name="AnimatedSprite2D" parent="Visuals" index="0"]
+scale = Vector2(0.214765, 0.214765)
+sprite_frames = SubResource("SpriteFrames_oc07l")
+animation = &"idle"

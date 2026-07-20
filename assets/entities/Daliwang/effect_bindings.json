@@ -1,0 +1,21 @@
+{
+	"bindings": [
+		{
+			"anim": "a1",
+			"auto_flip_by_facing": true,
+			"effect_name": "A1",
+			"flip_h": false,
+			"follow_entity": true,
+			"follow_facing": true,
+			"frame": 1,
+			"id": "eb_1781640695.694",
+			"rotation": 0,
+			"scale_x": 2,
+			"scale_y": 2,
+			"scene_path": "res://assets/entities/Daliwang/eff/effects_base.tscn",
+			"x": -24,
+			"y": -88,
+			"z_offset": 1
+		}
+	]
+}

@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://lqq1c0y62yck"]
+
+[ext_resource type="PackedScene" uid="uid://u1ia1gbypo2o" path="res://scenes/skill_slot.tscn" id="1_lal0m"]
+
+[node name="Node2D" type="CanvasLayer"]
+
+[node name="SkillSlot" parent="." instance=ExtResource("1_lal0m")]

@@ -1,0 +1,497 @@
+[gd_scene format=3 uid="uid://rafhbwqco0bn"]
+
+[ext_resource type="Script" uid="uid://bnk4bodscuwof" path="res://scripts/ultra_img_animation.gd" id="1_oc5ep"]
+[ext_resource type="Texture2D" uid="uid://csx2quyvvmrl3" path="res://assets/UI/ultraImg/黑.jpg" id="1_rtanf"]
+[ext_resource type="Texture2D" uid="uid://chaev0qy5idq3" path="res://assets/UI/ultraImg/example/斑.jpg" id="2_g1fy7"]
+[ext_resource type="AudioStream" uid="uid://dwdhya3megef6" path="res://assets/audio/VoiceAnnouncement/SenjuHashirama/pvp_ui_hashirama_a_01.wav" id="2_mqavi"]
+[ext_resource type="Texture2D" uid="uid://bfk7nnu0uwo33" path="res://assets/UI/ultraImg/颗粒滤镜.png" id="3_2iy7t"]
+[ext_resource type="Texture2D" uid="uid://ctx1i14nedafb" path="res://assets/UI/ultraImg/example/斑-模糊.jpg" id="3_2t0nx"]
+[ext_resource type="Texture2D" uid="uid://bd3vbtbg8wg61" path="res://assets/UI/ultraImg/直线.png" id="4_o37pq"]
+[ext_resource type="Texture2D" uid="uid://7llo7pdmdxc0" path="res://assets/UI/ultraImg/渐变大黑框.png" id="4_xj7wb"]
+[ext_resource type="Texture2D" uid="uid://dc43pyd5jsska" path="res://assets/UI/ultraImg/渐变1.png" id="5_g4e4f"]
+[ext_resource type="Texture2D" uid="uid://paspnbfhkthx" path="res://assets/UI/ultraImg/直线2.png" id="5_v67xj"]
+[ext_resource type="Texture2D" uid="uid://c88pn7m4s2o1v" path="res://assets/UI/ultraImg/渐变2.png" id="6_h3eot"]
+[ext_resource type="Texture2D" uid="uid://ck4orqgk85vux" path="res://assets/UI/ultraImg/直线3.png" id="6_u1y84"]
+[ext_resource type="Texture2D" uid="uid://d118woyvybrxl" path="res://assets/UI/ultraImg/渐变黑边.png" id="7_62tg5"]
+[ext_resource type="Texture2D" uid="uid://dvqy58qahfw2t" path="res://assets/UI/ultraImg/折线1.png" id="7_xvblq"]
+[ext_resource type="Texture2D" uid="uid://dha2ar2owxse7" path="res://assets/UI/ultraImg/光.png" id="8_tkyth"]
+[ext_resource type="Texture2D" uid="uid://0bg506tph6h" path="res://assets/UI/ultraImg/折线2.png" id="8_ujb4d"]
+[ext_resource type="Texture2D" uid="uid://d4mrcl6ablvjo" path="res://assets/UI/ultraImg/颗粒滤镜2.png" id="9_fvi0b"]
+[ext_resource type="Texture2D" uid="uid://8wqfwokjgtip" path="res://assets/UI/ultraImg/白.jpg" id="10_nov3y"]
+[ext_resource type="Texture2D" uid="uid://be7jmk63hbwcf" path="res://assets/UI/ultraImg/黑框.png" id="10_u4cnm"]
+[ext_resource type="FontFile" uid="uid://bm1uk84yuviwu" path="res://assets/fonts/main.ttf" id="11_5la0p"]
+
+[sub_resource type="Animation" id="Animation_5qsu4"]
+resource_name = "Normal"
+length = 3.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("白:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.25, 0.5),
+"transitions": PackedFloat32Array(3.24901, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("动:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.25),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("动:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.25, 0.3, 0.4, 0.66, 0.7, 1.066, 1.16, 1.28407, 1.36833, 1.5, 1.80538, 2.01522, 2.10922, 2.23329, 2.31755, 2.44922, 2.79904, 3),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 0.435275, 0.435275, 0.435275, 0.435275, 0.435275, 1, 0.435275, 0.435275, 0.435275, 0.435275, 0.435275, 1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(-5, 10), Vector2(0, -3), Vector2(0, 0), Vector2(-7, 3), Vector2(0, 20), Vector2(0, -12), Vector2(24, -16), Vector2(32, 8), Vector2(-8, -16), Vector2(0, -16), Vector2(0, 20), Vector2(0, -12), Vector2(24, -16), Vector2(32, 8), Vector2(-8, -16), Vector2(0, 24), Vector2(0, 0)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("动:scale")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0.4, 0.66, 0.7, 1.066, 1.14299, 1.248, 1.39744, 1.5, 1.67943, 1.85203, 2.01522, 2.09221, 2.19722, 2.34666, 2.44922, 2.71507, 2.90168, 3),
+"transitions": PackedFloat32Array(0.466517, 1, 0.5, 1.62451, 1.62451, 1.62451, 1.62451, 1.62451, 0.659754, 1.7411, 1.62451, 1.62451, 1.62451, 1.62451, 1.62451, 1, 0.183011, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(0.9, 0.9), Vector2(0.88, 0.88), Vector2(1, 1), Vector2(0.935, 0.935), Vector2(0.99, 0.99), Vector2(1.06, 1.06), Vector2(1, 1), Vector2(0.95, 0.95), Vector2(1.05, 1.05), Vector2(1, 1), Vector2(0.935, 0.935), Vector2(0.99, 0.99), Vector2(1.06, 1.06), Vector2(1, 1), Vector2(1.05, 1.05), Vector2(0.925, 0.925), Vector2(1, 1)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("渐变大黑框:visible")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 0.25),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("动/直线1:position")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0.25, 0.56, 1.06, 1.15, 2.05965, 2.36965, 2.86965, 2.95965),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(-50, 0), Vector2(0, 0), Vector2(50, 0), Vector2(0, 0), Vector2(-50, 0), Vector2(0, 0), Vector2(50, 0)]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("动/直线1:visible")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0.25, 0.56, 1.06, 1.15, 2.05965, 2.36965, 2.86965, 2.95965),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [true, false, true, false, true, false, true, false]
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("动/直线2:position")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0.25, 0.56, 0.8, 2.05965, 2.36965, 2.60965),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(-400, 0), Vector2(-300, 0), Vector2(-200, 0), Vector2(-400, 0), Vector2(-300, 0), Vector2(-200, 0)]
+}
+tracks/8/type = "value"
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/path = NodePath("动/直线2:visible")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/keys = {
+"times": PackedFloat32Array(0.25, 0.56, 0.7, 0.8, 2.05965, 2.36965, 2.50965, 2.60965),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [true, false, true, false, true, false, true, false]
+}
+tracks/9/type = "value"
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/path = NodePath("动/直线3:position")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/keys = {
+"times": PackedFloat32Array(0.3, 0.63, 2.10965, 2.43965),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(-187, 0), Vector2(-200, 0), Vector2(-187, 0), Vector2(-200, 0)]
+}
+tracks/10/type = "value"
+tracks/10/imported = false
+tracks/10/enabled = true
+tracks/10/path = NodePath("动/直线3:visible")
+tracks/10/interp = 1
+tracks/10/loop_wrap = true
+tracks/10/keys = {
+"times": PackedFloat32Array(0, 0.5, 0.63, 2.30965, 2.43965),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 1,
+"values": [false, true, false, true, false]
+}
+tracks/11/type = "value"
+tracks/11/imported = false
+tracks/11/enabled = true
+tracks/11/path = NodePath("动/折线2:visible")
+tracks/11/interp = 1
+tracks/11/loop_wrap = true
+tracks/11/keys = {
+"times": PackedFloat32Array(0.25, 0.43, 0.5, 2.05965, 2.23965, 2.30965),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [false, true, false, false, true, false]
+}
+tracks/12/type = "value"
+tracks/12/imported = false
+tracks/12/enabled = true
+tracks/12/path = NodePath("动/折线1:visible")
+tracks/12/interp = 1
+tracks/12/loop_wrap = true
+tracks/12/keys = {
+"times": PackedFloat32Array(0.25, 0.44, 0.5, 2.05965, 2.24965, 2.30965),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [false, true, false, false, true, false]
+}
+tracks/13/type = "value"
+tracks/13/imported = false
+tracks/13/enabled = true
+tracks/13/path = NodePath("动/图片/模糊:visible")
+tracks/13/interp = 1
+tracks/13/loop_wrap = true
+tracks/13/keys = {
+"times": PackedFloat32Array(0.25, 1.10664, 1.25567, 2.06196, 2.24831),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 1,
+"values": [false, true, false, true, false]
+}
+
+[sub_resource type="Animation" id="Animation_c47fc"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("白:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("动:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("动:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("动:scale")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("渐变大黑框:visible")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("动/直线1:position")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("动/直线1:visible")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("动/直线2:position")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(-900, 0)]
+}
+tracks/8/type = "value"
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/path = NodePath("动/直线2:visible")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/9/type = "value"
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/path = NodePath("动/直线3:position")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(-187, 0)]
+}
+tracks/10/type = "value"
+tracks/10/imported = false
+tracks/10/enabled = true
+tracks/10/path = NodePath("动/直线3:visible")
+tracks/10/interp = 1
+tracks/10/loop_wrap = true
+tracks/10/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/11/type = "value"
+tracks/11/imported = false
+tracks/11/enabled = true
+tracks/11/path = NodePath("动/折线2:visible")
+tracks/11/interp = 1
+tracks/11/loop_wrap = true
+tracks/11/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/12/type = "value"
+tracks/12/imported = false
+tracks/12/enabled = true
+tracks/12/path = NodePath("动/折线1:visible")
+tracks/12/interp = 1
+tracks/12/loop_wrap = true
+tracks/12/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/13/type = "value"
+tracks/13/imported = false
+tracks/13/enabled = true
+tracks/13/path = NodePath("动/图片/模糊:visible")
+tracks/13/interp = 1
+tracks/13/loop_wrap = true
+tracks/13/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_emg4x"]
+_data = {
+&"Normal": SubResource("Animation_5qsu4"),
+&"RESET": SubResource("Animation_c47fc")
+}
+
+[node name="UltraImgAnimation" type="Node2D" unique_id=207277789]
+script = ExtResource("1_oc5ep")
+voice = ExtResource("2_mqavi")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1566957518]
+libraries/ = SubResource("AnimationLibrary_emg4x")
+
+[node name="黑" type="Sprite2D" parent="." unique_id=1045611272]
+z_index = -4096
+texture = ExtResource("1_rtanf")
+
+[node name="动" type="Node2D" parent="." unique_id=873088975]
+
+[node name="图片" type="Sprite2D" parent="动" unique_id=1201497601]
+z_index = -10
+position = Vector2(2.38419e-07, -32.3232)
+scale = Vector2(0.681481, 0.681481)
+texture = ExtResource("2_g1fy7")
+
+[node name="模糊" type="Sprite2D" parent="动/图片" unique_id=1802969775]
+position = Vector2(1, 1)
+texture = ExtResource("3_2t0nx")
+
+[node name="颗粒滤镜" type="Sprite2D" parent="动" unique_id=1595402264]
+modulate = Color(1, 1, 1, 0.470588)
+z_index = -2
+position = Vector2(-24.2424, 16.1616)
+scale = Vector2(0.87385, 0.852974)
+texture = ExtResource("3_2iy7t")
+
+[node name="直线1" type="Sprite2D" parent="动" unique_id=1241347257]
+texture = ExtResource("4_o37pq")
+
+[node name="直线2" type="Sprite2D" parent="动" unique_id=1342163129]
+visible = false
+position = Vector2(-900, 0)
+scale = Vector2(0.62288, 0.608)
+texture = ExtResource("5_v67xj")
+
+[node name="直线3" type="Sprite2D" parent="动" unique_id=1716349642]
+position = Vector2(-187, 0)
+texture = ExtResource("6_u1y84")
+
+[node name="折线1" type="Sprite2D" parent="动" unique_id=1392668624]
+visible = false
+position = Vector2(176.486, -22.8911)
+texture = ExtResource("7_xvblq")
+
+[node name="折线2" type="Sprite2D" parent="动" unique_id=1881044393]
+position = Vector2(40.9463, -5.47263)
+scale = Vector2(0.8, 0.8)
+texture = ExtResource("8_ujb4d")
+
+[node name="渐变大黑框" type="Sprite2D" parent="." unique_id=744128468]
+visible = false
+scale = Vector2(0.62288, 0.608)
+texture = ExtResource("4_xj7wb")
+
+[node name="渐变1" type="Sprite2D" parent="渐变大黑框" unique_id=444498269]
+z_index = -1
+position = Vector2(-9.53674e-07, 0)
+texture = ExtResource("5_g4e4f")
+
+[node name="渐变2" type="Sprite2D" parent="渐变大黑框" unique_id=1722434446]
+z_index = -1
+texture = ExtResource("6_h3eot")
+
+[node name="渐变黑边" type="Sprite2D" parent="渐变大黑框" unique_id=618727339]
+scale = Vector2(1.60545, 1.64474)
+texture = ExtResource("7_62tg5")
+
+[node name="光" type="Sprite2D" parent="渐变大黑框" unique_id=995023498]
+position = Vector2(-102.749, 65.7895)
+scale = Vector2(1.60545, 1.64474)
+texture = ExtResource("8_tkyth")
+
+[node name="颗粒滤镜2" type="Sprite2D" parent="渐变大黑框" unique_id=632472257]
+modulate = Color(1, 1, 1, 0.196078)
+z_index = -2
+position = Vector2(0, 9.53674e-07)
+scale = Vector2(1.58939, 1.62829)
+texture = ExtResource("9_fvi0b")
+
+[node name="黑框" type="Sprite2D" parent="渐变大黑框" unique_id=923669310]
+texture = ExtResource("10_u4cnm")
+
+[node name="翻译" type="Label" parent="渐变大黑框/黑框" unique_id=478345884]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -1987.485
+offset_top = -246.56601
+offset_right = 67.484985
+offset_bottom = -198.56601
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("11_5la0p")
+theme_override_font_sizes/font_size = 40
+text = "我斑愿称你为最强！"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="原文" type="Label" parent="渐变大黑框/黑框" unique_id=392311697]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -1987.4852
+offset_top = -199.90765
+offset_right = 67.48523
+offset_bottom = -144.90765
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("11_5la0p")
+theme_override_font_sizes/font_size = 40
+text = "このマダラがお前を最強と呼んでやる！"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="白" type="Sprite2D" parent="." unique_id=285748584]
+position = Vector2(0, 8)
+texture = ExtResource("10_nov3y")

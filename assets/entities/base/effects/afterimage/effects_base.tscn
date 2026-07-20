@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://bfkr6xl4s1mss"]
+
+[ext_resource type="PackedScene" uid="uid://c5eauk5i5s64k" path="res://assets/entities/base/effects/effects_base.tscn" id="1_svtol"]
+[ext_resource type="Script" uid="uid://d3xvfvbqcotth" path="res://assets/entities/base/effects/afterimage/afterimage.gd" id="2_volef"]
+
+[node name="Afterimage" unique_id=216182209 instance=ExtResource("1_svtol")]
+script = ExtResource("2_volef")
+fade_time = 0.5
+hold_time = 0.0
+custom_modulate = Color(1, 1, 1, 1)

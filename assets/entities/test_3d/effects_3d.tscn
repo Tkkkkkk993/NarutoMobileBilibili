@@ -1,0 +1,22 @@
+[gd_scene format=3 uid="uid://b6gyuqgye6vab"]
+
+[ext_resource type="PackedScene" uid="uid://c5eauk5i5s64k" path="res://assets/entities/base/effects/effects_base.tscn" id="1_f1ccr"]
+[ext_resource type="PackedScene" uid="uid://b1w0qcom0hogy" path="res://assets/entities/test_3d/yandun_s_02.tscn" id="2_tqqt2"]
+[ext_resource type="Script" uid="uid://ci6rxf6bkekb3" path="res://assets/entities/test_3d/effects_3d.gd" id="2_ylt6h"]
+
+[node name="EffectsBase" unique_id=2135124205 instance=ExtResource("1_f1ccr")]
+script = ExtResource("2_ylt6h")
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="." index="0" unique_id=1730539336]
+offset_left = -1008.0
+offset_top = -680.0
+offset_right = 1040.0
+offset_bottom = 344.0
+
+[node name="SubViewport" type="SubViewport" parent="SubViewportContainer" index="0" unique_id=562005330]
+transparent_bg = true
+handle_input_locally = false
+size = Vector2i(2048, 1024)
+render_target_update_mode = 4
+
+[node name="yandunS02" parent="SubViewportContainer/SubViewport" index="0" unique_id=382320045 instance=ExtResource("2_tqqt2")]

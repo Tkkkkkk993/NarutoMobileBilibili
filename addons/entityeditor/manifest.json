@@ -1,0 +1,65 @@
+{
+	"projects": {
+		"动画播放器实体": {
+			"path": "res://assets/entities/animation_player_entity.gd",
+			"project_id": "jrmd-editorv3-Entity-AnimationPlayer",
+			"version": "1.0.2"
+		},
+		"动画精灵2D实体": {
+			"path": "res://assets/entities/animated_sprite_2d_entity.gd",
+			"project_id": "jrmd-editorv3-Entity-AnimatedSprite2D",
+			"version": "1.0.2"
+		},
+		"图形化脚本编辑器": {
+			"path": "res://addons/entityeditor/visual_script_editor.gd",
+			"project_id": "jrmd-editorv3-visualscripteditor",
+			"version": "1.1.1"
+		},
+		"图形化脚本运行时引擎": {
+			"path": "res://assets/entities/visual_script_component.gd",
+			"project_id": "jrmd-editorv3-Entity-VisualScriptComponent",
+			"version": "1.3.0"
+		},
+		"实体基类": {
+			"path": "res://assets/entities/entity_base.gd",
+			"project_id": "jrmd-editorv3-Entity-Base",
+			"version": "1.1.0"
+		},
+		"实体编辑器菜单代码": {
+			"path": "res://addons/entityeditor/entity_editor_menu.gd",
+			"project_id": "jrmd-editorv3-entityeditormenu",
+			"version": "1.0.3"
+		},
+		"技能槽代码": {
+			"path": "res://scripts/skill_slot.gd",
+			"project_id": "jrmd-editorv3-skillslot-code",
+			"version": "1.1.0"
+		},
+		"技能槽场景": {
+			"path": "res://scenes/skill_slot.tscn",
+			"project_id": "jrmd-editorv3-skillslot-scene",
+			"version": "1.0.1"
+		},
+		"更新清单": {
+			"path": "res://addons/entityeditor/manifest.json",
+			"project_id": "jrmd-editorv3-entityeditor-updatemanifest",
+			"version": "1.7.0"
+		},
+		"积木块定义": {
+			"path": "res://addons/entityeditor/block_defs.json",
+			"project_id": "jrmd-editorv3-blockdefs",
+			"version": "1.3.0"
+		},
+		"角色模板V1": {
+			"path": "res://scripts/character_script_template_v1.gd",
+			"project_id": "jrmd-editorv3-Entity-AnimatedSprite2D-CharacterScriptTemplateV1",
+			"version": "1.0.0"
+		},
+		"音频管理器": {
+			"path": "res://autoload/audio_manager.gd",
+			"project_id": "jrmd-editorv3-autoload-audiomanager",
+			"version": "1.0.0"
+		}
+	},
+	"version": "1.7.0"
+}

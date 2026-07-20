@@ -1,0 +1,244 @@
+[gd_scene format=3 uid="uid://b1anj4bo827go"]
+
+[ext_resource type="Script" uid="uid://6b0ilibu01nn" path="res://scenes/arena_main.gd" id="1_ldjqy"]
+[ext_resource type="Script" uid="uid://cuynqffuehygd" path="res://scripts/arena.gd" id="1_lrtdi"]
+[ext_resource type="Script" uid="uid://b273rkpxwp20h" path="res://managers/entity_manager.gd" id="3_d3p71"]
+[ext_resource type="Script" uid="uid://chb1pmyif785r" path="res://scripts/duel_camera.gd" id="3_xwho7"]
+[ext_resource type="Script" uid="uid://cilvxe8v7smte" path="res://scenes/effects_con.gd" id="4_7si43"]
+[ext_resource type="PackedScene" uid="uid://bm64qd55fymjs" path="res://scenes/fight_ui.tscn" id="6_4xkkf"]
+[ext_resource type="Texture2D" uid="uid://7ls2qmqn18ph" path="res://assets/UI/edgeCover.jpg" id="6_naajo"]
+[ext_resource type="PackedScene" uid="uid://cqr5ktoikugwx" path="res://scenes/skill_panel.tscn" id="8_427ea"]
+[ext_resource type="Texture2D" uid="uid://cxad46p4oifjg" path="res://assets/UI/occlusion.png" id="8_oexds"]
+
+[sub_resource type="Animation" id="Animation_vjp5g"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Occlusion:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(-200, -20)]
+}
+
+[sub_resource type="Animation" id="Animation_oexds"]
+resource_name = "Start"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Occlusion:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(-647.1111, -20), Vector2(-3000, -20)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_naajo"]
+_data = {
+&"RESET": SubResource("Animation_vjp5g"),
+&"Start": SubResource("Animation_oexds")
+}
+
+[node name="Arena" type="Node2D" unique_id=1128587376]
+script = ExtResource("1_lrtdi")
+
+[node name="Main" type="Node2D" parent="." unique_id=576787232]
+script = ExtResource("1_ldjqy")
+
+[node name="EntityManager" type="Node2D" parent="Main" unique_id=1253123960]
+script = ExtResource("3_d3p71")
+
+[node name="Background" type="Node2D" parent="Main" unique_id=1149306281]
+
+[node name="Entities" type="Node2D" parent="Main" unique_id=1351820077]
+scale = Vector2(1.02532, 1.02532)
+
+[node name="Effects" type="Node2D" parent="Main" unique_id=1803907738]
+script = ExtResource("4_7si43")
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=955332901]
+limit_left = -1125
+limit_right = 1125
+script = ExtResource("3_xwho7")
+follow_speed = 3.0
+facing_offset = 300.0
+use_limits = true
+
+[node name="Edge" type="CanvasLayer" parent="." unique_id=761431168]
+
+[node name="EdgeCover" type="Control" parent="Edge" unique_id=109770206]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(20, 16)
+
+[node name="Left1" type="TextureRect" parent="Edge/EdgeCover" unique_id=575697116]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -816.0
+offset_top = -324.0
+offset_right = -576.0
+offset_bottom = 606.0
+scale = Vector2(0.7, 0.7)
+pivot_offset = Vector2(240, 0)
+texture = ExtResource("6_naajo")
+
+[node name="Left2" type="TextureRect" parent="Edge/EdgeCover" unique_id=711715073]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -984.0
+offset_top = -324.0
+offset_right = -744.0
+offset_bottom = 606.0
+scale = Vector2(0.7, 0.7)
+pivot_offset = Vector2(240, 0)
+texture = ExtResource("6_naajo")
+
+[node name="Right1" type="TextureRect" parent="Edge/EdgeCover" unique_id=2084100464]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 576.0
+offset_top = -324.0
+offset_right = 816.0
+offset_bottom = 606.0
+scale = Vector2(0.7, 0.7)
+texture = ExtResource("6_naajo")
+
+[node name="Right2" type="TextureRect" parent="Edge/EdgeCover" unique_id=1412470022]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 744.0
+offset_top = -324.0
+offset_right = 984.0
+offset_bottom = 606.0
+scale = Vector2(0.7, 0.7)
+texture = ExtResource("6_naajo")
+
+[node name="Top1" type="TextureRect" parent="Edge/EdgeCover" unique_id=603680870]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -240.00003
+offset_top = -323.99997
+offset_right = -3.0517578e-05
+offset_bottom = 606.0
+rotation = 1.5707964
+scale = Vector2(0.7, 0.7)
+pivot_offset = Vector2(239.94391, 0.26953125)
+texture = ExtResource("6_naajo")
+
+[node name="Top2" type="TextureRect" parent="Edge/EdgeCover" unique_id=1370040565]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -240.00012
+offset_top = -1253.0001
+offset_right = -0.00012207031
+offset_bottom = -323.00012
+rotation = 1.5707964
+scale = Vector2(0.7, 0.7)
+pivot_offset = Vector2(240.12592, 929.5609)
+texture = ExtResource("6_naajo")
+
+[node name="Bottom1" type="TextureRect" parent="Edge/EdgeCover" unique_id=680185757]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 0.08081055
+offset_top = 324.01685
+offset_right = 240.08081
+offset_bottom = 1254.0168
+rotation = 1.5707964
+scale = Vector2(0.7, 0.7)
+pivot_offset = Vector2(6.1035156e-05, 0)
+texture = ExtResource("6_naajo")
+
+[node name="Bottom2" type="TextureRect" parent="Edge/EdgeCover" unique_id=1967939960]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 0.23721313
+offset_top = -605.6592
+offset_right = 240.23724
+offset_bottom = 324.34082
+rotation = 1.5707964
+scale = Vector2(0.7, 0.7)
+pivot_offset = Vector2(-0.2341919, 929.55115)
+texture = ExtResource("6_naajo")
+
+[node name="SkillPanel" parent="." unique_id=434832541 instance=ExtResource("8_427ea")]
+
+[node name="FightUI" parent="." unique_id=1295864037 instance=ExtResource("6_4xkkf")]
+
+[node name="UltraImage" type="CanvasLayer" parent="." unique_id=1823495995]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=275608776]
+
+[node name="Occlusion" type="TextureRect" parent="CanvasLayer" unique_id=1593711282]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -776.0
+offset_top = -344.0
+offset_right = 1670.2188
+offset_bottom = 344.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("8_oexds")
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer/Occlusion" unique_id=420347457]
+layout_mode = 0
+offset_left = -120.0
+offset_top = -20.0
+offset_right = 1055.3206
+offset_bottom = 695.9999
+color = Color(0, 0, 0, 1)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="CanvasLayer" unique_id=1892174702]
+libraries/ = SubResource("AnimationLibrary_naajo")

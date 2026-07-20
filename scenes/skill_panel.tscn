@@ -1,0 +1,101 @@
+[gd_scene format=3 uid="uid://cqr5ktoikugwx"]
+
+[ext_resource type="Texture2D" uid="uid://caqgmeqf836wc" path="res://assets/UI/test.png" id="1_flyt0"]
+[ext_resource type="Texture2D" uid="uid://bte14ja8sy7cg" path="res://assets/UI/commonSkillPanelBg.png" id="1_q4bff"]
+[ext_resource type="PackedScene" uid="uid://u1ia1gbypo2o" path="res://scenes/skill_slot.tscn" id="2_ipxeq"]
+[ext_resource type="Texture2D" uid="uid://dhsc0catatprj" path="res://assets/UI/buttonReference.jpg" id="2_l2hof"]
+[ext_resource type="Script" uid="uid://qwl8f88etm2y" path="res://scenes/skill_panel_touch_handle.gd" id="3_j5ni0"]
+[ext_resource type="Texture2D" uid="uid://by4he60atdhvo" path="res://assets/UI/attack.png" id="5_xhxjf"]
+[ext_resource type="Texture2D" uid="uid://e4e0cydsnn55" path="res://assets/UI/substitution_1.png" id="7_s3n83"]
+[ext_resource type="PackedScene" uid="uid://blgtkfudwtook" path="res://scenes/virtual_joystick.tscn" id="8_pnouw"]
+
+[node name="SkillPanel" type="CanvasLayer" unique_id=433817774]
+process_mode = 3
+
+[node name="Test" type="Sprite2D" parent="." unique_id=1473524133]
+visible = false
+position = Vector2(577.413, 338)
+scale = Vector2(2.10667, 2.10667)
+texture = ExtResource("1_flyt0")
+
+[node name="ButtonReference" type="Sprite2D" parent="." unique_id=2101280750]
+visible = false
+position = Vector2(515.736, 352.365)
+scale = Vector2(0.512726, 0.512726)
+texture = ExtResource("2_l2hof")
+
+[node name="PanelContainer" type="Control" parent="." unique_id=318543428]
+layout_mode = 3
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -40.0
+offset_top = -40.0
+grow_horizontal = 0
+grow_vertical = 0
+mouse_filter = 2
+
+[node name="TextureRect" type="TextureRect" parent="PanelContainer" unique_id=1893691114]
+layout_mode = 0
+offset_left = -247.0
+offset_top = -252.0
+offset_right = -10.0
+offset_bottom = 27.0
+texture = ExtResource("1_q4bff")
+script = ExtResource("3_j5ni0")
+
+[node name="Skill1" parent="PanelContainer/TextureRect" unique_id=490358638 instance=ExtResource("2_ipxeq")]
+position = Vector2(43, 235)
+scale = Vector2(0.55357, 0.55357)
+
+[node name="Skill2" parent="PanelContainer/TextureRect" unique_id=232249051 instance=ExtResource("2_ipxeq")]
+position = Vector2(57, 113)
+scale = Vector2(0.554, 0.554)
+
+[node name="Skill3" parent="PanelContainer/TextureRect" unique_id=1933134345 instance=ExtResource("2_ipxeq")]
+position = Vector2(173, 55)
+scale = Vector2(0.65, 0.65)
+show_aura = true
+
+[node name="Attack" parent="PanelContainer/TextureRect" unique_id=123730106 instance=ExtResource("2_ipxeq")]
+position = Vector2(165, 196)
+scale = Vector2(0.947368, 0.947368)
+texture_normal = ExtResource("5_xhxjf")
+
+[node name="Substitution" parent="PanelContainer/TextureRect" unique_id=1924198304 instance=ExtResource("2_ipxeq")]
+position = Vector2(-75, 236)
+scale = Vector2(0.554, 0.554)
+texture_normal = ExtResource("7_s3n83")
+show_panel = true
+is_charging = true
+
+[node name="Scroll" parent="PanelContainer/TextureRect" unique_id=579188612 instance=ExtResource("2_ipxeq")]
+position = Vector2(175, -59)
+scale = Vector2(0.56, 0.56)
+show_panel = true
+
+[node name="Summon" parent="PanelContainer/TextureRect" unique_id=30568392 instance=ExtResource("2_ipxeq")]
+position = Vector2(175, -159)
+scale = Vector2(0.56, 0.56)
+show_panel = true
+is_charging = true
+dot_max = 3
+
+[node name="SubSkill1" parent="PanelContainer/TextureRect" unique_id=235265921 instance=ExtResource("2_ipxeq")]
+position = Vector2(-42, 108)
+scale = Vector2(0.465, 0.465)
+show_panel = true
+
+[node name="SubSkill2" parent="PanelContainer/TextureRect" unique_id=1897674002 instance=ExtResource("2_ipxeq")]
+position = Vector2(24, 16)
+scale = Vector2(0.465, 0.465)
+show_panel = true
+
+[node name="VirtualJoystick" parent="." unique_id=258549338 instance=ExtResource("8_pnouw")]
+offset_left = 80.0
+offset_top = -267.0
+offset_right = 380.0
+offset_bottom = 33.0
+scale = Vector2(0.82, 0.82)

@@ -1,0 +1,32 @@
+[gd_scene load_steps=2 format=3 uid="uid://c6q2qf7whi26i"]
+
+[ext_resource type="Script" path="res://addons/entityeditor/frame_editor.gd" id="1_dimfw"]
+
+[node name="FrameEditor" type="Window"]
+title = "帧数据编辑器V2.1"
+position = Vector2i(260, 90)
+size = Vector2i(1400, 900)
+min_size = Vector2i(900, 700)
+script = ExtResource("1_dimfw")
+
+[node name="MainContainer" type="VBoxContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="HSeparator" type="HSeparator" parent="MainContainer"]
+layout_mode = 2
+
+[node name="HitboxScrollContainer" type="ScrollContainer" parent="MainContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="HitboxContainer" type="VBoxContainer" parent="MainContainer/HitboxScrollContainer"]
+layout_mode = 2
+
+[node name="Separator" type="HSeparator" parent="MainContainer"]
+layout_mode = 2

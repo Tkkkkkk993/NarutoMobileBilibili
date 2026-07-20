@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://rhxisdlk27qn"]
+
+[ext_resource type="Script" path="res://addons/entityeditor/info_point_editor.gd" id="1_t65pn"]
+
+[node name="InfoPointEditor" type="Window"]
+title = "信息点编辑器 (按动画帧绑定)"
+size = Vector2i(1100, 750)
+min_size = Vector2i(800, 600)
+script = ExtResource("1_t65pn")

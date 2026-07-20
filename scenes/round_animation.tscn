@@ -1,0 +1,857 @@
+[gd_scene load_steps=34 format=3 uid="uid://bc682xa1501r3"]
+
+[ext_resource type="Texture2D" uid="uid://crehg0fkovarh" path="res://assets/UI/roundsNum/roundNumBigBg-anim_1-000.png" id="1_cbrd7"]
+[ext_resource type="Script" path="res://scripts/round_animation.gd" id="1_xy8mc"]
+[ext_resource type="Texture2D" uid="uid://b05jmfmf0quyd" path="res://assets/UI/roundsNum/roundNumInk.png" id="2_qouve"]
+[ext_resource type="Texture2D" uid="uid://o350shqwwlly" path="res://assets/UI/roundsNum/prefix-000.png" id="3_b22iq"]
+[ext_resource type="Texture2D" uid="uid://hd0onqb8gpwq" path="res://assets/UI/roundsNum/roundAnim_1-000.png" id="4_x2tlq"]
+[ext_resource type="Texture2D" uid="uid://cod2b3sceroof" path="res://assets/UI/roundsNum/roundNumBig-1-000.png" id="6_1brk2"]
+[ext_resource type="Texture2D" uid="uid://5ib5o2stlp7u" path="res://assets/UI/winnerDecided/startBattle.png" id="6_c6pws"]
+[ext_resource type="Texture2D" uid="uid://b8yw5dko8ceyj" path="res://assets/UI/winnerDecided/startBattle-ghost.png" id="7_fvlst"]
+[ext_resource type="Texture2D" uid="uid://b7eoid2lhdxdx" path="res://assets/UI/winnerDecided/timeUp.png" id="8_u4ty5"]
+[ext_resource type="Texture2D" uid="uid://cuorgs4q4rdyj" path="res://assets/UI/winnerDecided/winnerDecidedBg-000.png" id="9_1k3mx"]
+[ext_resource type="Texture2D" uid="uid://ck7b8jkxq55jq" path="res://assets/UI/winnerDecided/winnerDecidedBg-001.png" id="10_bdcy4"]
+[ext_resource type="Texture2D" uid="uid://ctk8jt8c7qiwx" path="res://assets/UI/winnerDecided/winnerDecidedBg-002.png" id="11_jm0ss"]
+[ext_resource type="Texture2D" uid="uid://cqflfotn2xsl4" path="res://assets/UI/winnerDecided/winnerDecidedBg-003.png" id="12_srs6s"]
+[ext_resource type="Texture2D" uid="uid://cwtbvyj2feofu" path="res://assets/UI/winnerDecided/winnerDecidedBg-004.png" id="13_73nhf"]
+[ext_resource type="Texture2D" uid="uid://byumvc1mt6yoa" path="res://assets/UI/winnerDecided/winnerDecided.png" id="14_5tu25"]
+[ext_resource type="Texture2D" uid="uid://bx3vefaskb6qf" path="res://assets/UI/winnerDecided/winnerDecideBg.png" id="15_tdwq8"]
+[ext_resource type="Texture2D" uid="uid://dd26bxircdgyp" path="res://assets/UI/charSelect/iconSlot.png" id="16_xgowb"]
+[ext_resource type="FontFile" uid="uid://bm1uk84yuviwu" path="res://assets/fonts/main.ttf" id="17_q3e26"]
+[ext_resource type="Texture2D" uid="uid://dciawng0yriij" path="res://assets/entities/KuramaLinkMode_NamikazeMinato/portraits/icon_idle.png" id="18_41854"]
+[ext_resource type="Texture2D" uid="uid://dmmdpdconn63a" path="res://assets/UI/winnerDecided/draw.png" id="20_m6sqs"]
+[ext_resource type="Texture2D" uid="uid://bkjwlxog4hh5x" path="res://assets/entities/KuramaLinkMode_NamikazeMinato/portraits/idle.png" id="21_5khpu"]
+[ext_resource type="Texture2D" uid="uid://ve8eeqrom5cr" path="res://assets/UI/winnerDecided/r-bg.svg" id="21_x064c"]
+[ext_resource type="Texture2D" uid="uid://bqkvxi148evri" path="res://assets/UI/winnerDecided/r-win-bg.png" id="22_3awqe"]
+[ext_resource type="Texture2D" uid="uid://g7wmmvf78us5" path="res://assets/UI/winnerDecided/r-win.png" id="23_ty86r"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_4q02x"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("9_1k3mx")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_bdcy4")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_jm0ss")
+}, {
+"duration": 1.0,
+"texture": ExtResource("12_srs6s")
+}, {
+"duration": 1.0,
+"texture": ExtResource("13_73nhf")
+}],
+"loop": false,
+"name": &"default",
+"speed": 25.0
+}]
+
+[sub_resource type="Animation" id="Animation_l5w0a"]
+resource_name = "DiXHui"
+length = 1.13
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("RoundNum:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.15, 0.25, 1, 1.13),
+"transitions": PackedFloat32Array(3.13834, 0.574349, 1.46409, 1, 1, 1),
+"update": 0,
+"values": [Vector2(3, 3), Vector2(0.8, 0.8), Vector2(1.2, 1.2), Vector2(1, 1), Vector2(1, 1), Vector2(1e-05, 1e-05)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("RoundNumBigBg:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.1, 1, 1.13),
+"transitions": PackedFloat32Array(1, 0.466517, 1, 1),
+"update": 0,
+"values": [Vector2(1e-05, 1e-05), Vector2(1, 1), Vector2(1, 1), Vector2(1e-05, 1e-05)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("RoundNumInk:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.0666667, 0.133333, 1, 1.13),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(1e-05, 1e-05), Vector2(1e-05, 1e-05), Vector2(1, 1), Vector2(1, 1), Vector2(1e-05, 1e-05)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Di:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.16, 1, 1.13),
+"transitions": PackedFloat32Array(0.554785, 1, 1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(-160, 9.53674e-07), Vector2(-160, 0), Vector2(0, 0)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Hui:position")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 0.16, 1, 1.13),
+"transitions": PackedFloat32Array(0.554785, 1, 1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(152, 4.76837e-07), Vector2(152, 0), Vector2(0, 0)]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Di:scale")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(1, 1.13),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0.8, 0.8), Vector2(1e-05, 1e-05)]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("Hui:scale")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(1, 1.13),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0.8, 0.8), Vector2(1e-05, 1e-05)]
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath(".:visible")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="Animation" id="Animation_2d8vx"]
+resource_name = "Draw"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../Draw:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("../Draw:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.024233, 0.1, 0.16, 0.2, 0.85, 0.9, 1),
+"transitions": PackedFloat32Array(2.07053, 0.554785, 1.93187, 1, 1.68179, 0.615572, 1),
+"update": 0,
+"values": [Vector2(0, -576), Vector2(0, 0), Vector2(0, -48), Vector2(0, 0), Vector2(0, 0), Vector2(0, 64), Vector2(0, -536)]
+}
+
+[sub_resource type="Animation" id="Animation_hr8jf"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("RoundNum:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(3, 3)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("RoundNumBigBg:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1e-05, 1e-05)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("RoundNumInk:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1e-05, 1e-05)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Di:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(-160, 9.53674e-07)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Hui:position")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(152, 4.76837e-07)]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Di:scale")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0.8, 0.8)]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("Hui:scale")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0.8, 0.8)]
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("../StartBattle/StartBattle-font:modulate")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+tracks/8/type = "value"
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/path = NodePath("../StartBattle/StartBattle-font:scale")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(4, 4)]
+}
+tracks/9/type = "value"
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/path = NodePath("../StartBattle/StartBattle-ghost:modulate")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+tracks/10/type = "value"
+tracks/10/imported = false
+tracks/10/enabled = true
+tracks/10/path = NodePath("../StartBattle/StartBattle-ghost:position")
+tracks/10/interp = 1
+tracks/10/loop_wrap = true
+tracks/10/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, -16)]
+}
+tracks/11/type = "value"
+tracks/11/imported = false
+tracks/11/enabled = true
+tracks/11/path = NodePath("../StartBattle/StartBattle-ghost:scale")
+tracks/11/interp = 1
+tracks/11/loop_wrap = true
+tracks/11/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1.07692, 1.07692)]
+}
+tracks/12/type = "value"
+tracks/12/imported = false
+tracks/12/enabled = true
+tracks/12/path = NodePath("../TimeUp:scale")
+tracks/12/interp = 1
+tracks/12/loop_wrap = true
+tracks/12/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1e-05, 1e-05)]
+}
+tracks/13/type = "value"
+tracks/13/imported = false
+tracks/13/enabled = true
+tracks/13/path = NodePath("../WinnerDecided/AnimatedSprite2D:frame")
+tracks/13/interp = 1
+tracks/13/loop_wrap = true
+tracks/13/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+tracks/14/type = "value"
+tracks/14/imported = false
+tracks/14/enabled = true
+tracks/14/path = NodePath("../WinnerDecided/Font:scale")
+tracks/14/interp = 1
+tracks/14/loop_wrap = true
+tracks/14/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1e-05, 0.747)]
+}
+tracks/15/type = "value"
+tracks/15/imported = false
+tracks/15/enabled = true
+tracks/15/path = NodePath("../WinnerDecided/Font-ghost:scale")
+tracks/15/interp = 1
+tracks/15/loop_wrap = true
+tracks/15/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+tracks/16/type = "value"
+tracks/16/imported = false
+tracks/16/enabled = true
+tracks/16/path = NodePath("../WinnerDecided/Font-ghost:modulate")
+tracks/16/interp = 1
+tracks/16/loop_wrap = true
+tracks/16/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0.188235)]
+}
+tracks/17/type = "value"
+tracks/17/imported = false
+tracks/17/enabled = true
+tracks/17/path = NodePath("../WinnerDecided/WinnerDecideBg:scale")
+tracks/17/interp = 1
+tracks/17/loop_wrap = true
+tracks/17/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1e-05)]
+}
+tracks/18/type = "value"
+tracks/18/imported = false
+tracks/18/enabled = true
+tracks/18/path = NodePath("../WinnerDecided:modulate")
+tracks/18/interp = 1
+tracks/18/loop_wrap = true
+tracks/18/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/19/type = "value"
+tracks/19/imported = false
+tracks/19/enabled = true
+tracks/19/path = NodePath(".:visible")
+tracks/19/interp = 1
+tracks/19/loop_wrap = true
+tracks/19/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/20/type = "value"
+tracks/20/imported = false
+tracks/20/enabled = true
+tracks/20/path = NodePath("../StartBattle:visible")
+tracks/20/interp = 1
+tracks/20/loop_wrap = true
+tracks/20/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/21/type = "value"
+tracks/21/imported = false
+tracks/21/enabled = true
+tracks/21/path = NodePath("../WinnerDecided:visible")
+tracks/21/interp = 1
+tracks/21/loop_wrap = true
+tracks/21/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/22/type = "value"
+tracks/22/imported = false
+tracks/22/enabled = true
+tracks/22/path = NodePath("../Draw:visible")
+tracks/22/interp = 1
+tracks/22/loop_wrap = true
+tracks/22/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/23/type = "value"
+tracks/23/imported = false
+tracks/23/enabled = true
+tracks/23/path = NodePath("../Draw:position")
+tracks/23/interp = 1
+tracks/23/loop_wrap = true
+tracks/23/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, -576)]
+}
+tracks/24/type = "value"
+tracks/24/imported = false
+tracks/24/enabled = true
+tracks/24/path = NodePath("../Result:visible")
+tracks/24/interp = 1
+tracks/24/loop_wrap = true
+tracks/24/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/25/type = "value"
+tracks/25/imported = false
+tracks/25/enabled = true
+tracks/25/path = NodePath("../Result/Portraits:scale")
+tracks/25/interp = 1
+tracks/25/loop_wrap = true
+tracks/25/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0.5, 0.5)]
+}
+
+[sub_resource type="Animation" id="Animation_liiyi"]
+resource_name = "Result"
+length = 2.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../Result:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("../Result/Portraits:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 2),
+"transitions": PackedFloat32Array(0.1, 1),
+"update": 0,
+"values": [Vector2(0.5, 0.5), Vector2(1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_22tgl"]
+resource_name = "Start"
+length = 1.25
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../StartBattle/StartBattle-font:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.13, 1.2, 1.25),
+"transitions": PackedFloat32Array(1, 1, 2.2974, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("../StartBattle/StartBattle-font:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.13, 0.2, 0.24, 0.27, 0.3, 1.1, 1.2, 1.25),
+"transitions": PackedFloat32Array(1, 4.92458, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(4, 4), Vector2(4, 4), Vector2(0.8, 0.8), Vector2(1, 1), Vector2(0.9, 0.9), Vector2(1, 1), Vector2(1, 1), Vector2(1, 0.9), Vector2(1.3, 0.9)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("../StartBattle/StartBattle-ghost:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.2001, 0.239979, 0.35),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 0), Color(1, 1, 1, 0.784314), Color(1, 1, 1, 0.521569), Color(1, 1, 1, 0)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("../StartBattle/StartBattle-ghost:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0.2001, 0.239979),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0, -16), Vector2(0, 0)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("../StartBattle/StartBattle-ghost:scale")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0.2001, 0.239979, 0.35),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(1.07692, 1.07692), Vector2(1, 1), Vector2(2, 2)]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("../StartBattle:visible")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="Animation" id="Animation_bim3h"]
+resource_name = "TimeUp"
+length = 1.25
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../TimeUp:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 1.15, 1.25),
+"transitions": PackedFloat32Array(0.5, 1, 2, 1),
+"update": 0,
+"values": [Vector2(1e-05, 1e-05), Vector2(1, 1), Vector2(1, 1), Vector2(1e-05, 1e-05)]
+}
+
+[sub_resource type="Animation" id="Animation_oadm4"]
+resource_name = "WinnerDecided"
+length = 2.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../WinnerDecided/AnimatedSprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.025, 0.05, 0.075, 0.1),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("../WinnerDecided/Font:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.05, 0.1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(1e-05, 0.747), Vector2(0.747, 0.747)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("../WinnerDecided/Font-ghost:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.0999, 0.1, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(1e-05, 1e-05), Vector2(1, 1), Vector2(1.8, 1.8)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("../WinnerDecided/Font-ghost:modulate")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0.1, 0.2),
+"transitions": PackedFloat32Array(2.73208, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0.266667), Color(1, 1, 1, 0)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("../WinnerDecided/WinnerDecideBg:scale")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0.2, 0.3),
+"transitions": PackedFloat32Array(0.406126, 1),
+"update": 0,
+"values": [Vector2(1, 1e-05), Vector2(1, 1)]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("../WinnerDecided:modulate")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(1.9, 2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("../WinnerDecided:visible")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_234ea"]
+_data = {
+"DiXHui": SubResource("Animation_l5w0a"),
+"Draw": SubResource("Animation_2d8vx"),
+"RESET": SubResource("Animation_hr8jf"),
+"Result": SubResource("Animation_liiyi"),
+"Start": SubResource("Animation_22tgl"),
+"TimeUp": SubResource("Animation_bim3h"),
+"WinnerDecided": SubResource("Animation_oadm4")
+}
+
+[node name="RoundAnimation" type="Node2D"]
+script = ExtResource("1_xy8mc")
+
+[node name="DiXHui" type="Node2D" parent="."]
+visible = false
+
+[node name="RoundNumBigBg" type="Sprite2D" parent="DiXHui"]
+scale = Vector2(1e-05, 1e-05)
+texture = ExtResource("1_cbrd7")
+
+[node name="RoundNumInk" type="Sprite2D" parent="DiXHui"]
+scale = Vector2(1e-05, 1e-05)
+texture = ExtResource("2_qouve")
+
+[node name="Di" type="Sprite2D" parent="DiXHui"]
+position = Vector2(-160, 9.53674e-07)
+scale = Vector2(0.8, 0.8)
+texture = ExtResource("3_b22iq")
+
+[node name="Hui" type="Sprite2D" parent="DiXHui"]
+position = Vector2(152, 4.76837e-07)
+scale = Vector2(0.8, 0.8)
+texture = ExtResource("4_x2tlq")
+
+[node name="RoundNum" type="Sprite2D" parent="DiXHui"]
+position = Vector2(9.53674e-07, 0)
+scale = Vector2(3, 3)
+texture = ExtResource("6_1brk2")
+
+[node name="StartBattle" type="Node2D" parent="."]
+visible = false
+
+[node name="StartBattle-font" type="Sprite2D" parent="StartBattle"]
+modulate = Color(1, 1, 1, 0)
+scale = Vector2(4, 4)
+texture = ExtResource("6_c6pws")
+
+[node name="StartBattle-ghost" type="Sprite2D" parent="StartBattle"]
+modulate = Color(1, 1, 1, 0)
+position = Vector2(0, -16)
+scale = Vector2(1.07692, 1.07692)
+texture = ExtResource("7_fvlst")
+
+[node name="TimeUp" type="Sprite2D" parent="."]
+scale = Vector2(1e-05, 1e-05)
+texture = ExtResource("8_u4ty5")
+
+[node name="WinnerDecided" type="Node2D" parent="."]
+visible = false
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="WinnerDecided"]
+position = Vector2(17, -24.945)
+scale = Vector2(1.36, 1.40619)
+sprite_frames = SubResource("SpriteFrames_4q02x")
+
+[node name="Font" type="Sprite2D" parent="WinnerDecided"]
+scale = Vector2(1e-05, 0.747)
+texture = ExtResource("14_5tu25")
+
+[node name="Font-ghost" type="Sprite2D" parent="WinnerDecided"]
+modulate = Color(1, 1, 1, 0.188235)
+texture = ExtResource("14_5tu25")
+
+[node name="WinnerDecideBg" type="Sprite2D" parent="WinnerDecided"]
+position = Vector2(0, 120)
+scale = Vector2(1, 1e-05)
+texture = ExtResource("15_tdwq8")
+
+[node name="IconSlot" type="Sprite2D" parent="WinnerDecided/WinnerDecideBg"]
+position = Vector2(10, -16)
+scale = Vector2(0.75, 0.75)
+texture = ExtResource("16_xgowb")
+
+[node name="IconIdle" type="Sprite2D" parent="WinnerDecided/WinnerDecideBg/IconSlot"]
+position = Vector2(-9.53674e-07, 0)
+texture = ExtResource("18_41854")
+
+[node name="Username" type="Label" parent="WinnerDecided/WinnerDecideBg"]
+offset_left = 50.0
+offset_top = -43.0
+offset_right = 160.0
+offset_bottom = -14.0
+theme_override_colors/font_color = Color(0.783407, 0.792112, 0.212592, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 5
+theme_override_fonts/font = ExtResource("17_q3e26")
+theme_override_font_sizes/font_size = 17
+text = "小作坊大投入"
+
+[node name="CharName" type="Label" parent="WinnerDecided/WinnerDecideBg"]
+offset_left = 50.0
+offset_top = -17.0
+offset_right = 255.0
+offset_bottom = 12.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 5
+theme_override_fonts/font = ExtResource("17_q3e26")
+theme_override_font_sizes/font_size = 17
+text = "旗木卡卡西[万花筒写轮眼]"
+
+[node name="Draw" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(0, -576)
+texture = ExtResource("20_m6sqs")
+
+[node name="Result" type="Node2D" parent="."]
+visible = false
+
+[node name="RBg" type="Sprite2D" parent="Result"]
+scale = Vector2(6.09524, 3.22689)
+texture = ExtResource("21_x064c")
+
+[node name="Portraits" type="Node2D" parent="Result"]
+position = Vector2(1.60001, 82)
+scale = Vector2(0.5, 0.5)
+
+[node name="Portrait3" type="Sprite2D" parent="Result/Portraits"]
+position = Vector2(304, -72)
+scale = Vector2(1.52, 1.52)
+texture = ExtResource("21_5khpu")
+
+[node name="Portrait2" type="Sprite2D" parent="Result/Portraits"]
+position = Vector2(-304, -72)
+scale = Vector2(1.52, 1.52)
+texture = ExtResource("21_5khpu")
+
+[node name="Portrait1" type="Sprite2D" parent="Result/Portraits"]
+position = Vector2(0, -152)
+scale = Vector2(1.96, 1.96)
+texture = ExtResource("21_5khpu")
+
+[node name="Bg" type="Sprite2D" parent="Result"]
+position = Vector2(1.60001, 82)
+texture = ExtResource("22_3awqe")
+
+[node name="Font" type="Sprite2D" parent="Result"]
+position = Vector2(1.60001, 82)
+scale = Vector2(0.832, 0.832)
+texture = ExtResource("23_ty86r")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+root_node = NodePath("../DiXHui")
+libraries = {
+"": SubResource("AnimationLibrary_234ea")
+}

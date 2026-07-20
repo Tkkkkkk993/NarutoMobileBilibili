@@ -1,0 +1,28 @@
+[gd_resource type="Theme" format=3 uid="uid://dphev0gwjsvmx"]
+
+[ext_resource type="Texture2D" uid="uid://nsjsgayadwfs" path="res://assets/UI/button/0.png" id="1_y01x0"]
+[ext_resource type="FontFile" uid="uid://bm1uk84yuviwu" path="res://assets/fonts/main.ttf" id="2_37lpi"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_awlya"]
+texture = ExtResource("1_y01x0")
+texture_margin_left = 20.0
+texture_margin_top = 10.0
+texture_margin_right = 23.0
+texture_margin_bottom = 15.0
+
+[resource]
+default_font = ExtResource("2_37lpi")
+Button/colors/font_color = Color(1, 0.956863, 0.52549, 1)
+Button/colors/font_disabled_color = Color(1, 0.956863, 0.52549, 1)
+Button/colors/font_focus_color = Color(1, 0.956863, 0.52549, 1)
+Button/colors/font_hover_color = Color(1, 0.956863, 0.52549, 1)
+Button/colors/font_hover_pressed_color = Color(1, 0.956863, 0.52549, 1)
+Button/colors/font_outline_color = Color(0.372549, 0.2, 0, 1)
+Button/colors/font_pressed_color = Color(1, 0.956863, 0.52549, 1)
+Button/constants/outline_size = 10
+Button/font_sizes/font_size = 30
+Button/styles/disabled = SubResource("StyleBoxTexture_awlya")
+Button/styles/focus = SubResource("StyleBoxTexture_awlya")
+Button/styles/hover = SubResource("StyleBoxTexture_awlya")
+Button/styles/normal = SubResource("StyleBoxTexture_awlya")
+Button/styles/pressed = SubResource("StyleBoxTexture_awlya")

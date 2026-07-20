@@ -1,0 +1,27 @@
+[gd_scene load_steps=5 format=3 uid="uid://q52sflnmpu8m"]
+
+[ext_resource type="Script" path="res://scripts/tab_slot.gd" id="1_2wmby"]
+[ext_resource type="Texture2D" uid="uid://hbbex0rfxl1n" path="res://assets/UI/charSelect/tab_1.png" id="1_txvyy"]
+[ext_resource type="Script" path="res://scripts/tab_slot_touch.gd" id="2_jgx3w"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_5vuxx"]
+size = Vector2(35, 50)
+
+[node name="TabSlot" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_2wmby")
+
+[node name="Icon" type="Sprite2D" parent="."]
+position = Vector2(-30, 59)
+scale = Vector2(1.59524, 1.59524)
+texture = ExtResource("1_txvyy")
+
+[node name="Touch" type="TouchScreenButton" parent="."]
+position = Vector2(-28, 41)
+scale = Vector2(1.59524, 1.59524)
+shape = SubResource("RectangleShape2D_5vuxx")
+script = ExtResource("2_jgx3w")
+
+[connection signal="pressed" from="Touch" to="Touch" method="_on_button_pressed"]
+[connection signal="released" from="Touch" to="Touch" method="_on_button_released"]

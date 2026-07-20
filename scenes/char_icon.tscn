@@ -1,0 +1,33 @@
+[gd_scene format=3 uid="uid://dh62yy8oi7evg"]
+
+[ext_resource type="Script" uid="uid://dtcea7v5svnxn" path="res://scripts/char_icon.gd" id="1_cigx8"]
+[ext_resource type="Texture2D" uid="uid://dciawng0yriij" path="res://assets/entities/KuramaLinkMode_NamikazeMinato/portraits/icon_idle.png" id="4_it36v"]
+[ext_resource type="Texture2D" uid="uid://dd26bxircdgyp" path="res://assets/UI/charSelect/iconSlot.png" id="5_0adpb"]
+[ext_resource type="Texture2D" uid="uid://bi0impdsebk2w" path="res://assets/UI/charSelect/WaitNum_0.png" id="6_q6en7"]
+[ext_resource type="PackedScene" uid="uid://r28cm3ixih6s" path="res://scenes/digit_display.tscn" id="6_uwblx"]
+
+[node name="CharIconSlot" type="TouchScreenButton" unique_id=234432985]
+self_modulate = Color(1, 1, 1, 0)
+texture_normal = ExtResource("5_0adpb")
+script = ExtResource("1_cigx8")
+
+[node name="Icon" type="Sprite2D" parent="." unique_id=45548172]
+z_index = 1
+position = Vector2(38, 37)
+texture = ExtResource("4_it36v")
+
+[node name="ButtonPanel" type="Sprite2D" parent="Icon" unique_id=1466605235]
+z_index = -1
+texture = ExtResource("5_0adpb")
+
+[node name="DigitDisplay" parent="." unique_id=2006929141 instance=ExtResource("6_uwblx")]
+z_index = 2
+position = Vector2(38, 37)
+texture = ExtResource("6_q6en7")
+char_set = "0123456789:"
+columns = 11
+rows = 1
+scale_factor = 0.2
+
+[connection signal="pressed" from="." to="." method="_on_button_pressed"]
+[connection signal="released" from="." to="." method="_on_button_released"]

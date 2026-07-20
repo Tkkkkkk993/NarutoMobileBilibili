@@ -1,0 +1,19 @@
+[gd_scene format=3 uid="uid://blgtkfudwtook"]
+
+[ext_resource type="PackedScene" uid="uid://dmr0fcamx7t56" path="res://addons/virtual_joystick/virtual_joystick_scene.tscn" id="1_8rv1o"]
+[ext_resource type="Texture2D" uid="uid://codp15a8us5vx" path="res://assets/UI/joystick_background.png" id="2_l8kew"]
+[ext_resource type="Texture2D" uid="uid://ccmkv52tg73nn" path="res://assets/UI/joystick_handle.png" id="3_js7d8"]
+
+[node name="VirtualJoystick" unique_id=964760963 instance=ExtResource("1_8rv1o")]
+
+[node name="Base" parent="." index="0"]
+texture = ExtResource("2_l8kew")
+
+[node name="Tip" parent="Base" index="0"]
+z_index = 1
+offset_left = -80.0
+offset_top = -80.0
+offset_right = 80.0
+offset_bottom = 80.0
+pivot_offset = Vector2(67, 67)
+texture = ExtResource("3_js7d8")

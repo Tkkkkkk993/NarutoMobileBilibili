@@ -1,0 +1,30 @@
+{
+	"attack_boxes": [
+		{
+			"bind_animation": "attack",
+			"bind_frames": [
+				0
+			],
+			"box_id": "box_1776122112.276_451",
+			"box_name": "attack",
+			"frame_configs": {
+				"0": {
+					"pivot_offset": {
+						"x": 0,
+						"y": 0
+					},
+					"position": {
+						"x": 0,
+						"y": 0,
+						"z": 0
+					},
+					"size": {
+						"x": 300,
+						"y": 100,
+						"z": 200
+					}
+				}
+			}
+		}
+	]
+}

@@ -1,0 +1,3470 @@
+{
+	"block_defs": [
+		{
+			"category": "事件",
+			"label": "当游戏开始",
+			"name": "when_game_start",
+			"params": [],
+			"type": 0.0
+		},
+		{
+			"category": "事件",
+			"label": "当 {anim_name} 动画帧变化时",
+			"name": "when_animation_playing",
+			"outputs": [
+				{
+					"label": "当前帧",
+					"name": "frame_idx",
+					"type": "node"
+				}
+			],
+			"params": [
+				{
+					"default": "idle",
+					"label": "动画名",
+					"name": "anim_name",
+					"type": "string"
+				}
+			],
+			"type": 0.0
+		},
+		{
+			"category": "动作",
+			"label": "播放动画 {anim_name}",
+			"name": "play_animation",
+			"params": [
+				{
+					"default": "idle",
+					"label": "动画名",
+					"name": "anim_name",
+					"type": "string"
+				}
+			],
+			"type": 1.0
+		},
+		{
+			"category": "控制",
+			"label": "等待 {duration} 秒",
+			"name": "wait",
+			"params": [
+				{
+					"default": 1.0,
+					"label": "秒数",
+					"name": "duration",
+					"type": "number"
+				}
+			],
+			"type": 1.0
+		},
+		{
+			"category": "控制",
+			"label": "如果 {condition}",
+			"name": "if_condition",
+			"params": [
+				{
+					"default": true,
+					"label": "条件",
+					"name": "condition",
+					"type": "bool"
+				}
+			],
+			"type": 2.0
+		},
+		{
+			"category": "控制",
+			"hide_in_event": true,
+			"label": "如果 {condition}",
+			"name": "if_else",
+			"params": [
+				{
+					"default": true,
+					"label": "条件",
+					"name": "condition",
+					"type": "bool"
+				}
+			],
+			"type": 2.0
+		},
+		{
+			"category": "值",
+			"label": "比较 {left} {op} {right}",
+			"name": "compare",
+			"params": [
+				{
+					"default": "",
+					"label": "参数1",
+					"name": "left",
+					"type": "expr"
+				},
+				{
+					"default": "=",
+					"label": "运算",
+					"name": "op",
+					"options": [
+						"<",
+						"=",
+						">",
+						"或",
+						"且"
+					],
+					"type": "dropdown"
+				},
+				{
+					"default": "",
+					"label": "参数2",
+					"name": "right",
+					"type": "expr"
+				}
+			],
+			"type": 3.0
+		},
+		{
+			"category": "值",
+			"label": "计算 {left} {op} {right}",
+			"name": "calculate",
+			"outputs": [],
+			"params": [
+				{
+					"default": 0.0,
+					"label": "参数1",
+					"name": "left",
+					"type": "number"
+				},
+				{
+					"default": "+",
+					"label": "参数",
+					"name": "op",
+					"options": [
+						"+",
+						"-",
+						"*",
+						"/"
+					],
+					"type": "dropdown"
+				},
+				{
+					"default": 0.0,
+					"label": "参数2",
+					"name": "right",
+					"type": "number"
+				}
+			],
+			"type": 3.0
+		},
+		{
+			"category": "变量",
+			"label": "将变量 {var} 的值设为 {val}",
+			"name": "set_var_val",
+			"params": [
+				{
+					"default": "",
+					"label": "变量名",
+					"name": "var",
+					"options": [],
+					"type": "string"
+				},
+				{
+					"default": "",
+					"label": "值",
+					"name": "val",
+					"type": "string"
+				}
+			],
+			"type": 1.0
+		},
+		{
+			"category": "控制",
+			"label": "重复执行",
+			"name": "repeat_forever",
+			"params": [],
+			"type": 2.0
+		},
+		{
+			"category": "数据",
+			"label": "自己",
+			"name": "self_entity",
+			"outputs": [],
+			"params": [],
+			"type": 3.0
+		},
+		{
+			"category": "值",
+			"label": "计算2D {left} {op} {right}",
+			"name": "calculate_2d",
+			"outputs": [],
+			"params": [
+				{
+					"default": {
+						"x": 0.0,
+						"y": 0.0
+					},
+					"label": "参数1",
+					"name": "left",
+					"type": "vector2"
+				},
+				{
+					"default": "+",
+					"label": "参数",
+					"name": "op",
+					"options": [
+						"+",
+						"-",
+						"*",
+						"/"
+					],
+					"type": "dropdown"
+				},
+				{
+					"default": {
+						"x": 0.0,
+						"y": 0.0
+					},
+					"label": "参数2",
+					"name": "right",
+					"type": "vector2"
+				}
+			],
+			"type": 3.0
+		},
+		{
+			"category": "侦测",
+			"label": "获取 {entity} 的 {data_type}",
+			"name": "get_entity_data",
+			"outputs": [],
+			"params": [
+				{
+					"default": "",
+					"label": "实体",
+					"name": "entity",
+					"type": "node"
+				},
+				{
+					"default": "title",
+					"label": "东西",
+					"name": "data_type",
+					"options": [
+						"title",
+						"hp",
+						"name",
+						"position_3d",
+						"facing_direction"
+					],
+					"type": "dropdown"
+				}
+			],
+			"type": 3.0
+		},
+		{
+			"category": "值",
+			"label": "JSON解析 {str}",
+			"name": "json_parse",
+			"outputs": [],
+			"params": [
+				{
+					"default": "",
+					"label": "JSON字符串",
+					"name": "str",
+					"type": "string"
+				}
+			],
+			"type": 3.0
+		},
+		{
+			"category": "事件",
+			"label": "当动画帧变化时",
+			"name": "when_any_animation_frame_changed",
+			"outputs": [
+				{
+					"label": "动画名",
+					"name": "anim_name",
+					"type": "node"
+				},
+				{
+					"label": "当前帧",
+					"name": "frame_idx",
+					"type": "node"
+				}
+			],
+			"params": [],
+			"type": 0.0
+		},
+		{
+			"category": "变量",
+			"label": "(实体) 将变量 {var} 的值设为 {val}",
+			"name": "set_entity_var_val",
+			"params": [
+				{
+					"default": "",
+					"label": "变量名",
+					"name": "var",
+					"options": [],
+					"type": "string"
+				},
+				{
+					"default": "",
+					"label": "值",
+					"name": "val",
+					"type": "node"
+				}
+			],
+			"type": 1.0
+		},
+		{
+			"category": "侦测",
+			"label": "获取 {entity} 的数值变量 {var} 的值",
+			"name": "get_entity_num_var",
+			"outputs": [],
+			"params": [
+				{
+					"default": "",
+					"label": "实体",
+					"name": "entity",
+					"type": "node"
+				},
+				{
+					"default": "",
+					"label": "变量名",
+					"name": "var",
+					"type": "string"
+				}
+			],
+			"type": 3.0
+		},
+		{
+			"category": "侦测",
+			"label": "获取 {entity} 的字符串变量 {var} 的值",
+			"name": "get_entity_string_var",
+			"outputs": [],
+			"params": [
+				{
+					"default": "",
+					"label": "实体",
+					"name": "entity",
+					"type": "node"
+				},
+				{
+					"default": "",
+					"label": "变量名",
+					"name": "var",
+					"type": "string"
+				}
+			],
+			"type": 3.0
+		},
+		{
+			"category": "侦测",
+			"label": "获取 {entity} 的布尔值变量 {var} 的值",
+			"name": "get_entity_bool_var",
+			"outputs": [],
+			"params": [
+				{
+					"default": "",
+					"label": "实体",
+					"name": "entity",
+					"type": "node"
+				},
+				{
+					"default": "",
+					"label": "变量名",
+					"name": "var",
+					"type": "string"
+				}
+			],
+			"type": 3.0
+		},
+		{
+			"category": "侦测",
+			"label": "获取 {entity} 的2D变量 {var} 的值",
+			"name": "get_entity_2d_var",
+			"outputs": [],
+			"params": [
+				{
+					"default": "",
+					"label": "实体",
+					"name": "entity",
+					"type": "node"
+				},
+				{
+					"default": "",
+					"label": "变量名",
+					"name": "var",
+					"type": "string"
+				}
+			],
+			"type": 3.0
+		},
+		{
+			"category": "侦测",
+			"label": "获取 {entity} 的3D变量 {var} 的值",
+			"name": "get_entity_3d_var",
+			"outputs": [],
+			"params": [
+				{
+					"default": "",
+					"label": "实体",
+					"name": "entity",
+					"type": "node"
+				},
+				{
+					"default": "",
+					"label": "变量名",
+					"name": "var",
+					"type": "string"
+				}
+			],
+			"type": 3.0
+		},
+		{
+			"category": "数据",
+			"label": "自己阵营",
+			"name": "get_my_team",
+			"outputs": [],
+			"params": [],
+			"type": 3.0
+		},
+		{
+			"category": "数据",
+			"label": "对方阵营",
+			"name": "get_opponent_team",
+			"outputs": [],
+			"params": [],
+			"type": 3.0
+		},
+		{
+			"category": "实体",
+			"label": "以路径 {path} 创建名为 {name} 的实体",
+			"name": "create_entity_by_path",
+			"outputs": [],
+			"params": [
+				{
+					"default": "",
+					"label": "路径",
+					"name": "path",
+					"type": "string"
+				},
+				{
+					"default": "",
+					"label": "名称",
+					"name": "name",
+					"type": "string"
+				}
+			],
+			"type": 1.0
+		},
+		{
+			"category": "控制",
+			"label": "重复执行 {n} 次",
+			"name": "repeat_in_range",
+			"params": [
+				{
+					"default": 10.0,
+					"label": "次数",
+					"name": "n",
+					"type": "number"
+				}
+			],
+			"type": 2.0
+		},
+		{
+			"category": "控制",
+			"label": "当 {bool} 成立时重复执行",
+			"name": "repeat_while",
+			"params": [
+				{
+					"default": false,
+					"label": "条件",
+					"name": "bool",
+					"type": "bool"
+				}
+			],
+			"type": 2.0
+		},
+		{
+			"category": "动作",
+			"label": "滑动;速度: {v};阻力: {r};重力: {g};模式: {m}",
+			"name": "slide",
+			"outputs": [],
+			"params": [
+				{
+					"default": {
+						"x": 0.0,
+						"y": 0.0,
+						"z": 0.0
+					},
+					"label": "速度",
+					"name": "v",
+					"type": "vector3"
+				},
+				{
+					"default": {
+						"x": 0.0,
+						"y": 0.0
+					},
+					"label": "阻力",
+					"name": "r",
+					"type": "vector2"
+				},
+				{
+					"default": 0.0,
+					"label": "重力",
+					"name": "g",
+					"type": "number"
+				},
+				{
+					"default": "facing",
+					"label": "模式",
+					"name": "m",
+					"options": [
+						"facing",
+						"-facing",
+						"input",
+						"locked"
+					],
+					"type": "dropdown"
+				}
+			],
+			"type": 1.0
+		},
+		{
+			"category": "实体",
+			"label": "对实体 {target} 进行 {type} 攻击;速度: {v};受击时间: {hst};扫地: {cotg};重攻击: {ish};攻击强度: {bs};是否根据当前朝向攻击: {isgd};伤害 {hurt};击退阻力: {kr}",
+			"name": "hit_entity",
+			"outputs": [],
+			"params": [
+				{
+					"default": "",
+					"label": "目标",
+					"name": "target",
+					"type": "node"
+				},
+				{
+					"default": "push",
+					"label": "类型",
+					"name": "type",
+					"options": [
+						"push",
+						"launch"
+					],
+					"type": "dropdown"
+				},
+				{
+					"default": {
+						"x": 0.0,
+						"y": 0.0,
+						"z": 0.0
+					},
+					"label": "速度",
+					"name": "v",
+					"type": "vector3"
+				},
+				{
+					"default": 0.0,
+					"label": "受击时间",
+					"name": "hst",
+					"type": "number"
+				},
+				{
+					"default": false,
+					"label": "扫地",
+					"name": "cotg",
+					"type": "bool"
+				},
+				{
+					"default": false,
+					"label": "重攻击",
+					"name": "ish",
+					"type": "bool"
+				},
+				{
+					"default": 0.0,
+					"label": "攻击强度",
+					"name": "bs",
+					"type": "number"
+				},
+				{
+					"default": true,
+					"label": "是否根据当前朝向攻击",
+					"name": "isgd",
+					"type": "bool"
+				},
+				{
+					"default": 0.0,
+					"label": "伤害",
+					"name": "hurt",
+					"type": "number"
+				},
+				{
+					"default": 10.0,
+					"label": "击退阻力",
+					"name": "kr",
+					"type": "number"
+				}
+			],
+			"type": 1.0
+		},
+		{
+			"category": "特效",
+			"label": "生成特效 {name};位置: {pos};方向: {dir};数据: {data}",
+			"name": "create_effect",
+			"outputs": [],
+			"params": [
+				{
+					"default": "",
+					"label": "特效名",
+					"name": "name",
+					"type": "string"
+				},
+				{
+					"default": {
+						"x": 0.0,
+						"y": 0.0,
+						"z": 0.0
+					},
+					"label": "位置",
+					"name": "pos",
+					"type": "vector3"
+				},
+				{
+					"default": true,
+					"label": "方向",
+					"name": "dir",
+					"type": "bool"
+				},
+				{
+					"default": "",
+					"label": "数据(JSON)",
+					"name": "data",
+					"type": "string"
+				}
+			],
+			"type": 1.0
+		},
+		{
+			"category": "摄像机",
+			"label": "制造缩放震动 强度: {i} 持续时间 {d}",
+			"name": "make_zoom_shock",
+			"outputs": [],
+			"params": [
+				{
+					"default": 0.0,
+					"label": "强度",
+					"name": "i",
+					"type": "number"
+				},
+				{
+					"default": 0.0,
+					"label": "持续时间",
+					"name": "d",
+					"type": "number"
+				}
+			],
+			"type": 1.0
+		},
+		{
+			"category": "实体",
+			"label": "吸附实体 {target};到 {mpos};持续时间: {d};速度: {spe}",
+			"name": "magnetism_entity",
+			"outputs": [],
+			"params": [
+				{
+					"default": "",
+					"label": "目标",
+					"name": "target",
+					"type": "node"
+				},
+				{
+					"default": {
+						"x": 0.0,
+						"y": 0.0
+					},
+					"label": "位置",
+					"name": "mpos",
+					"type": "vector2"
+				},
+				{
+					"default": 0.0,
+					"label": "持续时间",
+					"name": "d",
+					"type": "number"
+				},
+				{
+					"default": {
+						"x": 0.0,
+						"y": 0.0
+					},
+					"label": "速度",
+					"name": "spe",
+					"type": "vector2"
+				}
+			],
+			"type": 1.0
+		},
+		{
+			"category": "动作",
+			"label": "面向: {d} 方向",
+			"name": "turn_to",
+			"outputs": [],
+			"params": [
+				{
+					"default": "左",
+					"label": "方向",
+					"name": "d",
+					"options": [
+						"左",
+						"右"
+					],
+					"type": "dropdown"
+				}
+			],
+			"type": 1.0
+		},
+		{
+			"category": "实体",
+			"label": "变化实体 {target} 的血量 {hp}",
+			"name": "change_entity_hp",
+			"outputs": [],
+			"params": [
+				{
+					"default": "",
+					"label": "目标",
+					"name": "target",
+					"type": "node"
+				},
+				{
+					"default": 0.0,
+					"label": "血量变化",
+					"name": "hp",
+					"type": "number"
+				}
+			],
+			"type": 1.0
+		},
+		{
+			"category": "值",
+			"label": "计算3D {left} {op} {right}",
+			"name": "calculate_3d",
+			"outputs": [],
+			"params": [
+				{
+					"default": {
+						"x": 0.0,
+						"y": 0.0,
+						"z": 0.0
+					},
+					"label": "参数1",
+					"name": "left",
+					"type": "vector3"
+				},
+				{
+					"default": "+",
+					"label": "参数",
+					"name": "op",
+					"options": [
+						"+",
+						"-",
+						"*",
+						"/"
+					],
+					"type": "dropdown"
+				},
+				{
+					"default": {
+						"x": 0.0,
+						"y": 0.0,
+						"z": 0.0
+					},
+					"label": "参数2",
+					"name": "right",
+					"type": "vector3"
+				}
+			],
+			"type": 3.0
+		},
+		{
+			"category": "实体",
+			"label": "减帧实体 {target} 持续时间: {d}",
+			"name": "hit_stop_entity",
+			"outputs": [],
+			"params": [
+				{
+					"default": "",
+					"label": "目标",
+					"name": "target",
+					"type": "node"
+				},
+				{
+					"default": 0.0,
+					"label": "持续时间",
+					"name": "d",
+					"type": "number"
+				}
+			],
+			"type": 1.0
+		},
+		{
+			"category": "特效",
+			"label": "生成跟随特效 {name} 跟随实体: {target};位置: {pos};方向: {dir};数据: {data}",
+			"name": "create_effect_copy",
+			"outputs": [],
+			"params": [
+				{
+					"default": "",
+					"label": "特效名",
+					"name": "name",
+					"type": "string"
+				},
+				{
+					"default": "",
+					"label": "目标",
+					"name": "target",
+					"type": "node"
+				},
+				{
+					"default": {
+						"x": 0.0,
+						"y": 0.0,
+						"z": 0.0
+					},
+					"label": "位置",
+					"name": "pos",
+					"type": "vector3"
+				},
+				{
+					"default": true,
+					"label": "方向",
+					"name": "dir",
+					"type": "bool"
+				},
+				{
+					"default": "",
+					"label": "数据(JSON)",
+					"name": "data",
+					"type": "string"
+				}
+			],
+			"type": 1.0
+		},
+		{
+			"category": "特效",
+			"label": "生成残影 渐隐: {fade}s 停滞: {hold}s 颜色: {color}",
+			"name": "spawn_afterimage",
+			"outputs": [],
+			"params": [
+				{
+					"default": 0.5,
+					"label": "渐隐时间",
+					"name": "fade",
+					"type": "number"
+				},
+				{
+					"default": 0.0,
+					"label": "停滞时间",
+					"name": "hold",
+					"type": "number"
+				},
+				{
+					"default": {
+						"a": 1.0,
+						"b": 1.0,
+						"g": 1.0,
+						"r": 1.0
+					},
+					"label": "颜色",
+					"name": "color",
+					"type": "color"
+				}
+			],
+			"type": 1.0
+		},
+		{
+			"category": "特效",
+			"label": "生成取消白影",
+			"name": "spawn_cancel_white",
+			"outputs": [],
+			"params": [],
+			"type": 1.0
+		},
+		{
+			"category": "事件",
+			"label": "当 {anim_name} 动画结束时",
+			"name": "when_animation_exit",
+			"outputs": [],
+			"params": [
+				{
+					"default": "idle",
+					"label": "动画名",
+					"name": "anim_name",
+					"type": "string"
+				}
+			],
+			"type": 0.0
+		},
+		{
+			"category": "事件",
+			"label": "当动画结束时",
+			"name": "when_any_animation_ended",
+			"outputs": [
+				{
+					"label": "动画名",
+					"name": "anim_name",
+					"type": "node"
+				}
+			],
+			"params": [],
+			"type": 0.0
+		},
+		{
+			"category": "事件",
+			"label": "当帧变化时",
+			"name": "when_frame_changed",
+			"outputs": [],
+			"params": [],
+			"type": 0.0
+		},
+		{
+			"category": "侦测",
+			"label": "{entity} 是我方实体？",
+			"name": "is_ourside_entity",
+			"outputs": [],
+			"params": [
+				{
+					"default": "",
+					"label": "实体",
+					"name": "entity",
+					"type": "node"
+				}
+			],
+			"type": 3.0
+		},
+		{
+			"category": "侦测",
+			"label": "获取 {entity} 的父实体",
+			"name": "get_parent_entity",
+			"outputs": [],
+			"params": [
+				{
+					"default": "",
+					"label": "实体",
+					"name": "entity",
+					"type": "node"
+				}
+			],
+			"type": 3.0
+		},
+		{
+			"category": "侦测",
+			"label": "获取 {entity} 的究极父实体",
+			"name": "get_root_parent_entity",
+			"outputs": [],
+			"params": [
+				{
+					"default": "",
+					"label": "实体",
+					"name": "entity",
+					"type": "node"
+				}
+			],
+			"type": 3.0
+		},
+		{
+			"category": "数据",
+			"label": "获取第 {id} 个实体",
+			"name": "get_entity_by_id",
+			"outputs": [],
+			"params": [
+				{
+					"default": 0.0,
+					"label": "序号",
+					"name": "id",
+					"type": "number"
+				}
+			],
+			"type": 3.0
+		},
+		{
+			"category": "数据",
+			"label": "获取第 {id} 个玩家实体",
+			"name": "player_entity",
+			"outputs": [],
+			"params": [
+				{
+					"default": 0.0,
+					"label": "序号",
+					"name": "id",
+					"type": "number"
+				}
+			],
+			"type": 3.0
+		},
+		{
+			"category": "值",
+			"label": "数值 {val} 在 {a} 和 {b} 之间?",
+			"name": "val_in_a_and_b",
+			"outputs": [],
+			"params": [
+				{
+					"default": 0.0,
+					"label": "参数",
+					"name": "val",
+					"type": "number"
+				},
+				{
+					"default": 0.0,
+					"label": "比较值1",
+					"name": "a",
+					"type": "number"
+				},
+				{
+					"default": 0.0,
+					"label": "比较值2",
+					"name": "b",
+					"type": "number"
+				}
+			],
+			"type": 3.0
+		},
+		{
+			"category": "侦测",
+			"label": "按下 {key} 按键?",
+			"name": "is_press_key",
+			"outputs": [],
+			"params": [
+				{
+					"default": 0.0,
+					"label": "键序号",
+					"name": "key",
+					"type": "number"
+				}
+			],
+			"type": 3.0
+		},
+		{
+			"category": "侦测",
+			"label": "按下移动键?",
+			"name": "is_moving",
+			"outputs": [],
+			"params": [],
+			"type": 3.0
+		},
+		{
+			"category": "侦测",
+			"label": "按下 {dir} 移动键?",
+			"name": "is_moving_dir",
+			"outputs": [],
+			"params": [
+				{
+					"default": 0.0,
+					"label": "方向",
+					"name": "dir",
+					"options": [
+						"上",
+						"下",
+						"左",
+						"右"
+					],
+					"type": "dropdown"
+				}
+			],
+			"type": 3.0
+		},
+		{
+			"category": "值",
+			"label": "{bool} 不成立",
+			"name": "not_bool",
+			"outputs": [],
+			"params": [
+				{
+					"default": false,
+					"label": "参数",
+					"name": "bool",
+					"type": "bool"
+				}
+			],
+			"type": 3.0
+		},
+		{
+			"category": "值",
+			"label": "{a} 含有 {b} ?",
+			"name": "a_have_b",
+			"outputs": [],
+			"params": [
+				{
+					"default": "",
+					"label": "参数1",
+					"name": "a",
+					"type": "string"
+				},
+				{
+					"default": "",
+					"label": "参数2",
+					"name": "b",
+					"type": "string"
+				}
+			],
+			"type": 3.0
+		},
+		{
+			"category": "数据",
+			"label": "当前动画名",
+			"name": "now_animation",
+			"outputs": [],
+			"params": [],
+			"type": 3.0
+		},
+		{
+			"category": "数据",
+			"label": "当前动画帧",
+			"name": "now_animation_frame_idx",
+			"outputs": [],
+			"params": [],
+			"type": 3.0
+		},
+		{
+			"category": "值",
+			"label": "{a} 以 {b} 开头?",
+			"name": "a_front_b",
+			"outputs": [],
+			"params": [
+				{
+					"default": "",
+					"label": "参数1",
+					"name": "a",
+					"type": "string"
+				},
+				{
+					"default": "",
+					"label": "参数2",
+					"name": "b",
+					"type": "string"
+				}
+			],
+			"type": 3.0
+		},
+		{
+			"category": "动作",
+			"label": "根据移动键转向",
+			"name": "turn_by_input",
+			"outputs": [],
+			"params": [],
+			"type": 1.0
+		},
+		{
+			"category": "动作",
+			"label": "开始自由移动 速度: {v}",
+			"name": "start_freemove",
+			"outputs": [],
+			"params": [
+				{
+					"default": {
+						"x": 0.0,
+						"y": 0.0
+					},
+					"label": "速度",
+					"name": "v",
+					"type": "vector2"
+				}
+			],
+			"type": 1.0
+		},
+		{
+			"category": "数据",
+			"label": "当前朝向",
+			"name": "now_dir",
+			"outputs": [],
+			"params": [],
+			"type": 3.0
+		},
+		{
+			"category": "事件",
+			"label": "当 {abox_name} 攻击框命中时",
+			"name": "when_attack_box_hit",
+			"outputs": [
+				{
+					"label": "目标",
+					"name": "target",
+					"type": "node"
+				},
+				{
+					"label": "命中点",
+					"name": "ipoint",
+					"type": "node"
+				}
+			],
+			"params": [
+				{
+					"default": "",
+					"label": "攻击框名",
+					"name": "abox_name",
+					"type": "string"
+				}
+			],
+			"type": 0.0
+		},
+		{
+			"category": "事件",
+			"label": "当攻击框命中",
+			"name": "when_attack",
+			"outputs": [
+				{
+					"label": "目标",
+					"name": "target",
+					"type": "node"
+				},
+				{
+					"label": "攻击框名",
+					"name": "abox_name",
+					"type": "node"
+				},
+				{
+					"label": "命中点",
+					"name": "ipoint",
+					"type": "node"
+				}
+			],
+			"params": [],
+			"type": 0.0
+		},
+		{
+			"category": "事件",
+			"label": "当被攻击框命中",
+			"name": "when_hit",
+			"outputs": [
+				{
+					"label": "实体",
+					"name": "entity",
+					"type": "node"
+				}
+			],
+			"params": [],
+			"type": 0.0
+		},
+		{
+			"category": "事件",
+			"label": "当实体创建时",
+			"name": "when_entity_create",
+			"outputs": [],
+			"params": [],
+			"type": 0.0
+		},
+		{
+			"category": "事件",
+			"label": "当胜利时",
+			"name": "on_victory",
+			"outputs": [],
+			"params": [],
+			"type": 0.0
+		},
+		{
+			"category": "事件",
+			"label": "当效果 {mod_type} 启动时",
+			"name": "when_modifier_start",
+			"outputs": [
+				{
+					"label": "目标",
+					"name": "target",
+					"type": "node"
+				},
+				{
+					"label": "效果类型",
+					"name": "mod_type",
+					"type": "node"
+				},
+				{
+					"label": "强度",
+					"name": "mod_power",
+					"type": "node"
+				}
+			],
+			"params": [
+				{
+					"default": "",
+					"label": "效果类型",
+					"name": "mod_type",
+					"type": "string"
+				}
+			],
+			"type": 0.0
+		},
+		{
+			"category": "动作",
+			"label": "停止自由移动",
+			"name": "stop_freemove",
+			"params": [],
+			"type": 1.0
+		},
+		{
+			"category": "实体",
+			"label": "设置实体 {target} 效果: {type} 程度: {pow} 持续时间: {d}",
+			"name": "set_entity_modifiers",
+			"outputs": [],
+			"params": [
+				{
+					"default": "",
+					"label": "目标",
+					"name": "target",
+					"type": "node"
+				},
+				{
+					"default": "",
+					"label": "类型",
+					"name": "type",
+					"type": "string"
+				},
+				{
+					"default": 0.0,
+					"label": "程度",
+					"name": "pow",
+					"type": "number"
+				},
+				{
+					"default": -2.0,
+					"label": "持续时间",
+					"name": "d",
+					"type": "number"
+				}
+			],
+			"type": 1.0
+		},
+		{
+			"category": "动作",
+			"label": "停止滑动",
+			"name": "stop_slide",
+			"outputs": [],
+			"params": [],
+			"type": 1.0
+		},
+		{
+			"category": "动作",
+			"label": "去世",
+			"name": "die",
+			"outputs": [],
+			"params": [],
+			"type": 1.0
+		},
+		{
+			"category": "实体",
+			"label": "设置实体 {target} 的父为 {parent}",
+			"name": "set_parent_entity",
+			"outputs": [],
+			"params": [
+				{
+					"default": "",
+					"label": "目标",
+					"name": "target",
+					"type": "node"
+				},
+				{
+					"default": "",
+					"label": "父实体",
+					"name": "parent",
+					"type": "node"
+				}
+			],
+			"type": 1.0
+		},
+		{
+			"category": "动作",
+			"label": "设置冷却 槽位序号: {slot_id} CD序号: {cd_id} 时间: {cd}",
+			"name": "set_cd",
+			"outputs": [],
+			"params": [
+				{
+					"default": 0.0,
+					"label": "槽位序号",
+					"name": "slot_id",
+					"type": "number"
+				},
+				{
+					"default": 0.0,
+					"label": "CD序号",
+					"name": "cd_id",
+					"type": "number"
+				},
+				{
+					"default": 0.0,
+					"label": "时间",
+					"name": "cd",
+					"type": "number"
+				}
+			],
+			"type": 1.0
+		},
+		{
+			"category": "数据",
+			"label": "当前2D位置",
+			"name": "now_pos2d",
+			"outputs": [],
+			"params": [],
+			"type": 3.0
+		},
+		{
+			"category": "数据",
+			"label": "当前3D位置",
+			"name": "now_pos3d",
+			"outputs": [],
+			"params": [],
+			"type": 3.0
+		},
+		{
+			"category": "动作",
+			"label": "设置计时 槽位序号: {slot_id} CD序号: {cd_id} 时间: {cd} 最大时间: {cd_max}",
+			"name": "set_timer",
+			"outputs": [],
+			"params": [
+				{
+					"default": 0.0,
+					"label": "槽位序号",
+					"name": "slot_id",
+					"type": "number"
+				},
+				{
+					"default": 0.0,
+					"label": "CD序号",
+					"name": "cd_id",
+					"type": "number"
+				},
+				{
+					"default": 0.0,
+					"label": "时间",
+					"name": "cd",
+					"type": "number"
+				},
+				{
+					"default": 0.0,
+					"label": "最大时间",
+					"name": "cd_max",
+					"type": "number"
+				}
+			],
+			"type": 1.0
+		},
+		{
+			"category": "动作",
+			"label": "绑定冷却 槽位序号: {slot_id} CD序号: {cd_id}",
+			"name": "bind_cd",
+			"outputs": [],
+			"params": [
+				{
+					"default": 0.0,
+					"label": "槽位序号",
+					"name": "slot_id",
+					"type": "number"
+				},
+				{
+					"default": 0.0,
+					"label": "CD序号",
+					"name": "cd_id",
+					"type": "number"
+				}
+			],
+			"type": 1.0
+		},
+		{
+			"category": "动作",
+			"label": "添加计时附属槽位 计时序号: {cd_id} 槽位序号: {slot_id}",
+			"name": "add_timer_sub_slot",
+			"outputs": [],
+			"params": [
+				{
+					"default": 0.0,
+					"label": "计时序号",
+					"name": "cd_id",
+					"type": "number"
+				},
+				{
+					"default": 0.0,
+					"label": "槽位序号",
+					"name": "slot_id",
+					"type": "number"
+				}
+			],
+			"type": 1.0
+		},
+		{
+			"category": "动作",
+			"label": "取消计时附属槽位 计时序号: {cd_id} 槽位序号: {slot_id}",
+			"name": "remove_timer_sub_slot",
+			"outputs": [],
+			"params": [
+				{
+					"default": 0.0,
+					"label": "计时序号",
+					"name": "cd_id",
+					"type": "number"
+				},
+				{
+					"default": 0.0,
+					"label": "槽位序号",
+					"name": "slot_id",
+					"type": "number"
+				}
+			],
+			"type": 1.0
+		},
+		{
+			"category": "动作",
+			"label": "清除计时所有附属槽位 计时序号: {cd_id}",
+			"name": "clear_timer_sub_slots",
+			"outputs": [],
+			"params": [
+				{
+					"default": 0.0,
+					"label": "计时序号",
+					"name": "cd_id",
+					"type": "number"
+				}
+			],
+			"type": 1.0
+		},
+		{
+			"category": "动作",
+			"label": "设置槽位 {slot_id} 光圈显隐 {show}",
+			"name": "set_slot_aura",
+			"outputs": [],
+			"params": [
+				{
+					"default": 0.0,
+					"label": "槽位序号",
+					"name": "slot_id",
+					"type": "number"
+				},
+				{
+					"default": true,
+					"label": "是否显示",
+					"name": "show",
+					"type": "bool"
+				}
+			],
+			"type": 1.0
+		},
+		{
+			"category": "事件",
+			"label": "当效果 {mod_type} 持续中，每隔 {interval} 秒执行",
+			"name": "when_modifier_update",
+			"outputs": [
+				{
+					"label": "目标",
+					"name": "target",
+					"type": "node"
+				},
+				{
+					"label": "效果类型",
+					"name": "mod_type",
+					"type": "node"
+				},
+				{
+					"label": "强度",
+					"name": "mod_power",
+					"type": "node"
+				}
+			],
+			"params": [
+				{
+					"default": "",
+					"label": "效果类型",
+					"name": "mod_type",
+					"type": "string"
+				},
+				{
+					"default": 0.0,
+					"label": "间隔(秒)",
+					"name": "interval",
+					"type": "number"
+				}
+			],
+			"type": 0.0
+		},
+		{
+			"category": "事件",
+			"label": "当效果 {mod_type} 结束时",
+			"name": "when_modifier_end",
+			"outputs": [
+				{
+					"label": "目标",
+					"name": "target",
+					"type": "node"
+				},
+				{
+					"label": "效果类型",
+					"name": "mod_type",
+					"type": "node"
+				},
+				{
+					"label": "强度",
+					"name": "mod_power",
+					"type": "node"
+				}
+			],
+			"params": [
+				{
+					"default": "",
+					"label": "效果类型",
+					"name": "mod_type",
+					"type": "string"
+				}
+			],
+			"type": 0.0
+		},
+		{
+			"category": "事件",
+			"label": "当有实体创建时",
+			"name": "when_a_entity_create",
+			"outputs": [
+				{
+					"label": "实体",
+					"name": "entity",
+					"type": "node"
+				}
+			],
+			"params": [],
+			"type": 0.0
+		},
+		{
+			"category": "数据",
+			"label": "当前能量条的值",
+			"name": "now_energy_bar",
+			"outputs": [],
+			"params": [],
+			"type": 3.0
+		},
+		{
+			"category": "实体",
+			"label": "抓取实体 {target};位置: {pos};时间: {time};释放位置: {rpos};动画: {ani};释放速度: {v};控制时间: {kt};重力: {g};抓取强度: {bs};记录实体到变量: {var}",
+			"name": "set_entity_immobilize",
+			"outputs": [],
+			"params": [
+				{
+					"default": "",
+					"label": "目标",
+					"name": "target",
+					"type": "node"
+				},
+				{
+					"default": {
+						"x": 0.0,
+						"y": 0.0,
+						"z": 0.0
+					},
+					"label": "抓取位置",
+					"name": "pos",
+					"type": "vector3"
+				},
+				{
+					"default": -1.0,
+					"label": "时间",
+					"name": "time",
+					"type": "number"
+				},
+				{
+					"default": {
+						"x": 0.0,
+						"y": 0.0,
+						"z": 0.0
+					},
+					"label": "释放位置",
+					"name": "rpos",
+					"type": "vector3"
+				},
+				{
+					"default": "immobilize",
+					"label": "动画",
+					"name": "ani",
+					"type": "string"
+				},
+				{
+					"default": {
+						"x": 0.0,
+						"y": 0.0,
+						"z": 0.0
+					},
+					"label": "释放速度",
+					"name": "v",
+					"type": "vector3"
+				},
+				{
+					"default": 0.0,
+					"label": "控制时间",
+					"name": "kt",
+					"type": "number"
+				},
+				{
+					"default": 700.0,
+					"label": "重力",
+					"name": "g",
+					"type": "number"
+				},
+				{
+					"default": 2.0,
+					"label": "强度",
+					"name": "bs",
+					"type": "number"
+				},
+				{
+					"default": "",
+					"label": "实体变量名(留空则不记录)",
+					"name": "var",
+					"type": "string"
+				}
+			],
+			"type": 1.0
+		},
+		{
+			"category": "动作",
+			"label": "设置槽位图标 槽位序号: {slot_id} 图片路径: {path}",
+			"name": "set_icon",
+			"outputs": [],
+			"params": [
+				{
+					"default": 0.0,
+					"label": "槽位序号",
+					"name": "slot_id",
+					"type": "number"
+				},
+				{
+					"default": "",
+					"label": "图片路径",
+					"name": "path",
+					"type": "string"
+				}
+			],
+			"type": 1.0
+		},
+		{
+			"category": "动作",
+			"label": "输出 {text}",
+			"name": "print",
+			"outputs": [],
+			"params": [
+				{
+					"default": "",
+					"label": "文本",
+					"name": "text",
+					"type": "string"
+				}
+			],
+			"type": 1.0
+		},
+		{
+			"category": "动作",
+			"label": "提示 {text}",
+			"name": "show_info_text",
+			"outputs": [],
+			"params": [
+				{
+					"default": "",
+					"label": "文本",
+					"name": "text",
+					"type": "string"
+				}
+			],
+			"type": 1.0
+		},
+		{
+			"category": "实体",
+			"label": "停止抓取 {target}",
+			"name": "stop_entity_immobilize",
+			"outputs": [],
+			"params": [
+				{
+					"default": "",
+					"label": "目标",
+					"name": "target",
+					"type": "node"
+				}
+			],
+			"type": 1.0
+		},
+		{
+			"category": "事件",
+			"label": "当收到私有广播 {msg}",
+			"name": "when_private_broadcast",
+			"outputs": [
+				{
+					"label": "消息名",
+					"name": "msg",
+					"type": "node"
+				},
+				{
+					"label": "数据",
+					"name": "data",
+					"type": "node"
+				}
+			],
+			"params": [
+				{
+					"default": "",
+					"label": "消息名",
+					"name": "msg",
+					"type": "string"
+				}
+			],
+			"type": 0.0
+		},
+		{
+			"category": "数据",
+			"label": "计时 {cd_id} 正在?",
+			"name": "timer_alive",
+			"outputs": [],
+			"params": [
+				{
+					"default": 0.0,
+					"label": "CD序号",
+					"name": "cd_id",
+					"type": "number"
+				}
+			],
+			"type": 3.0
+		},
+		{
+			"category": "实体",
+			"label": "3D传送实体 {target} 到 {pos}",
+			"name": "move_entity_pos3d_immd",
+			"outputs": [],
+			"params": [
+				{
+					"default": "",
+					"label": "目标",
+					"name": "target",
+					"type": "node"
+				},
+				{
+					"default": {
+						"x": 0.0,
+						"y": 0.0,
+						"z": 0.0
+					},
+					"label": "目的地",
+					"name": "pos",
+					"type": "vector3"
+				}
+			],
+			"type": 1.0
+		},
+		{
+			"category": "值",
+			"label": "获取2D值 {val} 的 {type} 数据",
+			"name": "2dv_num",
+			"outputs": [],
+			"params": [
+				{
+					"default": {
+						"x": 0.0,
+						"y": 0.0
+					},
+					"label": "参数",
+					"name": "val",
+					"type": "vector2"
+				},
+				{
+					"default": "X",
+					"label": "类型",
+					"name": "type",
+					"options": [
+						"X",
+						"Y",
+						"Z"
+					],
+					"type": "dropdown"
+				}
+			],
+			"type": 3.0
+		},
+		{
+			"category": "值",
+			"label": "获取3D值 {val} 的 {type} 数据",
+			"name": "3dv_num",
+			"outputs": [],
+			"params": [
+				{
+					"default": {
+						"x": 0.0,
+						"y": 0.0,
+						"z": 0.0
+					},
+					"label": "参数",
+					"name": "val",
+					"type": "vector3"
+				},
+				{
+					"default": "X",
+					"label": "类型",
+					"name": "type",
+					"options": [
+						"X",
+						"Y",
+						"Z"
+					],
+					"type": "dropdown"
+				}
+			],
+			"type": 3.0
+		},
+		{
+			"category": "值",
+			"label": "叠加自身位置到横2D值: {spos2d}",
+			"name": "add_pos3d_to_hpos2d",
+			"outputs": [],
+			"params": [
+				{
+					"default": {
+						"x": 0.0,
+						"y": 0.0
+					},
+					"label": "横2D值",
+					"name": "hpos2d",
+					"type": "vector2"
+				}
+			],
+			"type": 3.0
+		},
+		{
+			"category": "实体",
+			"label": "让 {target} 去世",
+			"name": "die_entity",
+			"outputs": [],
+			"params": [
+				{
+					"default": "",
+					"label": "目标",
+					"name": "target",
+					"type": "node"
+				}
+			],
+			"type": 1.0
+		},
+		{
+			"category": "值",
+			"label": "叠加自身位置到竖2D值: {spos2d}",
+			"name": "add_pos3d_to_spos2d",
+			"outputs": [],
+			"params": [
+				{
+					"default": {
+						"x": 0.0,
+						"y": 0.0
+					},
+					"label": "竖2D值",
+					"name": "spos2d",
+					"type": "vector2"
+				}
+			],
+			"type": 3.0
+		},
+		{
+			"category": "值",
+			"label": "计算信息点相交3D位置 目标: {target} 自己信息点: {mifn} 目标信息点: {tifn}",
+			"name": "calculate_immobilize_position_3d",
+			"outputs": [],
+			"params": [
+				{
+					"default": "",
+					"label": "目标",
+					"name": "target",
+					"type": "node"
+				},
+				{
+					"default": "",
+					"label": "自己信息点名",
+					"name": "mifn",
+					"type": "string"
+				},
+				{
+					"default": "",
+					"label": "目标信息点名",
+					"name": "tifn",
+					"type": "string"
+				}
+			],
+			"type": 3.0
+		},
+		{
+			"category": "值",
+			"label": "2D数据 {x} {y}",
+			"name": "2d_data",
+			"outputs": [],
+			"params": [
+				{
+					"default": 0.0,
+					"label": "X",
+					"name": "x",
+					"type": "number"
+				},
+				{
+					"default": 0.0,
+					"label": "Y",
+					"name": "y",
+					"type": "number"
+				}
+			],
+			"type": 3.0
+		},
+		{
+			"category": "值",
+			"label": "3D数据 {x} {y} {z}",
+			"name": "3d_data",
+			"outputs": [],
+			"params": [
+				{
+					"default": 0.0,
+					"label": "X",
+					"name": "x",
+					"type": "number"
+				},
+				{
+					"default": 0.0,
+					"label": "Y",
+					"name": "y",
+					"type": "number"
+				},
+				{
+					"default": 0.0,
+					"label": "Z",
+					"name": "z",
+					"type": "number"
+				}
+			],
+			"type": 3.0
+		},
+		{
+			"category": "声音",
+			"label": "按路径播放语音 {path} 真实感: {isz} 标记: {tag} 音量: {volume}",
+			"name": "play_voice",
+			"outputs": [],
+			"params": [
+				{
+					"default": "",
+					"label": "路径",
+					"name": "path",
+					"type": "string"
+				},
+				{
+					"default": true,
+					"label": "是否真实",
+					"name": "isz",
+					"type": "bool"
+				},
+				{
+					"default": "",
+					"label": "标记",
+					"name": "tag",
+					"type": "string"
+				},
+				{
+					"default": 1.0,
+					"label": "音量",
+					"name": "volume",
+					"type": "number"
+				}
+			],
+			"type": 1.0
+		},
+		{
+			"category": "声音",
+			"label": "按路径播放音效 {path} 真实感: {isz} 标记: {tag} 音量: {volume}",
+			"name": "play_sound",
+			"outputs": [],
+			"params": [
+				{
+					"default": "",
+					"label": "路径",
+					"name": "path",
+					"type": "string"
+				},
+				{
+					"default": true,
+					"label": "是否真实",
+					"name": "isz",
+					"type": "bool"
+				},
+				{
+					"default": "",
+					"label": "标记",
+					"name": "tag",
+					"type": "string"
+				},
+				{
+					"default": 1.0,
+					"label": "音量",
+					"name": "volume",
+					"type": "number"
+				}
+			],
+			"type": 1.0
+		},
+		{
+			"category": "声音",
+			"label": "停止音效（标记: {tag}）",
+			"name": "stop_sfx_by_tag",
+			"outputs": [],
+			"params": [
+				{
+					"default": "",
+					"label": "标记",
+					"name": "tag",
+					"type": "string"
+				}
+			],
+			"type": 1.0
+		},
+		{
+			"category": "声音",
+			"label": "停止语音（标记: {tag}）",
+			"name": "stop_voice_by_tag",
+			"outputs": [],
+			"params": [
+				{
+					"default": "",
+					"label": "标记",
+					"name": "tag",
+					"type": "string"
+				}
+			],
+			"type": 1.0
+		},
+		{
+			"category": "声音",
+			"label": "停止所有音效",
+			"name": "stop_all_sfx",
+			"outputs": [],
+			"params": [],
+			"type": 1.0
+		},
+		{
+			"category": "声音",
+			"label": "停止所有语音",
+			"name": "stop_all_voices",
+			"outputs": [],
+			"params": [],
+			"type": 1.0
+		},
+		{
+			"category": "值",
+			"label": "计算弹出墙的位置3D {pos}",
+			"name": "c_outwall_pos_3d",
+			"outputs": [],
+			"params": [
+				{
+					"default": {
+						"x": 0.0,
+						"y": 0.0,
+						"z": 0.0
+					},
+					"label": "原坐标",
+					"name": "pos",
+					"type": "vector3"
+				}
+			],
+			"type": 3.0
+		},
+		{
+			"category": "变量",
+			"label": "获取变量 {var} 的值",
+			"name": "get_var",
+			"outputs": [],
+			"params": [
+				{
+					"default": "",
+					"label": "变量名",
+					"name": "var",
+					"type": "string"
+				}
+			],
+			"type": 3.0
+		},
+		{
+			"category": "实体",
+			"label": "让 {target} 转向到 {dir} 强度: {bs}",
+			"name": "turn_entity",
+			"outputs": [],
+			"params": [
+				{
+					"default": "",
+					"label": "目标",
+					"name": "target",
+					"type": "node"
+				},
+				{
+					"default": 1.0,
+					"label": "参数",
+					"name": "dir",
+					"type": "number"
+				},
+				{
+					"default": 0.0,
+					"label": "参数",
+					"name": "bs",
+					"type": "number"
+				}
+			],
+			"type": 1.0
+		},
+		{
+			"category": "实体",
+			"label": "让 {target} 弹出墙",
+			"name": "outwall_entity",
+			"outputs": [],
+			"params": [
+				{
+					"default": "",
+					"label": "目标",
+					"name": "target",
+					"type": "node"
+				}
+			],
+			"type": 1.0
+		},
+		{
+			"category": "摄像机",
+			"label": "屏幕震动 强度: {intensity} 持续时间: {duration}",
+			"name": "camera_shake",
+			"outputs": [],
+			"params": [
+				{
+					"default": 10.0,
+					"label": "强度",
+					"name": "intensity",
+					"type": "number"
+				},
+				{
+					"default": 0.3,
+					"label": "持续时间",
+					"name": "duration",
+					"type": "number"
+				}
+			],
+			"type": 1.0
+		},
+		{
+			"category": "摄像机",
+			"label": "方向震动 强度: {intensity} 持续时间: {duration} 方向: {dir}",
+			"name": "camera_shake_directional",
+			"outputs": [],
+			"params": [
+				{
+					"default": 10.0,
+					"label": "强度",
+					"name": "intensity",
+					"type": "number"
+				},
+				{
+					"default": 0.3,
+					"label": "持续时间",
+					"name": "duration",
+					"type": "number"
+				},
+				{
+					"default": {
+						"x": 1.0,
+						"y": 0.0
+					},
+					"label": "方向",
+					"name": "dir",
+					"type": "vector2"
+				}
+			],
+			"type": 1.0
+		},
+		{
+			"category": "摄像机",
+			"label": "创伤震动 创伤值: {trauma} 最大创伤: {max_trauma}",
+			"name": "camera_shake_trauma",
+			"outputs": [],
+			"params": [
+				{
+					"default": 0.5,
+					"label": "创伤值",
+					"name": "trauma",
+					"type": "number"
+				},
+				{
+					"default": 1.0,
+					"label": "最大创伤",
+					"name": "max_trauma",
+					"type": "number"
+				}
+			],
+			"type": 1.0
+		},
+		{
+			"category": "摄像机",
+			"label": "弹簧震动 冲量: {impulse} 刚度: {stiffness} 阻尼: {damping}",
+			"name": "camera_shake_spring",
+			"outputs": [],
+			"params": [
+				{
+					"default": {
+						"x": 100.0,
+						"y": 0.0
+					},
+					"label": "冲量",
+					"name": "impulse",
+					"type": "vector2"
+				},
+				{
+					"default": 300.0,
+					"label": "刚度",
+					"name": "stiffness",
+					"type": "number"
+				},
+				{
+					"default": 0.3,
+					"label": "阻尼",
+					"name": "damping",
+					"type": "number"
+				}
+			],
+			"type": 1.0
+		},
+		{
+			"category": "摄像机",
+			"label": "爆炸震动 强度: {intensity} 持续时间: {duration}",
+			"name": "camera_shake_explosion",
+			"outputs": [],
+			"params": [
+				{
+					"default": 30.0,
+					"label": "强度",
+					"name": "intensity",
+					"type": "number"
+				},
+				{
+					"default": 0.3,
+					"label": "持续时间",
+					"name": "duration",
+					"type": "number"
+				}
+			],
+			"type": 1.0
+		},
+		{
+			"category": "摄像机",
+			"label": "振荡震动 振幅: {amplitude} 频率: {frequency} 持续时间: {duration}",
+			"name": "camera_shake_oscillate",
+			"outputs": [],
+			"params": [
+				{
+					"default": 10.0,
+					"label": "振幅",
+					"name": "amplitude",
+					"type": "number"
+				},
+				{
+					"default": 2.0,
+					"label": "频率",
+					"name": "frequency",
+					"type": "number"
+				},
+				{
+					"default": -1.0,
+					"label": "持续时间(-1=无限)",
+					"name": "duration",
+					"type": "number"
+				}
+			],
+			"type": 1.0
+		},
+		{
+			"category": "摄像机",
+			"label": "停止所有屏幕震动",
+			"name": "camera_stop_shake",
+			"outputs": [],
+			"params": [],
+			"type": 1.0
+		},
+		{
+			"category": "摄像机",
+			"label": "瞬间缩放震动 强度: {intensity} 持续时间: {duration}",
+			"name": "camera_zoom_shock_instant",
+			"outputs": [],
+			"params": [
+				{
+					"default": 0.3,
+					"label": "强度",
+					"name": "intensity",
+					"type": "number"
+				},
+				{
+					"default": 0.3,
+					"label": "持续时间",
+					"name": "duration",
+					"type": "number"
+				}
+			],
+			"type": 1.0
+		},
+		{
+			"category": "摄像机",
+			"label": "持续缩放震动 强度: {intensity} 保持: {hold_time}秒",
+			"name": "camera_zoom_shock_hold",
+			"outputs": [],
+			"params": [
+				{
+					"default": 0.3,
+					"label": "强度",
+					"name": "intensity",
+					"type": "number"
+				},
+				{
+					"default": 0.2,
+					"label": "保持时间",
+					"name": "hold_time",
+					"type": "number"
+				}
+			],
+			"type": 1.0
+		},
+		{
+			"category": "摄像机",
+			"label": "循环脉冲缩放 幅度: {amplitude} 频率: {frequency} 波形: {waveform} 持续: {duration}秒",
+			"name": "camera_pulse_zoom",
+			"outputs": [],
+			"params": [
+				{
+					"default": 0.2,
+					"label": "幅度",
+					"name": "amplitude",
+					"type": "number"
+				},
+				{
+					"default": 2.0,
+					"label": "频率",
+					"name": "frequency",
+					"type": "number"
+				},
+				{
+					"default": 0.0,
+					"label": "波形",
+					"name": "waveform",
+					"options": [
+						"正弦波",
+						"三角波",
+						"方波"
+					],
+					"type": "dropdown"
+				},
+				{
+					"default": 0.0,
+					"label": "持续时间(0=无限)",
+					"name": "duration",
+					"type": "number"
+				}
+			],
+			"type": 1.0
+		},
+		{
+			"category": "摄像机",
+			"label": "停止脉冲缩放",
+			"name": "camera_stop_pulse_zoom",
+			"outputs": [],
+			"params": [],
+			"type": 1.0
+		},
+		{
+			"category": "摄像机",
+			"label": "镜头移动 偏移: {offset} 缩放: {zoom} 持续时间: {duration}",
+			"name": "camera_move",
+			"outputs": [],
+			"params": [
+				{
+					"default": {
+						"x": 0.0,
+						"y": 0.0
+					},
+					"label": "偏移",
+					"name": "offset",
+					"type": "vector2"
+				},
+				{
+					"default": 1.0,
+					"label": "缩放",
+					"name": "zoom",
+					"type": "number"
+				},
+				{
+					"default": 0.5,
+					"label": "持续时间",
+					"name": "duration",
+					"type": "number"
+				}
+			],
+			"type": 1.0
+		},
+		{
+			"category": "摄像机",
+			"label": "镜头移动到位置 世界坐标: {pos} 缩放: {zoom} 持续时间: {duration}",
+			"name": "camera_move_absolute",
+			"outputs": [],
+			"params": [
+				{
+					"default": {
+						"x": 0.0,
+						"y": 0.0
+					},
+					"label": "坐标",
+					"name": "pos",
+					"type": "vector2"
+				},
+				{
+					"default": 1.0,
+					"label": "缩放",
+					"name": "zoom",
+					"type": "number"
+				},
+				{
+					"default": 0.5,
+					"label": "持续时间",
+					"name": "duration",
+					"type": "number"
+				}
+			],
+			"type": 1.0
+		},
+		{
+			"category": "摄像机",
+			"label": "停止镜头移动 立即: {immediate}",
+			"name": "camera_stop_move",
+			"outputs": [],
+			"params": [
+				{
+					"default": false,
+					"label": "立即停止",
+					"name": "immediate",
+					"type": "bool"
+				}
+			],
+			"type": 1.0
+		},
+		{
+			"category": "摄像机",
+			"label": "镜头旋转 角度: {angle}° 进入: {enter_duration} 持续: {hold_duration} 退出: {exit_duration}",
+			"name": "camera_rotate",
+			"outputs": [],
+			"params": [
+				{
+					"default": 15.0,
+					"label": "角度(度)",
+					"name": "angle",
+					"type": "number"
+				},
+				{
+					"default": 0.2,
+					"label": "进入时间",
+					"name": "enter_duration",
+					"type": "number"
+				},
+				{
+					"default": 0.5,
+					"label": "持续时间",
+					"name": "hold_duration",
+					"type": "number"
+				},
+				{
+					"default": 0.3,
+					"label": "退出时间",
+					"name": "exit_duration",
+					"type": "number"
+				}
+			],
+			"type": 1.0
+		},
+		{
+			"category": "控制",
+			"event_only": true,
+			"label": "否则如果 {condition}",
+			"name": "else_if",
+			"params": [
+				{
+					"default": true,
+					"label": "条件",
+					"name": "condition",
+					"type": "bool"
+				}
+			],
+			"type": 2.0
+		},
+		{
+			"category": "控制",
+			"event_only": true,
+			"label": "否则",
+			"name": "else_block",
+			"params": [],
+			"type": 2.0
+		},
+		{
+			"category": "事件",
+			"label": "当收到全局广播 {msg}",
+			"name": "when_global_broadcast",
+			"outputs": [
+				{
+					"label": "消息名",
+					"name": "msg",
+					"type": "node"
+				},
+				{
+					"label": "数据",
+					"name": "data",
+					"type": "node"
+				}
+			],
+			"params": [
+				{
+					"default": "",
+					"label": "消息名",
+					"name": "msg",
+					"type": "string"
+				}
+			],
+			"type": 0.0
+		},
+		{
+			"category": "事件",
+			"label": "当按下 {key} 时",
+			"name": "when_press_input",
+			"outputs": [],
+			"params": [
+				{
+					"default": 0.0,
+					"label": "键序号",
+					"name": "key",
+					"options": [],
+					"type": "number"
+				}
+			],
+			"type": 0.0
+		},
+		{
+			"category": "动作",
+			"label": "3D传送到 {pos}",
+			"name": "move_pos3d_immd",
+			"outputs": [],
+			"params": [
+				{
+					"default": {
+						"x": 0.0,
+						"y": 0.0,
+						"z": 0.0
+					},
+					"label": "目的地",
+					"name": "pos",
+					"type": "vector3"
+				}
+			],
+			"type": 1.0
+		},
+		{
+			"category": "值",
+			"label": "在 {a} 到 {b} 之间随机选一个数",
+			"name": "get_random_in_ab",
+			"outputs": [],
+			"params": [
+				{
+					"default": 0.0,
+					"label": "参数1",
+					"name": "a",
+					"type": "number"
+				},
+				{
+					"default": 0.0,
+					"label": "参数2",
+					"name": "b",
+					"type": "number"
+				}
+			],
+			"type": 3.0
+		},
+		{
+			"category": "动作",
+			"label": "创建全局吸附 {name};吸附中心: {center};吸附范围: [{range_x1},{range_y1},{range_x2},{range_y2}];吸力: {force};持续时间: {duration};阵营: {affected_teams}",
+			"name": "set_global_magnetism",
+			"outputs": [],
+			"params": [
+				{
+					"default": "",
+					"label": "名称",
+					"name": "name",
+					"type": "string"
+				},
+				{
+					"default": {
+						"x": 0.0,
+						"y": 0.0
+					},
+					"label": "吸附中心",
+					"name": "center",
+					"type": "vector2"
+				},
+				{
+					"default": 0.0,
+					"label": "范围 X1",
+					"name": "range_x1",
+					"type": "number"
+				},
+				{
+					"default": 0.0,
+					"label": "范围 Y1",
+					"name": "range_y1",
+					"type": "number"
+				},
+				{
+					"default": 0.0,
+					"label": "范围 X2",
+					"name": "range_x2",
+					"type": "number"
+				},
+				{
+					"default": 0.0,
+					"label": "范围 Y2",
+					"name": "range_y2",
+					"type": "number"
+				},
+				{
+					"default": {
+						"x": 0.0,
+						"y": 0.0
+					},
+					"label": "吸力",
+					"name": "force",
+					"type": "vector2"
+				},
+				{
+					"default": 0.0,
+					"label": "持续时间",
+					"name": "duration",
+					"type": "number"
+				},
+				{
+					"default": "",
+					"label": "可吸入阵营(逗号分隔,空=全部)",
+					"name": "affected_teams",
+					"type": "string"
+				}
+			],
+			"type": 1.0
+		},
+		{
+			"category": "动作",
+			"label": "创建全局吸附(大小) {name};吸附中心: {center};范围中心: {range_center} 大小: {range_size};吸力: {force};持续时间: {duration};阵营: {affected_teams}",
+			"name": "set_global_magnetism_by_size",
+			"outputs": [],
+			"params": [
+				{
+					"default": "",
+					"label": "名称",
+					"name": "name",
+					"type": "string"
+				},
+				{
+					"default": {
+						"x": 0.0,
+						"y": 0.0
+					},
+					"label": "吸附中心点",
+					"name": "center",
+					"type": "vector2"
+				},
+				{
+					"default": {
+						"x": 0.0,
+						"y": 0.0
+					},
+					"label": "范围中心",
+					"name": "range_center",
+					"type": "vector2"
+				},
+				{
+					"default": {
+						"x": 0.0,
+						"y": 0.0
+					},
+					"label": "范围大小(宽=X高=Y)",
+					"name": "range_size",
+					"type": "vector2"
+				},
+				{
+					"default": {
+						"x": 0.0,
+						"y": 0.0
+					},
+					"label": "吸力",
+					"name": "force",
+					"type": "vector2"
+				},
+				{
+					"default": 0.0,
+					"label": "持续时间",
+					"name": "duration",
+					"type": "number"
+				},
+				{
+					"default": "",
+					"label": "可吸入阵营(逗号分隔,空=全部)",
+					"name": "affected_teams",
+					"type": "string"
+				}
+			],
+			"type": 1.0
+		},
+		{
+			"category": "动作",
+			"label": "设置光圈显隐 {visible}",
+			"name": "set_aura_visible",
+			"outputs": [],
+			"params": [
+				{
+					"default": true,
+					"label": "是否显示",
+					"name": "visible",
+					"type": "bool"
+				}
+			],
+			"type": 1.0
+		},
+		{
+			"category": "动作",
+			"label": "设置自定义无敌 {b}",
+			"name": "set_custom_invincible",
+			"outputs": [],
+			"params": [
+				{
+					"default": true,
+					"label": "是否无敌",
+					"name": "b",
+					"type": "bool"
+				}
+			],
+			"type": 1.0
+		},
+		{
+			"category": "动作",
+			"label": "设置能量条显隐 {visible}",
+			"name": "set_energy_bar_visible",
+			"outputs": [],
+			"params": [
+				{
+					"default": true,
+					"label": "是否显示",
+					"name": "visible",
+					"type": "bool"
+				}
+			],
+			"type": 1.0
+		},
+		{
+			"category": "动作",
+			"label": "设置能量条进度 {v}",
+			"name": "set_energy_bar_value",
+			"outputs": [],
+			"params": [
+				{
+					"default": 0.0,
+					"label": "进度值",
+					"name": "v",
+					"type": "number"
+				}
+			],
+			"type": 1.0
+		},
+		{
+			"category": "动作",
+			"label": "设置能量条最大进度 {v}",
+			"name": "set_energy_bar_value_max",
+			"outputs": [],
+			"params": [
+				{
+					"default": 0.0,
+					"label": "进度值",
+					"name": "v",
+					"type": "number"
+				}
+			],
+			"type": 1.0
+		},
+		{
+			"category": "事件",
+			"label": "当 {cd_id} 序号的计时结束",
+			"name": "when_timer_out",
+			"outputs": [],
+			"params": [
+				{
+					"default": 0.0,
+					"label": "CD序号",
+					"name": "cd_id",
+					"type": "number"
+				}
+			],
+			"type": 0.0
+		},
+		{
+			"category": "事件",
+			"label": "当初始化图标时",
+			"name": "when_setup_icon",
+			"outputs": [],
+			"params": [],
+			"type": 0.0
+		},
+		{
+			"category": "事件",
+			"label": "当死亡时",
+			"name": "when_death",
+			"outputs": [
+				{
+					"label": "攻击者",
+					"name": "attacker",
+					"type": "node"
+				}
+			],
+			"params": [],
+			"type": 0.0
+		},
+		{
+			"category": "动作",
+			"label": "设置能量条颜色 {c}",
+			"name": "set_energy_bar_color",
+			"outputs": [],
+			"params": [
+				{
+					"default": {
+						"a": 1.0,
+						"b": 1.0,
+						"g": 1.0,
+						"r": 1.0
+					},
+					"label": "颜色",
+					"name": "c",
+					"type": "color"
+				}
+			],
+			"type": 1.0
+		},
+		{
+			"category": "动作",
+			"label": "设置能量条分割 {c}",
+			"name": "set_energy_bar_split",
+			"outputs": [],
+			"params": [
+				{
+					"default": 1.0,
+					"label": "块数",
+					"name": "c",
+					"type": "number"
+				}
+			],
+			"type": 1.0
+		},
+		{
+			"category": "动作",
+			"label": "设置奥义点数 {v}",
+			"name": "set_ultimate_point",
+			"outputs": [],
+			"params": [
+				{
+					"default": 0.0,
+					"label": "奥义点数",
+					"name": "v",
+					"type": "number"
+				}
+			],
+			"type": 1.0
+		},
+		{
+			"category": "动作",
+			"label": "设置奥义点数最大值 {v}",
+			"name": "set_ultimate_point_max",
+			"outputs": [],
+			"params": [
+				{
+					"default": 4.0,
+					"label": "奥义点数",
+					"name": "v",
+					"type": "number"
+				}
+			],
+			"type": 1.0
+		},
+		{
+			"category": "动作",
+			"label": "改变奥义点数 {d}",
+			"name": "change_ultimate_point",
+			"outputs": [],
+			"params": [
+				{
+					"default": 1.0,
+					"label": "改变量",
+					"name": "d",
+					"type": "number"
+				}
+			],
+			"type": 1.0
+		},
+		{
+			"category": "动作",
+			"label": "对 {entity} 改变奥义点数 {d}",
+			"name": "change_ultimate_point_for",
+			"outputs": [],
+			"params": [
+				{
+					"default": "",
+					"label": "实体",
+					"name": "entity",
+					"type": "node"
+				},
+				{
+					"default": 1.0,
+					"label": "改变量",
+					"name": "d",
+					"type": "number"
+				}
+			],
+			"type": 1.0
+		},
+		{
+			"category": "动作",
+			"label": "有标记改变奥义点数 {d} 标记: {flag}",
+			"name": "change_ultimate_point_flag",
+			"outputs": [],
+			"params": [
+				{
+					"default": 1.0,
+					"label": "改变量",
+					"name": "d",
+					"type": "number"
+				},
+				{
+					"default": "",
+					"label": "标记名",
+					"name": "flag",
+					"type": "string"
+				}
+			],
+			"type": 1.0
+		},
+		{
+			"category": "动作",
+			"label": "清理奥义点标记 {flag}",
+			"name": "clear_ultimate_flag",
+			"outputs": [],
+			"params": [
+				{
+					"default": "",
+					"label": "标记名",
+					"name": "flag",
+					"type": "string"
+				}
+			],
+			"type": 1.0
+		},
+		{
+			"category": "实体",
+			"label": "补间 {target} 属性 {prop} 到 {to} 耗时 {dur} 秒 缓动: {ease}",
+			"name": "tween_property",
+			"params": [
+				{
+					"default": "",
+					"label": "目标",
+					"name": "target",
+					"type": "node"
+				},
+				{
+					"default": "scale",
+					"label": "属性",
+					"name": "prop",
+					"options": [
+						"scale",
+						"modulate",
+						"modulate:a",
+						"rotation",
+						"position:x",
+						"position:y",
+						"position_3d:x",
+						"position_3d:y",
+						"position_3d:z"
+					],
+					"type": "dropdown"
+				},
+				{
+					"default": 1.0,
+					"label": "目标值",
+					"name": "to",
+					"type": "number"
+				},
+				{
+					"default": 0.5,
+					"label": "持续时间",
+					"name": "dur",
+					"type": "number"
+				},
+				{
+					"default": "缓出",
+					"label": "缓动",
+					"name": "ease",
+					"options": [
+						"线性",
+						"缓入",
+						"缓出",
+						"缓入缓出"
+					],
+					"type": "dropdown"
+				},
+				{
+					"default": null,
+					"label": "延迟(秒)",
+					"name": "delay",
+					"type": "number"
+				}
+			],
+			"type": 1.0
+		},
+		{
+			"category": "数据",
+			"label": "获取信息点: {name}",
+			"name": "get_info_point",
+			"outputs": [],
+			"params": [
+				{
+					"default": "",
+					"label": "信息点名",
+					"name": "name",
+					"type": "string"
+				}
+			],
+			"type": 3.0
+		},
+		{
+			"category": "动作",
+			"label": "设置能否允许释放附加 {b}",
+			"name": "set_can_cast_aux",
+			"outputs": [],
+			"params": [
+				{
+					"default": true,
+					"label": "是否允许",
+					"name": "v",
+					"type": "bool"
+				}
+			],
+			"type": 1.0
+		},
+		{
+			"category": "动作",
+			"label": "设置槽位 {slot_id} 是否充能 {b}",
+			"name": "set_is_charging",
+			"outputs": [],
+			"params": [
+				{
+					"default": 0.0,
+					"label": "槽位序号",
+					"name": "slot_id",
+					"type": "number"
+				},
+				{
+					"default": true,
+					"label": "是否充能",
+					"name": "b",
+					"type": "bool"
+				}
+			],
+			"type": 1.0
+		},
+		{
+			"category": "动作",
+			"label": "设置槽位 {slot_id} 充能点 {n}",
+			"name": "set_charging",
+			"outputs": [],
+			"params": [
+				{
+					"default": 0.0,
+					"label": "槽位序号",
+					"name": "slot_id",
+					"type": "number"
+				},
+				{
+					"default": 0.0,
+					"label": "充能点数",
+					"name": "n",
+					"type": "number"
+				}
+			],
+			"type": 1.0
+		},
+		{
+			"category": "变量",
+			"label": "设置长时变量 {var} 的值设为 {val}",
+			"name": "set_long_var",
+			"params": [
+				{
+					"default": "",
+					"label": "变量名",
+					"name": "var",
+					"type": "string"
+				},
+				{
+					"default": "",
+					"label": "值",
+					"name": "val",
+					"type": "string"
+				}
+			],
+			"type": 1.0
+		},
+		{
+			"category": "变量",
+			"label": "获取长时变量 {var} 的值",
+			"name": "get_long_var",
+			"outputs": [],
+			"params": [
+				{
+					"default": "",
+					"label": "变量名",
+					"name": "var",
+					"type": "string"
+				}
+			],
+			"type": 3.0
+		},
+		{
+			"category": "动作",
+			"label": "设置槽位 {slot_id} 最大充能点 {n}",
+			"name": "set_charging_max",
+			"outputs": [],
+			"params": [
+				{
+					"default": 0.0,
+					"label": "槽位序号",
+					"name": "slot_id",
+					"type": "number"
+				},
+				{
+					"default": 0.0,
+					"label": "充能点数",
+					"name": "n",
+					"type": "number"
+				}
+			],
+			"type": 1.0
+		},
+		{
+			"category": "动作",
+			"label": "设置槽位 {slot_id} 充能进度 {value}",
+			"name": "set_charging_progress",
+			"outputs": [],
+			"params": [
+				{
+					"default": 0.0,
+					"label": "槽位序号",
+					"name": "slot_id",
+					"type": "number"
+				},
+				{
+					"default": 0.0,
+					"label": "进度",
+					"name": "value",
+					"type": "number"
+				}
+			],
+			"type": 1.0
+		},
+		{
+			"category": "动作",
+			"label": "设置槽位 {slot_id} 充能进度显隐 {visible}",
+			"name": "set_charging_progress_visible",
+			"outputs": [],
+			"params": [
+				{
+					"default": 0.0,
+					"label": "槽位序号",
+					"name": "slot_id",
+					"type": "number"
+				},
+				{
+					"default": true,
+					"label": "是否显示",
+					"name": "visible",
+					"type": "bool"
+				}
+			],
+			"type": 1.0
+		},
+		{
+			"category": "动作",
+			"label": "设置槽位 {slot_id} 是否禁用 {disabled}",
+			"name": "set_skill_slot_disabled",
+			"outputs": [],
+			"params": [
+				{
+					"default": 0.0,
+					"label": "槽位序号",
+					"name": "slot_id",
+					"type": "number"
+				},
+				{
+					"default": true,
+					"label": "是否禁用",
+					"name": "disabled",
+					"type": "bool"
+				}
+			],
+			"type": 1.0
+		},
+		{
+			"category": "动作",
+			"label": "发送私有广播 {msg} 数据: {data}",
+			"name": "send_private_broadcast",
+			"outputs": [],
+			"params": [
+				{
+					"default": "",
+					"label": "消息名",
+					"name": "msg",
+					"type": "string"
+				},
+				{
+					"default": "",
+					"label": "数据",
+					"name": "data",
+					"type": "string"
+				}
+			],
+			"type": 1.0
+		},
+		{
+			"category": "动作",
+			"label": "发送全局广播 {msg} 数据: {data}",
+			"name": "send_global_broadcast",
+			"outputs": [],
+			"params": [
+				{
+					"default": "",
+					"label": "消息名",
+					"name": "msg",
+					"type": "string"
+				},
+				{
+					"default": "",
+					"label": "数据",
+					"name": "data",
+					"type": "string"
+				}
+			],
+			"type": 1.0
+		},
+		{
+			"category": "动作",
+			"label": "设置奥义状态 {active}",
+			"name": "set_ultimate_active",
+			"outputs": [],
+			"params": [
+				{
+					"default": false,
+					"label": "是否奥义期间",
+					"name": "active",
+					"type": "bool"
+				}
+			],
+			"type": 1.0
+		},
+		{
+			"category": "动作",
+			"label": "设置奥义图场景 {path}",
+			"name": "set_ultimate_img_scene",
+			"outputs": [],
+			"params": [
+				{
+					"default": "res://scenes/ultra_img_animation.tscn",
+					"label": "场景路径",
+					"name": "path",
+					"type": "string"
+				}
+			],
+			"type": 1.0
+		},
+		{
+			"category": "动作",
+			"label": "停帧 {duration}",
+			"name": "freeze_frame",
+			"outputs": [],
+			"params": [
+				{
+					"default": 1.0,
+					"label": "持续时间",
+					"name": "duration",
+					"type": "number"
+				}
+			],
+			"type": 1.0
+		},
+		{
+			"category": "动作",
+			"label": "时停 {duration}",
+			"name": "time_stop",
+			"outputs": [],
+			"params": [
+				{
+					"default": 1.0,
+					"label": "持续时间",
+					"name": "duration",
+					"type": "number"
+				}
+			],
+			"type": 1.0
+		},
+		{
+			"category": "动作",
+			"label": "时缓 目标速度: {target} 进入 {tin} 保持 {hold} 退出 {tout}",
+			"name": "set_time_scale_animated",
+			"outputs": [],
+			"params": [
+				{
+					"default": 0.5,
+					"label": "目标速度",
+					"name": "target",
+					"type": "number"
+				},
+				{
+					"default": 0.5,
+					"label": "进入时间",
+					"name": "transition_in",
+					"type": "number"
+				},
+				{
+					"default": 0.0,
+					"label": "保持时间",
+					"name": "hold",
+					"type": "number"
+				},
+				{
+					"default": 0.0,
+					"label": "恢复时间",
+					"name": "transition_out",
+					"type": "number"
+				}
+			],
+			"type": 1.0
+		}
+	],
+	"categories": [
+		"事件",
+		"动作",
+		"控制",
+		"值",
+		"变量",
+		"数据",
+		"侦测",
+		"实体",
+		"特效",
+		"摄像机",
+		"声音"
+	],
+	"category_colors": {
+		"事件": "9b5110ff",
+		"侦测": "00b6ceff",
+		"值": "13a30eff",
+		"动作": "287abdff",
+		"变量": "f89700ff",
+		"声音": "8ea700ff",
+		"实体": "0a0064ff",
+		"控制": "bb8800ff",
+		"摄像机": "00ad64ff",
+		"数据": "c92a19ff",
+		"特效": "a100bdff"
+	}
+}

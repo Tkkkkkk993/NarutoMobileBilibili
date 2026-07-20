@@ -1,0 +1,22 @@
+[gd_scene format=3 uid="uid://b60d43vob7a5k"]
+
+[ext_resource type="PackedScene" uid="uid://w3y556iyif6g" path="res://assets/entities/base/entity_base.tscn" id="1_oi5f3"]
+[ext_resource type="PackedScene" uid="uid://btgaxvo6nt2j0" path="res://assets/entities/斑的大须佐/斑的大须佐.tscn" id="2_oi5f3"]
+[ext_resource type="Script" uid="uid://c46o1mw3b016x" path="res://assets/entities/斑的大须佐/entity.gd" id="2_oxca7"]
+
+[node name="Entity" unique_id=1152390372 instance=ExtResource("1_oi5f3")]
+script = ExtResource("2_oxca7")
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="Visuals" parent_id_path=PackedInt32Array(599763896) index="0" unique_id=1591431578]
+offset_left = -832.0
+offset_top = -760.0
+offset_right = 1216.0
+offset_bottom = 264.0
+
+[node name="SubViewport" type="SubViewport" parent="Visuals/SubViewportContainer" index="0" unique_id=1684611412]
+transparent_bg = true
+handle_input_locally = false
+size = Vector2i(2048, 1024)
+render_target_update_mode = 4
+
+[node name="斑的大须佐" parent="Visuals/SubViewportContainer/SubViewport" index="0" unique_id=2053459570 instance=ExtResource("2_oi5f3")]

@@ -1,0 +1,44 @@
+[gd_scene format=3 uid="uid://d0fradj3mkaq8"]
+
+[ext_resource type="PackedScene" uid="uid://gkn20f0aex3q" path="res://assets/entities/base/animated_sprite_2d_entity.tscn" id="1_l77h6"]
+[ext_resource type="Texture2D" uid="uid://vntrcuvvx65m" path="res://assets/entities/鲨鱼/0.png" id="2_1sygf"]
+[ext_resource type="Script" uid="uid://btm1krme8tght" path="res://assets/entities/鲨鱼/entity.gd" id="2_nm3oi"]
+[ext_resource type="Texture2D" uid="uid://q4pwef20xn7i" path="res://assets/entities/鲨鱼/1.png" id="3_rsk8k"]
+[ext_resource type="Texture2D" uid="uid://cno77gbgw0yuu" path="res://assets/entities/鲨鱼/2.png" id="4_y5wwp"]
+[ext_resource type="Texture2D" uid="uid://de2iknu33fhof" path="res://assets/UI/empty.png" id="6_lmplw"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_tariv"]
+animations = [{
+"frames": [{
+"duration": 3.0,
+"texture": ExtResource("2_1sygf")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_rsk8k")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_y5wwp")
+}],
+"loop": false,
+"name": &"attack",
+"speed": 12.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("6_lmplw")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}]
+
+[node name="Entity" instance=ExtResource("1_l77h6")]
+script = ExtResource("2_nm3oi")
+
+[node name="Shadow" parent="." index="0"]
+visible = false
+
+[node name="AnimatedSprite2D" parent="Visuals" index="0"]
+sprite_frames = SubResource("SpriteFrames_tariv")
+animation = &"attack"
+autoplay = "idle"

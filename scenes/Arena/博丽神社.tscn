@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://cmxr6d8odiw0"]
+
+[ext_resource type="Texture2D" uid="uid://cxcuthekiqg5a" path="res://assets/stages/博丽神社.png" id="1_qx6ii"]
+[ext_resource type="Script" path="res://scripts/Arena/博丽神社.gd" id="2_3e3ti"]
+
+[node name="博丽神社" type="Sprite2D"]
+position = Vector2(0, -90)
+scale = Vector2(1.24684, 1.24684)
+texture = ExtResource("1_qx6ii")
+script = ExtResource("2_3e3ti")

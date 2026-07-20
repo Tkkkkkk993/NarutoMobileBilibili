@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://bvs3k7xnpq2ym"]
+
+[ext_resource type="Script" path="res://addons/entityeditor/visual_script_editor.gd" id="1_vse01"]
+
+[node name="VisualScriptEditor" type="Window"]
+title = "图形化脚本编辑器"
+script = ExtResource("1_vse01")

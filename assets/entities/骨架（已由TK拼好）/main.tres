@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="EntityData" format=3 uid="uid://dotfafeomgwfd"]
+
+[ext_resource type="Script" uid="uid://cm7ar1dcvtpvt" path="res://assets/entities/base/entity_data.gd" id="1_ra5w2"]
+
+[resource]
+script = ExtResource("1_ra5w2")
+entity_name = "骨架（已由TK拼好）"
+floder_path = "res://assets/entities/骨架（已由TK拼好）/"
+metadata/_custom_type_script = "uid://cm7ar1dcvtpvt"

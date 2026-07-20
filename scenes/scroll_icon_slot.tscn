@@ -1,0 +1,52 @@
+[gd_scene format=3 uid="uid://d22ajpo50qki5"]
+
+[ext_resource type="Script" uid="uid://u8ywriki8eh1" path="res://scripts/scroll_icon_slot.gd" id="1_grpk1"]
+[ext_resource type="Shader" uid="uid://576l46oyjs1i" path="res://shader/scroll_slot.gdshader" id="2_md5v7"]
+[ext_resource type="Texture2D" uid="uid://dpvwlsx3281hs" path="res://assets/entities/鲨鱼/portraits/icon_idle.png" id="3_x3hyc"]
+[ext_resource type="Texture2D" uid="uid://c8jsf8mhkp00p" path="res://assets/UI/charSelect/cycPanel.png" id="4_xwnfy"]
+[ext_resource type="Script" uid="uid://cdbs1x1tynelh" path="res://scripts/scroll_icon_slot_touch.gd" id="5_2dlxc"]
+[ext_resource type="PackedScene" uid="uid://r28cm3ixih6s" path="res://scenes/digit_display.tscn" id="5_j267y"]
+[ext_resource type="Texture2D" uid="uid://bi0impdsebk2w" path="res://assets/UI/charSelect/WaitNum_0.png" id="6_1jfc6"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_r7hgu"]
+shader = ExtResource("2_md5v7")
+shader_parameter/radius = 0.5
+shader_parameter/antialiasing = 0.02
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_5vuxx"]
+size = Vector2(74, 74)
+
+[node name="ScrollIconSlot" type="Control" unique_id=1452826823]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_grpk1")
+
+[node name="Icon" type="Sprite2D" parent="." unique_id=930571858]
+z_index = 1
+material = SubResource("ShaderMaterial_r7hgu")
+position = Vector2(32, 32)
+scale = Vector2(0.8, 0.8)
+texture = ExtResource("3_x3hyc")
+
+[node name="ButtonPanel" type="Sprite2D" parent="Icon" unique_id=895218303]
+z_index = -1
+scale = Vector2(1.10084, 1.10084)
+texture = ExtResource("4_xwnfy")
+
+[node name="DigitDisplay" parent="." unique_id=1940198430 instance=ExtResource("5_j267y")]
+z_index = 2
+position = Vector2(32, 33)
+scale = Vector2(0.880672, 0.880672)
+texture = ExtResource("6_1jfc6")
+char_set = "0123456789:"
+columns = 11
+rows = 1
+scale_factor = 0.2
+
+[node name="Touch" type="TouchScreenButton" parent="." unique_id=1617607782]
+position = Vector2(32, 33)
+shape = SubResource("RectangleShape2D_5vuxx")
+script = ExtResource("5_2dlxc")
+
+[connection signal="pressed" from="Touch" to="Touch" method="_on_button_pressed"]
+[connection signal="released" from="Touch" to="Touch" method="_on_button_released"]

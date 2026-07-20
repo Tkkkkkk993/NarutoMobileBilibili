@@ -1,0 +1,187 @@
+{
+	"blocks": [
+		{
+			"id": 2,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_var_ref": false,
+			"name": "when_attack",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+
+			},
+			"position": {
+				"x": -53.0,
+				"y": -299.0
+			},
+			"source_block_id": -1,
+			"stack_below_id": 3,
+			"type": "EVENT",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 3,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_var_ref": false,
+			"name": "set_entity_immobilize",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"ani": "immobilize",
+				"bs": 2.0,
+				"g": 700.0,
+				"kt": 0.0,
+				"pos": {
+					"x": 0.0,
+					"y": 0.0,
+					"z": 0.0
+				},
+				"rpos": {
+					"x": 0.0,
+					"y": 0.0
+				},
+				"target": "",
+				"time": -1.0,
+				"v": {
+					"x": 0.0,
+					"y": 0.0,
+					"z": 0.0
+				},
+				"var": ""
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": -1,
+			"type": "ACTION",
+			"value_slots": {
+				"target": 4
+			}
+		},
+		{
+			"id": 4,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_var_ref": true,
+			"name": "_var_ref_target",
+			"output_label": "目标",
+			"output_name": "target",
+			"output_type": "node",
+			"params": {
+
+			},
+			"position": {
+
+			},
+			"source_block_id": 2,
+			"stack_below_id": -1,
+			"type": "VALUE",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 0,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_var_ref": false,
+			"name": "when_entity_create",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+
+			},
+			"position": {
+				"x": -293.0,
+				"y": -292.0
+			},
+			"source_block_id": -1,
+			"stack_below_id": 1,
+			"type": "EVENT",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 1,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_var_ref": false,
+			"name": "play_animation",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"anim_name": "attack"
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": 5,
+			"type": "ACTION",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 5,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_var_ref": false,
+			"name": "set_custom_invincible",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"b": true
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": -1,
+			"type": "ACTION",
+			"value_slots": {
+
+			}
+		}
+	],
+	"events": {
+		"rows": [
+			{
+				"block_name": "when_private_broadcast",
+				"children": [
+					{
+						"block_name": "show_info_text",
+						"children": [],
+						"exprs": {
+							"text": "\"liudehua接收到广播数据\"+json_parse(data).value"
+						},
+						"params": {
+							"text": ""
+						}
+					}
+				],
+				"enabled": true,
+				"exprs": {
+
+				},
+				"id": 1000.0,
+				"params": {
+					"msg": "1919810"
+				}
+			}
+		]
+	},
+	"run_mode": "both",
+	"version": 2
+}

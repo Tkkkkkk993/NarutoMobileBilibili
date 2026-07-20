@@ -1,0 +1,26 @@
+[gd_scene format=3 uid="uid://dh6xes4xqtrnk"]
+
+[ext_resource type="PackedScene" uid="uid://gkn20f0aex3q" path="res://assets/entities/base/animated_sprite_2d_entity.tscn" id="1_mk64c"]
+[ext_resource type="Texture2D" uid="uid://g2mc7wll8t40" path="res://assets/entities/大运重卡/0.png" id="2_0sp6a"]
+[ext_resource type="Script" uid="uid://1tcq0a622dxu" path="res://assets/entities/大运重卡/entity.gd" id="2_h3twi"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_uabvm"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_0sp6a")
+}],
+"loop": true,
+"name": &"attack",
+"speed": 5.0
+}]
+
+[node name="Entity" instance=ExtResource("1_mk64c")]
+script = ExtResource("2_h3twi")
+
+[node name="Shadow" parent="." index="0"]
+visible = false
+
+[node name="AnimatedSprite2D" parent="Visuals" index="0"]
+sprite_frames = SubResource("SpriteFrames_uabvm")
+animation = &"attack"

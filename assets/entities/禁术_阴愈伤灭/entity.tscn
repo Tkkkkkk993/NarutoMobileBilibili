@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://b47u35a5n50pf"]
+
+[ext_resource type="PackedScene" uid="uid://gkn20f0aex3q" path="res://assets/entities/base/animated_sprite_2d_entity.tscn" id="1_q4d83"]
+[ext_resource type="Script" uid="uid://b5sm7onrv4kps" path="res://assets/entities/禁术_阴愈伤灭/entity.gd" id="2_admob"]
+
+[node name="Entity" instance=ExtResource("1_q4d83")]
+script = ExtResource("2_admob")

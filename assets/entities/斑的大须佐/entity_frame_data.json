@@ -1,0 +1,156 @@
+{
+	"animation_data": {
+		"3DRoot|xz_jump_in|Base Layer": {
+			"0": {
+				"anchor_point": {
+					"x": 0.0,
+					"y": 0.0
+				},
+				"frame_index": 0,
+				"hitboxes_data": []
+			}
+		},
+		"3DRoot|xz_nut 1|Base Layer": {
+
+		},
+		"3DRoot|xz_nut 2|Base Layer": {
+
+		},
+		"3DRoot|xz_skill_G_2|Base Layer": {
+
+		},
+		"3kms00T0 Footsteps|xz_attack_3|Base Layer": {
+
+		},
+		"3kms00T0 HeadNub|xz_attack_3|Base Layer": {
+
+		},
+		"3kms00T0 L Finger0Nub|xz_attack_3|Base Layer": {
+
+		},
+		"3kms00T0 L Finger1Nub|xz_attack_3|Base Layer": {
+
+		},
+		"3kms00T0 L Finger2Nub|xz_attack_3|Base Layer": {
+
+		},
+		"3kms00T0 L Finger3Nub|xz_attack_3|Base Layer": {
+
+		},
+		"3kms00T0 L Finger4Nub|xz_attack_3|Base Layer": {
+
+		},
+		"3kms00T0 L Toe0Nub|xz_attack_3|Base Layer": {
+
+		},
+		"3kms00T0 L swordNub|xz_attack_3|Base Layer": {
+
+		},
+		"3kms00T0 Prop1|xz_attack_3|Base Layer": {
+
+		},
+		"3kms00T0 R Finger0Nub|xz_attack_3|Base Layer": {
+
+		},
+		"3kms00T0 R Finger1Nub|xz_attack_3|Base Layer": {
+
+		},
+		"3kms00T0 R Finger2Nub|xz_attack_3|Base Layer": {
+
+		},
+		"3kms00T0 R Finger3Nub|xz_attack_3|Base Layer": {
+
+		},
+		"3kms00T0 R Finger4Nub|xz_attack_3|Base Layer": {
+
+		},
+		"3kms00T0 R Toe0Nub|xz_attack_3|Base Layer": {
+
+		},
+		"3kms00T0 R swordNub|xz_attack_3|Base Layer": {
+
+		},
+		"3kms00T0 Trall|xz_attack_3|Base Layer": {
+
+		},
+		"Camera001|xz_attack_3|Base Layer": {
+
+		},
+		"Skill_A": {
+
+		},
+		"Skill_B_1": {
+
+		},
+		"Skill_B_2": {
+
+		},
+		"Skill_G_2_1": {
+
+		},
+		"Skill_G_3": {
+
+		},
+		"a1": {
+
+		},
+		"a2": {
+
+		},
+		"a3": {
+
+		},
+		"a4": {
+
+		},
+		"idle": {
+
+		},
+		"jumpin": {
+
+		},
+		"run": {
+
+		}
+	},
+	"animation_global_anchors": {
+		"3DRoot|xz_jump_in|Base Layer": null,
+		"3DRoot|xz_nut 1|Base Layer": null,
+		"3DRoot|xz_nut 2|Base Layer": null,
+		"3DRoot|xz_skill_G_2|Base Layer": null,
+		"3kms00T0 Footsteps|xz_attack_3|Base Layer": null,
+		"3kms00T0 HeadNub|xz_attack_3|Base Layer": null,
+		"3kms00T0 L Finger0Nub|xz_attack_3|Base Layer": null,
+		"3kms00T0 L Finger1Nub|xz_attack_3|Base Layer": null,
+		"3kms00T0 L Finger2Nub|xz_attack_3|Base Layer": null,
+		"3kms00T0 L Finger3Nub|xz_attack_3|Base Layer": null,
+		"3kms00T0 L Finger4Nub|xz_attack_3|Base Layer": null,
+		"3kms00T0 L Toe0Nub|xz_attack_3|Base Layer": null,
+		"3kms00T0 L swordNub|xz_attack_3|Base Layer": null,
+		"3kms00T0 Prop1|xz_attack_3|Base Layer": null,
+		"3kms00T0 R Finger0Nub|xz_attack_3|Base Layer": null,
+		"3kms00T0 R Finger1Nub|xz_attack_3|Base Layer": null,
+		"3kms00T0 R Finger2Nub|xz_attack_3|Base Layer": null,
+		"3kms00T0 R Finger3Nub|xz_attack_3|Base Layer": null,
+		"3kms00T0 R Finger4Nub|xz_attack_3|Base Layer": null,
+		"3kms00T0 R Toe0Nub|xz_attack_3|Base Layer": null,
+		"3kms00T0 R swordNub|xz_attack_3|Base Layer": null,
+		"3kms00T0 Trall|xz_attack_3|Base Layer": null,
+		"Camera001|xz_attack_3|Base Layer": null,
+		"Skill_A": null,
+		"Skill_B_1": null,
+		"Skill_B_2": null,
+		"Skill_G_2_1": null,
+		"Skill_G_3": null,
+		"a1": null,
+		"a2": null,
+		"a3": null,
+		"a4": null,
+		"idle": null,
+		"jumpin": null,
+		"run": null
+	},
+	"entity_scene_path": "res://assets/entities/斑的大须佐/entity.tscn",
+	"handle_size": 16.0,
+	"save_time": "2026-07-10T01:16:05"
+}

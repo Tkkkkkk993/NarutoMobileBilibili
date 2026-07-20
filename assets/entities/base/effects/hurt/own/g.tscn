@@ -1,0 +1,14 @@
+[gd_scene format=3 uid="uid://paj0fary1qb1"]
+
+[ext_resource type="PackedScene" uid="uid://c5eauk5i5s64k" path="res://assets/entities/base/effects/effects_base.tscn" id="1_76voj"]
+[ext_resource type="Script" uid="uid://dginkc8vmyr1w" path="res://assets/entities/base/effects/hurt/own/g.gd" id="2_76voj"]
+[ext_resource type="PackedScene" uid="uid://r28cm3ixih6s" path="res://scenes/digit_display.tscn" id="3_vo2c1"]
+[ext_resource type="Texture2D" uid="uid://cqgnpuc222naq" path="res://assets/UI/number/hurtsg.png" id="4_76voj"]
+
+[node name="EffectsBase" unique_id=2112919157 instance=ExtResource("1_76voj")]
+script = ExtResource("2_76voj")
+
+[node name="DigitDisplay" parent="." index="0" unique_id=1543691555 instance=ExtResource("3_vo2c1")]
+scale = Vector2(0.4, 0.4)
+texture = ExtResource("4_76voj")
+char_set = "0123456789  "

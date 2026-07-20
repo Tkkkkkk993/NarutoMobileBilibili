@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://be5ub3i7k3ims"]
+
+[ext_resource type="Texture2D" uid="uid://bi1btcsd7fvm2" path="res://assets/stages/芙兰朵露的房间.png" id="1_870eo"]
+[ext_resource type="Script" path="res://scripts/Arena/芙兰朵露的房间.gd" id="2_d3jef"]
+
+[node name="芙兰朵露的房间" type="Sprite2D"]
+position = Vector2(0, -390)
+scale = Vector2(2.21394, 2.04967)
+texture = ExtResource("1_870eo")
+script = ExtResource("2_d3jef")

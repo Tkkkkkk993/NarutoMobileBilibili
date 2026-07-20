@@ -1,0 +1,51 @@
+[gd_scene load_steps=12 format=3 uid="uid://chkg4e3k1kuf5"]
+
+[ext_resource type="PackedScene" uid="uid://c5eauk5i5s64k" path="res://assets/entities/base/effects/effects_base.tscn" id="1_b10xb"]
+[ext_resource type="Texture2D" uid="uid://cffoc2yb55fus" path="res://assets/entities/Daliwang/eff/0.png" id="2_cpjce"]
+[ext_resource type="Script" path="res://assets/entities/base/effects/scroll/effects_base.gd" id="2_mq11l"]
+[ext_resource type="Texture2D" uid="uid://c4vwcl66anc61" path="res://assets/entities/Daliwang/eff/1.png" id="3_ylyxm"]
+[ext_resource type="Texture2D" uid="uid://b6gjpfycktl8o" path="res://assets/entities/Daliwang/eff/2.png" id="4_scori"]
+[ext_resource type="Texture2D" uid="uid://depn0rpoppqif" path="res://assets/entities/Daliwang/eff/3.png" id="5_taaky"]
+[ext_resource type="Texture2D" uid="uid://bo56c74uigpe8" path="res://assets/entities/Daliwang/eff/4.png" id="6_3r8fi"]
+[ext_resource type="Texture2D" uid="uid://blslwb8iptece" path="res://assets/entities/Daliwang/eff/5.png" id="7_dha73"]
+[ext_resource type="Texture2D" uid="uid://ddsytbgc6flqr" path="res://assets/entities/Daliwang/eff/6.png" id="8_kviyl"]
+[ext_resource type="Texture2D" uid="uid://cnwkhtyoxyxop" path="res://assets/entities/Daliwang/eff/7.png" id="10_3tw2h"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_b34ee"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_cpjce")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_ylyxm")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_scori")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_taaky")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_3r8fi")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_dha73")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_kviyl")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_3tw2h")
+}],
+"loop": false,
+"name": &"default",
+"speed": 40.0
+}]
+
+[node name="EffectsBase" instance=ExtResource("1_b10xb")]
+script = ExtResource("2_mq11l")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." index="0"]
+position = Vector2(21, 27)
+sprite_frames = SubResource("SpriteFrames_b34ee")

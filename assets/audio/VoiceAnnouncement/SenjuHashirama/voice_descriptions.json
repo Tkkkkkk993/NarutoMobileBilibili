@@ -1,0 +1,50 @@
+{
+	"voice_library": {
+		"round_1": {
+			"text": "第一回合",
+			"audio": "pvp_ui_hashirama_c.wav"
+		},
+		"round_2": {
+			"text": "第二回合",
+			"audio": "pvp_ui_hashirama_d.wav"
+		},
+		"round_3": {
+			"text": "第三回合",
+			"audio": "pvp_ui_hashirama_e.wav"
+		},
+		"round_4": {
+			"text": "第四回合",
+			"audio": "pvp_ui_hashirama_f.wav"
+		},
+		"round_5": {
+			"text": "第五回合",
+			"audio": "pvp_ui_hashirama_g_01.wav"
+		},
+		"round_final": {
+			"text": "最终回合",
+			"audio": "pvp_ui_hashirama_g_02.wav"
+		},
+		"battle_start": {
+			"text": "战斗开始",
+			"audio": "pvp_ui_hashirama_b.wav"
+		},
+		"victory": {
+			"text": "胜利",
+			"audio": "pvp_ui_hashirama_i.wav"
+		},
+		"victory_perfect": {
+			"text": "完美胜利",
+			"audio": "pvp_ui_hashirama_j.wav"
+		},
+		"winner_decided": {
+			"text": "胜负已分",
+			"audio": ["pvp_ui_hashirama_h_01.wav", "pvp_ui_hashirama_h_02.wav"],
+			"mode": "random"
+		},
+		"load_complete": {
+			"text": "加载完成",
+			"audio": ["pvp_ui_hashirama_a_01.wav", "pvp_ui_hashirama_a_02.wav"],
+			"mode": "random"
+		}
+	}
+}

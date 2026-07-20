@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://c5eauk5i5s64k"]
+
+[ext_resource type="Script" path="res://assets/entities/base/effects/effects_base.gd" id="1_pok5t"]
+
+[node name="EffectsBase" type="Node2D"]
+script = ExtResource("1_pok5t")

@@ -1,0 +1,39 @@
+[gd_scene load_steps=9 format=3 uid="uid://mmlqw3en0elb"]
+
+[ext_resource type="PackedScene" uid="uid://c5eauk5i5s64k" path="res://assets/entities/base/effects/effects_base.tscn" id="1_y0k3p"]
+[ext_resource type="Texture2D" uid="uid://burxpy60mu603" path="res://assets/entities/base/effects/hardCollision/hard-collision-effect-000.png" id="2_1tugu"]
+[ext_resource type="Script" path="res://assets/entities/base/effects/hardCollision/effects_base.gd" id="2_jpwer"]
+[ext_resource type="Texture2D" uid="uid://2qodhbxisrvk" path="res://assets/entities/base/effects/hardCollision/hard-collision-effect-001.png" id="3_pi2jg"]
+[ext_resource type="Texture2D" uid="uid://bwe0qugeuj5y6" path="res://assets/entities/base/effects/hardCollision/hard-collision-effect-002.png" id="4_s3bk4"]
+[ext_resource type="Texture2D" uid="uid://c6ckisai68kk4" path="res://assets/entities/base/effects/hardCollision/hard-collision-effect-003.png" id="5_2gc73"]
+[ext_resource type="Texture2D" uid="uid://nwn30k218b1p" path="res://assets/entities/base/effects/hardCollision/hard-collision-effect-004.png" id="6_h2pnw"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_rekna"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_1tugu")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_pi2jg")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_s3bk4")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_2gc73")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_h2pnw")
+}],
+"loop": false,
+"name": &"default",
+"speed": 20.0
+}]
+
+[node name="EffectsBase" instance=ExtResource("1_y0k3p")]
+script = ExtResource("2_jpwer")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." index="0"]
+position = Vector2(1, -72)
+sprite_frames = SubResource("SpriteFrames_rekna")

@@ -1,0 +1,63 @@
+[gd_scene format=3 uid="uid://byxftnoxwqc7n"]
+
+[ext_resource type="Texture2D" uid="uid://dvmqqg5018q1g" path="res://assets/UI/hpBarBackground.png" id="1_yimgh"]
+[ext_resource type="Texture2D" uid="uid://duq227rn1wmjs" path="res://assets/UI/hpWhite.png" id="2_a6l10"]
+[ext_resource type="Texture2D" uid="uid://d2vrxiltstt18" path="res://assets/UI/hpRed.png" id="3_0p7c4"]
+[ext_resource type="Texture2D" uid="uid://c65ey7t3bhdqv" path="res://assets/UI/hpBar.png" id="4_s1j3x"]
+[ext_resource type="Script" uid="uid://dwtykftuwc75g" path="res://scripts/hp_white.gd" id="4_thvas"]
+[ext_resource type="Texture2D" uid="uid://bxt5bsq5ypo1u" path="res://assets/UI/hpBarEnergyBarSlot.png" id="6_46uyv"]
+[ext_resource type="Texture2D" uid="uid://drh3w6h4ir6j1" path="res://assets/UI/hpBarEnergyBar.png" id="7_an45k"]
+[ext_resource type="Script" uid="uid://ce48dql5sb0ui" path="res://scripts/energy_bar.gd" id="8_an45k"]
+[ext_resource type="Texture2D" uid="uid://bskfdvwd6f127" path="res://assets/UI/hpBarEnergyBarSplit.png" id="9_y1wjm"]
+
+[node name="HpBar" type="Control" unique_id=1092870339]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HpBarAfter" type="Sprite2D" parent="." unique_id=1485044814]
+z_index = -1
+position = Vector2(261, 76)
+texture = ExtResource("1_yimgh")
+
+[node name="HpWhite" type="TextureProgressBar" parent="." unique_id=879493803]
+layout_mode = 0
+offset_left = 157.0
+offset_top = 61.0
+offset_right = 512.0
+offset_bottom = 79.0
+step = -1.0
+value = 100.0
+texture_progress = ExtResource("2_a6l10")
+script = ExtResource("4_thvas")
+
+[node name="HpRed" type="TextureProgressBar" parent="." unique_id=2010322398]
+layout_mode = 0
+offset_left = 157.0
+offset_top = 61.0
+offset_right = 512.0
+offset_bottom = 79.0
+step = -1.0
+value = 50.0
+texture_progress = ExtResource("3_0p7c4")
+
+[node name="HpBarBefore" type="Sprite2D" parent="." unique_id=1614621629]
+position = Vector2(261, 76)
+texture = ExtResource("4_s1j3x")
+
+[node name="EnergyBar" type="TextureProgressBar" parent="." unique_id=2024211023]
+layout_mode = 0
+offset_left = 145.0
+offset_top = 78.00001
+offset_right = 354.0
+offset_bottom = 86.00001
+scale = Vector2(1.68, 1.68)
+step = -1.0
+value = 100.0
+texture_over = ExtResource("6_46uyv")
+texture_progress = ExtResource("7_an45k")
+script = ExtResource("8_an45k")
+divider_texture = ExtResource("9_y1wjm")
