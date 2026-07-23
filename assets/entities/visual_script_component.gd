@@ -46,6 +46,7 @@ var _vs_deferred_exit_anim: String = ""
 var _vs_pending_anim: String = ""
 var _vs_pending_frame_count: int = 0
 var _vs_last_frame_idx: Dictionary = {}
+var _vs_last_visual_frame: int = -1
 var _vs_game_started_fired: bool = false
 var _vs_victory_fired: bool = false
 var _vs_initialized: bool = false
@@ -55,6 +56,10 @@ var _vs_pending_setup_icon: bool = false
 var _vs_modifier_cooldowns: Dictionary = {}
 ## 奥义点标记字典
 var _vs_ultimate_flags: Dictionary = {}
+## 事件分发重入深度: 0=空闲, >0=正在分发
+var _vs_fire_depth: int = 0
+## 重入时暂存的事件队列
+var _vs_fire_queue: Array = []
 
 var blocks_rng = RandomNumberGenerator.new()
 
@@ -188,6 +193,10 @@ func _physics_process(delta):
 	if not _vs_initialized: return
 	_vs_check_events(delta)
 
+func _process(delta):
+	if not _vs_initialized: return
+	_vs_check_visual_events(delta)
+
 ## 收集事件表中某事件名下、指定参数值匹配的行
 func _vs_collect_matching_rows(event_name: String, param_name: String, expected_value) -> Array:
 	var matched: Array = []
@@ -292,21 +301,38 @@ func _vs_check_events(delta):
 		if frame_val == 0 or _vs_pending_frame_count > 2:
 			_vs_pending_anim = ""
 
-	if _vs_pending_anim == "" and current_animation != "" and frame_val != _vs_last_frame_idx.get(current_animation, -1):
+	var anim_frame_changed = _vs_pending_anim == "" and current_animation != "" and frame_val != _vs_last_frame_idx.get(current_animation, -1)
+	if anim_frame_changed:
 		_vs_last_frame_idx[current_animation] = frame_val
-		var matched_playing_ids: Array = []
-		if _vs_event_chains.has("when_animation_playing"):
-			for eid in _vs_event_chains["when_animation_playing"]:
-				var eblock = _vs_blocks_by_id[eid]
-				var target_anim = str(eblock.params.get("anim_name", ""))
-				if target_anim == current_animation:
-					matched_playing_ids.append(eid)
-		var matched_playing_rows = _vs_collect_matching_rows("when_animation_playing", "anim_name", current_animation)
-		if matched_playing_ids.size() > 0 or matched_playing_rows.size() > 0:
-			_vs_fire_event("when_animation_playing", {
-				"anim_name": current_animation,
-				"frame_idx": frame_val
-			}, matched_playing_ids, matched_playing_rows)
+
+	var matched_playing_ids: Array = []
+	if _vs_event_chains.has("when_animation_playing"):
+		for eid in _vs_event_chains["when_animation_playing"]:
+			var eblock = _vs_blocks_by_id[eid]
+			if not bool(eblock.get("enabled", true)): continue
+			var target_anim = str(eblock.params.get("anim_name", ""))
+			if target_anim != current_animation: continue
+			var frame_type = str(eblock.params.get("frame_type", "动画帧"))
+			if frame_type == "画面帧": continue  # 画面帧在 _process 中处理
+			var should_fire = (frame_type == "物理帧") or (frame_type == "动画帧" and anim_frame_changed)
+			if not should_fire: continue
+			matched_playing_ids.append(eid)
+	var matched_playing_rows: Array = []
+	if _vs_event_table_chains.has("when_animation_playing"):
+		for row in _vs_event_table_chains["when_animation_playing"]:
+			if not bool(row.get("enabled", true)): continue
+			var target_anim = str(row.get("params", {}).get("anim_name", ""))
+			if target_anim != current_animation: continue
+			var frame_type = str(row.get("params", {}).get("frame_type", "动画帧"))
+			if frame_type == "画面帧": continue
+			var should_fire = (frame_type == "物理帧") or (frame_type == "动画帧" and anim_frame_changed)
+			if not should_fire: continue
+			matched_playing_rows.append(row)
+	if matched_playing_ids.size() > 0 or matched_playing_rows.size() > 0:
+		_vs_fire_event("when_animation_playing", {
+			"anim_name": current_animation,
+			"frame_idx": frame_val
+		}, matched_playing_ids, matched_playing_rows)
 
 	# ---- when_frame_changed（每 1/60 秒无条件触发）----
 	var matched_fc_ids: Array = []
@@ -321,11 +347,30 @@ func _vs_check_events(delta):
 		_vs_fire_event("when_frame_changed", {}, matched_fc_ids, matched_fc_rows)
 
 	# ---- when_any_animation_frame_changed ----
-	if _vs_pending_anim == "" and current_animation != "" and frame_val != _vs_last_frame_idx.get(current_animation, -1):
+	var matched_any_fc_ids: Array = []
+	if _vs_event_chains.has("when_any_animation_frame_changed"):
+		for eid in _vs_event_chains["when_any_animation_frame_changed"]:
+			var eblock = _vs_blocks_by_id[eid]
+			if not bool(eblock.get("enabled", true)): continue
+			var frame_type = str(eblock.params.get("frame_type", "动画帧"))
+			if frame_type == "画面帧": continue
+			var should_fire = (frame_type == "物理帧") or (frame_type == "动画帧" and anim_frame_changed)
+			if not should_fire: continue
+			matched_any_fc_ids.append(eid)
+	var matched_any_fc_rows: Array = []
+	if _vs_event_table_chains.has("when_any_animation_frame_changed"):
+		for row in _vs_event_table_chains["when_any_animation_frame_changed"]:
+			if not bool(row.get("enabled", true)): continue
+			var frame_type = str(row.get("params", {}).get("frame_type", "动画帧"))
+			if frame_type == "画面帧": continue
+			var should_fire = (frame_type == "物理帧") or (frame_type == "动画帧" and anim_frame_changed)
+			if not should_fire: continue
+			matched_any_fc_rows.append(row)
+	if matched_any_fc_ids.size() > 0 or matched_any_fc_rows.size() > 0:
 		_vs_fire_event("when_any_animation_frame_changed", {
 			"anim_name": current_animation,
 			"frame_idx": frame_val
-		})
+		}, matched_any_fc_ids, matched_any_fc_rows)
 
 	# ---- when_press_input ----
 	var matched_input_ids: Array = []
@@ -338,6 +383,75 @@ func _vs_check_events(delta):
 	var matched_input_rows = _vs_collect_pressed_input_rows()
 	if matched_input_ids.size() > 0 or matched_input_rows.size() > 0:
 		_vs_fire_event("when_press_input", {"key": 0}, matched_input_ids, matched_input_rows)
+
+# ============================================
+# 画面帧事件检测 (在 _process 中调用)
+# ============================================
+
+func _vs_check_visual_events(delta):
+	var current_animation = _entity.current_animation
+
+	# 画面帧变化检测
+	var anim_node = _entity.get_animator_node()
+	var visual_frame_val = -1
+	if anim_node and "frame" in anim_node:
+		visual_frame_val = anim_node.frame
+	var visual_frame_changed = visual_frame_val != _vs_last_visual_frame
+	if visual_frame_changed:
+		_vs_last_visual_frame = visual_frame_val
+
+	if not visual_frame_changed:
+		return
+
+	var frame_val = _entity.get_current_frame()
+
+	# ---- 画面帧模式的 when_animation_playing ----
+	var matched_playing_ids: Array = []
+	if _vs_event_chains.has("when_animation_playing"):
+		for eid in _vs_event_chains["when_animation_playing"]:
+			var eblock = _vs_blocks_by_id[eid]
+			if not bool(eblock.get("enabled", true)): continue
+			var target_anim = str(eblock.params.get("anim_name", ""))
+			if target_anim != current_animation: continue
+			var frame_type = str(eblock.params.get("frame_type", "动画帧"))
+			if frame_type != "画面帧": continue
+			matched_playing_ids.append(eid)
+	var matched_playing_rows: Array = []
+	if _vs_event_table_chains.has("when_animation_playing"):
+		for row in _vs_event_table_chains["when_animation_playing"]:
+			if not bool(row.get("enabled", true)): continue
+			var target_anim = str(row.get("params", {}).get("anim_name", ""))
+			if target_anim != current_animation: continue
+			var frame_type = str(row.get("params", {}).get("frame_type", "动画帧"))
+			if frame_type != "画面帧": continue
+			matched_playing_rows.append(row)
+	if matched_playing_ids.size() > 0 or matched_playing_rows.size() > 0:
+		_vs_fire_event("when_animation_playing", {
+			"anim_name": current_animation,
+			"frame_idx": frame_val
+		}, matched_playing_ids, matched_playing_rows)
+
+	# ---- 画面帧模式的 when_any_animation_frame_changed ----
+	var matched_any_ids: Array = []
+	if _vs_event_chains.has("when_any_animation_frame_changed"):
+		for eid in _vs_event_chains["when_any_animation_frame_changed"]:
+			var eblock = _vs_blocks_by_id[eid]
+			if not bool(eblock.get("enabled", true)): continue
+			var frame_type = str(eblock.params.get("frame_type", "动画帧"))
+			if frame_type != "画面帧": continue
+			matched_any_ids.append(eid)
+	var matched_any_rows: Array = []
+	if _vs_event_table_chains.has("when_any_animation_frame_changed"):
+		for row in _vs_event_table_chains["when_any_animation_frame_changed"]:
+			if not bool(row.get("enabled", true)): continue
+			var frame_type = str(row.get("params", {}).get("frame_type", "动画帧"))
+			if frame_type != "画面帧": continue
+			matched_any_rows.append(row)
+	if matched_any_ids.size() > 0 or matched_any_rows.size() > 0:
+		_vs_fire_event("when_any_animation_frame_changed", {
+			"anim_name": current_animation,
+			"frame_idx": frame_val
+		}, matched_any_ids, matched_any_rows)
 
 # ---- 攻击命中事件 (由实体委托调用) ----
 
@@ -515,6 +629,11 @@ func on_timer_out(cd_id: int):
 # ============================================
 
 func _vs_fire_event(event_name: String, context: Dictionary = {}, filter_block_ids: Array = [], filter_rows: Array = []):
+	if _vs_fire_depth > 0:
+		_vs_fire_queue.append([event_name, context, filter_block_ids, filter_rows])
+		return
+
+	_vs_fire_depth += 1
 	if _vs_run_mode != "events_only" and _vs_event_chains.has(event_name):
 		var target_ids: Array = filter_block_ids if filter_block_ids.size() > 0 else _vs_event_chains[event_name]
 		for event_block_id in target_ids:
@@ -534,7 +653,15 @@ func _vs_fire_event(event_name: String, context: Dictionary = {}, filter_block_i
 			rows_to_fire = _vs_event_table_chains[event_name]
 		for row in rows_to_fire:
 			if not bool(row.get("enabled", true)): continue
-			_vs_execute_event_children.call_deferred(row.get("children", []), row, context)
+			_vs_execute_event_children(row.get("children", []), row, context)
+	_vs_fire_depth -= 1
+
+	# 执行完毕后处理重入队列
+	if _vs_fire_depth == 0 and _vs_fire_queue.size() > 0:
+		var queue = _vs_fire_queue.duplicate()
+		_vs_fire_queue.clear()
+		for args in queue:
+			_vs_fire_event(args[0], args[1], args[2], args[3])
 
 # ============================================
 # 事件表执行引擎
@@ -784,6 +911,11 @@ func _vs_preprocess_value_calls(expr_str: String, context: Dictionary) -> String
 	s = _vs_replace_eq_with_compare(s, context)
 	if _vs_debug_print and before != s:
 		print("[VS-EQ] after eq replace: '", before, "' -> '", s, "'")
+	# 转换链式比较: a <= b <= c -> a <= b and b <= c
+	var before2 = s
+	s = _vs_transform_chained_comparisons(s)
+	if _vs_debug_print and before2 != s:
+		print("[VS-EQ] after chain transform: '", before2, "' -> '", s, "'")
 	return s
 
 # 在 == 之间插入空字符标记，避免 _find_innermost_value_call 误识
@@ -853,6 +985,108 @@ func _vs_replace_eq_with_compare(s: String, context: Dictionary) -> String:
 
 		i += 1
 
+	return s
+
+# 转换链式比较: a <= b <= c -> a <= b and b <= c
+# Expression 类可能不完整支持链式比较，用 and 拆开确保兼容
+func _vs_transform_chained_comparisons(s: String) -> String:
+	var changed = true
+	while changed:
+		changed = false
+		var i = 0
+		while i < s.length():
+			if s[i] == '"':
+				i += 1
+				while i < s.length() and s[i] != '"':
+					if s[i] == '\\': i += 1
+					i += 1
+				i += 1
+				continue
+
+			var found_op = false
+			var op = ""; var op_len = 0
+			for cand in ["<=", ">="]:
+				if i + 1 < s.length() and s[i] == cand[0] and s[i+1] == cand[1]:
+					op = cand; op_len = 2; found_op = true; break
+			if not found_op and s[i] in ['<', '>']:
+				if not (i > 0 and s[i-1] in ['!', '=']):
+					op = s[i]; op_len = 1; found_op = true
+			if not found_op:
+				i += 1; continue
+
+			# 扫描中间表达式结束位置（遇到下一个 OP、and/or 即停）
+			var mid_start = i + op_len
+			while mid_start < s.length() and s[mid_start] == ' ':
+				mid_start += 1
+			var mid_end = mid_start
+			var paren_depth = 0
+			while mid_end < s.length():
+				var c = s[mid_end]
+				if c == '(': paren_depth += 1
+				elif c == ')': paren_depth -= 1
+				elif paren_depth == 0:
+					if c in ['<', '>']: break
+					if c == '=' and mid_end + 1 < s.length() and s[mid_end+1] == '=': break
+					if mid_end + 3 <= s.length() and s.substr(mid_end, 3) == "and": break
+					if mid_end + 2 <= s.length() and s.substr(mid_end, 2) == "or": break
+				mid_end += 1
+			if mid_end >= s.length():
+				i += 1; continue
+
+			# 检查后面是否紧跟另一个比较运算符
+			var op2_pos = mid_end
+			while op2_pos < s.length() and s[op2_pos] == ' ':
+				op2_pos += 1
+			var is_chain = false
+			var op2 = ""; var op2_len = 0
+			for cand in ["<=", ">="]:
+				if op2_pos + 1 < s.length() and s[op2_pos] == cand[0] and s[op2_pos+1] == cand[1]:
+					op2 = cand; op2_len = 2; is_chain = true; break
+			if not is_chain and op2_pos < s.length() and s[op2_pos] in ['<', '>']:
+				op2 = s[op2_pos]; op2_len = 1; is_chain = true
+			if not is_chain:
+				i += 1; continue
+
+			# 提取左操作数（向左扫描）
+			var left_end = i
+			var scan = left_end - 1
+			while scan >= 0 and s[scan] == ' ': scan -= 1
+			var left_start = 0
+			if scan >= 0:
+				var pd = 0; var j = scan
+				while j >= 0:
+					if s[j] == ')': pd += 1
+					elif s[j] == '(': pd -= 1
+					elif pd == 0 and (s[j] == ' ' or s[j] in ['(', ')', ',']): break
+					j -= 1
+				left_start = j + 1
+
+			var mid_raw = s.substr(mid_start, mid_end - mid_start).strip_edges()
+
+			# 提取 OP2 的右操作数
+			var right_start = op2_pos + op2_len
+			while right_start < s.length() and s[right_start] == ' ':
+				right_start += 1
+			var right_end = right_start
+			var pd = 0
+			while right_end < s.length():
+				var c = s[right_end]
+				if c == '(': pd += 1
+				elif c == ')': pd -= 1
+				elif pd == 0:
+					if c in ['<', '>']: break
+					if right_end + 3 <= s.length() and s.substr(right_end, 3) == "and": break
+					if right_end + 2 <= s.length() and s.substr(right_end, 2) == "or": break
+				right_end += 1
+
+			var left_raw = s.substr(left_start, left_end - left_start).strip_edges()
+			var right_raw = s.substr(right_start, right_end - right_start).strip_edges()
+
+			# 左 OP1 中 and 中 OP2 右
+			var replacement = str(left_raw, " ", op, " ", mid_raw, " and ", mid_raw, " ", op2, " ", right_raw)
+			s = s.substr(0, left_start) + replacement + s.substr(right_end)
+			changed = true
+			break  # 重新扫描，避免位置错乱
 	return s
 
 # 对 == 一侧的表达式求值（不触发 _vs_replace_eq_with_compare，避免递归）

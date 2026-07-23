@@ -110,7 +110,10 @@ var handle_click_threshold: float = 50.0  # 增大以便更容易点到缩放手
 
 var entity_scene_path: String = ""
 var frame_data_file_path: String = ""
-var is_data_modified: bool = false
+var is_data_modified: bool = false:
+	set(v):
+		is_data_modified = v
+		_update_title()
 
 var copied_frame_data: Dictionary = {}
 
@@ -142,13 +145,14 @@ func _ready():
 
 
 func _update_title():
+	var prefix = "*" if is_data_modified else ""
 	var base = "帧数据编辑器V2.1"
 	if entity_scene_path != "":
 		var trimmed = entity_scene_path.trim_prefix("res://assets/entities/")
 		var last_slash = trimmed.rfind("/")
 		var name = trimmed.substr(0, last_slash) if last_slash >= 0 else trimmed
 		base += " - " + name
-	title = base
+	title = prefix + base
 
 
 func _center_window():
@@ -355,32 +359,39 @@ func _setup_ui():
 	_hitbox_radius_spinbox.step = 0.1
 	_hitbox_radius_spinbox.value_changed.connect(_on_hitbox_radius_changed)
 
-	# ---- 操作按钮 ----
+	# ---- 复制粘贴 ----
 	right_vbox.add_child(HSeparator.new())
 
-	var save_btn = Button.new()
-	save_btn.text = "保存当前帧"
-	save_btn.pressed.connect(_on_save_pressed)
-	save_btn.add_theme_color_override("font_color", Color.GREEN)
-	right_vbox.add_child(save_btn)
+	var copy_hbox = HBoxContainer.new()
+	right_vbox.add_child(copy_hbox)
 
-	var export_btn = Button.new()
-	export_btn.text = "导出数据"
-	export_btn.pressed.connect(_on_export_data)
-	export_btn.add_theme_color_override("font_color", Color.CYAN)
-	right_vbox.add_child(export_btn)
+	copy_button = Button.new()
+	copy_button.text = "复制当前帧"
+	copy_button.tooltip_text = "复制当前帧的锚点和碰撞箱设置"
+	copy_button.pressed.connect(_on_copy_pressed)
+	copy_hbox.add_child(copy_button)
 
-	var import_btn = Button.new()
-	import_btn.text = "导入数据"
-	import_btn.pressed.connect(_on_import_data)
-	import_btn.add_theme_color_override("font_color", Color(0.6, 0.8, 1.0))
-	right_vbox.add_child(import_btn)
+	paste_button = Button.new()
+	paste_button.text = "粘贴到当前帧"
+	paste_button.tooltip_text = "将复制的设置粘贴到当前帧"
+	paste_button.pressed.connect(_on_paste_pressed)
+	copy_hbox.add_child(paste_button)
 
-	var remove_frame_btn = Button.new()
-	remove_frame_btn.text = "删除当前帧配置"
-	remove_frame_btn.pressed.connect(_on_remove_frame_config)
-	remove_frame_btn.add_theme_color_override("font_color", Color(0.8, 0.4, 0.4))
-	right_vbox.add_child(remove_frame_btn)
+	# ---- 撤回 / 重做 ----
+	right_vbox.add_child(HSeparator.new())
+
+	var undo_hbox = HBoxContainer.new()
+	right_vbox.add_child(undo_hbox)
+
+	undo_button = Button.new()
+	undo_button.text = "撤回"
+	undo_button.pressed.connect(_on_undo_pressed)
+	undo_hbox.add_child(undo_button)
+
+	redo_button = Button.new()
+	redo_button.text = "重做"
+	redo_button.pressed.connect(_on_redo_pressed)
+	undo_hbox.add_child(redo_button)
 
 	# ---- 动画预览 ----
 	right_vbox.add_child(HSeparator.new())
@@ -437,19 +448,6 @@ func _setup_ui():
 	reset_view_button.pressed.connect(_on_reset_view_pressed)
 	tool_hbox2.add_child(reset_view_button)
 
-	var undo_redo_hbox = HBoxContainer.new()
-	right_vbox.add_child(undo_redo_hbox)
-
-	undo_button = Button.new()
-	undo_button.text = "撤回"
-	undo_button.pressed.connect(_on_undo_pressed)
-	undo_redo_hbox.add_child(undo_button)
-
-	redo_button = Button.new()
-	redo_button.text = "重做"
-	redo_button.pressed.connect(_on_redo_pressed)
-	undo_redo_hbox.add_child(redo_button)
-
 	debug_button = Button.new()
 	debug_button.text = "调试模式"
 	debug_button.toggle_mode = true
@@ -473,8 +471,8 @@ func _setup_ui():
 	handle_size_hbox.add_child(handle_size_label)
 
 	_handle_size_slider = HSlider.new()
-	_handle_size_slider.min_value = 0
-	_handle_size_slider.max_value = 999999
+	_handle_size_slider.min_value = HANDLE_SIZE_MIN
+	_handle_size_slider.max_value = HANDLE_SIZE_MAX
 	_handle_size_slider.value = handle_size
 	_handle_size_slider.step = 1.0
 	_handle_size_slider.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -487,28 +485,13 @@ func _setup_ui():
 	_handle_size_value_label.custom_minimum_size = Vector2(50, 0)
 	handle_size_hbox.add_child(_handle_size_value_label)
 
-	# ---- 说明与复制粘贴 ----
+	# ---- 说明 ----
 	right_vbox.add_child(HSeparator.new())
 
 	var help_btn = Button.new()
 	help_btn.text = "说明"
 	help_btn.pressed.connect(_on_help_button)
 	right_vbox.add_child(help_btn)
-
-	var copy_paste_hbox = HBoxContainer.new()
-	right_vbox.add_child(copy_paste_hbox)
-
-	copy_button = Button.new()
-	copy_button.text = "复制当前帧"
-	copy_button.tooltip_text = "复制当前帧的锚点和碰撞箱设置"
-	copy_button.pressed.connect(_on_copy_pressed)
-	copy_paste_hbox.add_child(copy_button)
-
-	paste_button = Button.new()
-	paste_button.text = "粘贴到当前帧"
-	paste_button.tooltip_text = "将复制的设置粘贴到当前帧"
-	paste_button.pressed.connect(_on_paste_pressed)
-	copy_paste_hbox.add_child(paste_button)
 
 	_update_undo_redo_buttons()
 
@@ -663,12 +646,12 @@ func _update_undo_redo_buttons():
 		var last_action = undo_stack.back()
 		undo_button.text = "撤回 (%s)" % _get_action_name(last_action.type)
 	else:
-		undo_button.text = "撤回 (Ctrl+Z)"
+		undo_button.text = "撤回"
 	if not redo_stack.is_empty():
 		var next_action = redo_stack.back()
 		redo_button.text = "重做 (%s)" % _get_action_name(next_action.type)
 	else:
-		redo_button.text = "重做 (Ctrl+Y)"
+		redo_button.text = "重做"
 
 func _get_action_name(action_type: String) -> String:
 	match action_type:
@@ -838,6 +821,7 @@ func setup_entity(entity: Node, visual_node: Node2D, scene_path: String = ""):
 		_load_frame_data()
 	
 	_create_preview()
+	is_data_modified = false
 	popup_centered()
 
 # 兼容旧接口
@@ -1555,6 +1539,14 @@ func _input(event: InputEvent):
 				_on_redo_pressed()
 				get_viewport().set_input_as_handled()
 				return
+			elif event.keycode == KEY_C:
+				_on_copy_pressed()
+				get_viewport().set_input_as_handled()
+				return
+			elif event.keycode == KEY_V:
+				_on_paste_pressed()
+				get_viewport().set_input_as_handled()
+				return
 
 		if event.keycode == KEY_TAB:
 			if hitbox_areas.size() > 0:
@@ -1780,15 +1772,16 @@ func _get_animation_names() -> PackedStringArray:
 	return PackedStringArray()
 
 func _get_frame_count(anim_name: String) -> int:
-	var preview = _canvas.get_node_or_null("EntityPreview")
-	if preview:
-		var ap = _find_animation_player(preview)
-		if ap and ap.has_animation(anim_name):
-			var anim = ap.get_animation(anim_name)
-			var count = int(anim.length * ANIM_FPS)
-			print("[frame] _get_frame_count(%s)=%d" % [anim_name, count])
-			return count
-	if animated_sprite and animated_sprite.sprite_frames:
+	if _is_anim_player_entity:
+		var preview = _canvas.get_node_or_null("EntityPreview")
+		if preview:
+			var ap = _find_animation_player(preview)
+			if ap and ap.has_animation(anim_name):
+				var anim = ap.get_animation(anim_name)
+				var count = int(anim.length * ANIM_FPS)
+				print("[frame] _get_frame_count(%s)=%d" % [anim_name, count])
+				return count
+	elif animated_sprite and animated_sprite.sprite_frames:
 		var count = animated_sprite.sprite_frames.get_frame_count(anim_name)
 		print("[frame] _get_frame_count(%s)=%d (sprite)" % [anim_name, count])
 		return count
@@ -1796,30 +1789,31 @@ func _get_frame_count(anim_name: String) -> int:
 	return 0
 
 func _set_anim_frame(anim_name: String, frame_idx: int):
-	var preview = _canvas.get_node_or_null("EntityPreview")
-	if preview:
-		var ap = _find_animation_player(preview)
-		if ap:
-			ap.stop()
-			if ap.has_animation(anim_name):
-				ap.play(anim_name)
-				ap.seek(frame_idx / ANIM_FPS, true)
+	if _is_anim_player_entity:
+		var preview = _canvas.get_node_or_null("EntityPreview")
+		if preview:
+			var ap = _find_animation_player(preview)
+			if ap:
 				ap.stop()
-				print("[frame] _set_anim_frame(%s, %d): seek OK" % [anim_name, frame_idx])
-			else:
-				print("[frame] _set_anim_frame(%s, %d): anim not found" % [anim_name, frame_idx])
-			return
-		print("[frame] _set_anim_frame(%s, %d): no AnimationPlayer, fallback" % [anim_name, frame_idx])
+				if ap.has_animation(anim_name):
+					ap.play(anim_name)
+					ap.seek(frame_idx / ANIM_FPS, true)
+					ap.stop(false)
+					print("[frame] _set_anim_frame(%s, %d): seek OK" % [anim_name, frame_idx])
+				else:
+					print("[frame] _set_anim_frame(%s, %d): anim not found" % [anim_name, frame_idx])
+		return
 	if animated_sprite:
 		animated_sprite.animation = anim_name
 		animated_sprite.frame = frame_idx
 
 func _play_anim(anim_name: String = ""):
-	var preview = _canvas.get_node_or_null("EntityPreview")
-	if preview:
-		var ap = _find_animation_player(preview)
-		if ap and ap.has_animation(anim_name if anim_name != "" else current_animation):
-			ap.play(anim_name if anim_name != "" else current_animation)
+	if _is_anim_player_entity:
+		var preview = _canvas.get_node_or_null("EntityPreview")
+		if preview:
+			var ap = _find_animation_player(preview)
+			if ap and ap.has_animation(anim_name if anim_name != "" else current_animation):
+				ap.play(anim_name if anim_name != "" else current_animation)
 		return
 	if animated_sprite:
 		if anim_name != "":
@@ -1828,21 +1822,23 @@ func _play_anim(anim_name: String = ""):
 			animated_sprite.play()
 
 func _stop_anim():
-	var preview = _canvas.get_node_or_null("EntityPreview")
-	if preview:
-		var ap = _find_animation_player(preview)
-		if ap:
-			ap.stop()
+	if _is_anim_player_entity:
+		var preview = _canvas.get_node_or_null("EntityPreview")
+		if preview:
+			var ap = _find_animation_player(preview)
+			if ap:
+				ap.stop()
 		return
 	if animated_sprite:
 		animated_sprite.stop()
 
 func _get_current_anim_frame() -> int:
-	var preview = _canvas.get_node_or_null("EntityPreview")
-	if preview:
-		var ap = _find_animation_player(preview)
-		if ap and ap.is_playing():
-			return int(ap.current_animation_position / ANIM_FPS)
+	if _is_anim_player_entity:
+		var preview = _canvas.get_node_or_null("EntityPreview")
+		if preview:
+			var ap = _find_animation_player(preview)
+			if ap and ap.is_playing():
+				return int(ap.current_animation_position * ANIM_FPS)
 		return current_frame
 	if animated_sprite:
 		return animated_sprite.frame

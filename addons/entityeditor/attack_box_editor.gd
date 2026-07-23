@@ -1,4 +1,4 @@
-# attack_box_editor.gd (坐标系修复版 - Y=深度, Z=高度)
+# attack_box_editor.gd
 @tool
 extends Window
 
@@ -64,7 +64,10 @@ var _size_y: SpinBox
 var _size_z: SpinBox
 
 var _copy_buffer: Dictionary = {}
-var _has_unsaved_changes: bool = false
+var _has_unsaved_changes: bool = false:
+	set(v):
+		_has_unsaved_changes = v
+		_update_title()
 
 # 缩放控件
 var handle_size: float = 16.0
@@ -103,13 +106,14 @@ func _ready():
 
 
 func _update_title():
+	var prefix = "*" if _has_unsaved_changes else ""
 	var base = "攻击框编辑器"
 	if _entity_scene_path != "":
 		var trimmed = _entity_scene_path.trim_prefix("res://assets/entities/")
 		var last_slash = trimmed.rfind("/")
 		var name = trimmed.substr(0, last_slash) if last_slash >= 0 else trimmed
 		base += " - " + name
-	title = base
+	title = prefix + base
 
 
 func _center_window():
@@ -135,6 +139,12 @@ func _input(event: InputEvent):
 				get_viewport().set_input_as_handled()
 			elif event.keycode == KEY_Y:
 				_on_redo_pressed()
+				get_viewport().set_input_as_handled()
+			elif event.keycode == KEY_C:
+				_on_copy_frame()
+				get_viewport().set_input_as_handled()
+			elif event.keycode == KEY_V:
+				_on_paste_frame()
 				get_viewport().set_input_as_handled()
 
 func _show_unsaved_dialog():
@@ -267,9 +277,15 @@ func _setup_ui():
 	_canvas.add_child(_interaction_layer)
 
 	# 右侧面板
+	var right_scroll = ScrollContainer.new()
+	right_scroll.custom_minimum_size = Vector2(220, 0)
+	right_scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	right_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	main_hbox.add_child(right_scroll)
+
 	var right_vbox = VBoxContainer.new()
-	right_vbox.custom_minimum_size = Vector2(220, 0)
-	main_hbox.add_child(right_vbox)
+	right_vbox.size_flags_vertical = Control.SIZE_SHRINK_BEGIN
+	right_scroll.add_child(right_vbox)
 
 	var right_title = Label.new()
 	right_title.text = "属性编辑"
@@ -320,9 +336,6 @@ func _setup_ui():
 
 	# 复制粘贴
 	right_vbox.add_child(HSeparator.new())
-	var copy_paste_title = Label.new()
-	copy_paste_title.text = "复制粘贴"
-	right_vbox.add_child(copy_paste_title)
 
 	var copy_paste_hbox = HBoxContainer.new()
 	right_vbox.add_child(copy_paste_hbox)
@@ -339,20 +352,17 @@ func _setup_ui():
 
 	# 撤回重做
 	right_vbox.add_child(HSeparator.new())
-	var undo_redo_title = Label.new()
-	undo_redo_title.text = "撤回 / 重做"
-	right_vbox.add_child(undo_redo_title)
 
 	var undo_redo_hbox = HBoxContainer.new()
 	right_vbox.add_child(undo_redo_hbox)
 
 	_undo_button = Button.new()
-	_undo_button.text = "撤回 (Ctrl+Z)"
+	_undo_button.text = "撤回"
 	_undo_button.pressed.connect(_on_undo_pressed)
 	undo_redo_hbox.add_child(_undo_button)
 
 	_redo_button = Button.new()
-	_redo_button.text = "重做 (Ctrl+Y)"
+	_redo_button.text = "重做"
 	_redo_button.pressed.connect(_on_redo_pressed)
 	undo_redo_hbox.add_child(_redo_button)
 
@@ -435,8 +445,8 @@ func _setup_ui():
 	handle_size_hbox.add_child(handle_size_label)
 
 	_handle_size_slider = HSlider.new()
-	_handle_size_slider.min_value = 0
-	_handle_size_slider.max_value = 999999
+	_handle_size_slider.min_value = HANDLE_SIZE_MIN
+	_handle_size_slider.max_value = HANDLE_SIZE_MAX
 	_handle_size_slider.value = handle_size
 	_handle_size_slider.step = 1.0
 	_handle_size_slider.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -557,12 +567,12 @@ func _update_undo_redo_buttons():
 		var last_action = undo_stack.back() as EditorAction
 		_undo_button.text = "撤回 (%s)" % _get_action_name(last_action.type)
 	else:
-		_undo_button.text = "撤回 (Ctrl+Z)"
+		_undo_button.text = "撤回"
 	if not redo_stack.is_empty():
 		var next_action = redo_stack.back() as EditorAction
 		_redo_button.text = "重做 (%s)" % _get_action_name(next_action.type)
 	else:
-		_redo_button.text = "重做 (Ctrl+Y)"
+		_redo_button.text = "重做"
 
 func _get_action_name(action_type: String) -> String:
 	match action_type:
@@ -941,15 +951,16 @@ func _get_anim_names() -> PackedStringArray:
 	return PackedStringArray()
 
 func _get_anim_frame_count(anim_name: String) -> int:
-	var preview = _canvas.get_node_or_null("EntityPreview")
-	if preview:
-		var ap = _find_animation_player(preview)
-		if ap and ap.has_animation(anim_name):
-			var anim = ap.get_animation(anim_name)
-			var count = int(anim.length * ANIM_FPS)
-			print("[attack_box] _get_anim_frame_count(%s) = %d" % [anim_name, count])
-			return count
-	if _animated_sprite and _animated_sprite.sprite_frames:
+	if _is_anim_player_entity:
+		var preview = _canvas.get_node_or_null("EntityPreview")
+		if preview:
+			var ap = _find_animation_player(preview)
+			if ap and ap.has_animation(anim_name):
+				var anim = ap.get_animation(anim_name)
+				var count = int(anim.length * ANIM_FPS)
+				print("[attack_box] _get_anim_frame_count(%s) = %d" % [anim_name, count])
+				return count
+	elif _animated_sprite and _animated_sprite.sprite_frames:
 		var count = _animated_sprite.sprite_frames.get_frame_count(anim_name)
 		print("[attack_box] _get_anim_frame_count(%s) = %d (sprite)" % [anim_name, count])
 		return count
@@ -957,52 +968,55 @@ func _get_anim_frame_count(anim_name: String) -> int:
 	return 0
 
 func _set_preview_frame(anim_name: String, frame_idx: int):
-	var preview = _canvas.get_node_or_null("EntityPreview")
-	if preview:
-		var ap = _find_animation_player(preview)
-		if ap:
-			ap.stop()
-			if ap.has_animation(anim_name):
-				ap.play(anim_name)
-				ap.seek(frame_idx / ANIM_FPS, true)
+	if _is_anim_player_entity:
+		var preview = _canvas.get_node_or_null("EntityPreview")
+		if preview:
+			var ap = _find_animation_player(preview)
+			if ap:
 				ap.stop()
-				print("[attack_box] _set_preview_frame(%s, %d): seek OK" % [anim_name, frame_idx])
-			else:
-				print("[attack_box] _set_preview_frame(%s, %d): anim not found" % [anim_name, frame_idx])
-			return
-		print("[attack_box] _set_preview_frame(%s, %d): no AnimationPlayer, fallback sprite" % [anim_name, frame_idx])
+				if ap.has_animation(anim_name):
+					ap.play(anim_name)
+					ap.seek(frame_idx / ANIM_FPS, true)
+					ap.stop(false)
+					print("[attack_box] _set_preview_frame(%s, %d): seek OK" % [anim_name, frame_idx])
+				else:
+					print("[attack_box] _set_preview_frame(%s, %d): anim not found" % [anim_name, frame_idx])
+		return
 	if _preview_sprite:
 		_preview_sprite.animation = anim_name
 		_preview_sprite.frame = frame_idx
 
 func _play_preview_anim():
-	var preview = _canvas.get_node_or_null("EntityPreview")
-	if preview:
-		var ap = _find_animation_player(preview)
-		if ap and _anim_selector.selected >= 0:
-			var anim_name = _anim_selector.get_item_text(_anim_selector.selected)
-			if ap.has_animation(anim_name):
-				ap.play(anim_name)
-			return
+	if _is_anim_player_entity:
+		var preview = _canvas.get_node_or_null("EntityPreview")
+		if preview:
+			var ap = _find_animation_player(preview)
+			if ap and _anim_selector.selected >= 0:
+				var anim_name = _anim_selector.get_item_text(_anim_selector.selected)
+				if ap.has_animation(anim_name):
+					ap.play(anim_name)
+		return
 	if _preview_sprite:
 		_preview_sprite.play()
 
 func _stop_preview_anim():
-	var preview = _canvas.get_node_or_null("EntityPreview")
-	if preview:
-		var ap = _find_animation_player(preview)
-		if ap:
-			ap.stop()
+	if _is_anim_player_entity:
+		var preview = _canvas.get_node_or_null("EntityPreview")
+		if preview:
+			var ap = _find_animation_player(preview)
+			if ap:
+				ap.stop()
 		return
 	if _preview_sprite:
 		_preview_sprite.stop()
 
 func _get_preview_frame() -> int:
-	var preview = _canvas.get_node_or_null("EntityPreview")
-	if preview:
-		var ap = _find_animation_player(preview)
-		if ap and ap.is_playing():
-			return int(ap.current_animation_position / ANIM_FPS)
+	if _is_anim_player_entity:
+		var preview = _canvas.get_node_or_null("EntityPreview")
+		if preview:
+			var ap = _find_animation_player(preview)
+			if ap and ap.is_playing():
+				return int(ap.current_animation_position * ANIM_FPS)
 		return int(_frame_selector.value)
 	if _preview_sprite:
 		return _preview_sprite.frame

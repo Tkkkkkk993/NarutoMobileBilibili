@@ -1,5 +1,5 @@
 # effect_binder_editor.gd
-# 特效绑定器 — 选中动画后添加特效，带时间轴与预览播放
+# 特效绑定器
 @tool
 extends Window
 
@@ -12,7 +12,10 @@ var _bindings: Array = []
 var _selected_anim: String = ""        # 当前选中的动画
 var _selected_binding_id: String = ""  # 当前选中的特效绑定
 var _entity_scene_path: String = ""
-var _has_unsaved_changes: bool = false
+var _has_unsaved_changes: bool = false:
+	set(v):
+		_has_unsaved_changes = v
+		_update_title()
 var _entity_instance: Node = null
 var _anim_entity: EntityBase = null
 var _is_anim_player_entity: bool = false
@@ -84,13 +87,14 @@ func _ready():
 
 
 func _update_title():
+	var prefix = "*" if _has_unsaved_changes else ""
 	var base = "特效绑定器"
 	if _entity_scene_path != "":
 		var trimmed = _entity_scene_path.trim_prefix("res://assets/entities/")
 		var last_slash = trimmed.rfind("/")
 		var name = trimmed.substr(0, last_slash) if last_slash >= 0 else trimmed
 		base += " - " + name
-	title = base
+	title = prefix + base
 
 
 func setup(entity: Node, visual_node: Node2D, scene_path: String):
@@ -186,15 +190,16 @@ func _get_anim_names() -> PackedStringArray:
 	return PackedStringArray()
 
 func _get_anim_frame_count(anim_name: String) -> int:
-	var preview = _canvas.get_node_or_null("EntityPreview")
-	if preview:
-		var ap = _find_animation_player(preview)
-		if ap and ap.has_animation(anim_name):
-			var anim = ap.get_animation(anim_name)
-			var count = int(anim.length * ANIM_FPS)
-			print("[effect_binder] _get_anim_frame_count(%s) = %d" % [anim_name, count])
-			return count
-	if _preview_sprite and _preview_sprite.sprite_frames:
+	if _is_anim_player_entity:
+		var preview = _canvas.get_node_or_null("EntityPreview")
+		if preview:
+			var ap = _find_animation_player(preview)
+			if ap and ap.has_animation(anim_name):
+				var anim = ap.get_animation(anim_name)
+				var count = int(anim.length * ANIM_FPS)
+				print("[effect_binder] _get_anim_frame_count(%s) = %d" % [anim_name, count])
+				return count
+	elif _preview_sprite and _preview_sprite.sprite_frames:
 		var count = _preview_sprite.sprite_frames.get_frame_count(anim_name)
 		print("[effect_binder] _get_anim_frame_count(%s) = %d (sprite)" % [anim_name, count])
 		return count
@@ -202,20 +207,20 @@ func _get_anim_frame_count(anim_name: String) -> int:
 	return 0
 
 func _set_preview_frame(anim_name: String, frame_idx: int):
-	var preview = _canvas.get_node_or_null("EntityPreview")
-	if preview:
-		var ap = _find_animation_player(preview)
-		if ap:
-			ap.stop()
-			if ap.has_animation(anim_name):
-				ap.play(anim_name)
-				ap.seek(frame_idx / ANIM_FPS, true)
+	if _is_anim_player_entity:
+		var preview = _canvas.get_node_or_null("EntityPreview")
+		if preview:
+			var ap = _find_animation_player(preview)
+			if ap:
 				ap.stop()
-				print("[effect_binder] _set_preview_frame(%s, %d): seek OK" % [anim_name, frame_idx])
-			else:
-				print("[effect_binder] _set_preview_frame(%s, %d): anim not found" % [anim_name, frame_idx])
-			return
-		print("[effect_binder] _set_preview_frame(%s, %d): no AnimationPlayer, fallback sprite" % [anim_name, frame_idx])
+				if ap.has_animation(anim_name):
+					ap.play(anim_name)
+					ap.seek(frame_idx / ANIM_FPS, true)
+					ap.stop(false)
+					print("[effect_binder] _set_preview_frame(%s, %d): seek OK" % [anim_name, frame_idx])
+				else:
+					print("[effect_binder] _set_preview_frame(%s, %d): anim not found" % [anim_name, frame_idx])
+		return
 	if _preview_sprite:
 		_preview_sprite.animation = anim_name
 		_preview_sprite.frame = frame_idx

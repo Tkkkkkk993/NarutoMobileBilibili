@@ -51,6 +51,23 @@ var _block_defs = [
 	{"type": BlockType.CONDITION, "name": "else_block", "label": "否则", "category": "条件", "event_only": true, "params": []},
 	{"type": BlockType.VALUE, "name": "number_value", "label": "{value}", "category": "值", "params": [{"name": "value", "type": "number", "default": 0, "label": "数值"}]},
 	{"type": BlockType.VALUE, "name": "compare", "label": "{left} {op} {right}", "category": "值", "params": [{"name": "left", "type": "number", "default": "0", "label": "左"}, {"name": "op", "type": "dropdown", "default": ">", "label": "运算", "options": ["<", "=", ">"]}, {"name": "right", "type": "number", "default": "0", "label": "右"}]},
+	# 声音块
+	{"type": BlockType.ACTION, "name": "play_voice", "label": "按路径播放语音 {path} 真实感: {isz} 标记: {tag} 音量: {volume}", "category": "声音", "params": [
+		{"name": "path", "type": "string", "default": "", "label": "路径"},
+		{"name": "isz", "type": "bool", "default": true, "label": "是否真实"},
+		{"name": "tag", "type": "string", "default": "", "label": "标记"},
+		{"name": "volume", "type": "number", "default": 1.0, "label": "音量"}
+	]},
+	{"type": BlockType.ACTION, "name": "play_sound", "label": "按路径播放音效 {path} 真实感: {isz} 标记: {tag} 音量: {volume}", "category": "声音", "params": [
+		{"name": "path", "type": "string", "default": "", "label": "路径"},
+		{"name": "isz", "type": "bool", "default": true, "label": "是否真实"},
+		{"name": "tag", "type": "string", "default": "", "label": "标记"},
+		{"name": "volume", "type": "number", "default": 1.0, "label": "音量"}
+	]},
+	{"type": BlockType.ACTION, "name": "stop_sfx_by_tag", "label": "停止音效（标记: {tag}）", "category": "声音", "params": [{"name": "tag", "type": "string", "default": "", "label": "标记"}]},
+	{"type": BlockType.ACTION, "name": "stop_voice_by_tag", "label": "停止语音（标记: {tag}）", "category": "声音", "params": [{"name": "tag", "type": "string", "default": "", "label": "标记"}]},
+	{"type": BlockType.ACTION, "name": "stop_all_sfx", "label": "停止所有音效", "category": "声音", "params": []},
+	{"type": BlockType.ACTION, "name": "stop_all_voices", "label": "停止所有语音", "category": "声音", "params": []},
 ]
 
 const BLOCK_HEIGHT: float = 40.0
@@ -170,7 +187,11 @@ var _run_mode: String = "both"
 var _run_mode_opt: OptionButton = null
 var _selected_event_row_id: int = -1
 var _event_node_map: Dictionary = {}   # 临时 ID → 节点字典引用（每次渲染重建）
+## 旧 uid → collapsed 映射（加载时修复 uid 重复问题用）
+var _old_uid_map: Dictionary = {}
 var _event_node_id_counter: int = 0
+var _event_item_ref_map: Dictionary = {}  # TreeItem → 节点字典引用（更可靠）
+var _is_rendering_events: bool = false  # 防止渲染时信号回写
 var _event_clipboard: Dictionary = {}   # 剪贴板：{node: Dictionary, is_root: bool}
 var _event_clipboard_cut: bool = false  # 标记剪切（粘贴后清空剪贴板）
 var _event_context_menu: PopupMenu = null  # 事件树右键菜单
@@ -3613,6 +3634,8 @@ func _do_save_with_progress():
 		_hide_progress()
 		return
 	_save_pending = true
+	# 先清空脏标记，_mark_dirty() 若在保存期间调用会重新设为 true
+	_dirty = false
 	await _update_progress(0.3, "序列化数据...")
 	var data = _serialize_all()
 	await _update_progress(0.6, "写入文件...")
@@ -3623,12 +3646,14 @@ func _do_save_with_progress():
 		file.store_string(json_str)
 		file.close()
 		_last_saved_json = json_str
-		_dirty = false
-		_update_title()
 		await _update_progress(1.0, "保存完成")
 		print("[visual_script_editor] 脚本已保存到: ", file_path)
 	else:
 		push_error("[visual_script_editor] 无法写入文件: " + file_path)
+	# 若保存期间有新修改，重新调度保存
+	if _dirty and _save_timer:
+		_save_timer.start(0.5)
+	_update_title()
 	_save_pending = false
 	_hide_progress()
 
@@ -3873,17 +3898,21 @@ func _next_uid() -> String:
 func _load_events_data(events_dict: Dictionary, ui_state: Dictionary = {}):
 	_clear_events_data()
 	_ui_state = ui_state
+	# 保存旧 uid → collapsed 映射（JSON 中存在 _uid 重复问题，用于修复）
+	_old_uid_map = ui_state.get("col_collapsed", ui_state.get("group_collapsed", {}))
 	var rows = events_dict.get("rows", [])
 	var colors_map = ui_state.get("group_colors", {})
 	var max_id = 999
 	for row in rows:
 		var r = row.duplicate(true)
 		if r.get("type") == "group":
-			# 分组行：递归加载内部事件
+			# 分组行：强制重新生成 uid（旧 JSON 中存在重复 _uid）
+			var old_uid_g = r.get("_uid", "")
+			r["_uid"] = _next_uid()
+			if old_uid_g != "" and _old_uid_map.has(old_uid_g):
+				r["collapsed"] = _old_uid_map[old_uid_g]
 			if not r.has("name"):
 				r["name"] = "新分组"
-			if not r.has("_uid"):
-				r["_uid"] = _next_uid()
 			if not r.has("color") and colors_map.has(r.get("name", "")):
 				var c_arr = colors_map[r["name"]]
 				r["color"] = Color(c_arr[0], c_arr[1], c_arr[2], c_arr[3])
@@ -3893,9 +3922,8 @@ func _load_events_data(events_dict: Dictionary, ui_state: Dictionary = {}):
 			r["rows"] = group_rows[0]
 			max_id = group_rows[1]
 		elif r.get("type") == "comment":
-			# 注释行：只需确保 _uid 和 enabled
-			if not r.has("_uid"):
-				r["_uid"] = _next_uid()
+			# 注释行：强制重新生成 uid
+			r["_uid"] = _next_uid()
 			if not r.has("enabled"):
 				r["enabled"] = true
 			if not r.has("text"):
@@ -3916,8 +3944,10 @@ func _load_rows_recursive(rows: Array, current_max_id: int, colors_map: Dictiona
 	for row in rows:
 		var r = row.duplicate(true)
 		if r.get("type") == "group":
-			if not r.has("_uid"):
-				r["_uid"] = _next_uid()
+			var old_uid = r.get("_uid", "")
+			r["_uid"] = _next_uid()
+			if old_uid != "" and _old_uid_map.has(old_uid):
+				r["collapsed"] = _old_uid_map[old_uid]
 			if not r.has("color") and colors_map.has(r.get("name", "")):
 				var c_arr = colors_map[r["name"]]
 				r["color"] = Color(c_arr[0], c_arr[1], c_arr[2], c_arr[3])
@@ -3925,8 +3955,7 @@ func _load_rows_recursive(rows: Array, current_max_id: int, colors_map: Dictiona
 			r["rows"] = loaded[0]
 			max_id = loaded[1]
 		elif r.get("type") == "comment":
-			if not r.has("_uid"):
-				r["_uid"] = _next_uid()
+			r["_uid"] = _next_uid()
 			if not r.has("text"):
 				r["text"] = ""
 		else:
@@ -3953,8 +3982,11 @@ func _normalize_event_row(r: Dictionary, current_max_id: int) -> Array:
 	var max_id = current_max_id
 	if not r.has("id"):
 		r["id"] = _event_row_id_counter
-	if not r.has("_uid"):
-		r["_uid"] = _next_uid()
+	# 强制重新生成 uid，保证全局唯一（旧 JSON 中存在 _uid 重复）
+	var old_uid_e = r.get("_uid", "")
+	r["_uid"] = _next_uid()
+	if old_uid_e != "" and _old_uid_map.has(old_uid_e):
+		r["collapsed"] = _old_uid_map[old_uid_e]
 	if not r.has("enabled"):
 		r["enabled"] = true
 	if not r.has("exprs"):
@@ -3982,8 +4014,8 @@ func _normalize_event_row(r: Dictionary, current_max_id: int) -> Array:
 # 规范化事件节点：确保有 block_name/params/exprs/children
 func _normalize_event_node(node: Dictionary) -> Dictionary:
 	var n = node.duplicate(true)
-	if not n.has("_uid"):
-		n["_uid"] = _next_uid()
+	# 强制重新生成 uid（旧 JSON 中存在 _uid 重复）
+	n["_uid"] = _next_uid()
 	if not n.has("block_name"):
 		n["block_name"] = n.get("name", "?")
 	if not n.has("params"):
@@ -4408,6 +4440,7 @@ func _render_event_node(parent_item: TreeItem, node: Dictionary, is_root: bool, 
 	_event_node_id_counter += 1
 	_event_node_map[nid] = node
 	item.set_metadata(0, nid)
+	_event_item_ref_map[item] = node
 	# 父块被禁用时，子块链全部变灰
 	var self_disabled = not bool(node.get("enabled", true))
 	if self_disabled or inherited_disabled:
@@ -4424,7 +4457,9 @@ func _render_event_node(parent_item: TreeItem, node: Dictionary, is_root: bool, 
 func _render_events():
 	if not _event_tree:
 		return
+	_is_rendering_events = true
 	_event_node_map.clear()
+	_event_item_ref_map.clear()
 	_event_node_id_counter = 0
 	_event_tree.clear()
 	var root = _event_tree.create_item()
@@ -4436,8 +4471,7 @@ func _render_events():
 		else:
 			_render_event_node(root, row, true)
 	_event_apply_search()
-
-## 渲染分组节点（可折叠，支持启用/禁用）
+	_is_rendering_events = false
 func _render_group_node(parent_item: TreeItem, group: Dictionary, inherited_disabled: bool = false):
 	var item = _event_tree.create_item(parent_item)
 	var name = group.get("name", "新分组")
@@ -4458,6 +4492,7 @@ func _render_group_node(parent_item: TreeItem, group: Dictionary, inherited_disa
 	_event_node_id_counter += 1
 	_event_node_map[nid] = group
 	item.set_metadata(0, nid)
+	_event_item_ref_map[item] = group
 	# 分组可折叠
 	item.set_collapsed(group.get("collapsed", false))
 	# 递归渲染分组内的事件（分组禁用则子元素继承灰色）
@@ -4482,14 +4517,18 @@ func _render_comment_node(parent_item: TreeItem, comment: Dictionary):
 	_event_node_id_counter += 1
 	_event_node_map[nid] = comment
 	item.set_metadata(0, nid)
+	_event_item_ref_map[item] = comment
 	# 注释可折叠 false（无子节点）
 
-# 通过 metadata 中的整数 ID 查 map
+# 通过 TreeItem 引用或 metadata 中的整数 ID 查 map
 func _get_node_from_item(item: TreeItem) -> Dictionary:
 	if item == null:
 		return {}
+	# 优先使用 TreeItem 引用键（更可靠）
+	if _event_item_ref_map.has(item):
+		return _event_item_ref_map[item]
+	# 回退到 metadata 整数 ID 查找
 	var nid = item.get_metadata(0)
-	# nid 可能是 int 或其它类型，统一用 int() 转换
 	var key = int(nid) if nid != null else -1
 	if _event_node_map.has(key):
 		return _event_node_map[key]
@@ -5597,11 +5636,15 @@ func _update_event_drag_indicator(pos: Vector2):
 
 			# 分组节点允许附加（将拖拽项加入分组）
 			var is_group = node.get("type") == "group"
+			var is_dragging_group = _drag_source_node.get("type") == "group"
 
 			# 不允许附加到 ACTION 块
 			if on_block and not is_group:
 				var def = _find_block_def(node.get("block_name", ""))
 				if not def.is_empty() and def.type == BlockType.ACTION:
+					on_block = false
+				# 拖拽分组时，禁止附加到非分组节点（仅允许同级插入）
+				if is_dragging_group:
 					on_block = false
 
 			if on_block:
@@ -5652,6 +5695,9 @@ func _finish_event_drag(pos: Vector2):
 			var def = _find_block_def(target_node.get("block_name", ""))
 			if not def.is_empty() and def.type == BlockType.ACTION:
 				can_attach = false
+			# 拖拽分组时禁止附加到非分组节点（落到同级插入）
+			if _drag_source_node.get("type") == "group":
+				can_attach = false
 
 	if can_attach:
 		if target_node.get("type") == "group":
@@ -5670,6 +5716,27 @@ func _finish_event_drag(pos: Vector2):
 			return
 		var tgt_children: Array = tgt_loc["parent_children"]
 		var tgt_idx: int = tgt_loc["index"]
+
+		# 拖拽分组时，如果插入位置在事件子块内，沿父链逃逸到行级别
+		if _drag_source_node.get("type") == "group":
+			var is_row_level = is_same(tgt_children, _events_data.rows) or \
+				(tgt_loc.get("parent_node") is Dictionary and tgt_loc["parent_node"].get("type") == "group")
+			if not is_row_level:
+				var walk_node = target_node
+				var walk_loc = tgt_loc
+				var safety = 10
+				while safety > 0:
+					safety -= 1
+					walk_node = walk_loc.get("parent_node")
+					if walk_node == null: break
+					walk_loc = _vs_find_node_location(walk_node)
+					if walk_loc.is_empty(): break
+					tgt_children = walk_loc["parent_children"]
+					tgt_idx = walk_loc["index"]
+					is_row_level = is_same(tgt_children, _events_data.rows) or \
+						(walk_loc.get("parent_node") is Dictionary and walk_loc["parent_node"].get("type") == "group")
+					if is_row_level: break
+
 		var insert_idx = tgt_idx + 1
 		if src_children == tgt_children:
 			if src_idx < tgt_idx:
@@ -5839,6 +5906,8 @@ func _cleanup_drag():
 	_event_tree.queue_redraw()
 
 func _on_event_tree_item_collapsed(item: TreeItem):
+	if _is_rendering_events:
+		return
 	var node = _get_node_from_item(item)
 	if not node.is_empty():
 		var old_val = node.get("collapsed", false)
@@ -6552,15 +6621,8 @@ func _vs_collect_context_outputs(context_node: Dictionary) -> Array:
 	var outputs: Array = []
 	if context_node.is_empty():
 		return outputs
-	# 找到包含该节点的事件行
-	var target_row: Dictionary = {}
-	for row in _events_data.get("rows", []):
-		if is_same(row, context_node):
-			target_row = row
-			break
-		if _vs_node_contains_child(row, context_node):
-			target_row = row
-			break
+	# 找到包含该节点的事件行（递归搜索分组内部）
+	var target_row = _vs_find_event_row_containing(_events_data.get("rows", []), context_node)
 	if target_row.is_empty():
 		return outputs
 	# 事件根本身的输出
@@ -6577,6 +6639,20 @@ func _vs_collect_context_outputs(context_node: Dictionary) -> Array:
 	var found_flag: Array = [false]
 	_vs_collect_preceding_outputs(target_row.get("children", []), context_node, outputs, found_flag)
 	return outputs
+
+## 递归搜索 rows 数组（支持分组嵌套），找到包含 target 的事件行
+func _vs_find_event_row_containing(rows: Array, target: Dictionary) -> Dictionary:
+	for row in rows:
+		if is_same(row, target):
+			return row
+		if _vs_node_contains_child(row, target):
+			return row
+		# 分组内部用 rows 存事件行，也需要递归搜索
+		if row.get("type") == "group":
+			var found = _vs_find_event_row_containing(row.get("rows", []), target)
+			if not found.is_empty():
+				return found
+	return {}
 
 ## 递归检查 node 是否是 parent 的后代
 func _vs_node_contains_child(parent: Dictionary, target: Dictionary) -> bool:

@@ -8,7 +8,10 @@ const ANIM_FPS := 60.0
 var _info_points: Array = []
 var _current_point_id: String = ""
 var _entity_scene_path: String = ""
-var _has_unsaved_changes: bool = false
+var _has_unsaved_changes: bool = false:
+	set(v):
+		_has_unsaved_changes = v
+		_update_title()
 var _entity_instance: Node = null
 var _anim_entity: EntityBase = null
 var _is_anim_player_entity: bool = false
@@ -50,13 +53,14 @@ func _ready():
 
 
 func _update_title():
+	var prefix = "*" if _has_unsaved_changes else ""
 	var base = "信息点编辑器"
 	if _entity_scene_path != "":
 		var trimmed = _entity_scene_path.trim_prefix("res://assets/entities/")
 		var last_slash = trimmed.rfind("/")
 		var name = trimmed.substr(0, last_slash) if last_slash >= 0 else trimmed
 		base += " - " + name
-	title = base
+	title = prefix + base
 
 
 func _on_close_requested():
@@ -301,15 +305,16 @@ func _get_anim_names() -> PackedStringArray:
 	return PackedStringArray()
 
 func _get_anim_frame_count(anim_name: String) -> int:
-	var preview = _canvas.get_node_or_null("EntityPreview")
-	if preview:
-		var ap = _find_animation_player(preview)
-		if ap and ap.has_animation(anim_name):
-			var anim = ap.get_animation(anim_name)
-			var count = int(anim.length * ANIM_FPS)
-			print("[info_point] _get_anim_frame_count(%s) = %d" % [anim_name, count])
-			return count
-	if _preview_sprite and _preview_sprite.sprite_frames:
+	if _is_anim_player_entity:
+		var preview = _canvas.get_node_or_null("EntityPreview")
+		if preview:
+			var ap = _find_animation_player(preview)
+			if ap and ap.has_animation(anim_name):
+				var anim = ap.get_animation(anim_name)
+				var count = int(anim.length * ANIM_FPS)
+				print("[info_point] _get_anim_frame_count(%s) = %d" % [anim_name, count])
+				return count
+	elif _preview_sprite and _preview_sprite.sprite_frames:
 		var count = _preview_sprite.sprite_frames.get_frame_count(anim_name)
 		print("[info_point] _get_anim_frame_count(%s) = %d (sprite)" % [anim_name, count])
 		return count
@@ -317,20 +322,20 @@ func _get_anim_frame_count(anim_name: String) -> int:
 	return 0
 
 func _set_preview_frame(anim_name: String, frame_idx: int):
-	var preview = _canvas.get_node_or_null("EntityPreview")
-	if preview:
-		var ap = _find_animation_player(preview)
-		if ap:
-			ap.stop()
-			if ap.has_animation(anim_name):
-				ap.play(anim_name)
-				ap.seek(frame_idx / ANIM_FPS, true)
+	if _is_anim_player_entity:
+		var preview = _canvas.get_node_or_null("EntityPreview")
+		if preview:
+			var ap = _find_animation_player(preview)
+			if ap:
 				ap.stop()
-				print("[info_point] _set_preview_frame(%s, %d): AnimationPlayer seek OK" % [anim_name, frame_idx])
-			else:
-				print("[info_point] _set_preview_frame(%s, %d): anim not found" % [anim_name, frame_idx])
-			return
-		print("[info_point] _set_preview_frame(%s, %d): AnimationPlayer not found, fallback to sprite" % [anim_name, frame_idx])
+				if ap.has_animation(anim_name):
+					ap.play(anim_name)
+					ap.seek(frame_idx / ANIM_FPS, true)
+					ap.stop(false)
+					print("[info_point] _set_preview_frame(%s, %d): AnimationPlayer seek OK" % [anim_name, frame_idx])
+				else:
+					print("[info_point] _set_preview_frame(%s, %d): anim not found" % [anim_name, frame_idx])
+		return
 	if _preview_sprite:
 		_preview_sprite.animation = anim_name
 		_preview_sprite.frame = frame_idx

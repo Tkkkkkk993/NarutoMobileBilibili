@@ -84,7 +84,8 @@ var energy_bar: TextureProgressBar
 var ultimate_panel: Control
 var title_label: Label
 var skill_panel: CanvasLayer
-var skill_slot: Array[SkillSlot]
+var skill_slot = []  # 当前绑定的槽位 (NullSlot 或真实 SkillSlot)
+var _real_skill_slots: Array[SkillSlot] = []  # 真实 SkillPanel 节点引用
 var button_pressed: Array[bool]
 var protections: Control
 var entity_manager: EntityManager
@@ -732,26 +733,27 @@ func _deferred_heavy_init():
 		
 		skill_panel = main.get_parent().get_node("SkillPanel")
 		var skill_slots = skill_panel.get_node("PanelContainer").get_node("TextureRect")
-		skill_slot.resize(9)
+		_real_skill_slots.resize(9)
 		inputs.resize(9)
 		for i in range(9):
 			cool_down_time.append({"time": 0.0, "slot_id": 0})
 			skill_timer.append({"time": 0.0, "max_time": 0, "slot_id": 0, "sub_slots": []})
-		skill_slot[0] = skill_slots.get_node("Attack")
-		skill_slot[1] = skill_slots.get_node("Skill1")
-		skill_slot[2] = skill_slots.get_node("Skill2")
-		skill_slot[3] = skill_slots.get_node("Skill3")
-		skill_slot[4] = skill_slots.get_node("Substitution")
-		skill_slot[5] = skill_slots.get_node("Scroll")
-		skill_slot[6] = skill_slots.get_node("Summon")
-		skill_slot[7] = skill_slots.get_node("SubSkill1")
-		skill_slot[8] = skill_slots.get_node("SubSkill2")
+		_real_skill_slots[0] = skill_slots.get_node("Attack")
+		_real_skill_slots[1] = skill_slots.get_node("Skill1")
+		_real_skill_slots[2] = skill_slots.get_node("Skill2")
+		_real_skill_slots[3] = skill_slots.get_node("Skill3")
+		_real_skill_slots[4] = skill_slots.get_node("Substitution")
+		_real_skill_slots[5] = skill_slots.get_node("Scroll")
+		_real_skill_slots[6] = skill_slots.get_node("Summon")
+		_real_skill_slots[7] = skill_slots.get_node("SubSkill1")
+		_real_skill_slots[8] = skill_slots.get_node("SubSkill2")
 		
-		skill_slot[7].visible = false
-		skill_slot[8].visible = false
+		_real_skill_slots[7].visible = false
+		_real_skill_slots[8].visible = false
 		
 		virtual_joystick = skill_panel.get_node("VirtualJoystick")
 	
+	_sync_skill_slot_binding()
 	_update_summon_dot()
 	
 	if entity_type == EntityType.PLAYER:
@@ -967,10 +969,20 @@ func _load_effect_bindings():
 			print("[特效绑定] 已加载 %d 个特效绑定" % _effect_bindings.size())
 	file.close()
 
+func _sync_skill_slot_binding():
+	"""根据当前操控者切换 skill_slot 绑定：操控者用真实 SkillPanel，其它用 NullSlot"""
+	skill_slot.resize(_real_skill_slots.size())
+	skill_slot.fill(NullSlot.new())
+	if _real_skill_slots.size() > 0 and name == MatchConfig.current_controller_name:
+		for i in _real_skill_slots.size():
+			skill_slot[i] = _real_skill_slots[i]
+
 func setup_player_config():
 	setup_icon()
 
 func _on_controller_changed(new_name: String):
+	if is_player:
+		_sync_skill_slot_binding()
 	if name == new_name:
 		setup_player_config()
 
@@ -4567,3 +4579,33 @@ func send_global_broadcast(msg: String, data: Dictionary = {}):
 
 func _receive_broadcast(msg: String, data: Dictionary, is_global: bool):
 	broadcast_received.emit(msg, data, is_global)
+
+# ============================================
+# NullSlot — 非操控者实体的存根槽位
+# 接收所有属性赋值和方法调用但不做任何事，
+# 避免多个实体争抢同一组 SkillPanel 节点。
+# ============================================
+class NullSlot:
+	var disabled = false
+	var dot = -1
+	var dot_max = 4
+	var timer_progress = 0.0
+	var show_aura = false
+	var is_charging = false
+	var cool_down_time_now = 0.0
+	var cool_down_time_max = 0.0
+	var _button_pressed = false
+	var visible = true
+	var charging_progress: _NullProgress
+
+	func _init():
+		charging_progress = _NullProgress.new()
+
+	func set_texture(_t): pass
+	func set_cd(_cd): pass
+	func _can_press(): return false
+	func is_finger_inside(): return false
+
+class _NullProgress:
+	var rotation: float = 0.0
+	var visible: bool = false

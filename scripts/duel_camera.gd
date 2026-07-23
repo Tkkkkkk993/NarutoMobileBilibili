@@ -176,16 +176,10 @@ func _physics_process(delta):
 	_update_pulse_zoom(delta)
 
 	if target_entity and is_instance_valid(target_entity) and target_entity.entry_action != EntityBase.EntryAction.NONE:
-		var facing = target_entity.facing_direction
-		var desired_x: float = global_position.x
-		if use_limits:
-			var viewport_width = get_viewport().get_visible_rect().size.x
-			var current_world_width = viewport_width / zoom.x
-			if facing == 1:
-				desired_x = float(limit_left) + current_world_width / 2.0
-			else:
-				desired_x = float(limit_right) - current_world_width / 2.0
-		global_position.x = lerp(global_position.x, desired_x, follow_speed * delta)
+		var target_pos = target.global_position
+		if follow_x_axis:
+			var desired_x = _calculate_constrained_x(target_pos.x)
+			global_position.x = lerp(global_position.x, desired_x, follow_speed * delta)
 		_process_shake(delta)
 		_process_zoom_shock(delta)
 		_process_camera_rotate(delta)

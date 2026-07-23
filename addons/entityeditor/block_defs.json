@@ -9,7 +9,7 @@
 		},
 		{
 			"category": "事件",
-			"label": "当 {anim_name} 动画帧变化时",
+			"label": "当 {anim_name} {frame_type}变化时",
 			"name": "when_animation_playing",
 			"outputs": [
 				{
@@ -24,6 +24,17 @@
 					"label": "动画名",
 					"name": "anim_name",
 					"type": "string"
+				},
+				{
+					"default": "动画帧",
+					"label": "帧类型",
+					"name": "frame_type",
+					"options": [
+						"动画帧",
+						"物理帧",
+						"画面帧"
+					],
+					"type": "dropdown"
 				}
 			],
 			"type": 0.0
@@ -271,7 +282,7 @@
 		},
 		{
 			"category": "事件",
-			"label": "当动画帧变化时",
+			"label": "当{frame_type}变化时",
 			"name": "when_any_animation_frame_changed",
 			"outputs": [
 				{
@@ -285,7 +296,19 @@
 					"type": "node"
 				}
 			],
-			"params": [],
+			"params": [
+				{
+					"default": "动画帧",
+					"label": "帧类型",
+					"name": "frame_type",
+					"options": [
+						"动画帧",
+						"物理帧",
+						"画面帧"
+					],
+					"type": "dropdown"
+				}
+			],
 			"type": 0.0
 		},
 		{
