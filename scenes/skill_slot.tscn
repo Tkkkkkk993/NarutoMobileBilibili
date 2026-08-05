@@ -374,7 +374,7 @@ texture_progress = ExtResource("70_dh81a")
 modulate = Color(1, 1, 1, 0.49019608)
 material = SubResource("CanvasItemMaterial_li6i7")
 position = Vector2(-2.2888184e-05, -5.722046e-06)
-scale = Vector2(1.7, 1.7)
+scale = Vector2(-1.7, 1.7)
 texture = ExtResource("71_111lf")
 
 [node name="Timer" type="AnimatedSprite2D" parent="Icon" unique_id=1518613462]

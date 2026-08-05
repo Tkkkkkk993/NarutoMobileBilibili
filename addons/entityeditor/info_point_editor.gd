@@ -230,6 +230,17 @@ func _setup_ui():
 	_frame_spin.value_changed.connect(_on_frame_spin_changed)
 	frame_hbox.add_child(_frame_spin)
 
+	var frame_btn_hbox = HBoxContainer.new()
+	right_vbox.add_child(frame_btn_hbox)
+	var prev_frame_btn = Button.new()
+	prev_frame_btn.text = "< 上一帧"
+	prev_frame_btn.pressed.connect(_on_prev_frame)
+	frame_btn_hbox.add_child(prev_frame_btn)
+	var next_frame_btn = Button.new()
+	next_frame_btn.text = "下一帧 >"
+	next_frame_btn.pressed.connect(_on_next_frame)
+	frame_btn_hbox.add_child(next_frame_btn)
+
 	right_vbox.add_child(HSeparator.new())
 	var save_btn = Button.new()
 	save_btn.text = "保存数据"
@@ -621,6 +632,16 @@ func _on_frame_spin_changed(value: float):
 		_preview_sprite.frame = frame_idx
 	_draw_node.queue_redraw()
 	_sync_anim_frame_to_point()
+
+func _on_prev_frame():
+	var new_frame = int(_frame_spin.value) - 1
+	if new_frame >= 0:
+		_frame_spin.value = new_frame
+
+func _on_next_frame():
+	var new_frame = int(_frame_spin.value) + 1
+	if new_frame <= _frame_spin.max_value:
+		_frame_spin.value = new_frame
 
 # ==========================================
 # 交互逻辑 (屏幕坐标 <-> 逻辑坐标 转换)

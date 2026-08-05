@@ -9,7 +9,7 @@
 		},
 		{
 			"category": "事件",
-			"label": "当 {anim_name} {frame_type}变化时",
+			"label": "当动画 {anim_name} {frame_type}变化时",
 			"name": "when_animation_playing",
 			"outputs": [
 				{
@@ -282,7 +282,7 @@
 		},
 		{
 			"category": "事件",
-			"label": "当{frame_type}变化时",
+			"label": "当动画{frame_type}变化时",
 			"name": "when_any_animation_frame_changed",
 			"outputs": [
 				{
@@ -521,14 +521,15 @@
 				{
 					"default": {
 						"x": 0.0,
-						"y": 0.0
+						"y": 0.0,
+						"z": 0.0
 					},
 					"label": "阻力",
 					"name": "r",
-					"type": "vector2"
+					"type": "vector3"
 				},
 				{
-					"default": 0.0,
+					"default": -1.0,
 					"label": "重力",
 					"name": "g",
 					"type": "number"
@@ -724,19 +725,19 @@
 		},
 		{
 			"category": "动作",
-			"label": "面向: {d} 方向",
+			"label": "面向: {d} 朝向",
 			"name": "turn_to",
 			"outputs": [],
 			"params": [
 				{
-					"default": "左",
+					"default": 1.0,
 					"label": "方向",
 					"name": "d",
 					"options": [
 						"左",
 						"右"
 					],
-					"type": "dropdown"
+					"type": "number"
 				}
 			],
 			"type": 1.0
@@ -930,7 +931,7 @@
 				{
 					"label": "动画名",
 					"name": "anim_name",
-					"type": "node"
+					"type": "string"
 				}
 			],
 			"params": [],
@@ -938,10 +939,38 @@
 		},
 		{
 			"category": "事件",
-			"label": "当帧变化时",
+			"label": "当{frame_type}变化时",
 			"name": "when_frame_changed",
-			"outputs": [],
-			"params": [],
+			"outputs": [
+				{
+					"label": "当前动画",
+					"name": "anim_name",
+					"type": "string"
+				},
+				{
+					"label": "当前帧",
+					"name": "frame_idx",
+					"type": "number"
+				}
+			],
+			"params": [
+				{
+					"default": "物理帧",
+					"label": "帧类型",
+					"name": "frame_type",
+					"options": [
+						"物理帧",
+						"画面帧"
+					],
+					"type": "dropdown"
+				},
+				{
+					"default": false,
+					"label": "出生保护",
+					"name": "birth_protect",
+					"type": "bool"
+				}
+			],
 			"type": 0.0
 		},
 		{
@@ -1003,6 +1032,87 @@
 				}
 			],
 			"type": 3.0
+		},
+		{
+			"category": "数据",
+			"label": "最新非玩家实体(优先 {title})",
+			"name": "latest_non_player_entity",
+			"outputs": [],
+			"params": [
+				{
+					"default": "",
+					"label": "优先标题",
+					"name": "title",
+					"type": "string"
+				}
+			],
+			"type": 3.0
+		},
+		{
+			"category": "数据",
+			"label": "变量 {var} 是否有效实体",
+			"name": "has_valid_target",
+			"outputs": [],
+			"params": [
+				{
+					"default": "target",
+					"label": "变量名",
+					"name": "var",
+					"type": "string"
+				}
+			],
+			"type": 3.0
+		},
+		{
+			"category": "数据",
+			"label": "{p1} 与 {p2} 的2D距离",
+			"name": "distance_2d",
+			"outputs": [],
+			"params": [
+				{
+					"default": {
+						"x": 0.0,
+						"y": 0.0
+					},
+					"label": "点1",
+					"name": "p1",
+					"type": "vector2"
+				},
+				{
+					"default": {
+						"x": 0.0,
+						"y": 0.0
+					},
+					"label": "点2",
+					"name": "p2",
+					"type": "vector2"
+				}
+			],
+			"type": 3.0
+		},
+		{
+			"category": "移动",
+			"label": "2D恒速向点 {point} 移动 速度:{speed}",
+			"name": "move_toward_2d_point",
+			"outputs": [],
+			"params": [
+				{
+					"default": {
+						"x": 0.0,
+						"y": 0.0
+					},
+					"label": "2D点",
+					"name": "point",
+					"type": "vector2"
+				},
+				{
+					"default": 500.0,
+					"label": "速度",
+					"name": "speed",
+					"type": "number"
+				}
+			],
+			"type": 1.0
 		},
 		{
 			"category": "数据",
@@ -1344,6 +1454,12 @@
 					"label": "持续时间",
 					"name": "d",
 					"type": "number"
+				},
+				{
+					"default": "",
+					"label": "效果事件触发者(空=自己)",
+					"name": "caster",
+					"type": "node"
 				}
 			],
 			"type": 1.0
@@ -1652,7 +1768,7 @@
 		},
 		{
 			"category": "实体",
-			"label": "抓取实体 {target};位置: {pos};时间: {time};释放位置: {rpos};动画: {ani};释放速度: {v};控制时间: {kt};重力: {g};抓取强度: {bs};记录实体到变量: {var}",
+			"label": "抓取实体 {target};位置: {pos};时间: {time};释放位置: {rpos};动画: {ani};释放速度: {v};控制时间: {kt};重力: {g};抓取强度: {bs};可替身: {cs};旋转角度: {vr};记录实体到变量: {var}",
 			"name": "set_entity_immobilize",
 			"outputs": [],
 			"params": [
@@ -1720,6 +1836,18 @@
 					"default": 2.0,
 					"label": "强度",
 					"name": "bs",
+					"type": "number"
+				},
+				{
+					"default": false,
+					"label": "可替身",
+					"name": "cs",
+					"type": "bool"
+				},
+				{
+					"default": 0.0,
+					"label": "旋转角度(弧度)",
+					"name": "vr",
 					"type": "number"
 				},
 				{
@@ -2940,6 +3068,39 @@
 			"type": 0.0
 		},
 		{
+			"category": "事件",
+			"label": "当受到带力的攻击时",
+			"name": "when_receive_force",
+			"outputs": [
+				{
+					"label": "击退速度",
+					"name": "kv",
+					"type": "vector2"
+				},
+				{
+					"label": "击飞速度",
+					"name": "zv",
+					"type": "number"
+				}
+			],
+			"params": [],
+			"type": 0.0
+		},
+		{
+			"category": "事件",
+			"label": "当血量变化时",
+			"name": "when_hp_changed",
+			"outputs": [
+				{
+					"label": "血量变化",
+					"name": "delta",
+					"type": "number"
+				}
+			],
+			"params": [],
+			"type": 0.0
+		},
+		{
 			"category": "动作",
 			"label": "设置能量条颜色 {c}",
 			"name": "set_energy_bar_color",
@@ -3309,6 +3470,27 @@
 		},
 		{
 			"category": "动作",
+			"label": "设置槽位 {slot_id} 显隐 {visible}",
+			"name": "set_slot_visible",
+			"outputs": [],
+			"params": [
+				{
+					"default": 0.0,
+					"label": "槽位序号",
+					"name": "slot_id",
+					"type": "number"
+				},
+				{
+					"default": true,
+					"label": "是否显示",
+					"name": "visible",
+					"type": "bool"
+				}
+			],
+			"type": 1.0
+		},
+		{
+			"category": "动作",
 			"label": "设置槽位 {slot_id} 是否禁用 {disabled}",
 			"name": "set_skill_slot_disabled",
 			"outputs": [],
@@ -3462,6 +3644,21 @@
 				}
 			],
 			"type": 1.0
+		},
+		{
+			"category": "值",
+			"label": "角度转弧度 {deg}°",
+			"name": "deg_to_rad",
+			"outputs": [],
+			"params": [
+				{
+					"default": 0.0,
+					"label": "角度",
+					"name": "deg",
+					"type": "number"
+				}
+			],
+			"type": 3.0
 		}
 	],
 	"categories": [
@@ -3475,6 +3672,7 @@
 		"实体",
 		"特效",
 		"摄像机",
+		"移动",
 		"声音"
 	],
 	"category_colors": {
@@ -3488,6 +3686,7 @@
 		"控制": "bb8800ff",
 		"摄像机": "00ad64ff",
 		"数据": "c92a19ff",
-		"特效": "a100bdff"
+		"特效": "a100bdff",
+		"移动": "bebebeff"
 	}
 }

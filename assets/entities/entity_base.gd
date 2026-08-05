@@ -231,6 +231,20 @@ var last_logged_animation: String = ""
 var _current_team: int = TeamManager.TeamID.NONE
 signal team_changed(new_team: int)
 signal broadcast_received(msg: String, data: Dictionary, is_global: bool)
+## 受到附带力的攻击时发射: kv=击退速度, zv=击飞速度
+signal receive_force(kv: Vector2, zv: float)
+## 血量变化时发射: old_hp=变化前血量, new_hp=变化后血量
+signal hp_changed(old_hp: float, new_hp: float)
+## 被攻击命中时发射
+signal deal_hit(attacker: Node2D)
+## 死亡时发射
+signal death()
+## 自定义效果相关
+signal modifier_start(type: String, power: int, time_left: float, target: Node2D)
+signal modifier_update(type: String, power: int, time_left: float, target: Node2D)
+signal modifier_end(type: String, power: int, time_left: float, target: Node2D)
+## 冷却计时器到期时发射
+signal timer_out(cd_id: int)
 
 # ============================================
 # 控制系统
@@ -254,7 +268,9 @@ var z_slide_resistance: float = 5.0
 
 var is_sliding: bool = false
 var slide_velocity: Vector2 = Vector2.ZERO
-var slide_resistance: float = 8.0
+var slide_resistance: Vector2 = Vector2(8.0, 8.0)
+## 滑行期 Z 轴阻力覆盖 (-1 表示使用默认 z_slide_resistance)
+var _slide_z_resistance: float = -1.0
 var slide_sequences: Dictionary = {}
 var current_slide_sequence: Array = []
 var current_slide_index: int = -1
@@ -326,6 +342,9 @@ var _immobilize_knockback: Vector2 = Vector2.ZERO
 var _immobilize_knockback_time: float = 0
 var _immobilize_launch: float = 0
 var _immobilize_launch_gravity: float = 800
+var _immobilize_can_substitute: bool = false  # 定身期间能否替身
+var _immobilize_visuals_rotation: float = 0.0  # 定身时 visuals 旋转角度
+var _saved_visuals_rotation: float = 0.0        # 定身前保存的 visuals 旋转
 
 # ============================================
 # 吸附系统
@@ -869,6 +888,7 @@ func die():
 	_launch_velocity_z = 0.0
 	is_sliding = false
 	_launch_active = false
+	_slide_z_resistance = -1.0
 
 	# 2. 禁用碰撞 【修改点】使用 set_deferred 避免在物理帧中报错
 	set_deferred("collision_layer", 0)
@@ -1543,7 +1563,8 @@ func set_timer(slot_id: int, cd_id: int, cd: float, cd_max: float):
 						skill_slot[sid].timer_progress = 0
 
 func set_modifiers(type: String, pow: int, time: float = -2,
-		on_start: String = "", on_update: String = "", on_end: String = ""):
+		on_start: String = "", on_update: String = "", on_end: String = "",
+		caster: Node2D = null):
 	for i in modifiers.size():
 		if modifiers[i]["type"] == type:
 			modifiers[i]["power"] = pow
@@ -1552,11 +1573,12 @@ func set_modifiers(type: String, pow: int, time: float = -2,
 			modifiers[i]["on_update"] = on_update
 			modifiers[i]["on_end"] = on_end
 			modifiers[i]["_started"] = false
+			modifiers[i]["caster"] = caster
 			return
 	modifiers.append({
 		"time": time, "type": type, "power": pow,
 		"on_start": on_start, "on_update": on_update, "on_end": on_end,
-		"_started": false
+		"_started": false, "caster": caster
 	})
 
 func _process_cd(delta):
@@ -1588,25 +1610,34 @@ func _process_timer(delta):
 								skill_slot[sid].timer_progress = p
 
 func on_timer_out(cd_id: int):
+	timer_out.emit(cd_id)
 	pass
 	#print("timerout",cd_id)
 
 func _process_modifiers(delta):
 	for i in modifiers.size():
 		if modifiers[i]["time"] > 0 or modifiers[i]["time"] == -2:
+			var type = modifiers[i]["type"]
+			var power = modifiers[i]["power"]
+			var time_left = modifiers[i]["time"]
+			var caster = modifiers[i].get("caster", null)
 			# 效果启动（仅首次）
 			if not modifiers[i].get("_started", false):
 				modifiers[i]["_started"] = true
 				var cb = modifiers[i].get("on_start", "")
 				if cb and has_method(cb):
 					call(cb, self)
-				_on_modifier_start(modifiers[i]["type"], modifiers[i]["power"], modifiers[i]["time"])
+				_on_modifier_start(type, power, time_left)
+				if caster and caster != self:
+					caster._on_modifier_start(type, power, time_left, self)
 			# 效果运行（每帧）
 			handle_modifiers_solo(i)
 			var cb = modifiers[i].get("on_update", "")
 			if cb and has_method(cb):
 				call(cb, self)
-			_on_modifier_update(modifiers[i]["type"], modifiers[i]["power"], modifiers[i]["time"])
+			_on_modifier_update(type, power, time_left)
+			if caster and caster != self:
+				caster._on_modifier_update(type, power, time_left, self)
 			# 计时
 			if modifiers[i]["time"] > 0:
 				modifiers[i]["time"] -= delta
@@ -1615,20 +1646,29 @@ func _process_modifiers(delta):
 		else:
 			if modifiers[i]["time"] == 0:
 				handle_modifiers_reverse_solo(i)
+				var type = modifiers[i]["type"]
+				var power = modifiers[i]["power"]
+				var time_left = modifiers[i]["time"]
+				var caster = modifiers[i].get("caster", null)
 				# 效果结束
 				var cb = modifiers[i].get("on_end", "")
 				if cb and has_method(cb):
 					call(cb, self)
-				_on_modifier_end(modifiers[i]["type"], modifiers[i]["power"], modifiers[i]["time"])
+				_on_modifier_end(type, power, time_left)
+				if caster and caster != self:
+					caster._on_modifier_end(type, power, time_left, self)
 				modifiers[i]["time"] = -1
 
-func _on_modifier_start(type: String, power: int, time_left: float = -2.0):
+func _on_modifier_start(type: String, power: int, time_left: float = -2.0, target: Node2D = null):
+	modifier_start.emit(type, power, time_left, target)
 	pass
 
-func _on_modifier_update(type: String, power: int, time_left: float = -2.0):
+func _on_modifier_update(type: String, power: int, time_left: float = -2.0, target: Node2D = null):
+	modifier_update.emit(type, power, time_left, target)
 	pass
 
-func _on_modifier_end(type: String, power: int, time_left: float = -2.0):
+func _on_modifier_end(type: String, power: int, time_left: float = -2.0, target: Node2D = null):
+	modifier_end.emit(type, power, time_left, target)
 	pass
 
 func bind_cd(slot_id: int, cd_id: int):
@@ -1725,7 +1765,11 @@ func change_hp(d: int, show_number: bool = false, kv: float = 0.0, can_variation
 	elif hp > hp_max:
 		hp = hp_max
 	
+	if old_hp != hp:
+		hp_changed.emit(old_hp, hp)
+	
 	var epos = position_3d
+	epos.z *= -1
 	epos.z -= 150
 	if show_number and d < 0 and effects_container:
 		var dmg = int(old_hp - hp)
@@ -1797,6 +1841,7 @@ func hit(hit_type: HitStateType,
 		set_modifiers("customBodyState", BodyState.NORMAL, 0)
 	body_state = BodyState.NORMAL
 	clear_attack_state()
+	stop_slide()
 	
 	# 根据轻重击随机选择眩晕动画
 	var stun_ani: String = "stun" + str(randi() % 2 + (1 if is_heavy else 3))
@@ -1808,7 +1853,7 @@ func hit(hit_type: HitStateType,
 	if hit_type == HitStateType.PUSH:
 		set_knockback(kv, hit_stun_time, kr)
 		
-		if is_launched:
+		if is_launched or position_3d.z > 0:
 			set_hit_stun(hit_stun_time, stun_ani)
 			set_launch(zv, "launch2")
 		elif is_downed:
@@ -1840,7 +1885,14 @@ func hit(hit_type: HitStateType,
 	
 	_immobilize_release_active = false
 	
+	# 立即更新受控状态，避免当帧内后续逻辑读取到错误的值
+	is_under_control = knockback_active or _launch_active
+	
 	change_hp_float(-hurt, kv.x)
+	
+	# 通知子类/VS组件本次攻击附带了力（击退/击飞）
+	if kv.length() > 0 or abs(zv) > 0:
+		receive_force.emit(kv, zv)
 
 func change_hp_float(hurt: float, kv: float):
 	"""暴击&伤害浮动"""
@@ -1855,8 +1907,7 @@ func _process_magnetism(delta):
 	if _magnetism_time <= 0:
 		_magnetism_time = 0
 		return
-	if _immobilize_active:  # 新增：被抓取时直接清除并中断吸附
-		_magnetism_time = 0
+	if _immobilize_active:
 		return
 	_magnetism_time -= delta
 
@@ -1949,7 +2000,9 @@ func set_immobilize(pos: Vector3, time: float = -1, rpos: Vector3 = pos,
 					ani: String = "",
 					kv: Vector2 = Vector2.ZERO, knockback_time: float = 0,
 					launch: float = 0, launch_g: float = 700,
-					state: BodyState = BodyState.SUPER_ARMOR):
+					state: BodyState = BodyState.SUPER_ARMOR,
+					can_substitute: bool = false,
+					visuals_rotation: float = 0.0):
 	
 	if _immobilize_active: return
 	
@@ -1974,6 +2027,13 @@ func set_immobilize(pos: Vector3, time: float = -1, rpos: Vector3 = pos,
 	_immobilize_launch_gravity = launch_g
 	_immobilize_knockback = kv
 	_immobilize_knockback_time = knockback_time
+	_immobilize_can_substitute = can_substitute
+	
+	# visuals 旋转（弧度）
+	if visuals_node:
+		_saved_visuals_rotation = visuals_node.rotation
+		_immobilize_visuals_rotation = visuals_rotation
+		visuals_node.rotation = visuals_rotation
 	
 	save_hit_stop()
 
@@ -1986,6 +2046,11 @@ func stop_immobilize():
 	_last_valid_wall_pos = Vector2(position_3d.x, position_3d.y)
 	_immobilize_active = false
 	_immobilize_release_active = true
+	
+	# 恢复 visuals 旋转
+	if visuals_node:
+		visuals_node.rotation = _saved_visuals_rotation
+	
 	var is_downed = (_launch_active and get_is_low_floating()) or _is_downed
 	var ani: String = "launch2"
 	if is_downed:
@@ -2637,7 +2702,13 @@ func _consume_buffer():
 	_input_buffer = _input_buffer.filter(func(cmd): return cmd.action != best_cmd.action)
 
 func _can_perform_action(action: String) -> bool:
-	if hp <= 0 or _immobilize_active:
+	if hp <= 0: 
+		return false
+	
+	# 定身时允许替身的特殊处理
+	if _immobilize_active:
+		if action == "substitution":
+			return _immobilize_can_substitute and has_substitution() and not _hit_stop_active
 		return false
 	
 	if action == "substitution":
@@ -3009,9 +3080,11 @@ func _on_deal_hit(attacker: Node2D):
 		_last_attacker = attacker
 	if debug_team:
 		print("[战斗] %s 对 %s 造成伤害" % [attacker.name, name])
+	deal_hit.emit(attacker)
 
 func _on_death():
 	"""虚方法，死亡时调用。由子类/VisualScriptComponent重写"""
+	death.emit()
 	pass
 
 func get_team_id() -> int:
@@ -3063,7 +3136,9 @@ func _process_z_physics(delta):
 	# 原有的Z轴物理代码（击飞不激活时执行）
 	if z_velocity_override != 0:
 		velocity_3d.z = z_velocity_override
-		z_velocity_override = move_toward(z_velocity_override, 0, z_slide_resistance * delta * 100)
+		# 滑行期间使用自定义 Z 阻力，否则使用默认值
+		var z_res = _slide_z_resistance if _slide_z_resistance >= 0 else z_slide_resistance
+		z_velocity_override = move_toward(z_velocity_override, 0, z_res * delta * 100)
 		if abs(z_velocity_override) < 10:
 			z_velocity_override = 0
 	
@@ -3121,6 +3196,8 @@ func get_current_gravity() -> float:
 
 func _update_visual_position():
 	"""将3D位置转换为2D世界坐标"""
+	# 防止浮点漂移累积
+	position_3d.y = snapped(position_3d.y, 0.001)
 	position.x = position_3d.x
 	# 关键：这里完成Y和Z的合并，子节点不再处理Z
 	position.y = position_3d.y - position_3d.z
@@ -3228,7 +3305,7 @@ func start_slide(slide_speed: float, direction: Vector2 = Vector2.ZERO, resistan
 	slide_velocity = direction.normalized() * slide_speed
 	
 	if resistance >= 0:
-		slide_resistance = resistance
+		slide_resistance = Vector2(resistance, resistance)
 
 func stop_slide():
 	is_sliding = false
@@ -3236,12 +3313,13 @@ func stop_slide():
 	velocity_3d.x = 0
 	velocity_3d.y = 0
 	velocity_smoothed = Vector2.ZERO
+	_slide_z_resistance = -1.0
 
 func modify_slide_velocity(delta_velocity: Vector2):
 	slide_velocity += delta_velocity
 
 func set_slide_resistance(resistance: float):
-	slide_resistance = max(0.1, resistance)
+	slide_resistance = Vector2(max(0.1, resistance), max(0.1, resistance))
 
 func is_currently_sliding() -> bool:
 	return is_sliding
@@ -3472,10 +3550,10 @@ func _handle_input():
 
 func _handle_input_spe():
 	if not is_player: return
-	if _immobilize_active:
+	if _immobilize_active and not _immobilize_can_substitute:
 		return
 	
-	if can_cast_aux:
+	if can_cast_aux and not _immobilize_active:
 		if inputs[5]:
 			play_animation("scroll")
 		elif inputs[6]:
@@ -3483,7 +3561,8 @@ func _handle_input_spe():
 				play_animation("summon")
 	
 	# 受击释放效果
-	if is_under_control:
+	var can_substitute = is_under_control or (_immobilize_active and _immobilize_can_substitute)
+	if can_substitute:
 		if inputs[4] and !current_animation == "substitution":
 			# 必须能扣豆才行
 			if ultimate_point <= 0:
@@ -3493,6 +3572,12 @@ func _handle_input_spe():
 			
 			_end_launch_sequence(false)
 			set_knockback(Vector2(0, 0), 0)
+			
+			# 定身中替身：清除定身状态并恢复旋转
+			if _immobilize_active:
+				_immobilize_active = false
+				if visuals_node:
+					visuals_node.rotation = _saved_visuals_rotation
 			
 			# 替身到敌人身后逻辑
 			var target_enemy = get_nearest_valid_enemy_for_substitution(substitution_distance)
@@ -3589,11 +3674,11 @@ func _process_slide_physics(delta):
 	if not is_sliding:
 		return
 	
-	var prev_speed = slide_velocity.length()
-	slide_velocity = slide_velocity.lerp(Vector2.ZERO, slide_resistance * delta)
-	var new_speed = slide_velocity.length()
+	# 指数衰减：帧率无关，慢速/快速下单位时间总衰减量一致
+	slide_velocity.x *= exp(-slide_resistance.x * delta)
+	slide_velocity.y *= exp(-slide_resistance.y * delta)
 	
-	if new_speed < 5.0:
+	if slide_velocity.length() < 5.0:
 		stop_slide()
 		return
 	
@@ -3817,6 +3902,7 @@ func _apply_frame_data():
 	current_anchor_offset = current_frame_data.anchor_point
 	
 	_apply_hitbox_transforms()
+	_apply_anchor_constraint()
 	
 	if debug_anchor and (current_animation != last_logged_animation or current_frame_idx != last_logged_frame):
 		_log_anchor_info(current_animation, current_frame_idx, old_anchor, current_anchor_offset, "帧变化")

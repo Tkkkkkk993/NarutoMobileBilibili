@@ -45,6 +45,7 @@ var _pan_start_offset: Vector2 = Vector2.ZERO
 # UI 节点引用
 var _box_list: ItemList
 var _anim_selector: OptionButton
+var _bind_btn: Button
 var _frame_selector: SpinBox
 var _canvas: Control
 var _draw_node: Node2D
@@ -56,6 +57,7 @@ var _preview_visuals: Node2D = null
 var _sprite_scale: Vector2 = Vector2.ONE
 
 # 属性编辑器引用
+var _name_line_edit: LineEdit
 var _pos_x: SpinBox
 var _pos_y: SpinBox
 var _pos_z: SpinBox
@@ -292,18 +294,36 @@ func _setup_ui():
 	right_title.add_theme_font_size_override("font_size", 16)
 	right_vbox.add_child(right_title)
 
+	var name_hbox = HBoxContainer.new()
+	right_vbox.add_child(name_hbox)
+	var name_label = Label.new()
+	name_label.text = "名称:"
+	name_label.custom_minimum_size = Vector2(60, 0)
+	name_hbox.add_child(name_label)
+
+	_name_line_edit = LineEdit.new()
+	_name_line_edit.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_name_line_edit.text_changed.connect(_on_name_changed)
+	name_hbox.add_child(_name_line_edit)
+
 	# 动画选择
 	var anim_hbox = HBoxContainer.new()
 	right_vbox.add_child(anim_hbox)
 	var anim_label = Label.new()
-	anim_label.text = "绑定动画:"
-	anim_label.custom_minimum_size = Vector2(90, 0)
+	anim_label.text = "动画:"
+	anim_label.custom_minimum_size = Vector2(60, 0)
 	anim_hbox.add_child(anim_label)
 
 	_anim_selector = OptionButton.new()
+	_anim_selector.custom_minimum_size = Vector2(0, 0)
 	_anim_selector.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	_anim_selector.item_selected.connect(_on_anim_selected)
 	anim_hbox.add_child(_anim_selector)
+
+	_bind_btn = Button.new()
+	_bind_btn.text = "绑定"
+	_bind_btn.pressed.connect(_on_bind_animation)
+	anim_hbox.add_child(_bind_btn)
 
 	# 帧选择
 	var frame_hbox = HBoxContainer.new()
@@ -905,7 +925,7 @@ func _load_existing_data():
 		box.from_dict(box_dict)
 		_attack_boxes[box.box_id] = box
 
-		var display_name = box.box_name if box.box_name != "" else box.box_id
+		var display_name = (box.box_name if box.box_name != "" else box.box_id) + " [" + box.bind_animation + "]"
 		_box_list.add_item(display_name)
 		_box_list.set_item_metadata(_box_list.item_count - 1, box.box_id)
 
@@ -1498,12 +1518,21 @@ func _get_box_display_pos(config) -> Vector2:
 # ==========================================
 func _refresh_box_visuals():
 	_draw_node.queue_redraw()
+	_update_bind_button()
 
 	if not _current_box_id or not _attack_boxes.has(_current_box_id):
+		_name_line_edit.text_changed.disconnect(_on_name_changed)
+		_name_line_edit.text = ""
+		_name_line_edit.text_changed.connect(_on_name_changed)
 		return
 
 	var box_data = _attack_boxes[_current_box_id]
 	var current_frame = int(_frame_selector.value)
+
+	# 同步名称显示（避免触发 text_changed）
+	_name_line_edit.text_changed.disconnect(_on_name_changed)
+	_name_line_edit.text = box_data.box_name
+	_name_line_edit.text_changed.connect(_on_name_changed)
 
 	if box_data.is_active_at_frame(current_frame):
 		var config = box_data.get_frame_config(current_frame)
@@ -2051,7 +2080,6 @@ func _reset_property_panel():
 func _on_property_changed(_value: float):
 	if not _current_box_id:
 		return
-
 	if not _attack_boxes.has(_current_box_id):
 		return
 
@@ -2082,6 +2110,42 @@ func _on_property_changed(_value: float):
 
 	_has_unsaved_changes = true
 	_refresh_box_visuals()
+
+func _on_name_changed(new_name: String):
+	if not _current_box_id or not _attack_boxes.has(_current_box_id):
+		return
+	var box_data = _attack_boxes[_current_box_id]
+	box_data.box_name = new_name
+	var idx = _box_list.get_selected_items()
+	if idx.size() > 0:
+		_box_list.set_item_text(idx[0], new_name + " [" + box_data.bind_animation + "]")
+	_has_unsaved_changes = true
+	_draw_node.queue_redraw()
+
+func _update_bind_button():
+	if _bind_btn == null:
+		return
+	var has_selection = _current_box_id != "" and _attack_boxes.has(_current_box_id)
+	if not has_selection:
+		_bind_btn.disabled = true
+		return
+	var cur_anim = _anim_selector.get_item_text(_anim_selector.selected) if _anim_selector.selected >= 0 else ""
+	_bind_btn.disabled = _attack_boxes[_current_box_id].bind_animation == cur_anim
+
+func _on_bind_animation():
+	if not _current_box_id or not _attack_boxes.has(_current_box_id):
+		return
+	if _anim_selector.selected < 0:
+		return
+	var box_data = _attack_boxes[_current_box_id]
+	var cur_anim = _anim_selector.get_item_text(_anim_selector.selected)
+	box_data.bind_animation = cur_anim
+	var idx = _box_list.get_selected_items()
+	if idx.size() > 0:
+		_box_list.set_item_text(idx[0], box_data.box_name + " [" + cur_anim + "]")
+	_has_unsaved_changes = true
+	_update_bind_button()
+	_draw_node.queue_redraw()
 
 func _notification(what):
 	if what == NOTIFICATION_WM_SIZE_CHANGED:

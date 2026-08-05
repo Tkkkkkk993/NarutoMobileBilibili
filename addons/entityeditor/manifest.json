@@ -3,6 +3,26 @@
 		"信息点编辑器": {
 			"path": "res://addons/entityeditor/info_point_editor.gd",
 			"project_id": "jrmd-editorv3-infopointeditor",
+			"version": "1.1.0"
+		},
+		"充能点有图片": {
+			"path": "res://assets/UI/dot_1.png",
+			"project_id": "jrmd-editorv3-UI-dot1",
+			"version": "1.0.0"
+		},
+		"充能点面板代码": {
+			"path": "res://scripts/dot_panel.gd",
+			"project_id": "jrmd-editorv3-dotpanel",
+			"version": "1.0.0"
+		},
+		"决斗场": {
+			"path": "res://scenes/arena.tscn",
+			"project_id": "jrmd-editorv3-arena",
+			"version": "1.0.0"
+		},
+		"决斗场主体": {
+			"path": "res://scenes/arena_main.gd",
+			"project_id": "jrmd-editorv3-arenamain",
 			"version": "1.0.0"
 		},
 		"决斗相机": {
@@ -13,27 +33,32 @@
 		"动画播放器实体": {
 			"path": "res://assets/entities/animation_player_entity.gd",
 			"project_id": "jrmd-editorv3-Entity-AnimationPlayer",
-			"version": "1.0.2"
+			"version": "1.2.0"
 		},
 		"动画精灵2D实体": {
 			"path": "res://assets/entities/animated_sprite_2d_entity.gd",
 			"project_id": "jrmd-editorv3-Entity-AnimatedSprite2D",
-			"version": "1.0.2"
+			"version": "1.2.0"
 		},
 		"图形化脚本编辑器": {
 			"path": "res://addons/entityeditor/visual_script_editor.gd",
 			"project_id": "jrmd-editorv3-visualscripteditor",
-			"version": "1.1.3"
+			"version": "1.3.0"
 		},
 		"图形化脚本运行时引擎": {
 			"path": "res://assets/entities/visual_script_component.gd",
 			"project_id": "jrmd-editorv3-Entity-VisualScriptComponent",
-			"version": "1.3.1"
+			"version": "1.5.0"
 		},
 		"实体基类": {
 			"path": "res://assets/entities/entity_base.gd",
 			"project_id": "jrmd-editorv3-Entity-Base",
-			"version": "1.2.0"
+			"version": "1.5.0"
+		},
+		"实体管理器": {
+			"path": "res://managers/entity_manager.gd",
+			"project_id": "jrmd-editorv3-entitymanager",
+			"version": "1.0.0"
 		},
 		"实体编辑器菜单代码": {
 			"path": "res://addons/entityeditor/entity_editor_menu.gd",
@@ -43,27 +68,32 @@
 		"帧数据编辑器": {
 			"path": "res://addons/entityeditor/frame_editor.gd",
 			"project_id": "jrmd-editorv3-frameeditor",
-			"version": "1.0.0"
+			"version": "1.1.0"
 		},
 		"技能槽代码": {
 			"path": "res://scripts/skill_slot.gd",
 			"project_id": "jrmd-editorv3-skillslot-code",
-			"version": "1.1.0"
+			"version": "1.2.0"
 		},
 		"技能槽场景": {
 			"path": "res://scenes/skill_slot.tscn",
 			"project_id": "jrmd-editorv3-skillslot-scene",
-			"version": "1.0.1"
+			"version": "1.0.2"
+		},
+		"技能面板": {
+			"path": "res://scenes/skill_panel.tscn",
+			"project_id": "jrmd-editorv3-skillpanel",
+			"version": "1.0.0"
 		},
 		"攻击框编辑器": {
 			"path": "res://addons/entityeditor/attack_box_editor.gd",
 			"project_id": "jrmd-editorv3-attackboxeditor",
-			"version": "1.0.0"
+			"version": "1.1.0"
 		},
 		"更新清单": {
 			"path": "res://addons/entityeditor/manifest.json",
 			"project_id": "jrmd-editorv3-entityeditor-updatemanifest",
-			"version": "1.8.0"
+			"version": "1.10.0"
 		},
 		"特效绑定器": {
 			"path": "res://addons/entityeditor/effect_binder_editor.gd",
@@ -73,7 +103,7 @@
 		"积木块定义": {
 			"path": "res://addons/entityeditor/block_defs.json",
 			"project_id": "jrmd-editorv3-blockdefs",
-			"version": "1.3.1"
+			"version": "1.5.0"
 		},
 		"角色模板V1": {
 			"path": "res://scripts/character_script_template_v1.gd",
@@ -86,5 +116,5 @@
 			"version": "1.0.0"
 		}
 	},
-	"version": "1.8.0"
+	"version": "1.10.0"
 }

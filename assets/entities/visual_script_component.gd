@@ -61,7 +61,12 @@ var _vs_fire_depth: int = 0
 ## 重入时暂存的事件队列
 var _vs_fire_queue: Array = []
 
+## when_frame_changed 出生保护：VS 初始化时的时间戳
+var _vs_birth_time_msec: int = 0
+const _VS_BIRTH_PROTECT_MS: int = 300
+
 var blocks_rng = RandomNumberGenerator.new()
+
 
 # ============================================
 # 初始化
@@ -72,6 +77,7 @@ func _ready():
 	pass
 
 func _vs_init():
+	_vs_birth_time_msec = Time.get_ticks_msec()
 	_vs_load_script()
 	_vs_load_block_defs()
 	_vs_build_indexes()
@@ -89,6 +95,26 @@ func _vs_init():
 	# 连接广播信号
 	if not _entity.broadcast_received.is_connected(_on_vs_broadcast_received):
 		_entity.broadcast_received.connect(_on_vs_broadcast_received)
+
+	# 连接受力/血量变化信号（替代原虚方法+子类转发链）
+	if not _entity.receive_force.is_connected(_on_receive_force):
+		_entity.receive_force.connect(_on_receive_force)
+	if not _entity.hp_changed.is_connected(_on_hp_changed):
+		_entity.hp_changed.connect(_on_hp_changed)
+
+	# 连接旧有转发信号（统一改用 signals 替代子类转发）
+	if not _entity.deal_hit.is_connected(_on_deal_hit):
+		_entity.deal_hit.connect(_on_deal_hit)
+	if not _entity.death.is_connected(_on_death):
+		_entity.death.connect(_on_death)
+	if not _entity.modifier_start.is_connected(_on_modifier_start):
+		_entity.modifier_start.connect(_on_modifier_start)
+	if not _entity.modifier_update.is_connected(_on_modifier_update):
+		_entity.modifier_update.connect(_on_modifier_update)
+	if not _entity.modifier_end.is_connected(_on_modifier_end):
+		_entity.modifier_end.connect(_on_modifier_end)
+	if not _entity.timer_out.is_connected(on_timer_out):
+		_entity.timer_out.connect(on_timer_out)
 
 	# 触发实体创建事件
 	_vs_fire_event("when_entity_create")
@@ -225,6 +251,11 @@ func _vs_collect_pressed_input_rows() -> Array:
 			matched.append(row)
 	return matched
 
+## when_frame_changed 出生保护：勾选后生成初期不触发
+func _vs_birth_protect_active(params: Dictionary) -> bool:
+	if not bool(params.get("birth_protect", false)): return false
+	return Time.get_ticks_msec() - _vs_birth_time_msec < _VS_BIRTH_PROTECT_MS
+
 func _vs_check_events(delta):
 	var current_animation = _entity.current_animation
 	var inputs = _entity.inputs
@@ -245,9 +276,12 @@ func _vs_check_events(delta):
 			if matched_deferred_ids.size() > 0 or matched_deferred_rows.size() > 0:
 				_vs_exit_fired_for = exit_anim
 				_vs_fire_event("when_animation_exit", {"anim_name": exit_anim}, matched_deferred_ids, matched_deferred_rows)
-		# ---- when_any_animation_ended (deferred) ----
-		if exit_anim != "":
-			_vs_fire_event("when_any_animation_ended", {"anim_name": exit_anim})
+			# ---- when_any_animation_ended (deferred) ----
+			# 如果 when_animation_exit 同步切了动画（_vs_script_set_animation 变 true），
+			# 则不再触发 when_any_animation_ended，否则 now_animation() 读到的是新动画名，
+			# 可能导致条件误判（例如 attack_1a 结束 -> 1a2，但 now_animation() 返回 "attack_1a2"）
+			if exit_anim != "" and not _vs_script_set_animation:
+				_vs_fire_event("when_any_animation_ended", {"anim_name": exit_anim})
 
 	# ---- when_game_start ----
 	if not _vs_game_started_fired:
@@ -269,6 +303,9 @@ func _vs_check_events(delta):
 				_vs_fire_event("on_victory", {})
 
 	# ---- 动画切换检测 ----
+	# 重新读取动画名：deferred exit 处理可能通过 VS 动作切了动画，
+	# 但局部变量 current_animation 仍是旧值，导致帧事件误判（如旧动画的 frame_idx==0 触发）
+	current_animation = _entity.current_animation
 	if current_animation != _vs_prev_animation:
 		var old_anim = _vs_prev_animation
 		_vs_prev_animation = current_animation
@@ -334,17 +371,26 @@ func _vs_check_events(delta):
 			"frame_idx": frame_val
 		}, matched_playing_ids, matched_playing_rows)
 
-	# ---- when_frame_changed（每 1/60 秒无条件触发）----
+	# ---- when_frame_changed（每帧触发，按帧类型分流）----
 	var matched_fc_ids: Array = []
 	if _vs_run_mode != "events_only" and _vs_event_chains.has("when_frame_changed"):
-		matched_fc_ids = _vs_event_chains["when_frame_changed"]
+		for eid in _vs_event_chains["when_frame_changed"]:
+			var eblock = _vs_blocks_by_id[eid]
+			if not bool(eblock.get("enabled", true)): continue
+			var frame_type = str(eblock.params.get("frame_type", "物理帧"))
+			if frame_type == "画面帧": continue
+			if _vs_birth_protect_active(eblock.params): continue
+			matched_fc_ids.append(eid)
 	var matched_fc_rows: Array = []
 	if _vs_run_mode != "blocks_only" and _vs_event_table_chains.has("when_frame_changed"):
 		for row in _vs_event_table_chains["when_frame_changed"]:
-			if bool(row.get("enabled", true)):
-				matched_fc_rows.append(row)
+			if not bool(row.get("enabled", true)): continue
+			var frame_type = str(row.get("params", {}).get("frame_type", "物理帧"))
+			if frame_type == "画面帧": continue
+			if _vs_birth_protect_active(row.get("params", {})): continue
+			matched_fc_rows.append(row)
 	if matched_fc_ids.size() > 0 or matched_fc_rows.size() > 0:
-		_vs_fire_event("when_frame_changed", {}, matched_fc_ids, matched_fc_rows)
+		_vs_fire_event("when_frame_changed", {"anim_name": current_animation, "frame_idx": frame_val}, matched_fc_ids, matched_fc_rows)
 
 	# ---- when_any_animation_frame_changed ----
 	var matched_any_fc_ids: Array = []
@@ -390,6 +436,27 @@ func _vs_check_events(delta):
 
 func _vs_check_visual_events(delta):
 	var current_animation = _entity.current_animation
+
+	# ---- 画面帧模式的 when_frame_changed（每画面帧无条件触发）----
+	var matched_fc_ids: Array = []
+	if _vs_run_mode != "events_only" and _vs_event_chains.has("when_frame_changed"):
+		for eid in _vs_event_chains["when_frame_changed"]:
+			var eblock = _vs_blocks_by_id[eid]
+			if not bool(eblock.get("enabled", true)): continue
+			var frame_type = str(eblock.params.get("frame_type", "物理帧"))
+			if frame_type != "画面帧": continue
+			if _vs_birth_protect_active(eblock.params): continue
+			matched_fc_ids.append(eid)
+	var matched_fc_rows: Array = []
+	if _vs_run_mode != "blocks_only" and _vs_event_table_chains.has("when_frame_changed"):
+		for row in _vs_event_table_chains["when_frame_changed"]:
+			if not bool(row.get("enabled", true)): continue
+			var frame_type = str(row.get("params", {}).get("frame_type", "物理帧"))
+			if frame_type != "画面帧": continue
+			if _vs_birth_protect_active(row.get("params", {})): continue
+			matched_fc_rows.append(row)
+	if matched_fc_ids.size() > 0 or matched_fc_rows.size() > 0:
+		_vs_fire_event("when_frame_changed", {"anim_name": current_animation, "frame_idx": _entity.get_current_frame()}, matched_fc_ids, matched_fc_rows)
 
 	# 画面帧变化检测
 	var anim_node = _entity.get_animator_node()
@@ -508,26 +575,37 @@ func _on_deal_hit(attacker: Node2D):
 	if _vs_initialized:
 		_vs_fire_event("when_hit", {"entity": attacker})
 
+func _on_receive_force(kv: Vector2, zv: float):
+	if _vs_initialized:
+		_vs_fire_event("when_receive_force", {"kv": kv, "zv": zv})
+
+func _on_hp_changed(old_hp: float, new_hp: float):
+	if _vs_initialized:
+		var delta = new_hp - old_hp
+		_vs_fire_event("when_hp_changed", {"delta": delta, "old_hp": old_hp, "new_hp": new_hp})
+
 func _on_death():
 	if _vs_initialized:
 		_vs_fire_event("when_death", {"attacker": _entity._last_attacker if _entity._last_attacker else null})
 
 # ---- 自定义效果事件 (由实体委托调用) ----
 
-func _on_modifier_start(type: String, power: int, time_left: float = -2.0):
+func _on_modifier_start(type: String, power: int, time_left: float = -2.0, target: Node2D = null):
 	if not _vs_initialized: return
-	_vs_fire_modifier_event("when_modifier_start", type, power, time_left)
+	_vs_fire_modifier_event("when_modifier_start", type, power, time_left, target)
 
-func _on_modifier_update(type: String, power: int, time_left: float = -2.0):
+func _on_modifier_update(type: String, power: int, time_left: float = -2.0, target: Node2D = null):
 	if not _vs_initialized: return
-	_vs_fire_modifier_event("when_modifier_update", type, power, time_left)
+	_vs_fire_modifier_event("when_modifier_update", type, power, time_left, target)
 
-func _on_modifier_end(type: String, power: int, time_left: float = -2.0):
+func _on_modifier_end(type: String, power: int, time_left: float = -2.0, target: Node2D = null):
 	if not _vs_initialized: return
-	_vs_fire_modifier_event("when_modifier_end", type, power, time_left)
+	_vs_fire_modifier_event("when_modifier_end", type, power, time_left, target)
 
-func _vs_fire_modifier_event(event_name: String, type: String, power: int, time_left: float = -2.0):
-	var ctx = {"mod_type": type, "mod_power": power, "mod_time": time_left, "target": _entity}
+func _vs_fire_modifier_event(event_name: String, type: String, power: int, time_left: float = -2.0, target: Node2D = null):
+	if target == null:
+		target = _entity
+	var ctx = {"mod_type": type, "mod_power": power, "mod_time": time_left, "target": target}
 	var now = Time.get_ticks_msec() / 1000.0
 
 	# 积木模式：按 mod_type + interval 过滤
@@ -931,8 +1009,16 @@ func _vs_replace_eq_with_compare(s: String, context: Dictionary) -> String:
 				i += 1
 			i += 1
 			continue
+
+		# 处理 == 和 !=
+		var is_eq = false
+		var is_neq = false
 		if i + 1 < s.length() and s[i] == '=' and s[i+1] == '=':
-			# 提取左操作数：跳过 == 前的空格，再向左扫描
+			is_eq = true
+		elif i + 1 < s.length() and s[i] == '!' and s[i+1] == '=':
+			is_neq = true
+		if is_eq or is_neq:
+			# 提取左操作数：跳过 ==/!= 前的空格，再向左扫描
 			var left_end = i
 			var scan_l = left_end - 1
 			while scan_l >= 0 and s[scan_l] == ' ':
@@ -945,14 +1031,23 @@ func _vs_replace_eq_with_compare(s: String, context: Dictionary) -> String:
 					if s[j] == ')':
 						paren_depth += 1
 					elif s[j] == '(':
+						if paren_depth <= 0:
+							break  # 外层 (，不属于操作数
 						paren_depth -= 1
-					elif paren_depth == 0 and (s[j] == ' ' or s[j] in ['(', ')', ',']):
+					elif paren_depth == 0 and (s[j] == ' ' or s[j] in [',']):
+						break
+					elif paren_depth == 0 and s[j] in ['(', ')']:
+						if s[j] == '(' and j > 0:
+							var c = s[j-1]
+							if (c >= "a" and c <= "z") or (c >= "A" and c <= "Z") or (c >= "0" and c <= "9") or c == "_" or c == ")":
+								j -= 1
+								continue
 						break
 					j -= 1
 				left_start = j + 1
 			var left_raw = s.substr(left_start, left_end - left_start).strip_edges()
 
-			# 提取右操作数：跳过 == 后的空格，再向右扫描
+			# 提取右操作数：跳过 ==/!= 后的空格，再向右扫描
 			var right_start = i + 2
 			while right_start < s.length() and s[right_start] == ' ':
 				right_start += 1
@@ -963,6 +1058,8 @@ func _vs_replace_eq_with_compare(s: String, context: Dictionary) -> String:
 				if s[j] == '(':
 					paren_depth += 1
 				elif s[j] == ')':
+					if paren_depth <= 0:
+						break  # 外层 )，不属于操作数
 					paren_depth -= 1
 				elif paren_depth == 0 and (s[j] == ' ' or s[j] in ['(', ')', ',']):
 					break
@@ -974,9 +1071,19 @@ func _vs_replace_eq_with_compare(s: String, context: Dictionary) -> String:
 			var left_val = _vs_eval_eq_side(left_raw, context)
 			var right_val = _vs_eval_eq_side(right_raw, context)
 
-			var eq = left_val == right_val
+			# 兼容不同类型比较（如 String vs int），转成同类型再比
+			var eq = false
+			if typeof(left_val) == typeof(right_val):
+				eq = left_val == right_val
+			else:
+				var lv = str(left_val) if left_val != null else ""
+				var rv = str(right_val) if right_val != null else ""
+				eq = lv == rv
+			if is_neq:
+				eq = not eq
 			if _vs_debug_print:
-				print("[VS-EQ] '", left_raw, "' (", typeof(left_val), "=", left_val, ") == '", right_raw, "' (", typeof(right_val), "=", right_val, ") → ", eq)
+				var op_str = "!=" if is_neq else "=="
+				print("[VS-EQ] '", left_raw, "' (", typeof(left_val), "=", left_val, ") ", op_str, " '", right_raw, "' (", typeof(right_val), "=", right_val, ") → ", eq)
 			var replacement = "true" if eq else "false"
 
 			s = s.substr(0, left_start) + replacement + s.substr(right_end)
@@ -1189,6 +1296,9 @@ func _find_innermost_value_call(s: String) -> Variant:
 func _vs_eval_arg(arg_str: String, context: Dictionary) -> Variant:
 	arg_str = arg_str.strip_edges()
 	if arg_str == "": return ""
+	# 值块嵌套时内层结果已存入临时变量，直接取回，避免 _vs_eval_expr 开头 clear() 丢失
+	if _vs_expr_temp_vars.has(arg_str):
+		return _vs_expr_temp_vars[arg_str]
 	var result = _vs_eval_expr(arg_str, context)
 	if result != null:
 		return result
@@ -1267,6 +1377,10 @@ func _vs_dispatch_value(block_name: String, params: Dictionary) -> Variant:
 		"get_info_point": return _value_get_info_point(params)
 		"add_pos3d_to_spos2d": return _value_add_pos3d_to_spos2d(params)
 		"add_pos3d_to_hpos2d": return _value_add_pos3d_to_hpos2d(params)
+		"latest_non_player_entity": return _value_latest_non_player_entity(params)
+		"has_valid_target": return _value_has_valid_target(params)
+		"distance_2d": return _value_distance_2d(params)
+		"deg_to_rad": return _value_deg_to_rad(params)
 		"2d_data": return _value_2d_data(params)
 		"calculate_immobilize_position_3d": return _value_calculate_immobilize_position_3d(params)
 		"now_animation": return _entity.current_animation
@@ -1283,7 +1397,7 @@ func _vs_dispatch_value(block_name: String, params: Dictionary) -> Variant:
 # ---- 表达式辅助 ----
 
 func _is_ident_char(ch: String) -> bool:
-	return ch.is_valid_identifier() or ch == "_" or (ch >= "a" and ch <= "z") or (ch >= "A" and ch <= "Z") or (ch >= "0" and ch <= "9")
+	return ch == "_" or (ch >= "a" and ch <= "z") or (ch >= "A" and ch <= "Z") or (ch >= "0" and ch <= "9") or _is_cjk_char(ch)
 
 func _is_valid_identifier(s: String) -> bool:
 	if s == "": return false
@@ -1293,7 +1407,11 @@ func _is_valid_identifier(s: String) -> bool:
 	return true
 
 func _is_ident_first_char(ch: String) -> bool:
-	return ch == "_" or (ch >= "a" and ch <= "z") or (ch >= "A" and ch <= "Z")
+	return ch == "_" or (ch >= "a" and ch <= "z") or (ch >= "A" and ch <= "Z") or _is_cjk_char(ch)
+
+func _is_cjk_char(ch: String) -> bool:
+	var c = ch.unicode_at(0)
+	return (c >= 0x4E00 and c <= 0x9FFF) or (c >= 0x3400 and c <= 0x4DBF) or (c >= 0xF900 and c <= 0xFAFF)
 
 func _contains_unquoted_char(s: String, target: String) -> bool:
 	var i = 0
@@ -1409,6 +1527,8 @@ func _vs_dispatch_action(block_name: String, params: Dictionary):
 			_action_move_pos3d_immd(params)
 		"move_entity_pos3d_immd":
 			_action_move_entity_pos3d_immd(params)
+		"move_toward_2d_point":
+			_action_move_toward_2d_point(params)
 		"set_cd":
 			_action_set_cd(params)
 		"set_timer":
@@ -1647,12 +1767,17 @@ func _action_play_animation(p: Dictionary):
 # ---- 转向 ----
 
 func _action_turn_to(p: Dictionary):
-	var dir_str = str(p.get("d", "左"))
-	match dir_str:
-		"左":
-			_entity.set_facing(-1)
-		"右":
-			_entity.set_facing(1)
+	var dir_val = p.get("d", "左")
+	if dir_val is int or dir_val is float:
+		_entity.set_facing(1 if dir_val > 0 else -1)
+	else:
+		match str(dir_val):
+			"左":
+				_entity.set_facing(-1)
+			"右":
+				_entity.set_facing(1)
+			_:
+				pass
 
 func _action_turn_by_input(_p: Dictionary):
 	if _entity.input_left:
@@ -1705,8 +1830,8 @@ func _action_set_entity_var_val(p: Dictionary):
 
 func _action_slide(p: Dictionary):
 	var v = _vs_to_vector3(p.get("v", Vector3.ZERO))
-	var r = _vs_to_vector2(p.get("r", Vector2.ZERO))
-	var g = _vs_to_float(p.get("g", 0.0))
+	var r = _vs_to_vector3(p.get("r", Vector3.ZERO))
+	var g = _vs_to_float(p.get("g", -1.0))
 	var m = str(p.get("m", "facing"))
 
 	_entity.slide_locked_facing = _entity.facing_direction
@@ -1735,10 +1860,16 @@ func _action_slide(p: Dictionary):
 
 	if v.z != 0:
 		_entity.apply_z_impulse(v.z)
+	elif _entity.z_velocity_override != 0:
+		_entity.z_velocity_override = 0
+		_entity.velocity_3d.z = 0  # 同时清掉 velocity_3d.z（之前被 override 路径设成了旧值）
 	_entity.set_slide_gravity(g)
 	var speed = v.x
 	if speed > 0:
-		_entity.start_slide(speed, slide_dir, r.x)
+		_entity.start_slide(speed, slide_dir, -1)
+		# 三轴独立阻力
+		_entity.slide_resistance = Vector2(r.x, r.y)
+		_entity._slide_z_resistance = r.z
 	if v.y != 0:
 		_entity.slide_velocity.y = v.y
 
@@ -1928,7 +2059,10 @@ func _action_set_entity_modifiers(p: Dictionary):
 	var type = str(p.get("type", ""))
 	var pow = _vs_to_int(p.get("pow", 0))
 	var d = _vs_to_float(p.get("d", -2))
-	target.set_modifiers(type, pow, d)
+	var caster = _vs_to_entity(p.get("caster", null))
+	if not caster:
+		caster = _entity
+	target.set_modifiers(type, pow, d, "", "", "", caster)
 
 func _action_set_parent_entity(p: Dictionary):
 	var target = _vs_to_entity(p.get("target", null))
@@ -1946,6 +2080,18 @@ func _action_move_entity_pos3d_immd(p: Dictionary):
 	var pos = _vs_to_vector3(p.get("pos", Vector3.ZERO))
 	target.teleport_to_position(pos)
 
+func _action_move_toward_2d_point(p: Dictionary):
+	var point = _vs_to_vector2(p.get("point", Vector2.ZERO))
+	var speed = _vs_to_float(p.get("speed", 500.0))
+	var cur_2d = Vector2(_entity.position_3d.x, _entity.position_3d.y)
+	var to_point = point - cur_2d
+	if to_point.length() < 10.0:
+		return
+	var step = to_point.normalized() * speed * get_physics_process_delta_time()
+	_entity.position_3d.x += step.x
+	_entity.position_3d.y += step.y
+	_entity.set_position_3d(_entity.position_3d)
+
 func _action_set_entity_immobilize(p: Dictionary):
 	var target = _vs_to_entity(p.get("target", null))
 	if not target: return
@@ -1958,8 +2104,10 @@ func _action_set_entity_immobilize(p: Dictionary):
 	var g = _vs_to_int(p.get("g", 700))
 	var bs = _vs_to_int(p.get("bs", 2))
 	var var_name = str(p.get("var", ""))
+	var cs = _vs_to_bool(p.get("cs", false))
+	var vr = _vs_to_float(p.get("vr", 0.0))
 
-	target.set_immobilize(pos, time, rpos, ani, Vector2(v.x, v.y), kt, v.z, g, bs)
+	target.set_immobilize(pos, time, rpos, ani, Vector2(v.x, v.y), kt, v.z, g, bs, cs, vr)
 	if target._immobilize_active:
 		_vs_variables[var_name] = target
 
@@ -2019,7 +2167,6 @@ func _action_print(p: Dictionary):
 func _action_show_info_text(p: Dictionary):
 	var text = str(p.get("text", ""))
 	_entity.show_info_text(text)
-	print("提示: ", text)
 	if _vs_debug_print:
 		print("[DEBUG] _action_show_info_text: raw params=", p, " text='", text, "'")
 
@@ -2156,6 +2303,11 @@ func _action_set_skill_slot_disabled(p: Dictionary):
 	var slot_id = _vs_to_int(p.get("slot_id", 0))
 	var disabled = _vs_to_bool(p.get("disabled", false))
 	_entity.skill_slot[slot_id].disabled = disabled
+
+func _action_set_slot_visible(p: Dictionary):
+	var slot_id = _vs_to_int(p.get("slot_id", 0))
+	var visible = _vs_to_bool(p.get("visible", true))
+	_entity.skill_slot[slot_id].visible = visible
 
 # ---- 摄像机 ----
 
@@ -2466,6 +2618,9 @@ func _value_calculate_2d(p: Dictionary) -> Vector2:
 		"/": return left / right if right != Vector2.ZERO else Vector2.ZERO
 	return Vector2.ZERO
 
+func _value_deg_to_rad(p: Dictionary) -> float:
+	return deg_to_rad(_vs_to_float(p.get("deg", 0.0)))
+
 func _value_not_bool(p: Dictionary) -> bool:
 	return not _vs_to_bool(p.get("bool", false))
 
@@ -2543,6 +2698,34 @@ func _value_get_entity_by_id(p: Dictionary) -> EntityBase:
 	if id >= 0 and id < all.size():
 		return all[id]
 	return null
+
+func _value_latest_non_player_entity(p: Dictionary) -> EntityBase:
+	var title_filter = str(p.get("title", ""))
+	var em = _entity.entity_manager
+	if not em: return null
+	var all = em.get_all_entities()
+	var latest: EntityBase = null
+	for i in range(all.size() - 1, -1, -1):
+		var e = all[i]
+		if not is_instance_valid(e): continue
+		if e == _entity: continue
+		if e.entity_type == EntityBase.EntityType.PLAYER: continue
+		if e.team_id != _entity.team_id: continue  # 不追踪敌方
+		if latest == null:
+			latest = e
+		if title_filter != "" and e.title == title_filter:
+			return e
+	return latest
+
+func _value_has_valid_target(p: Dictionary) -> bool:
+	var var_name = str(p.get("var", "target"))
+	var t = _vs_variables.get(var_name, null)
+	return is_instance_valid(t) and t is EntityBase
+
+func _value_distance_2d(p: Dictionary) -> float:
+	var p1 = _vs_to_vector2(p.get("p1", Vector2.ZERO))
+	var p2 = _vs_to_vector2(p.get("p2", Vector2.ZERO))
+	return p1.distance_to(p2)
 
 func _value_player_entity(p: Dictionary) -> EntityBase:
 	var id = _vs_to_int(p.get("id", 0))

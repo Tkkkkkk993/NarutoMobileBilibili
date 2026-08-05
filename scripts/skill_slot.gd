@@ -26,7 +26,11 @@ class_name SkillSlot
 @export var action_priority: int = 1
 
 @export_subgroup("类型设置")
-@export var is_charging: bool = false
+@export var is_charging: bool = false :
+	set(value):
+		is_charging = value
+		if dot_panel:
+			dot_panel.visible = value
 
 @export_subgroup("读秒相关")
 @export var cool_down_time_now: float = 0 :
@@ -52,6 +56,24 @@ class_name SkillSlot
 		dot_max = value
 		if dot_panel:
 			dot_panel.max_dot = dot_max
+
+@export_group("充能颜色")
+@export var dot_1_modulate: Color = Color.WHITE :
+	set(v):
+		dot_1_modulate = v
+		if dot_panel: dot_panel.dot_1_modulate = v
+@export var dot_2_modulate: Color = Color.WHITE :
+	set(v):
+		dot_2_modulate = v
+		if dot_panel: dot_panel.dot_2_modulate = v
+@export var dot_3_modulate: Color = Color.WHITE :
+	set(v):
+		dot_3_modulate = v
+		if dot_panel: dot_panel.dot_3_modulate = v
+@export var dot_4_modulate: Color = Color.WHITE :
+	set(v):
+		dot_4_modulate = v
+		if dot_panel: dot_panel.dot_4_modulate = v
 
 @export_subgroup("计时相关")
 @export var timer_progress: float = 0.0 :
@@ -122,6 +144,10 @@ func _ready():
 	if dot_panel:
 		dot_panel.max_dot = dot_max
 		dot_panel._dot = dot
+		dot_panel.dot_1_modulate = dot_1_modulate
+		dot_panel.dot_2_modulate = dot_2_modulate
+		dot_panel.dot_3_modulate = dot_3_modulate
+		dot_panel.dot_4_modulate = dot_4_modulate
 		dot_panel.update_dots()
 	
 	if cd_progress_bar:

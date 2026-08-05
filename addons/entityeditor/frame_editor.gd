@@ -91,7 +91,7 @@ var animation_global_anchors: Dictionary = {}
 var anchor_viz_color: Color = Color(1.0, 0.3, 0.3, 0.9)
 var anchor_viz_size: float = 30.0
 
-enum MouseMode { NONE, MOVE_ANCHOR, MOVE_HITBOX, ROTATE_HITBOX, SCALE_HITBOX, RESIZE_HITBOX_N, RESIZE_HITBOX_S, RESIZE_HITBOX_E, RESIZE_HITBOX_W, RESIZE_HITBOX_NE, RESIZE_HITBOX_NW, RESIZE_HITBOX_SE, RESIZE_HITBOX_SW }
+enum MouseMode { NONE, MOVE_ANCHOR, MOVE_HITBOX, ROTATE_HITBOX, SCALE_HITBOX, RESIZE_HITBOX_N, RESIZE_HITBOX_S, RESIZE_HITBOX_E, RESIZE_HITBOX_W, RESIZE_HITBOX_NE, RESIZE_HITBOX_NW, RESIZE_HITBOX_SE, RESIZE_HITBOX_SW, MOVE_ALL }
 var current_mouse_mode: MouseMode = MouseMode.NONE
 var is_mouse_dragging: bool = false
 var drag_start_pos: Vector2 = Vector2.ZERO
@@ -545,6 +545,7 @@ func _on_help_button():
 	label.text += "  - Ctrl+Y: 重做\n"
 	label.text += "  - Ctrl+0: 重置视图\n"
 	label.text += "  - Tab: 切换选中受击框\n"
+	label.text += "  - V: 隐藏/显示选中受击框\n"
 	label.text += "  - 方向键: 微调受击框位置\n"
 	label.text += "  - Shift+方向键: 快速移动\n"
 	label.text += "  - Ctrl+方向键: 精细移动\n\n"
@@ -659,6 +660,7 @@ func _get_action_name(action_type: String) -> String:
 		"rotate_hitbox": return "旋转"
 		"scale_hitbox": return "缩放"
 		"move_anchor": return "移动锚点"
+		"move_all": return "全部移动"
 		"reset_view": return "重置视图"
 		"zoom": return "缩放"
 		"pan": return "平移"
@@ -727,6 +729,15 @@ func _apply_action(action: EditorAction):
 			_set_current_anchor(new_anchor)
 			_anchor_x_spinbox.value = new_anchor.x
 			_anchor_y_spinbox.value = new_anchor.y
+		"move_all":
+			var mov_anchor = action.data.new_anchor
+			_set_current_anchor(mov_anchor)
+			_anchor_x_spinbox.value = mov_anchor.x
+			_anchor_y_spinbox.value = mov_anchor.y
+			var mov_positions = action.data.new_hitbox_positions
+			for i in range(min(mov_positions.size(), hitbox_areas.size())):
+				hitbox_areas[i].position = Vector2(mov_positions[i].x, mov_positions[i].y)
+			_update_hitbox_data_from_scene(animation_data[current_animation][current_frame])
 		"reset_view", "pan", "zoom":
 			preview_root_position = action.data.new_offset
 			_canvas_zoom = action.data.new_zoom
@@ -784,6 +795,15 @@ func _apply_action_inverse(action: EditorAction):
 			_set_current_anchor(prev_anchor)
 			_anchor_x_spinbox.value = prev_anchor.x
 			_anchor_y_spinbox.value = prev_anchor.y
+		"move_all":
+			var mov_anchor = action.data.prev_anchor
+			_set_current_anchor(mov_anchor)
+			_anchor_x_spinbox.value = mov_anchor.x
+			_anchor_y_spinbox.value = mov_anchor.y
+			var mov_positions = action.data.prev_hitbox_positions
+			for i in range(min(mov_positions.size(), hitbox_areas.size())):
+				hitbox_areas[i].position = Vector2(mov_positions[i].x, mov_positions[i].y)
+			_update_hitbox_data_from_scene(animation_data[current_animation][current_frame])
 		"reset_view", "pan", "zoom":
 			preview_root_position = action.data.prev_offset
 			_canvas_zoom = action.data.prev_zoom
@@ -1083,7 +1103,7 @@ func _handle_left_button_press(event: InputEventMouseButton):
 
 	match current_tool:
 		CanvasTool.SELECT:
-			_handle_select_tool_press(logical_mouse)
+			_handle_select_tool_press(logical_mouse, event)
 		CanvasTool.PAN:
 			is_panning = true
 			pan_start_mouse = event.position
@@ -1104,7 +1124,28 @@ func _handle_left_button_release(event: InputEventMouseButton):
 	elif is_mouse_dragging:
 		_end_drag()
 
-func _handle_select_tool_press(logical_mouse: Vector2):
+func _handle_select_tool_press(logical_mouse: Vector2, event: InputEventMouseButton = null):
+	var shift_pressed = event and event.shift_pressed if event else false
+
+	# === Shift+拖拽：所有碰撞箱+锚点一起移动 ===
+	if shift_pressed and (_is_point_near_anchor(logical_mouse) or _get_clicked_hitbox(logical_mouse) >= 0):
+		current_mouse_mode = MouseMode.MOVE_ALL
+		is_mouse_dragging = true
+		drag_start_pos = logical_mouse
+		drag_start_value = _get_current_anchor()
+		drag_anchor_pivot_offset = logical_mouse - drag_start_value
+		drag_last_mouse_pos = logical_mouse
+
+		drag_prev_state = EditorAction.new("move_all", {
+			"prev_anchor": drag_start_value,
+			"new_anchor": drag_start_value,
+			"prev_hitbox_positions": _get_all_hitbox_positions(),
+			"new_hitbox_positions": _get_all_hitbox_positions()
+		})
+
+		_update_mouse_mode_button()
+		return
+
 	# === 优先级1：检测锚点点击（锚点永远在最上层） ===
 	if _is_point_near_anchor(logical_mouse):
 		current_mouse_mode = MouseMode.MOVE_ANCHOR
@@ -1250,6 +1291,24 @@ func _end_drag():
 							"prev_anchor": drag_prev_state.data.prev_anchor,
 							"new_anchor": new_anchor
 						})
+				"move_all":
+					var new_anchor2 = _get_current_anchor()
+					var new_positions = _get_all_hitbox_positions()
+					var changed = drag_prev_state.data.prev_anchor != new_anchor2
+					if not changed:
+						for i in range(new_positions.size()):
+							var prev = drag_prev_state.data.prev_hitbox_positions[i]
+							var cur = new_positions[i]
+							if prev.x != cur.x or prev.y != cur.y:
+								changed = true
+								break
+					if changed:
+						_record_action("move_all", {
+							"prev_anchor": drag_prev_state.data.prev_anchor,
+							"new_anchor": new_anchor2,
+							"prev_hitbox_positions": drag_prev_state.data.prev_hitbox_positions.duplicate(),
+							"new_hitbox_positions": new_positions
+						})
 
 			_save_current_frame_state()
 
@@ -1272,6 +1331,8 @@ func _handle_drag(event: InputEventMouseMotion):
 	match current_mouse_mode:
 		MouseMode.MOVE_ANCHOR:
 			_handle_anchor_drag(logical_mouse, delta_inc)          # 传递两个参数
+		MouseMode.MOVE_ALL:
+			_handle_all_move_drag(logical_mouse, delta_inc)
 		MouseMode.MOVE_HITBOX:
 			_handle_hitbox_move_drag(logical_mouse, delta_inc)     # 传递两个参数
 		MouseMode.ROTATE_HITBOX:
@@ -1284,6 +1345,12 @@ func _handle_drag(event: InputEventMouseMotion):
 
 func _handle_hover(event: InputEventMouseMotion):
 	var logical_mouse = _screen_to_logical(event.position)
+
+	# Shift 按着时悬停在锚点或受击框上显示全部移动光标
+	if event.shift_pressed and (_is_point_near_anchor(logical_mouse) or _get_clicked_hitbox(logical_mouse) >= 0):
+		DisplayServer.cursor_set_shape(DisplayServer.CURSOR_MOVE)
+		_draw_node.queue_redraw()
+		return
 
 	# 锚点优先级最高
 	if _is_point_near_anchor(logical_mouse):
@@ -1320,6 +1387,37 @@ func _handle_anchor_drag(logical_mouse: Vector2, _delta_inc: Vector2):
 	if drag_prev_state != null:
 		drag_prev_state.data.new_anchor = new_anchor
 	_draw_node.queue_redraw()
+
+func _handle_all_move_drag(_logical_mouse: Vector2, delta_inc: Vector2):
+	# 移动锚点
+	var anchor = _get_current_anchor()
+	var new_anchor = anchor + delta_inc
+	_set_current_anchor(new_anchor)
+	_anchor_x_spinbox.set_value_no_signal(new_anchor.x)
+	_anchor_y_spinbox.set_value_no_signal(new_anchor.y)
+
+	# 移动所有受击框
+	for i in range(hitbox_areas.size()):
+		var area = hitbox_areas[i]
+		area.position += delta_inc
+		if animation_data[current_animation].has(current_frame):
+			var frame_data = animation_data[current_animation][current_frame]
+			if frame_data.hitboxes_data.size() > i:
+				frame_data.hitboxes_data[i]["position"] = {
+					"x": area.position.x,
+					"y": area.position.y
+				}
+
+	if drag_prev_state != null:
+		drag_prev_state.data.new_anchor = new_anchor
+		drag_prev_state.data.new_hitbox_positions = _get_all_hitbox_positions()
+	_draw_node.queue_redraw()
+
+func _get_all_hitbox_positions() -> Array:
+	var positions = []
+	for area in hitbox_areas:
+		positions.append({"x": area.position.x, "y": area.position.y})
+	return positions
 
 func _handle_hitbox_move_drag(logical_mouse: Vector2, _delta_inc: Vector2):
 	if selected_hitbox_index < 0 or selected_hitbox_index >= hitbox_areas.size():
@@ -1548,6 +1646,19 @@ func _input(event: InputEvent):
 				get_viewport().set_input_as_handled()
 				return
 
+		if event.keycode == KEY_V and not event.ctrl_pressed:
+			if selected_hitbox_index >= 0 and selected_hitbox_index < hitbox_areas.size():
+				var is_visible = true
+				if animation_data.has(current_animation) and animation_data[current_animation].has(current_frame):
+					var fd = animation_data[current_animation][current_frame]
+					if fd.hitboxes_data.size() > selected_hitbox_index:
+						is_visible = fd.hitboxes_data[selected_hitbox_index].get("visible", true)
+				_on_hitbox_visible_toggled(not is_visible)
+				_update_hitbox_property_panel()
+				_refresh_hitbox_list()
+			get_viewport().set_input_as_handled()
+			return
+
 		if event.keycode == KEY_TAB:
 			if hitbox_areas.size() > 0:
 				selected_hitbox_index = (selected_hitbox_index + 1) % hitbox_areas.size()
@@ -1676,13 +1787,6 @@ func _get_resize_handle_positions(index: int) -> Dictionary:
 	return result
 
 func _get_clicked_handle(point: Vector2):
-	# 旋转手柄触控范围与绘制半径一致：handle_size * 0.8
-	var rot_threshold = handle_size * 0.8 / _canvas_zoom
-	# 优先检测旋转手柄（圆形手柄用距离检测）
-	for i in range(hitbox_areas.size()):
-		var rot_handle_pos = _get_rotation_handle_position(i)
-		if rot_handle_pos != Vector2.ZERO and point.distance_to(rot_handle_pos) < rot_threshold:
-			return {"index": i, "type": MouseMode.ROTATE_HITBOX}
 	# 检测8方向缩放手柄（仅选中受击框显示）
 	# 检测范围与绘制的手柄大小一致（handle_size * 0.7 绘制方框）
 	var resize_threshold = handle_size * 0.7 / _canvas_zoom
@@ -2849,11 +2953,6 @@ func _on_canvas_draw():
 		if not animated_sprite:
 			return
 
-	# 绘制坐标轴参考线
-	var axis_len = 50 * _canvas_zoom
-	_draw_node.draw_line(Vector2(0, 0), Vector2(axis_len, 0), Color.RED, 1.0)
-	_draw_node.draw_line(Vector2(0, 0), Vector2(0, axis_len), Color.GREEN, 1.0)
-
 	# 绘制锚点
 	_draw_anchor()
 
@@ -2870,6 +2969,20 @@ func _on_canvas_draw():
 func _draw_anchor():
 	var anchor_point = _get_current_anchor()
 	var draw_pos = anchor_point * _canvas_zoom
+
+	# 无限延伸的十字线（以锚点为中心贯穿全画布）
+	var guide_color = Color(0.8, 0.4, 0.4, 0.45)
+	var guide_len = 5000.0
+	_draw_node.draw_line(
+		Vector2(draw_pos.x - guide_len, draw_pos.y),
+		Vector2(draw_pos.x + guide_len, draw_pos.y),
+		guide_color, 2.0, true
+	)
+	_draw_node.draw_line(
+		Vector2(draw_pos.x, draw_pos.y - guide_len),
+		Vector2(draw_pos.x, draw_pos.y + guide_len),
+		guide_color, 2.0, true
+	)
 
 	var half_size = anchor_viz_size / 2.0
 	var line_width = 3.0
@@ -2986,16 +3099,6 @@ func _draw_handles():
 		_draw_node.draw_circle(area_draw_pos, h_radius + 4, Color(0, 0, 0, 0.7))
 		_draw_node.draw_circle(area_draw_pos, h_radius, handle_color)
 		_draw_node.draw_circle(area_draw_pos, h_radius / 2, Color(1, 1, 1, 1))
-
-		# 旋转手柄（右侧）
-		var rot_handle_logical = _get_rotation_handle_position(i)
-		if rot_handle_logical != Vector2.ZERO:
-			var rot_handle_pos = rot_handle_logical * _canvas_zoom
-			var rot_color = Color(0.8, 0.2, 0.8, 0.9) if not is_selected else Color(1.0, 1.0, 0.2, 1.0)
-			_draw_node.draw_line(area_draw_pos, rot_handle_pos, Color(0.8, 0.2, 0.8, 0.5), 2.0)
-			var rot_radius = handle_size * 0.8 * (1.2 if is_selected else 1.0)
-			_draw_node.draw_circle(rot_handle_pos, rot_radius + 2, Color(0, 0, 0, 0.5))
-			_draw_node.draw_circle(rot_handle_pos, rot_radius, rot_color)
 
 		# 8方向缩放手柄（仅选中时显示）
 		if not is_selected:

@@ -215,40 +215,11 @@ func _on_attack_hit(hit_result):
 	if _vs_component:
 		_vs_component._on_attack_hit(hit_result)
 
+
 func setup_icon():
 	super.setup_icon()
 	if _vs_component:
 		_vs_component.setup_icon()
-
-func on_timer_out(cd_id: int):
-	super.on_timer_out(cd_id)
-	if _vs_component:
-		_vs_component.on_timer_out(cd_id)
-
-func _on_deal_hit(attacker: Node2D):
-	super._on_deal_hit(attacker)
-	if _vs_component:
-		_vs_component._on_deal_hit(attacker)
-
-func _on_death():
-	super._on_death()
-	if _vs_component:
-		_vs_component._on_death()
-
-func _on_modifier_start(type: String, power: int, time_left: float = -2.0):
-	super._on_modifier_start(type, power, time_left)
-	if _vs_component:
-		_vs_component._on_modifier_start(type, power, time_left)
-
-func _on_modifier_update(type: String, power: int, time_left: float = -2.0):
-	super._on_modifier_update(type, power, time_left)
-	if _vs_component:
-		_vs_component._on_modifier_update(type, power, time_left)
-
-func _on_modifier_end(type: String, power: int, time_left: float = -2.0):
-	super._on_modifier_end(type, power, time_left)
-	if _vs_component:
-		_vs_component._on_modifier_end(type, power, time_left)
 
 func _on_frame_changed():
 	# 先执行父类逻辑：帧数据应用、帧事件处理、特效绑定

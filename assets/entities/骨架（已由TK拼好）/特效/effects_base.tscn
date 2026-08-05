@@ -1,0 +1,57 @@
+[gd_scene format=3 uid="uid://rapvl17rgajj"]
+
+[ext_resource type="PackedScene" uid="uid://c5eauk5i5s64k" path="res://assets/entities/base/effects/effects_base.tscn" id="1_7qmpo"]
+[ext_resource type="Script" uid="uid://cnnj8ncqri0a4" path="res://assets/entities/骨架（已由TK拼好）/特效/effects_base.gd" id="2_vy4wk"]
+[ext_resource type="Texture2D" uid="uid://b7l03xddkgsvo" path="res://assets/entities/骨架（已由TK拼好）/特效/Image_1726152802468.png" id="3_khtsx"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sx2k6"]
+atlas = ExtResource("3_khtsx")
+region = Rect2(0, 0, 150, 120)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wchtj"]
+atlas = ExtResource("3_khtsx")
+region = Rect2(150, 0, 150, 120)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mdbnw"]
+atlas = ExtResource("3_khtsx")
+region = Rect2(300, 0, 150, 120)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fn6ry"]
+atlas = ExtResource("3_khtsx")
+region = Rect2(0, 120, 150, 120)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_am8di"]
+atlas = ExtResource("3_khtsx")
+region = Rect2(150, 120, 150, 120)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_a5knr"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sx2k6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wchtj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mdbnw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fn6ry")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_am8di")
+}],
+"loop": false,
+"name": &"a",
+"speed": 5.0
+}]
+
+[node name="EffectsBase" unique_id=2109829623 instance=ExtResource("1_7qmpo")]
+script = ExtResource("2_vy4wk")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." index="0" unique_id=1546795713]
+sprite_frames = SubResource("SpriteFrames_a5knr")
+animation = &"a"
+frame = 4
+frame_progress = 1.0

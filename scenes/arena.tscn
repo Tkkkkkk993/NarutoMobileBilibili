@@ -64,11 +64,11 @@ scale = Vector2(1.02532, 1.02532)
 script = ExtResource("4_7si43")
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=955332901]
-limit_left = -1125
-limit_right = 1125
+limit_left = -1230
+limit_right = 1230
 script = ExtResource("3_xwho7")
 follow_speed = 3.0
-facing_offset = 300.0
+facing_offset = 280.0
 use_limits = true
 
 [node name="Edge" type="CanvasLayer" parent="." unique_id=761431168]

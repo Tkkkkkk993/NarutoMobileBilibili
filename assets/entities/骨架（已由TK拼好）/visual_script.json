@@ -128,11 +128,11 @@
 						}
 					},
 					{
-						"_uid": "_28",
+						"_uid": "_12",
 						"block_name": "if_condition",
 						"children": [
 							{
-								"_uid": "_29",
+								"_uid": "_13",
 								"block_name": "slide",
 								"children": [],
 								"exprs": {
@@ -161,11 +161,11 @@
 						}
 					},
 					{
-						"_uid": "_30",
+						"_uid": "_14",
 						"block_name": "if_condition",
 						"children": [
 							{
-								"_uid": "_31",
+								"_uid": "_15",
 								"block_name": "stop_slide",
 								"children": [],
 								"exprs": {
@@ -195,11 +195,11 @@
 				}
 			},
 			{
-				"_uid": "_34",
+				"_uid": "_16",
 				"block_name": "when_attack_box_hit",
 				"children": [
 					{
-						"_uid": "_35",
+						"_uid": "_17",
 						"block_name": "hit_entity",
 						"children": [],
 						"exprs": {
@@ -227,17 +227,17 @@
 				"exprs": {
 
 				},
-				"id": 1009,
+				"id": 1009.0,
 				"params": {
 					"abox_name": "a1"
 				}
 			},
 			{
-				"_uid": "_12",
+				"_uid": "_18",
 				"block_name": "when_animation_exit",
 				"children": [
 					{
-						"_uid": "_13",
+						"_uid": "_19",
 						"block_name": "play_animation",
 						"children": [],
 						"exprs": {
@@ -258,19 +258,19 @@
 				}
 			},
 			{
-				"_uid": "_14",
+				"_uid": "_20",
 				"block_name": "when_animation_playing",
 				"children": [
 					{
-						"_uid": "_15",
+						"_uid": "_21",
 						"block_name": "if_condition",
 						"children": [
 							{
-								"_uid": "_16",
+								"_uid": "_22",
 								"block_name": "if_condition",
 								"children": [
 									{
-										"_uid": "_17",
+										"_uid": "_23",
 										"block_name": "play_animation",
 										"children": [],
 										"exprs": {
@@ -297,11 +297,11 @@
 						}
 					},
 					{
-						"_uid": "_18",
+						"_uid": "_24",
 						"block_name": "if_condition",
 						"children": [
 							{
-								"_uid": "_19",
+								"_uid": "_25",
 								"block_name": "turn_by_input",
 								"children": [],
 								"exprs": {
@@ -320,9 +320,11 @@
 						}
 					},
 					{
+						"_uid": "_26",
 						"block_name": "if_condition",
 						"children": [
 							{
+								"_uid": "_27",
 								"block_name": "slide",
 								"children": [],
 								"exprs": {
@@ -351,9 +353,11 @@
 						}
 					},
 					{
+						"_uid": "_28",
 						"block_name": "if_condition",
 						"children": [
 							{
+								"_uid": "_29",
 								"block_name": "stop_slide",
 								"children": [],
 								"exprs": {
@@ -383,9 +387,11 @@
 				}
 			},
 			{
+				"_uid": "_30",
 				"block_name": "when_attack_box_hit",
 				"children": [
 					{
+						"_uid": "_31",
 						"block_name": "hit_entity",
 						"children": [],
 						"exprs": {
@@ -413,17 +419,17 @@
 				"exprs": {
 
 				},
-				"id": 1010,
+				"id": 1010.0,
 				"params": {
 					"abox_name": "a2"
 				}
 			},
 			{
-				"_uid": "_20",
+				"_uid": "_32",
 				"block_name": "when_animation_exit",
 				"children": [
 					{
-						"_uid": "_21",
+						"_uid": "_33",
 						"block_name": "play_animation",
 						"children": [],
 						"exprs": {
@@ -444,19 +450,19 @@
 				}
 			},
 			{
-				"_uid": "_22",
+				"_uid": "_34",
 				"block_name": "when_animation_playing",
 				"children": [
 					{
-						"_uid": "_23",
+						"_uid": "_35",
 						"block_name": "if_condition",
 						"children": [
 							{
-								"_uid": "_24",
+								"_uid": "_36",
 								"block_name": "if_condition",
 								"children": [
 									{
-										"_uid": "_25",
+										"_uid": "_37",
 										"block_name": "play_animation",
 										"children": [],
 										"exprs": {
@@ -484,11 +490,11 @@
 						}
 					},
 					{
-						"_uid": "_26",
+						"_uid": "_38",
 						"block_name": "if_condition",
 						"children": [
 							{
-								"_uid": "_27",
+								"_uid": "_39",
 								"block_name": "turn_by_input",
 								"children": [],
 								"exprs": {
@@ -499,7 +505,7 @@
 								}
 							},
 							{
-								"_uid": "_32",
+								"_uid": "_40",
 								"block_name": "slide",
 								"children": [],
 								"exprs": {
@@ -528,9 +534,11 @@
 						}
 					},
 					{
+						"_uid": "_41",
 						"block_name": "if_condition",
 						"children": [
 							{
+								"_uid": "_42",
 								"block_name": "stop_slide",
 								"children": [],
 								"exprs": {
@@ -549,15 +557,15 @@
 						}
 					},
 					{
-						"_uid": "_37",
+						"_uid": "_43",
 						"block_name": "if_condition",
 						"children": [
 							{
-								"_uid": "_38",
+								"_uid": "_44",
 								"block_name": "if_condition",
 								"children": [
 									{
-										"_uid": "_39",
+										"_uid": "_45",
 										"block_name": "play_animation",
 										"children": [],
 										"exprs": {
@@ -595,9 +603,11 @@
 				}
 			},
 			{
+				"_uid": "_46",
 				"block_name": "when_attack_box_hit",
 				"children": [
 					{
+						"_uid": "_47",
 						"block_name": "hit_entity",
 						"children": [],
 						"exprs": {
@@ -625,7 +635,7 @@
 				"exprs": {
 
 				},
-				"id": 1011,
+				"id": 1011.0,
 				"params": {
 					"abox_name": "a3"
 				}
@@ -649,8 +659,10 @@
 			"_26": true,
 			"_28": true,
 			"_30": true,
+			"_32": true,
 			"_34": true,
 			"_4": true,
+			"_46": true,
 			"_6": true,
 			"_7": true,
 			"_8": true

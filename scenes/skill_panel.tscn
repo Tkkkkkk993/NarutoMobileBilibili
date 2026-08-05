@@ -49,20 +49,36 @@ script = ExtResource("3_j5ni0")
 [node name="Skill1" parent="PanelContainer/TextureRect" unique_id=490358638 instance=ExtResource("2_ipxeq")]
 position = Vector2(43, 235)
 scale = Vector2(0.55357, 0.55357)
+dot_1_modulate = Color(1, 0.8, 0, 1)
+dot_2_modulate = Color(1, 0.8, 0, 1)
+dot_3_modulate = Color(1, 0.8, 0, 1)
+dot_4_modulate = Color(1, 0.8, 0, 1)
 
 [node name="Skill2" parent="PanelContainer/TextureRect" unique_id=232249051 instance=ExtResource("2_ipxeq")]
 position = Vector2(57, 113)
 scale = Vector2(0.554, 0.554)
+dot_1_modulate = Color(1, 0.8, 0, 1)
+dot_2_modulate = Color(1, 0.8, 0, 1)
+dot_3_modulate = Color(1, 0.8, 0, 1)
+dot_4_modulate = Color(1, 0.8, 0, 1)
 
 [node name="Skill3" parent="PanelContainer/TextureRect" unique_id=1933134345 instance=ExtResource("2_ipxeq")]
 position = Vector2(173, 55)
 scale = Vector2(0.65, 0.65)
 show_aura = true
+dot_1_modulate = Color(0.99215686, 0.3137255, 0.08627451, 1)
+dot_2_modulate = Color(0.99215686, 0.3137255, 0.08627451, 1)
+dot_3_modulate = Color(0.99215686, 0.3137255, 0.08627451, 1)
+dot_4_modulate = Color(0.99215686, 0.3137255, 0.08627451, 1)
 
 [node name="Attack" parent="PanelContainer/TextureRect" unique_id=123730106 instance=ExtResource("2_ipxeq")]
 position = Vector2(165, 196)
 scale = Vector2(0.947368, 0.947368)
 texture_normal = ExtResource("5_xhxjf")
+dot_1_modulate = Color(0.99215686, 0.3137255, 0.08627451, 1)
+dot_2_modulate = Color(0.99215686, 0.3137255, 0.08627451, 1)
+dot_3_modulate = Color(0.99215686, 0.3137255, 0.08627451, 1)
+dot_4_modulate = Color(0.99215686, 0.3137255, 0.08627451, 1)
 
 [node name="Substitution" parent="PanelContainer/TextureRect" unique_id=1924198304 instance=ExtResource("2_ipxeq")]
 position = Vector2(-75, 236)
@@ -70,11 +86,19 @@ scale = Vector2(0.554, 0.554)
 texture_normal = ExtResource("7_s3n83")
 show_panel = true
 is_charging = true
+dot_1_modulate = Color(0.99215686, 0.3137255, 0.08627451, 1)
+dot_2_modulate = Color(0.99215686, 0.3137255, 0.08627451, 1)
+dot_3_modulate = Color(0.99215686, 0.3137255, 0.08627451, 1)
+dot_4_modulate = Color(0.99215686, 0.3137255, 0.08627451, 1)
 
 [node name="Scroll" parent="PanelContainer/TextureRect" unique_id=579188612 instance=ExtResource("2_ipxeq")]
 position = Vector2(175, -59)
 scale = Vector2(0.56, 0.56)
 show_panel = true
+dot_1_modulate = Color(0.99215686, 0.3137255, 0.08627451, 1)
+dot_2_modulate = Color(0.99215686, 0.3137255, 0.08627451, 1)
+dot_3_modulate = Color(0.99215686, 0.3137255, 0.08627451, 1)
+dot_4_modulate = Color(0.99215686, 0.3137255, 0.08627451, 1)
 
 [node name="Summon" parent="PanelContainer/TextureRect" unique_id=30568392 instance=ExtResource("2_ipxeq")]
 position = Vector2(175, -159)
@@ -82,16 +106,28 @@ scale = Vector2(0.56, 0.56)
 show_panel = true
 is_charging = true
 dot_max = 3
+dot_1_modulate = Color(0.99215686, 0.3137255, 0.08627451, 1)
+dot_2_modulate = Color(0.99215686, 0.3137255, 0.08627451, 1)
+dot_3_modulate = Color(0.99215686, 0.3137255, 0.08627451, 1)
+dot_4_modulate = Color(0.99215686, 0.3137255, 0.08627451, 1)
 
 [node name="SubSkill1" parent="PanelContainer/TextureRect" unique_id=235265921 instance=ExtResource("2_ipxeq")]
 position = Vector2(-42, 108)
 scale = Vector2(0.465, 0.465)
 show_panel = true
+dot_1_modulate = Color(1, 0.8, 0, 1)
+dot_2_modulate = Color(1, 0.8, 0, 1)
+dot_3_modulate = Color(1, 0.8, 0, 1)
+dot_4_modulate = Color(1, 0.8, 0, 1)
 
 [node name="SubSkill2" parent="PanelContainer/TextureRect" unique_id=1897674002 instance=ExtResource("2_ipxeq")]
 position = Vector2(24, 16)
 scale = Vector2(0.465, 0.465)
 show_panel = true
+dot_1_modulate = Color(1, 0.8, 0, 1)
+dot_2_modulate = Color(1, 0.8, 0, 1)
+dot_3_modulate = Color(1, 0.8, 0, 1)
+dot_4_modulate = Color(1, 0.8, 0, 1)
 
 [node name="VirtualJoystick" parent="." unique_id=258549338 instance=ExtResource("8_pnouw")]
 offset_left = 80.0

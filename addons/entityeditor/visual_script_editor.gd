@@ -68,6 +68,10 @@ var _block_defs = [
 	{"type": BlockType.ACTION, "name": "stop_voice_by_tag", "label": "停止语音（标记: {tag}）", "category": "声音", "params": [{"name": "tag", "type": "string", "default": "", "label": "标记"}]},
 	{"type": BlockType.ACTION, "name": "stop_all_sfx", "label": "停止所有音效", "category": "声音", "params": []},
 	{"type": BlockType.ACTION, "name": "stop_all_voices", "label": "停止所有语音", "category": "声音", "params": []},
+	{"type": BlockType.ACTION, "name": "set_slot_visible", "label": "设置槽位 {slot_id} 显隐 {visible}", "category": "动作", "params": [
+		{"name": "slot_id", "type": "number", "default": 0, "label": "槽位序号"},
+		{"name": "visible", "type": "bool", "default": true, "label": "是否显示"}
+	]},
 ]
 
 const BLOCK_HEIGHT: float = 40.0
@@ -521,6 +525,13 @@ func _setup_ui():
 	ev_move_under_btn.add_theme_font_size_override("font_size", 12)
 	ev_move_under_btn.pressed.connect(_on_event_move_under)
 	_event_toolbar.add_child(ev_move_under_btn)
+
+	var ev_move_up_level_btn = Button.new()
+	ev_move_up_level_btn.text = "移到上一级"
+	ev_move_up_level_btn.tooltip_text = "将选中的块移到其父块的同级（减少缩进层级）"
+	ev_move_up_level_btn.add_theme_font_size_override("font_size", 12)
+	ev_move_up_level_btn.pressed.connect(_on_event_move_up_level)
+	_event_toolbar.add_child(ev_move_up_level_btn)
 
 	var ev_replace_btn = Button.new()
 	ev_replace_btn.text = "替换块"
@@ -3296,24 +3307,20 @@ func _add_param_editor(container: HBoxContainer, block: Dictionary, p: Dictionar
 		var current_val = block.params.get(p.name, default_val)
 		if not current_val is Dictionary:
 			current_val = {"x": 0.0, "y": 0.0}
-		var x_label = Label.new()
-		x_label.text = "X:"
-		container.add_child(x_label)
 		var x_spin = SpinBox.new()
 		x_spin.min_value = -INT_MAX
 		x_spin.max_value = INT_MAX
 		x_spin.step = 0.001
+		x_spin.tooltip_text = "X"
 		x_spin.value = current_val.get("x", 0.0)
 		x_spin.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		x_spin.value_changed.connect(_on_param_vector2_changed.bind(block.id, p.name, "x"))
 		container.add_child(x_spin)
-		var y_label = Label.new()
-		y_label.text = "Y:"
-		container.add_child(y_label)
 		var y_spin = SpinBox.new()
 		y_spin.min_value = -INT_MAX
 		y_spin.max_value = INT_MAX
 		y_spin.step = 0.001
+		y_spin.tooltip_text = "Y"
 		y_spin.value = current_val.get("y", 0.0)
 		y_spin.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		y_spin.value_changed.connect(_on_param_vector2_changed.bind(block.id, p.name, "y"))
@@ -3323,35 +3330,29 @@ func _add_param_editor(container: HBoxContainer, block: Dictionary, p: Dictionar
 		var current_val = block.params.get(p.name, default_val)
 		if not current_val is Dictionary:
 			current_val = {"x": 0.0, "y": 0.0, "z": 0.0}
-		var x_label = Label.new()
-		x_label.text = "X:"
-		container.add_child(x_label)
 		var x_spin = SpinBox.new()
 		x_spin.min_value = -INT_MAX
 		x_spin.max_value = INT_MAX
 		x_spin.step = 0.001
+		x_spin.tooltip_text = "X"
 		x_spin.value = current_val.get("x", 0.0)
 		x_spin.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		x_spin.value_changed.connect(_on_param_vector3_changed.bind(block.id, p.name, "x"))
 		container.add_child(x_spin)
-		var y_label = Label.new()
-		y_label.text = "Y:"
-		container.add_child(y_label)
 		var y_spin = SpinBox.new()
 		y_spin.min_value = -INT_MAX
 		y_spin.max_value = INT_MAX
 		y_spin.step = 0.001
+		y_spin.tooltip_text = "Y"
 		y_spin.value = current_val.get("y", 0.0)
 		y_spin.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		y_spin.value_changed.connect(_on_param_vector3_changed.bind(block.id, p.name, "y"))
 		container.add_child(y_spin)
-		var z_label = Label.new()
-		z_label.text = "Z:"
-		container.add_child(z_label)
 		var z_spin = SpinBox.new()
 		z_spin.min_value = -INT_MAX
 		z_spin.max_value = INT_MAX
 		z_spin.step = 0.001
+		z_spin.tooltip_text = "Z"
 		z_spin.value = current_val.get("z", 0.0)
 		z_spin.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		z_spin.value_changed.connect(_on_param_vector3_changed.bind(block.id, p.name, "z"))
@@ -4050,6 +4051,12 @@ func _load_script_data():
 	var file_path = _get_script_path()
 	if not FileAccess.file_exists(file_path):
 		print("[visual_script_editor] 未找到脚本文件: ", file_path)
+		_clear_events_data()
+		_current_mode = EditorMode.EVENT
+		_update_mode_buttons()
+		_switch_editor_mode(_current_mode)
+		_update_title()
+		_dirty = false
 		return
 	# Step 1: 显示进度条
 	await _show_progress("正在加载脚本...")
@@ -4411,6 +4418,8 @@ func _format_event_node_text(node: Dictionary) -> String:
 	var exprs = node.get("exprs", {})
 	for k in params:
 		var display_val = str(params[k])
+		if typeof(params[k]) == TYPE_FLOAT:
+			display_val = String.num(params[k], 4)
 		# 有表达式时用括号包裹显示
 		if exprs.has(k):
 			display_val = "(%s)" % exprs[k]
@@ -4670,6 +4679,39 @@ func _select_event_node_by_content(target_node: Dictionary) -> bool:
 			return true
 	return false
 
+## 通过引用匹配（is_same）选中节点，用于分组/注释等没有 block_name 的节点
+func _select_event_node_by_ref(target_node: Dictionary) -> bool:
+	if not _event_tree or target_node.is_empty():
+		return false
+	var root = _event_tree.get_root()
+	if root == null:
+		return false
+	var _search = func(item: TreeItem, _fn) -> bool:
+		var node = _get_node_from_item(item)
+		if not node.is_empty() and is_same(node, target_node):
+			item.select(0)
+			return true
+		for child in item.get_children():
+			if _fn.call(child, _fn):
+				return true
+		return false
+	for item in root.get_children():
+		if _search.call(item, _search):
+			return true
+	return false
+
+# 操作后恢复选中：优先引用匹配（is_same），再内容匹配，最后按根事件 ID
+func _restore_event_selection(target: Dictionary, root_id: int = -1) -> bool:
+	if not target.is_empty():
+		if _select_event_node_by_ref(target):
+			return true
+		if _select_event_node_by_content(target):
+			return true
+	if root_id >= 0:
+		_select_event_row(root_id)
+		return true
+	return false
+
 # 生成唯一节点 ID
 func _create_event_root(def: Dictionary) -> Dictionary:
 	var id = _event_row_id_counter
@@ -4752,11 +4794,8 @@ func _add_block_to_events(def: Dictionary):
 	# 记住选中节点（渲染后树重建，需要重新选中）
 	var selected_node = _get_node_from_item(item) if item != null else {}
 	_render_events()
-	# 恢复选中（按内容匹配，否则按根ID）
-	if not selected_node.is_empty() and _select_event_node_by_content(selected_node):
-		pass
-	elif _selected_event_row_id >= 0:
-		_select_event_row(_selected_event_row_id)
+	# 恢复选中（优先引用匹配）
+	_restore_event_selection(selected_node, _selected_event_row_id)
 
 ## 校验 else_if / else_block 的添加规则
 ## else_if 只能跟在 if_condition 后，else_block 只能跟在 if_condition 或 else_if 后
@@ -4829,9 +4868,7 @@ func _on_event_add_row():
 		_selected_event_row_id = row.id
 		_mark_dirty()
 		_render_events()
-		var selected_node = row.duplicate(true)
-		if not _select_event_node_by_content(selected_node):
-			_select_event_row(_selected_event_row_id)
+		_restore_event_selection(row, _selected_event_row_id)
 		return
 	_add_block_to_events(event_def)
 
@@ -4948,7 +4985,7 @@ func _on_event_delete_row():
 		var node_meta = _get_node_from_item(item)
 		var children = parent_node.get("children", [])
 		for i in range(children.size()):
-			if _event_node_equals(children[i], node_meta):
+			if is_same(children[i], node_meta):
 				children.remove_at(i)
 				break
 	_mark_dirty()
@@ -5043,33 +5080,40 @@ func _on_event_paste():
 			else:
 				rows_arr.append(pasted)
 		else:
-			# 选中子节点 → 插入到该块的下一行（同级）
+			# 选中子节点
 			var sel_node = _get_node_from_item(item)
-			var parent_item = item.get_parent()
-			if parent_item == null or parent_item == _event_tree.get_root():
-				return
-			var parent_node = _get_node_from_item(parent_item)
-			if parent_node.is_empty():
-				return
-			_save_undo_state()
-			var parent_children = parent_node.get("children", [])
-			var insert_idx = -1
-			for i in range(parent_children.size()):
-				if _event_node_equals(parent_children[i], sel_node):
-					insert_idx = i + 1
-					break
-			if insert_idx >= 0 and insert_idx <= parent_children.size():
-				parent_children.insert(insert_idx, pasted)
+			var sel_def = _find_block_def(sel_node.get("block_name", ""))
+			var pasted_name = pasted.get("block_name", "")
+			# else_if / else_block 始终作为同级插入（不作为条件块子块）
+			var is_else_type = (pasted_name == "else_if" or pasted_name == "else_block")
+			# 选中条件块且非 else 类型 → 粘贴到其 children（作为子块）
+			if sel_def.get("type", -1) == BlockType.CONDITION and not is_else_type:
+				_save_undo_state()
+				sel_node.children.append(pasted)
 			else:
-				parent_children.append(pasted)
+				# 选中普通子块 / else 类型 → 插入到该块的下一行（同级）
+				var parent_item = item.get_parent()
+				if parent_item == null or parent_item == _event_tree.get_root():
+					return
+				var parent_node = _get_node_from_item(parent_item)
+				if parent_node.is_empty():
+					return
+				_save_undo_state()
+				var parent_children = parent_node.get("children", [])
+				var insert_idx = -1
+				for i in range(parent_children.size()):
+					if _event_node_equals(parent_children[i], sel_node):
+						insert_idx = i + 1
+						break
+				if insert_idx >= 0 and insert_idx <= parent_children.size():
+					parent_children.insert(insert_idx, pasted)
+				else:
+					parent_children.append(pasted)
 	_mark_dirty()
 	# 恢复选中到粘贴的节点
-	var selected_node = pasted.duplicate(true)
 	var root_id = _selected_event_row_id
 	_render_events()
-	if not _select_event_node_by_content(selected_node):
-		if root_id >= 0:
-			_select_event_row(root_id)
+	_restore_event_selection(pasted, root_id)
 	# 剪切模式：粘贴后清空剪贴板
 	if _event_clipboard_cut:
 		_event_clipboard = {}
@@ -5090,15 +5134,11 @@ func _on_event_toggle_enabled():
 	var current = bool(node.get("enabled", true))
 	node["enabled"] = not current
 	_mark_dirty()
-	# 保存节点数据用于恢复选中
-	var selected_node = node.duplicate(true)
 	var root_id = _selected_event_row_id
 	_render_events()
 	_update_event_prop_panel()
-	# 恢复选中（按内容匹配，否则按根ID）
-	if not _select_event_node_by_content(selected_node):
-		if root_id >= 0:
-			_select_event_row(root_id)
+	# 恢复选中（优先引用匹配）
+	_restore_event_selection(node, root_id)
 
 func _on_event_move_row(dir: int):
 	if not _event_tree:
@@ -5158,6 +5198,7 @@ func _on_event_move_row(dir: int):
 		# 根级别元素移动（事件行、分组或注释）
 		if node.get("type") == "group":
 			# 分组移动
+			moved_node = node
 			var idx = -1
 			for i in range(_events_data.rows.size()):
 				if _events_data.rows[i].get("type") == "group" and is_same(_events_data.rows[i], node):
@@ -5202,11 +5243,8 @@ func _on_event_move_row(dir: int):
 	_mark_dirty()
 	var root_id = _selected_event_row_id
 	_render_events()
-	# 恢复选中（按内容匹配，否则按根ID）
-	if not moved_node.is_empty() and _select_event_node_by_content(moved_node):
-		pass
-	elif root_id >= 0:
-		_select_event_row(root_id)
+	# 恢复选中：优先引用匹配（分组/注释/子块），再内容匹配，最后按根ID
+	_restore_event_selection(moved_node, root_id)
 
 # ============================================
 # 移动到块下 / 替换块
@@ -5361,12 +5399,88 @@ func _show_move_under_dialog(src_node: Dictionary):
 		_mark_dirty()
 		var root_id = _selected_event_row_id
 		_render_events()
-		if not _select_event_node_by_content(src_node):
-			if root_id >= 0:
-				_select_event_row(root_id)
+		_restore_event_selection(src_node, root_id)
 	)
 	dialog.close_requested.connect(func(): dialog.queue_free())
 	dialog.popup_centered()
+
+## 把选中的块移到上一级（减少缩进层级）
+func _on_event_move_up_level():
+	if not _event_tree:
+		return
+	_save_undo_state()
+	var item = _event_tree.get_selected()
+	if item == null:
+		return
+	var node = _get_node_from_item(item)
+	if node.is_empty():
+		return
+	# 根事件行或注释不能上移
+	if _is_root_event_item(item):
+		_show_message_dialog("根事件行已在最顶层")
+		return
+	var parent_item = item.get_parent()
+	if parent_item == null or parent_item == _event_tree.get_root():
+		return
+
+	# 情况1：在分组内的事件行 → 移到根 rows
+	var parent_node = _get_node_from_item(parent_item)
+	if not parent_node.is_empty() and parent_node.get("type") == "group":
+		var rows_arr = parent_node.get("rows", [])
+		var node_idx = -1
+		for i in range(rows_arr.size()):
+			if is_same(rows_arr[i], node):
+				node_idx = i
+				break
+		if node_idx < 0:
+			return
+		rows_arr.remove_at(node_idx)
+		# 在根 rows 中找到分组位置，插入其后
+		var group_idx = -1
+		for i in range(_events_data.rows.size()):
+			if _events_data.rows[i].get("type") == "group" and is_same(_events_data.rows[i], parent_node):
+				group_idx = i
+				break
+		if group_idx < 0:
+			_events_data.rows.append(node)
+		else:
+			_events_data.rows.insert(group_idx + 1, node)
+		# 确保有 id
+		if not node.has("id") or int(node.get("id", -1)) <= 0:
+			node["id"] = _event_row_id_counter
+			_event_row_id_counter += 1
+		_mark_dirty()
+		_render_events()
+		_restore_event_selection(node, _selected_event_row_id)
+		return
+
+	# 情况2：普通子块 → 移到其父块的同级
+	var children = parent_node.get("children", [])
+	var node_idx = -1
+	for i in range(children.size()):
+		if is_same(children[i], node):
+			node_idx = i
+			break
+	if node_idx < 0:
+		return
+	children.remove_at(node_idx)
+	# 查找父块在数据中的位置
+	var parent_loc = _vs_find_node_location(parent_node)
+	if parent_loc.is_empty():
+		children.insert(node_idx, node)  # 回退
+		return
+	var parent_children = parent_loc["parent_children"]
+	var parent_idx = parent_loc["index"]
+	var insert_pos = clampi(parent_idx + 1, 0, parent_children.size())
+	# 如果父块是根事件行，给 node 加上 id
+	if parent_children == _events_data.rows:
+		if not node.has("id") or int(node.get("id", -1)) <= 0:
+			node["id"] = _event_row_id_counter
+			_event_row_id_counter += 1
+	parent_children.insert(insert_pos, node)
+	_mark_dirty()
+	_render_events()
+	_restore_event_selection(node, _selected_event_row_id)
 
 ## 替换当前选中的块（保留子块）
 func _on_event_replace_block():
@@ -5501,14 +5615,10 @@ func _vs_perform_replace(src_node: Dictionary, new_def: Dictionary, is_root: boo
 		if not loc.is_empty():
 			loc.parent_children[loc.index] = new_node
 	_mark_dirty()
-	# 保存节点数据用于恢复选中
-	var selected_node = new_node.duplicate(true)
+	# 恢复选中到替换后的节点
 	var root_id = new_node.get("id", _selected_event_row_id) if is_root else _selected_event_row_id
 	_render_events()
-	# 恢复选中（按内容匹配，否则按根ID）
-	if not _select_event_node_by_content(selected_node):
-		if root_id >= 0:
-			_select_event_row(root_id)
+	_restore_event_selection(new_node, root_id)
 
 func _on_event_tree_gui_input(event):
 	if event is InputEventKey and event.pressed and not event.echo:
@@ -5753,8 +5863,7 @@ func _finish_event_drag(pos: Vector2):
 
 	_mark_dirty()
 	_render_events()
-	if not _select_event_node_by_content(src_node):
-		_select_event_row(_selected_event_row_id)
+	_restore_event_selection(src_node, _selected_event_row_id)
 
 func _on_event_tree_mouse_exited():
 	if _drag_in_progress:
@@ -6046,25 +6155,55 @@ func _update_event_prop_panel():
 		lbl.text = p.get("label", p.name) + ": "
 		lbl.add_theme_font_size_override("font_size", 12)
 		hbox.add_child(lbl)
-		# 参数值编辑控件（字面值）
-		_add_event_param_widget(hbox, node, p, false)
-		# 表达式按钮：为参数设置表达式（运算/函数）
-		var expr_btn = Button.new()
-		expr_btn.text = "Expr"
-		expr_btn.tooltip_text = "为参数设置表达式（运算/函数）"
-		expr_btn.custom_minimum_size = Vector2(40, 24)
 		var captured_p = p
-		expr_btn.pressed.connect(func():
-			_show_expr_editor_dialog(node, captured_p)
-		)
-		hbox.add_child(expr_btn)
-		# 显示当前表达式（如果有）
 		if exprs.has(p.name):
-			var expr_label = Label.new()
-			expr_label.text = " [表达式: %s]" % exprs[p.name]
-			expr_label.add_theme_color_override("font_color", Color.YELLOW)
-			expr_label.add_theme_font_size_override("font_size", 11)
-			hbox.add_child(expr_label)
+			# 有表达式：不显示输入框，直接显示表达式文本
+			var expr_val = str(exprs[p.name])
+			var expr_display = Label.new()
+			var full_text = "(" + expr_val + ")"
+			# 过长省略后面，悬停可看完整表达式
+			if full_text.length() > 26:
+				expr_display.text = full_text.left(26) + "..."
+				expr_display.tooltip_text = full_text
+			else:
+				expr_display.text = full_text
+			expr_display.add_theme_color_override("font_color", Color(0.4, 0.7, 1.0))
+			expr_display.add_theme_font_size_override("font_size", 12)
+			expr_display.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+			hbox.add_child(expr_display)
+			# 编辑表达式按钮
+			var edit_expr_btn = Button.new()
+			edit_expr_btn.text = "Expr"
+			edit_expr_btn.tooltip_text = "编辑表达式"
+			edit_expr_btn.custom_minimum_size = Vector2(40, 24)
+			edit_expr_btn.pressed.connect(func():
+				_show_expr_editor_dialog(node, captured_p)
+			)
+			hbox.add_child(edit_expr_btn)
+			# 清除表达式按钮
+			var clear_expr_btn = Button.new()
+			clear_expr_btn.text = "X"
+			clear_expr_btn.tooltip_text = "清除表达式"
+			clear_expr_btn.custom_minimum_size = Vector2(24, 24)
+			clear_expr_btn.pressed.connect(func():
+				_save_undo_state()
+				node.exprs.erase(captured_p.name)
+				_mark_dirty()
+				_update_event_prop_panel()
+			)
+			hbox.add_child(clear_expr_btn)
+		else:
+			# 无表达式：显示输入框
+			_add_event_param_widget(hbox, node, p, false)
+			# 表达式按钮：为参数设置表达式（运算/函数）
+			var expr_btn = Button.new()
+			expr_btn.text = "Expr"
+			expr_btn.tooltip_text = "为参数设置表达式（运算/函数）"
+			expr_btn.custom_minimum_size = Vector2(40, 24)
+			expr_btn.pressed.connect(func():
+				_show_expr_editor_dialog(node, captured_p)
+			)
+			hbox.add_child(expr_btn)
 		_prop_panel.add_child(hbox)
 
 # 事件表参数控件工厂（和积木模式 _add_param_editor 保持一致的控件类型）
@@ -6134,8 +6273,8 @@ func _add_event_param_widget(container: HBoxContainer, node: Dictionary, p: Dict
 	elif p.type == "vector2":
 		var default_vec = p.default if p.default is Dictionary else {"x": 0.0, "y": 0.0}
 		var vec = current_val if current_val is Dictionary else default_vec
-		var xl = Label.new(); xl.text = "X:"; container.add_child(xl)
 		var xs = SpinBox.new(); xs.min_value = -INT_MAX; xs.max_value = INT_MAX; xs.step = 0.001
+		xs.tooltip_text = "X"
 		xs.value = float(vec.get("x", 0.0)); xs.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		xs.value_changed.connect(func(v: float):
 			var cur = node.params.get(pname, {"x": 0.0, "y": 0.0})
@@ -6144,8 +6283,8 @@ func _add_event_param_widget(container: HBoxContainer, node: Dictionary, p: Dict
 			_mark_dirty(); _refresh_current_event_item()
 		)
 		container.add_child(xs)
-		var yl = Label.new(); yl.text = "Y:"; container.add_child(yl)
 		var ys = SpinBox.new(); ys.min_value = -INT_MAX; ys.max_value = INT_MAX; ys.step = 0.001
+		ys.tooltip_text = "Y"
 		ys.value = float(vec.get("y", 0.0)); ys.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		ys.value_changed.connect(func(v: float):
 			var cur = node.params.get(pname, {"x": 0.0, "y": 0.0})
@@ -6157,8 +6296,8 @@ func _add_event_param_widget(container: HBoxContainer, node: Dictionary, p: Dict
 	elif p.type == "vector3":
 		var default_vec = p.default if p.default is Dictionary else {"x": 0.0, "y": 0.0, "z": 0.0}
 		var vec = current_val if current_val is Dictionary else default_vec
-		var xl = Label.new(); xl.text = "X:"; container.add_child(xl)
 		var xs = SpinBox.new(); xs.min_value = -INT_MAX; xs.max_value = INT_MAX; xs.step = 0.001
+		xs.tooltip_text = "X"
 		xs.value = float(vec.get("x", 0.0)); xs.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		xs.value_changed.connect(func(v: float):
 			var cur = node.params.get(pname, {"x": 0.0, "y": 0.0, "z": 0.0})
@@ -6167,8 +6306,8 @@ func _add_event_param_widget(container: HBoxContainer, node: Dictionary, p: Dict
 			_mark_dirty(); _refresh_current_event_item()
 		)
 		container.add_child(xs)
-		var yl = Label.new(); yl.text = "Y:"; container.add_child(yl)
 		var ys = SpinBox.new(); ys.min_value = -INT_MAX; ys.max_value = INT_MAX; ys.step = 0.001
+		ys.tooltip_text = "Y"
 		ys.value = float(vec.get("y", 0.0)); ys.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		ys.value_changed.connect(func(v: float):
 			var cur = node.params.get(pname, {"x": 0.0, "y": 0.0, "z": 0.0})
@@ -6177,8 +6316,8 @@ func _add_event_param_widget(container: HBoxContainer, node: Dictionary, p: Dict
 			_mark_dirty(); _refresh_current_event_item()
 		)
 		container.add_child(ys)
-		var zl = Label.new(); zl.text = "Z:"; container.add_child(zl)
 		var zs = SpinBox.new(); zs.min_value = -INT_MAX; zs.max_value = INT_MAX; zs.step = 0.001
+		zs.tooltip_text = "Z"
 		zs.value = float(vec.get("z", 0.0)); zs.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		zs.value_changed.connect(func(v: float):
 			var cur = node.params.get(pname, {"x": 0.0, "y": 0.0, "z": 0.0})
@@ -6441,12 +6580,9 @@ func _show_event_node_edit_dialog(node: Dictionary, suppress_save: bool = false)
 		_cleanup_drag()
 		if not suppress_save:
 			_mark_dirty()
-			var selected_node = node.duplicate(true)
 			var root_id = _selected_event_row_id
 			_render_events()
-			if not _select_event_node_by_content(selected_node):
-				if root_id >= 0:
-					_select_event_row(root_id)
+			_restore_event_selection(node, root_id)
 		_prevent_drag_after_dialog = true
 		dialog.queue_free()
 	)
@@ -6541,6 +6677,8 @@ func _show_expr_editor_dialog(node: Dictionary, param_def: Dictionary):
 			node["exprs"][param_name] = expr
 		_mark_dirty()
 		_render_events()
+		# 重建树后恢复原选中，避免选中丢失
+		_restore_event_selection(node, _selected_event_row_id)
 		_update_event_prop_panel()
 		_prevent_drag_after_dialog = true
 		dialog.queue_free()
@@ -8100,6 +8238,8 @@ func _get_default_block_defs() -> Array:
 		{"type": BlockType.EVENT, "name": "on_game_start", "label": "当游戏开始", "category": "事件", "params": []},
 		{"type": BlockType.EVENT, "name": "on_animation_playing", "label": "当动画播放 {anim_name}", "category": "事件", "params": [{"name": "anim_name", "type": "string", "default": "idle", "label": "动画名"}]},
 		{"type": BlockType.EVENT, "name": "on_hit", "label": "当被攻击命中", "category": "事件", "params": [], "outputs": [{"name": "attacker", "type": "node", "label": "攻击者"}]},
+		{"type": BlockType.EVENT, "name": "when_receive_force", "label": "当受到带力的攻击时", "category": "事件", "params": [], "outputs": [{"name": "kv", "type": "vector2", "label": "击退速度"}, {"name": "zv", "type": "number", "label": "击飞速度"}]},
+		{"type": BlockType.EVENT, "name": "when_hp_changed", "label": "当血量变化时", "category": "事件", "params": [], "outputs": [{"name": "delta", "type": "number", "label": "血量变化"}]},
 		{"type": BlockType.EVENT, "name": "when_modifier_start", "label": "当自定义效果 {mod_type} 启动时", "category": "事件", "params": [{"name": "mod_type", "type": "string", "default": "", "label": "效果类型"}], "outputs": [{"name": "target", "type": "node", "label": "目标"}, {"name": "mod_type", "type": "node", "label": "效果类型"}, {"name": "mod_power", "type": "node", "label": "强度"}]},
 		{"type": BlockType.EVENT, "name": "when_modifier_update", "label": "当自定义效果 {mod_type} 持续中", "category": "事件", "params": [{"name": "mod_type", "type": "string", "default": "", "label": "效果类型"}, {"name": "interval", "type": "number", "default": 0.0, "label": "间隔(秒)"}], "outputs": [{"name": "target", "type": "node", "label": "目标"}, {"name": "mod_type", "type": "node", "label": "效果类型"}, {"name": "mod_power", "type": "node", "label": "强度"}]},
 		{"type": BlockType.EVENT, "name": "when_modifier_end", "label": "当自定义效果 {mod_type} 结束时", "category": "事件", "params": [{"name": "mod_type", "type": "string", "default": "", "label": "效果类型"}], "outputs": [{"name": "target", "type": "node", "label": "目标"}, {"name": "mod_type", "type": "node", "label": "效果类型"}, {"name": "mod_power", "type": "node", "label": "强度"}]},
@@ -8152,10 +8292,12 @@ func _load_block_defs() -> bool:
 	_vs_migrate_block_defs()
 	return true
 
-## 补全 else_if / else_block，给 if_else 加 hide_in_event
+## 补全 else_if / else_block，给 if_else 加 hide_in_event，补全 when_receive_force
 func _vs_migrate_block_defs():
 	var has_else_if = false
 	var has_else_block = false
+	var has_when_receive_force = false
+	var has_when_hp_changed = false
 	for def in _block_defs:
 		if def.name == "if_else" and not def.has("hide_in_event"):
 			def["hide_in_event"] = true
@@ -8163,6 +8305,10 @@ func _vs_migrate_block_defs():
 			has_else_if = true
 		if def.name == "else_block":
 			has_else_block = true
+		if def.name == "when_receive_force":
+			has_when_receive_force = true
+		if def.name == "when_hp_changed":
+			has_when_hp_changed = true
 	if not has_else_if:
 		_block_defs.append({
 			"type": BlockType.CONDITION, "name": "else_if",
@@ -8176,4 +8322,18 @@ func _vs_migrate_block_defs():
 			"label": "否则", "category": "控制",
 			"event_only": true,
 			"params": []
+		})
+	if not has_when_receive_force:
+		_block_defs.append({
+			"type": BlockType.EVENT, "name": "when_receive_force",
+			"label": "当受到带力的攻击时", "category": "事件",
+			"params": [],
+			"outputs": [{"name": "kv", "type": "vector2", "label": "击退速度"}, {"name": "zv", "type": "number", "label": "击飞速度"}]
+		})
+	if not has_when_hp_changed:
+		_block_defs.append({
+			"type": BlockType.EVENT, "name": "when_hp_changed",
+			"label": "当血量变化时", "category": "事件",
+			"params": [],
+			"outputs": [{"name": "delta", "type": "number", "label": "血量变化"}]
 		})

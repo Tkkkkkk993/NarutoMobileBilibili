@@ -2,7 +2,7 @@
 # ============================================
 # 基于 AnimationPlayer 的实体实现
 # 继承 EntityBase，提供 3D 骨骼动画 / 关键帧动画支持
-# 帧时间基准: 1 帧 = 1/60 秒
+# 帧时间基准: 60FPS (1 帧 = 1/60 秒)
 # ============================================
 
 class_name AnimationPlayerEntity
@@ -256,37 +256,14 @@ func _on_attack_hit(hit_result):
 	if _vs_component:
 		_vs_component._on_attack_hit(hit_result)
 
+
+
 func setup_icon():
 	super.setup_icon()
 	if _vs_component:
 		_vs_component.setup_icon()
 
-func on_timer_out(cd_id: int):
-	super.on_timer_out(cd_id)
+func _on_frame_changed():
+	# 通知 VisualScriptComponent 帧变化
 	if _vs_component:
-		_vs_component.on_timer_out(cd_id)
-
-func _on_deal_hit(attacker: Node2D):
-	super._on_deal_hit(attacker)
-	if _vs_component:
-		_vs_component._on_deal_hit(attacker)
-
-func _on_death():
-	super._on_death()
-	if _vs_component:
-		_vs_component._on_death()
-
-func _on_modifier_start(type: String, power: int, time_left: float = -2.0):
-	super._on_modifier_start(type, power, time_left)
-	if _vs_component:
-		_vs_component._on_modifier_start(type, power, time_left)
-
-func _on_modifier_update(type: String, power: int, time_left: float = -2.0):
-	super._on_modifier_update(type, power, time_left)
-	if _vs_component:
-		_vs_component._on_modifier_update(type, power, time_left)
-
-func _on_modifier_end(type: String, power: int, time_left: float = -2.0):
-	super._on_modifier_end(type, power, time_left)
-	if _vs_component:
-		_vs_component._on_modifier_end(type, power, time_left)
+		_vs_component._on_entity_frame_changed(get_current_animation(), get_current_frame())

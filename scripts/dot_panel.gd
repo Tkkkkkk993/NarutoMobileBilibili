@@ -2,6 +2,12 @@ extends Control
 
 @export var full_texture: Texture2D = preload("res://assets/UI/dot_1.png")
 @export var empty_texture: Texture2D = preload("res://assets/UI/dot_0.png")
+
+@export var dot_1_modulate: Color = Color.WHITE
+@export var dot_2_modulate: Color = Color.WHITE
+@export var dot_3_modulate: Color = Color.WHITE
+@export var dot_4_modulate: Color = Color.WHITE
+
 @onready var dot_texture_rects: Array[TextureRect] = [$Dot1, $Dot2, $Dot3, $Dot4]
 
 const dot_4_pos: Array[Vector2] = [
@@ -15,6 +21,11 @@ const dot_3_pos: Array[Vector2] = [
 	Vector2(7, 63),
 	Vector2(33, 49),
 	Vector2(55, 31)
+]
+
+const dot_2_pos: Array[Vector2] = [
+	Vector2(17, 55),
+	Vector2(40, 45)
 ]
 
 var max_dot: int = 4 :
@@ -43,7 +54,10 @@ func update_dots():
 			# 在可用范围内，显示并根据 _dot 设置纹理
 			rect.visible = true
 			rect.texture = full_texture if i < _dot else empty_texture
+			rect.modulate = [dot_1_modulate, dot_2_modulate, dot_3_modulate, dot_4_modulate][i]
 			if max_dot == 4:
 				dot_texture_rects[i].position = dot_4_pos[i]
 			elif max_dot == 3:
 				dot_texture_rects[i].position = dot_3_pos[i]
+			elif max_dot == 2:
+				dot_texture_rects[i].position = dot_2_pos[i]

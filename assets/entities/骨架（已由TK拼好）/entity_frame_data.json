@@ -3817,8 +3817,8 @@
 		"stun3": {
 			"0": {
 				"anchor_point": {
-					"x": -0.86639404296875,
-					"y": 167.64599609375
+					"x": -0.899999976158142,
+					"y": 167.600006103516
 				},
 				"frame_index": 0,
 				"hitboxes_data": [
@@ -4319,5 +4319,5 @@
 	},
 	"entity_scene_path": "res://assets/entities/骨架（已由TK拼好）/entity.tscn",
 	"handle_size": 16.0,
-	"save_time": "2026-07-23T18:30:22"
+	"save_time": "2026-07-24T22:49:40"
 }

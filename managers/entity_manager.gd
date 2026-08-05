@@ -44,7 +44,7 @@ class EntityConfig:
 	{
 		"id": "Player1",
 		"scene_path": "res://assets/entities/"+MatchConfig.p1_current_char+"/entity.tscn",
-		"position": Vector2(-384, 190),
+		"position": Vector2(-480, 190),
 		"facing": 1,
 		"team_id": 1,
 		"entity_type": EntityBase.EntityType.PLAYER,
@@ -56,7 +56,7 @@ class EntityConfig:
 	{
 		"id": "Player2", 
 		"scene_path": "res://assets/entities/"+MatchConfig.p2_current_char+"/entity.tscn",
-		"position": Vector2(384, 190),
+		"position": Vector2(480, 190),
 		"facing": -1,
 		"team_id": 2,
 		"entity_type": EntityBase.EntityType.ENEMY,
