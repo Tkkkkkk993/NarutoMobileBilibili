@@ -1,0 +1,324 @@
+{
+	"blocks": [],
+	"editor_mode": 1,
+	"events": {
+		"rows": [
+			{
+				"_uid": "_1",
+				"block_name": "when_entity_create",
+				"children": [
+					{
+						"_uid": "_2",
+						"block_name": "set_var_val",
+						"children": [],
+						"exprs": {
+
+						},
+						"params": {
+							"val": "0",
+							"var": "状态"
+						}
+					},
+					{
+						"_uid": "_3",
+						"block_name": "set_var_val",
+						"children": [],
+						"exprs": {
+							"val": "latest_non_player_entity(\"扎刀\")"
+						},
+						"params": {
+							"val": "",
+							"var": "目标"
+						}
+					}
+				],
+				"enabled": true,
+				"exprs": {
+
+				},
+				"id": 1000,
+				"params": {
+
+				}
+			},
+			{
+				"_uid": "_4",
+				"block_name": "when_frame_changed",
+				"children": [
+					{
+						"_uid": "_5",
+						"block_name": "if_condition",
+						"children": [
+							{
+								"_uid": "_7",
+								"block_name": "if_condition",
+								"children": [
+									{
+										"_uid": "_8",
+										"block_name": "set_var_val",
+										"children": [],
+										"exprs": {
+											"val": "Vector2(目标.position_3d.x,目标.position_3d.y)"
+										},
+										"params": {
+											"val": "",
+											"var": "目标位置2D"
+										}
+									},
+									{
+										"_uid": "_9",
+										"block_name": "set_var_val",
+										"children": [],
+										"exprs": {
+											"val": "self_entity().position_3d"
+										},
+										"params": {
+											"val": "",
+											"var": "我位置"
+										}
+									},
+									{
+										"_uid": "_10",
+										"block_name": "set_var_val",
+										"children": [],
+										"exprs": {
+											"val": "sqrt((目标位置2D.x -我位置.x)*(目标位置2D.x -我位置.x)+(目标位置2D.y -我位置.y)*(目标位置2D.y -我位置.y))"
+										},
+										"params": {
+											"val": "",
+											"var": "距离"
+										}
+									},
+									{
+										"_uid": "_11",
+										"block_name": "if_condition",
+										"children": [
+											{
+												"_uid": "_12",
+												"block_name": "set_var_val",
+												"children": [],
+												"exprs": {
+
+												},
+												"params": {
+													"val": "1",
+													"var": "状态"
+												}
+											},
+											{
+												"_uid": "_13",
+												"block_name": "play_animation",
+												"children": [],
+												"exprs": {
+
+												},
+												"params": {
+													"anim_name": "attack"
+												}
+											}
+										],
+										"exprs": {
+											"condition": "距离 < 10"
+										},
+										"params": {
+											"condition": true
+										}
+									},
+									{
+										"_uid": "_14",
+										"block_name": "else_block",
+										"children": [
+											{
+												"_uid": "_15",
+												"block_name": "play_animation",
+												"children": [],
+												"exprs": {
+
+												},
+												"params": {
+													"anim_name": "detect"
+												}
+											},
+											{
+												"_uid": "_16",
+												"block_name": "move_toward_2d_point",
+												"children": [],
+												"exprs": {
+													"point": "目标位置2D"
+												},
+												"params": {
+													"point": {
+														"x": 0.0,
+														"y": 0.0
+													},
+													"speed": 1000.0
+												}
+											}
+										],
+										"exprs": {
+
+										},
+										"params": {
+
+										}
+									}
+								],
+								"exprs": {
+									"condition": "get_var(\"状态\") == 0"
+								},
+								"params": {
+									"condition": true
+								}
+							}
+						],
+						"exprs": {
+							"condition": "get_var(\"目标\")"
+						},
+						"params": {
+							"condition": true
+						}
+					},
+					{
+						"_uid": "_6",
+						"block_name": "else_block",
+						"children": [
+							{
+								"block_name": "set_var_val",
+								"children": [],
+								"exprs": {
+									"val": "latest_non_player_entity(\"扎刀\")"
+								},
+								"params": {
+									"val": "",
+									"var": "目标"
+								}
+							}
+						],
+						"exprs": {
+
+						},
+						"params": {
+
+						}
+					}
+				],
+				"enabled": true,
+				"exprs": {
+
+				},
+				"id": 1001,
+				"params": {
+					"birth_protect": false,
+					"frame_type": "物理帧"
+				}
+			},
+			{
+				"_uid": "_17",
+				"block_name": "when_attack_box_hit",
+				"children": [
+					{
+						"_uid": "_18",
+						"block_name": "set_var_val",
+						"children": [],
+						"exprs": {
+
+						},
+						"params": {
+							"val": "1",
+							"var": "状态"
+						}
+					},
+					{
+						"_uid": "_19",
+						"block_name": "play_animation",
+						"children": [],
+						"exprs": {
+
+						},
+						"params": {
+							"anim_name": "attack"
+						}
+					}
+				],
+				"enabled": true,
+				"exprs": {
+
+				},
+				"id": 1002,
+				"params": {
+					"abox_name": "detect"
+				}
+			},
+			{
+				"_uid": "_20",
+				"block_name": "when_attack_box_hit",
+				"children": [
+					{
+						"_uid": "_21",
+						"block_name": "hit_entity",
+						"children": [],
+						"exprs": {
+							"target": "target"
+						},
+						"params": {
+							"bs": 0.0,
+							"cotg": true,
+							"hst": 0.0,
+							"hurt": 450000.0,
+							"isgd": true,
+							"ish": false,
+							"kr": 10.0,
+							"target": "",
+							"type": "launch",
+							"v": {
+								"x": 0.0,
+								"y": 0.0,
+								"z": 400.0
+							}
+						}
+					}
+				],
+				"enabled": true,
+				"exprs": {
+
+				},
+				"id": 1003,
+				"params": {
+					"abox_name": "attack"
+				}
+			},
+			{
+				"_uid": "_23",
+				"block_name": "when_animation_exit",
+				"children": [
+					{
+						"_uid": "_24",
+						"block_name": "die",
+						"children": [],
+						"exprs": {
+
+						},
+						"params": {
+
+						}
+					}
+				],
+				"enabled": true,
+				"exprs": {
+
+				},
+				"id": 1005,
+				"params": {
+					"anim_name": "attack"
+				}
+			}
+		]
+	},
+	"run_mode": "both",
+	"ui_state": {
+		"col_collapsed": {
+			"_20": true
+		}
+	},
+	"version": 2
+}

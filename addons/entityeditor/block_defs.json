@@ -1050,15 +1050,15 @@
 		},
 		{
 			"category": "数据",
-			"label": "变量 {var} 是否有效实体",
+			"label": "{target} 是否有效实体",
 			"name": "has_valid_target",
 			"outputs": [],
 			"params": [
 				{
-					"default": "target",
-					"label": "变量名",
-					"name": "var",
-					"type": "string"
+					"default": "",
+					"label": "目标",
+					"name": "target",
+					"type": "node"
 				}
 			],
 			"type": 3.0
@@ -1091,7 +1091,7 @@
 			"type": 3.0
 		},
 		{
-			"category": "移动",
+			"category": "动作",
 			"label": "2D恒速向点 {point} 移动 速度:{speed}",
 			"name": "move_toward_2d_point",
 			"outputs": [],

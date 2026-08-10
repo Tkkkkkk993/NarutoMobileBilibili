@@ -1,0 +1,44 @@
+[gd_scene format=3 uid="uid://bwql7ngor3jqt"]
+
+[ext_resource type="PackedScene" uid="uid://gkn20f0aex3q" path="res://assets/entities/base/animated_sprite_2d_entity.tscn" id="1_268hd"]
+[ext_resource type="Script" uid="uid://ctebxnk4bwwob" path="res://assets/entities/骨架（已由TK拼好）/sub/a4/3/entity.gd" id="2_jp7eg"]
+[ext_resource type="Texture2D" uid="uid://c6fecpuwtguup" path="res://assets/entities/骨架（已由TK拼好）/特效/a4-3-1/1.png" id="3_qm2vr"]
+[ext_resource type="Texture2D" uid="uid://itilaa86dqdn" path="res://assets/entities/骨架（已由TK拼好）/特效/a4-3-1/29.png" id="4_slp8g"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_jp7eg"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_qm2vr")
+}],
+"loop": false,
+"name": &"attack",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("4_slp8g")
+}],
+"loop": true,
+"name": &"detect",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("4_slp8g")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}]
+
+[node name="Entity" unique_id=1152390372 instance=ExtResource("1_268hd")]
+script = ExtResource("2_jp7eg")
+
+[node name="Aura" parent="Shadow" parent_id_path=PackedInt32Array(1440136799) index="0" unique_id=199583354]
+visible = false
+
+[node name="AnimatedSprite2D" parent="Visuals" parent_id_path=PackedInt32Array(599763896) index="0" unique_id=318864051]
+scale = Vector2(0.295, 0.295)
+sprite_frames = SubResource("SpriteFrames_jp7eg")
+animation = &"idle"

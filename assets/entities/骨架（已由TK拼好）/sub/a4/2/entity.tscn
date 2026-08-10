@@ -1,0 +1,26 @@
+[gd_scene format=3 uid="uid://b0j241brbvq3w"]
+
+[ext_resource type="PackedScene" uid="uid://gkn20f0aex3q" path="res://assets/entities/base/animated_sprite_2d_entity.tscn" id="1_gjdh7"]
+[ext_resource type="Script" uid="uid://c7k33dwuir5r7" path="res://assets/entities/骨架（已由TK拼好）/sub/a4/2/entity.gd" id="2_4nfsj"]
+[ext_resource type="Texture2D" uid="uid://ctw8lo7mkeujf" path="res://assets/entities/骨架（已由TK拼好）/草剃剑/sword.png" id="3_d6px8"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_sf2tg"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_d6px8")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}]
+
+[node name="Entity" unique_id=1152390372 instance=ExtResource("1_gjdh7")]
+script = ExtResource("2_4nfsj")
+
+[node name="Aura" parent="Shadow" parent_id_path=PackedInt32Array(1440136799) index="0" unique_id=199583354]
+visible = false
+
+[node name="AnimatedSprite2D" parent="Visuals" parent_id_path=PackedInt32Array(599763896) index="0" unique_id=318864051]
+sprite_frames = SubResource("SpriteFrames_sf2tg")
+animation = &"idle"

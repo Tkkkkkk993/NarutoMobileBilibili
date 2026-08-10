@@ -43,12 +43,12 @@
 		"图形化脚本编辑器": {
 			"path": "res://addons/entityeditor/visual_script_editor.gd",
 			"project_id": "jrmd-editorv3-visualscripteditor",
-			"version": "1.3.0"
+			"version": "1.3.1"
 		},
 		"图形化脚本运行时引擎": {
 			"path": "res://assets/entities/visual_script_component.gd",
 			"project_id": "jrmd-editorv3-Entity-VisualScriptComponent",
-			"version": "1.5.0"
+			"version": "1.5.1"
 		},
 		"实体基类": {
 			"path": "res://assets/entities/entity_base.gd",
@@ -103,7 +103,7 @@
 		"积木块定义": {
 			"path": "res://addons/entityeditor/block_defs.json",
 			"project_id": "jrmd-editorv3-blockdefs",
-			"version": "1.5.0"
+			"version": "1.5.1"
 		},
 		"角色模板V1": {
 			"path": "res://scripts/character_script_template_v1.gd",

@@ -1234,6 +1234,10 @@ func _vs_eval_eq_side(raw: String, context: Dictionary) -> Variant:
 		if _is_valid_identifier(str(k)) and not (str(k) in input_names):
 			input_names.append(str(k))
 			input_values.append(context[k])
+	for k in _vs_expr_temp_vars:
+		if _is_valid_identifier(str(k)) and not (str(k) in input_names):
+			input_names.append(str(k))
+			input_values.append(_vs_expr_temp_vars[k])
 
 	var expr = Expression.new()
 	var err = expr.parse(raw, input_names)
@@ -2167,6 +2171,7 @@ func _action_print(p: Dictionary):
 func _action_show_info_text(p: Dictionary):
 	var text = str(p.get("text", ""))
 	_entity.show_info_text(text)
+	print("提示: ", text)
 	if _vs_debug_print:
 		print("[DEBUG] _action_show_info_text: raw params=", p, " text='", text, "'")
 
@@ -2718,8 +2723,7 @@ func _value_latest_non_player_entity(p: Dictionary) -> EntityBase:
 	return latest
 
 func _value_has_valid_target(p: Dictionary) -> bool:
-	var var_name = str(p.get("var", "target"))
-	var t = _vs_variables.get(var_name, null)
+	var t = p.get("target", null)
 	return is_instance_valid(t) and t is EntityBase
 
 func _value_distance_2d(p: Dictionary) -> float:
