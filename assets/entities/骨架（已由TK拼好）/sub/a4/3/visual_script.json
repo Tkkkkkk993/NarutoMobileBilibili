@@ -36,7 +36,7 @@
 				"exprs": {
 
 				},
-				"id": 1000,
+				"id": 1000.0,
 				"params": {
 
 				}
@@ -50,11 +50,11 @@
 						"block_name": "if_condition",
 						"children": [
 							{
-								"_uid": "_7",
+								"_uid": "_6",
 								"block_name": "if_condition",
 								"children": [
 									{
-										"_uid": "_8",
+										"_uid": "_7",
 										"block_name": "set_var_val",
 										"children": [],
 										"exprs": {
@@ -66,7 +66,7 @@
 										}
 									},
 									{
-										"_uid": "_9",
+										"_uid": "_8",
 										"block_name": "set_var_val",
 										"children": [],
 										"exprs": {
@@ -78,7 +78,7 @@
 										}
 									},
 									{
-										"_uid": "_10",
+										"_uid": "_9",
 										"block_name": "set_var_val",
 										"children": [],
 										"exprs": {
@@ -90,11 +90,11 @@
 										}
 									},
 									{
-										"_uid": "_11",
+										"_uid": "_10",
 										"block_name": "if_condition",
 										"children": [
 											{
-												"_uid": "_12",
+												"_uid": "_11",
 												"block_name": "set_var_val",
 												"children": [],
 												"exprs": {
@@ -106,7 +106,7 @@
 												}
 											},
 											{
-												"_uid": "_13",
+												"_uid": "_12",
 												"block_name": "play_animation",
 												"children": [],
 												"exprs": {
@@ -125,11 +125,11 @@
 										}
 									},
 									{
-										"_uid": "_14",
+										"_uid": "_13",
 										"block_name": "else_block",
 										"children": [
 											{
-												"_uid": "_15",
+												"_uid": "_14",
 												"block_name": "play_animation",
 												"children": [],
 												"exprs": {
@@ -140,7 +140,7 @@
 												}
 											},
 											{
-												"_uid": "_16",
+												"_uid": "_15",
 												"block_name": "move_toward_2d_point",
 												"children": [],
 												"exprs": {
@@ -179,10 +179,11 @@
 						}
 					},
 					{
-						"_uid": "_6",
+						"_uid": "_16",
 						"block_name": "else_block",
 						"children": [
 							{
+								"_uid": "_17",
 								"block_name": "set_var_val",
 								"children": [],
 								"exprs": {
@@ -206,18 +207,18 @@
 				"exprs": {
 
 				},
-				"id": 1001,
+				"id": 1001.0,
 				"params": {
 					"birth_protect": false,
 					"frame_type": "物理帧"
 				}
 			},
 			{
-				"_uid": "_17",
+				"_uid": "_18",
 				"block_name": "when_attack_box_hit",
 				"children": [
 					{
-						"_uid": "_18",
+						"_uid": "_19",
 						"block_name": "set_var_val",
 						"children": [],
 						"exprs": {
@@ -229,7 +230,7 @@
 						}
 					},
 					{
-						"_uid": "_19",
+						"_uid": "_20",
 						"block_name": "play_animation",
 						"children": [],
 						"exprs": {
@@ -244,17 +245,17 @@
 				"exprs": {
 
 				},
-				"id": 1002,
+				"id": 1002.0,
 				"params": {
 					"abox_name": "detect"
 				}
 			},
 			{
-				"_uid": "_20",
+				"_uid": "_21",
 				"block_name": "when_attack_box_hit",
 				"children": [
 					{
-						"_uid": "_21",
+						"_uid": "_22",
 						"block_name": "hit_entity",
 						"children": [],
 						"exprs": {
@@ -264,7 +265,7 @@
 							"bs": 0.0,
 							"cotg": true,
 							"hst": 0.0,
-							"hurt": 450000.0,
+							"hurt": 45000.0,
 							"isgd": true,
 							"ish": false,
 							"kr": 10.0,
@@ -282,7 +283,7 @@
 				"exprs": {
 
 				},
-				"id": 1003,
+				"id": 1003.0,
 				"params": {
 					"abox_name": "attack"
 				}
@@ -307,7 +308,7 @@
 				"exprs": {
 
 				},
-				"id": 1005,
+				"id": 1005.0,
 				"params": {
 					"anim_name": "attack"
 				}
@@ -317,7 +318,8 @@
 	"run_mode": "both",
 	"ui_state": {
 		"col_collapsed": {
-			"_20": true
+			"_20": true,
+			"_21": false
 		}
 	},
 	"version": 2

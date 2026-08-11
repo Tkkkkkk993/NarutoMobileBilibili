@@ -509,7 +509,7 @@
 										"y": 0.0
 									},
 									"v": {
-										"x": 8000.0,
+										"x": 5000.0,
 										"y": 0.0,
 										"z": 0.0
 									}
@@ -1052,7 +1052,7 @@
 											"v": {
 												"x": 2600.0,
 												"y": 0.0,
-												"z": 0.0
+												"z": 400.0
 											}
 										}
 									}
@@ -1199,11 +1199,11 @@
 												}
 											},
 											{
-												"_uid": "_134",
+												"_uid": "_93",
 												"block_name": "if_condition",
 												"children": [
 													{
-														"_uid": "_135",
+														"_uid": "_94",
 														"block_name": "die_entity",
 														"children": [],
 														"exprs": {
@@ -1222,7 +1222,7 @@
 												}
 											},
 											{
-												"_uid": "_93",
+												"_uid": "_95",
 												"block_name": "create_entity_by_path",
 												"children": [],
 												"exprs": {
@@ -1253,11 +1253,11 @@
 								}
 							},
 							{
-								"_uid": "_94",
+								"_uid": "_96",
 								"block_name": "when_attack_box_hit",
 								"children": [
 									{
-										"_uid": "_95",
+										"_uid": "_97",
 										"block_name": "set_var_val",
 										"children": [],
 										"exprs": {
@@ -1269,7 +1269,7 @@
 										}
 									},
 									{
-										"_uid": "_96",
+										"_uid": "_98",
 										"block_name": "set_var_val",
 										"children": [],
 										"exprs": {
@@ -1281,11 +1281,11 @@
 										}
 									},
 									{
-										"_uid": "_97",
+										"_uid": "_99",
 										"block_name": "if_condition",
 										"children": [
 											{
-												"_uid": "_98",
+												"_uid": "_100",
 												"block_name": "set_var_val",
 												"children": [],
 												"exprs": {
@@ -1305,7 +1305,7 @@
 										}
 									},
 									{
-										"_uid": "_99",
+										"_uid": "_101",
 										"block_name": "if_condition",
 										"children": [],
 										"exprs": {
@@ -1316,7 +1316,7 @@
 										}
 									},
 									{
-										"_uid": "_100",
+										"_uid": "_102",
 										"block_name": "hit_entity",
 										"children": [],
 										"exprs": {
@@ -1354,16 +1354,16 @@
 						"type": "group"
 					},
 					{
-						"_uid": "_101",
+						"_uid": "_103",
 						"color": "(0.9, 0.85, 0.6, 1.0)",
 						"name": "3",
 						"rows": [
 							{
-								"_uid": "_102",
+								"_uid": "_104",
 								"block_name": "when_animation_exit",
 								"children": [
 									{
-										"_uid": "_103",
+										"_uid": "_105",
 										"block_name": "stop_freemove",
 										"children": [],
 										"exprs": {
@@ -1374,11 +1374,11 @@
 										}
 									},
 									{
-										"_uid": "_139",
+										"_uid": "_106",
 										"block_name": "if_condition",
 										"children": [
 											{
-												"_uid": "_140",
+												"_uid": "_107",
 												"block_name": "turn_to",
 												"children": [],
 												"exprs": {
@@ -1397,11 +1397,11 @@
 										}
 									},
 									{
-										"_uid": "_104",
+										"_uid": "_108",
 										"block_name": "if_condition",
 										"children": [
 											{
-												"_uid": "_105",
+												"_uid": "_109",
 												"block_name": "play_animation",
 												"children": [],
 												"exprs": {
@@ -1420,11 +1420,11 @@
 										}
 									},
 									{
-										"_uid": "_106",
+										"_uid": "_110",
 										"block_name": "else_block",
 										"children": [
 											{
-												"_uid": "_107",
+												"_uid": "_111",
 												"block_name": "play_animation",
 												"children": [],
 												"exprs": {
@@ -1453,15 +1453,15 @@
 								}
 							},
 							{
-								"_uid": "_108",
+								"_uid": "_112",
 								"block_name": "when_animation_playing",
 								"children": [
 									{
-										"_uid": "_109",
+										"_uid": "_113",
 										"block_name": "if_condition",
 										"children": [
 											{
-												"_uid": "_110",
+												"_uid": "_114",
 												"block_name": "set_var_val",
 												"children": [],
 												"exprs": {
@@ -1473,7 +1473,7 @@
 												}
 											},
 											{
-												"_uid": "_111",
+												"_uid": "_115",
 												"block_name": "start_freemove",
 												"children": [],
 												"exprs": {
@@ -1506,11 +1506,11 @@
 								}
 							},
 							{
-								"_uid": "_112",
+								"_uid": "_116",
 								"block_name": "when_animation_exit",
 								"children": [
 									{
-										"_uid": "_113",
+										"_uid": "_117",
 										"block_name": "play_animation",
 										"children": [],
 										"exprs": {
@@ -1531,11 +1531,11 @@
 								}
 							},
 							{
-								"_uid": "_114",
+								"_uid": "_118",
 								"block_name": "when_animation_exit",
 								"children": [
 									{
-										"_uid": "_115",
+										"_uid": "_119",
 										"block_name": "play_animation",
 										"children": [],
 										"exprs": {
@@ -1556,15 +1556,15 @@
 								}
 							},
 							{
-								"_uid": "_116",
+								"_uid": "_120",
 								"block_name": "when_animation_playing",
 								"children": [
 									{
-										"_uid": "_117",
+										"_uid": "_121",
 										"block_name": "if_condition",
 										"children": [
 											{
-												"_uid": "_118",
+												"_uid": "_122",
 												"block_name": "start_freemove",
 												"children": [],
 												"exprs": {
@@ -1597,11 +1597,11 @@
 								}
 							},
 							{
-								"_uid": "_119",
+								"_uid": "_123",
 								"block_name": "when_animation_exit",
 								"children": [
 									{
-										"_uid": "_120",
+										"_uid": "_124",
 										"block_name": "stop_freemove",
 										"children": [],
 										"exprs": {
@@ -1612,7 +1612,7 @@
 										}
 									},
 									{
-										"_uid": "_121",
+										"_uid": "_125",
 										"block_name": "play_animation",
 										"children": [],
 										"exprs": {
@@ -1633,14 +1633,15 @@
 								}
 							},
 							{
-								"_uid": "_122",
+								"_uid": "_126",
 								"block_name": "when_animation_playing",
 								"children": [
 									{
+										"_uid": "_127",
 										"block_name": "if_condition",
 										"children": [
 											{
-												"_uid": "_138",
+												"_uid": "_128",
 												"block_name": "create_entity_by_path",
 												"children": [],
 												"exprs": {
@@ -1671,12 +1672,15 @@
 								}
 							},
 							{
+								"_uid": "_129",
 								"block_name": "when_animation_playing",
 								"children": [
 									{
+										"_uid": "_130",
 										"block_name": "if_condition",
 										"children": [
 											{
+												"_uid": "_131",
 												"block_name": "create_entity_by_path",
 												"children": [],
 												"exprs": {
@@ -1696,9 +1700,11 @@
 										}
 									},
 									{
+										"_uid": "_132",
 										"block_name": "if_condition",
 										"children": [
 											{
+												"_uid": "_133",
 												"block_name": "slide",
 												"children": [],
 												"exprs": {
@@ -1728,9 +1734,11 @@
 										}
 									},
 									{
+										"_uid": "_134",
 										"block_name": "if_condition",
 										"children": [
 											{
+												"_uid": "_135",
 												"block_name": "slide",
 												"children": [],
 												"exprs": {
@@ -1760,9 +1768,11 @@
 										}
 									},
 									{
+										"_uid": "_136",
 										"block_name": "if_condition",
 										"children": [
 											{
+												"_uid": "_137",
 												"block_name": "stop_slide",
 												"children": [],
 												"exprs": {
@@ -1785,7 +1795,7 @@
 								"exprs": {
 
 								},
-								"id": 1050,
+								"id": 1050.0,
 								"params": {
 									"anim_name": "a4_3B",
 									"frame_type": "动画帧"
@@ -1795,19 +1805,19 @@
 						"type": "group"
 					},
 					{
-						"_uid": "_129",
+						"_uid": "_138",
 						"block_name": "when_a_entity_create",
 						"children": [
 							{
-								"_uid": "_130",
+								"_uid": "_139",
 								"block_name": "if_condition",
 								"children": [
 									{
-										"_uid": "_131",
+										"_uid": "_140",
 										"block_name": "if_condition",
 										"children": [
 											{
-												"_uid": "_132",
+												"_uid": "_141",
 												"block_name": "move_entity_pos3d_immd",
 												"children": [],
 												"exprs": {
@@ -1824,7 +1834,7 @@
 												}
 											},
 											{
-												"_uid": "_133",
+												"_uid": "_142",
 												"block_name": "set_entity_var_val",
 												"children": [],
 												"exprs": {
@@ -1844,9 +1854,11 @@
 										}
 									},
 									{
+										"_uid": "_143",
 										"block_name": "if_condition",
 										"children": [
 											{
+												"_uid": "_144",
 												"block_name": "move_entity_pos3d_immd",
 												"children": [],
 												"exprs": {
@@ -1863,7 +1875,7 @@
 												}
 											},
 											{
-												"_uid": "_136",
+												"_uid": "_145",
 												"block_name": "set_parent_entity",
 												"children": [],
 												"exprs": {
@@ -1910,32 +1922,38 @@
 	"ui_state": {
 		"col_collapsed": {
 			"_1": true,
-			"_10": true,
+			"_10": false,
 			"_100": true,
 			"_101": false,
 			"_102": false,
+			"_103": false,
+			"_104": false,
 			"_105": true,
 			"_106": false,
 			"_107": true,
-			"_108": true,
+			"_108": false,
 			"_109": true,
-			"_110": true,
+			"_110": false,
 			"_111": true,
-			"_112": true,
+			"_112": false,
 			"_113": true,
 			"_114": true,
 			"_115": true,
-			"_116": true,
-			"_118": true,
+			"_116": false,
+			"_118": false,
 			"_119": true,
-			"_12": true,
+			"_12": false,
+			"_120": false,
 			"_122": true,
-			"_129": true,
+			"_123": false,
+			"_126": false,
+			"_129": false,
 			"_13": true,
-			"_134": true,
-			"_14": true,
+			"_134": false,
+			"_138": false,
+			"_14": false,
 			"_15": true,
-			"_16": true,
+			"_16": false,
 			"_18": true,
 			"_20": true,
 			"_21": true,
@@ -1949,34 +1967,34 @@
 			"_32": true,
 			"_34": true,
 			"_36": true,
-			"_4": true,
+			"_4": false,
 			"_43": true,
 			"_45": true,
-			"_46": true,
-			"_47": true,
+			"_46": false,
+			"_47": false,
 			"_48": false,
 			"_49": true,
 			"_50": true,
 			"_51": false,
-			"_52": true,
+			"_52": false,
 			"_53": true,
 			"_55": true,
 			"_56": false,
-			"_57": true,
+			"_57": false,
 			"_59": true,
 			"_6": true,
 			"_61": true,
 			"_62": true,
 			"_63": false,
 			"_64": true,
-			"_66": true,
+			"_66": false,
 			"_7": true,
-			"_70": true,
-			"_73": true,
-			"_79": false,
+			"_70": false,
+			"_73": false,
+			"_79": true,
 			"_8": true,
 			"_80": true,
-			"_81": true,
+			"_81": false,
 			"_82": true,
 			"_83": true,
 			"_84": false,
@@ -1988,7 +2006,7 @@
 			"_93": true,
 			"_94": true,
 			"_95": true,
-			"_96": true,
+			"_96": false,
 			"_98": true
 		}
 	},

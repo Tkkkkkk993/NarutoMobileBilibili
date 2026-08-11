@@ -1,3 +1,4 @@
-res://assets/entities/托斯·砧[新佩恩六道]/entity.tscn
 res://theme/normal.tres
-res://assets/entities/托斯·砧[新佩恩六道]/main.tres
+res://assets/entities/骨架（已由TK拼好）/eff/effects_base.tscn
+res://assets/entities/骨架（已由TK拼好）/eff/effects_base.gd
+res://scenes/main_menu.tscn

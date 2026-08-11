@@ -1,0 +1,93 @@
+[gd_scene format=3 uid="uid://bsjjjhekxvnvo"]
+
+[ext_resource type="PackedScene" uid="uid://c5eauk5i5s64k" path="res://assets/entities/base/effects/effects_base.tscn" id="1_xl6dn"]
+[ext_resource type="Script" uid="uid://wgstg2b50nk7" path="res://assets/entities/骨架（已由TK拼好）/eff/effects_base.gd" id="2_sn1je"]
+[ext_resource type="Texture2D" uid="uid://xupk5npt1sj0" path="res://assets/entities/骨架（已由TK拼好）/eff/a1/1.png" id="2_x8gfj"]
+[ext_resource type="Texture2D" uid="uid://clw11m6umqlp3" path="res://assets/entities/骨架（已由TK拼好）/eff/a1/2.png" id="3_sn1je"]
+[ext_resource type="Texture2D" uid="uid://6jktnpg8fykv" path="res://assets/entities/骨架（已由TK拼好）/eff/a1/3.png" id="4_ccho3"]
+[ext_resource type="Texture2D" uid="uid://th0teju7fiwb" path="res://assets/entities/骨架（已由TK拼好）/eff/a1/4.png" id="5_7nj0q"]
+[ext_resource type="Texture2D" uid="uid://bdsw25x7uia4j" path="res://assets/entities/骨架（已由TK拼好）/eff/a1/5.png" id="6_t8a0t"]
+[ext_resource type="Texture2D" uid="uid://dwcni23g3n15t" path="res://assets/entities/骨架（已由TK拼好）/eff/a1/6.png" id="7_m0cmj"]
+[ext_resource type="Texture2D" uid="uid://cbbajcxr434gj" path="res://assets/entities/骨架（已由TK拼好）/eff/a1/7.png" id="8_gu64l"]
+[ext_resource type="Texture2D" uid="uid://dc8fi4utrt6j4" path="res://assets/entities/骨架（已由TK拼好）/eff/a1/8.png" id="9_j3583"]
+[ext_resource type="Texture2D" uid="uid://cl7hcdlqh5hpd" path="res://assets/entities/骨架（已由TK拼好）/eff/a1/9.png" id="10_bbqfo"]
+[ext_resource type="Texture2D" uid="uid://dli06xb3dqexw" path="res://assets/entities/骨架（已由TK拼好）/eff/a1/10.png" id="11_2dw3b"]
+[ext_resource type="Texture2D" uid="uid://hv1ky4p1fj4x" path="res://assets/entities/骨架（已由TK拼好）/eff/a1/11.png" id="12_0577u"]
+[ext_resource type="Texture2D" uid="uid://ddfgow7e5kurt" path="res://assets/entities/骨架（已由TK拼好）/eff/a1/12.png" id="13_w2bhv"]
+[ext_resource type="Texture2D" uid="uid://bl2ynlgnrl16c" path="res://assets/entities/骨架（已由TK拼好）/eff/a1/13.png" id="14_pjjkf"]
+[ext_resource type="Texture2D" uid="uid://y80lebirobtx" path="res://assets/entities/骨架（已由TK拼好）/eff/a1/14.png" id="15_047ta"]
+[ext_resource type="Texture2D" uid="uid://covtad55taifu" path="res://assets/entities/骨架（已由TK拼好）/eff/a1/15.png" id="16_oiaig"]
+[ext_resource type="Texture2D" uid="uid://b422jd5bq8eqg" path="res://assets/entities/骨架（已由TK拼好）/eff/a1/16.png" id="17_1k070"]
+[ext_resource type="Texture2D" uid="uid://6mqidm1d6nr1" path="res://assets/entities/骨架（已由TK拼好）/eff/a1/17.png" id="18_ud1ce"]
+[ext_resource type="Texture2D" uid="uid://vdkt3iv841m0" path="res://assets/entities/骨架（已由TK拼好）/eff/a1/18.png" id="19_8mphd"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_p0o7q"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_x8gfj")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_sn1je")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_ccho3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_7nj0q")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_t8a0t")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_m0cmj")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_gu64l")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_j3583")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_bbqfo")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_2dw3b")
+}, {
+"duration": 1.0,
+"texture": ExtResource("12_0577u")
+}, {
+"duration": 1.0,
+"texture": ExtResource("13_w2bhv")
+}, {
+"duration": 1.0,
+"texture": ExtResource("14_pjjkf")
+}, {
+"duration": 1.0,
+"texture": ExtResource("15_047ta")
+}, {
+"duration": 1.0,
+"texture": ExtResource("16_oiaig")
+}, {
+"duration": 1.0,
+"texture": ExtResource("17_1k070")
+}, {
+"duration": 1.0,
+"texture": ExtResource("18_ud1ce")
+}, {
+"duration": 1.0,
+"texture": ExtResource("19_8mphd")
+}],
+"loop": false,
+"name": &"a1",
+"speed": 40.0
+}]
+
+[node name="EffectsBase" unique_id=407109161 instance=ExtResource("1_xl6dn")]
+script = ExtResource("2_sn1je")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." index="0" unique_id=593354069]
+sprite_frames = SubResource("SpriteFrames_p0o7q")
+animation = &"a1"
+frame = 17
+frame_progress = 1.0

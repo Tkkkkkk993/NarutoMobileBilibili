@@ -1,8 +1,8 @@
-[gd_scene load_steps=12 format=3 uid="uid://chkg4e3k1kuf5"]
+[gd_scene format=3 uid="uid://chkg4e3k1kuf5"]
 
 [ext_resource type="PackedScene" uid="uid://c5eauk5i5s64k" path="res://assets/entities/base/effects/effects_base.tscn" id="1_b10xb"]
 [ext_resource type="Texture2D" uid="uid://cffoc2yb55fus" path="res://assets/entities/Daliwang/eff/0.png" id="2_cpjce"]
-[ext_resource type="Script" path="res://assets/entities/base/effects/scroll/effects_base.gd" id="2_mq11l"]
+[ext_resource type="Script" uid="uid://dyrw08db3ug4b" path="res://assets/entities/base/effects/scroll/effects_base.gd" id="2_mq11l"]
 [ext_resource type="Texture2D" uid="uid://c4vwcl66anc61" path="res://assets/entities/Daliwang/eff/1.png" id="3_ylyxm"]
 [ext_resource type="Texture2D" uid="uid://b6gjpfycktl8o" path="res://assets/entities/Daliwang/eff/2.png" id="4_scori"]
 [ext_resource type="Texture2D" uid="uid://depn0rpoppqif" path="res://assets/entities/Daliwang/eff/3.png" id="5_taaky"]
@@ -43,9 +43,11 @@ animations = [{
 "speed": 40.0
 }]
 
-[node name="EffectsBase" instance=ExtResource("1_b10xb")]
+[node name="EffectsBase" unique_id=1460671604 instance=ExtResource("1_b10xb")]
 script = ExtResource("2_mq11l")
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." index="0"]
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." index="0" unique_id=1098013033]
 position = Vector2(21, 27)
 sprite_frames = SubResource("SpriteFrames_b34ee")
+frame = 7
+frame_progress = 1.0
