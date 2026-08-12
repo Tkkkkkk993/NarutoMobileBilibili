@@ -1,0 +1,57 @@
+[gd_scene format=3 uid="uid://ddo8x0r0h1x70"]
+
+[ext_resource type="PackedScene" uid="uid://gkn20f0aex3q" path="res://assets/entities/base/animated_sprite_2d_entity.tscn" id="1_3enrf"]
+[ext_resource type="Texture2D" uid="uid://b5tra25rsm1t8" path="res://assets/entities/神秘面具男/火球/1.png" id="2_3loay"]
+[ext_resource type="Script" uid="uid://7fe3xwr7ptri" path="res://assets/entities/神秘面具男/火球/entity.gd" id="2_non5a"]
+[ext_resource type="Texture2D" uid="uid://bpj08iugjopq1" path="res://assets/entities/神秘面具男/火球/2.png" id="3_non5a"]
+[ext_resource type="Texture2D" uid="uid://l4oskebepnum" path="res://assets/entities/神秘面具男/火球/3.png" id="4_cniam"]
+[ext_resource type="Texture2D" uid="uid://brff5fo1i1etd" path="res://assets/entities/神秘面具男/火球/4.png" id="5_3uh82"]
+[ext_resource type="Texture2D" uid="uid://c7u25uwey0dmj" path="res://assets/entities/神秘面具男/火球/5.png" id="6_afmbn"]
+[ext_resource type="Texture2D" uid="uid://0spxf8h30mp7" path="res://assets/entities/神秘面具男/火球/6.png" id="7_mw0da"]
+[ext_resource type="Texture2D" uid="uid://km43nhyvvn4q" path="res://assets/entities/神秘面具男/火球/7.png" id="8_pddyf"]
+[ext_resource type="Texture2D" uid="uid://dy0b22xoplbty" path="res://assets/entities/神秘面具男/火球/8.png" id="9_qw8bf"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_pcvif"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_3loay")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_non5a")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_cniam")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_3uh82")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_afmbn")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_mw0da")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_pddyf")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_qw8bf")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 12.0
+}]
+
+[node name="Entity" unique_id=1152390372 instance=ExtResource("1_3enrf")]
+script = ExtResource("2_non5a")
+
+[node name="Aura" parent="Shadow" parent_id_path=PackedInt32Array(1440136799) index="0" unique_id=199583354]
+visible = false
+
+[node name="AnimatedSprite2D" parent="Visuals" parent_id_path=PackedInt32Array(599763896) index="0" unique_id=318864051]
+position = Vector2(1.0000038, 0)
+scale = Vector2(3.133065, 3.1330645)
+sprite_frames = SubResource("SpriteFrames_pcvif")
+animation = &"idle"
+frame_progress = 0.9624641

@@ -1,0 +1,123 @@
+[gd_scene format=3 uid="uid://xrfo5acd28qt"]
+
+[ext_resource type="PackedScene" uid="uid://c5eauk5i5s64k" path="res://assets/entities/base/effects/effects_base.tscn" id="1_s5f3p"]
+[ext_resource type="Texture2D" uid="uid://c30xo650bbs4b" path="res://assets/entities/骨架（已由TK拼好）/eff/a3/1.png" id="2_53inv"]
+[ext_resource type="Script" uid="uid://h2aig7k3pjsg" path="res://assets/entities/骨架（已由TK拼好）/eff/a3/effects_base.gd" id="2_bs48m"]
+[ext_resource type="Texture2D" uid="uid://cmqiflvj6f21e" path="res://assets/entities/骨架（已由TK拼好）/eff/a3/2.png" id="3_bs48m"]
+[ext_resource type="Texture2D" uid="uid://ds0eipuhxuvwm" path="res://assets/entities/骨架（已由TK拼好）/eff/a3/3.png" id="4_a5dxt"]
+[ext_resource type="Texture2D" uid="uid://x2rynjjfecg0" path="res://assets/entities/骨架（已由TK拼好）/eff/a3/4.png" id="5_nvjds"]
+[ext_resource type="Texture2D" uid="uid://bn6hdpfijsxug" path="res://assets/entities/骨架（已由TK拼好）/eff/a3/5.png" id="6_a7rlk"]
+[ext_resource type="Texture2D" uid="uid://d3308pcbcymcl" path="res://assets/entities/骨架（已由TK拼好）/eff/a3/6.png" id="7_lnubn"]
+[ext_resource type="Texture2D" uid="uid://bwuenn6oumwox" path="res://assets/entities/骨架（已由TK拼好）/eff/a3/7.png" id="8_8o75l"]
+[ext_resource type="Texture2D" uid="uid://d3hr2iityxfna" path="res://assets/entities/骨架（已由TK拼好）/eff/a3/8.png" id="9_ui8am"]
+[ext_resource type="Texture2D" uid="uid://bf2aoddxpmfas" path="res://assets/entities/骨架（已由TK拼好）/eff/a3/9.png" id="10_oinyc"]
+[ext_resource type="Texture2D" uid="uid://dxm6g4kit0mg" path="res://assets/entities/骨架（已由TK拼好）/eff/a3/10.png" id="11_td4lb"]
+[ext_resource type="Texture2D" uid="uid://bnyegc3jtjbh5" path="res://assets/entities/骨架（已由TK拼好）/eff/a3/11.png" id="12_7ytx1"]
+[ext_resource type="Texture2D" uid="uid://d0q6skc4sv8t1" path="res://assets/entities/骨架（已由TK拼好）/eff/a3/12.png" id="13_jdd0c"]
+[ext_resource type="Texture2D" uid="uid://c574hevwswa3x" path="res://assets/entities/骨架（已由TK拼好）/eff/a3/13.png" id="14_i4252"]
+[ext_resource type="Texture2D" uid="uid://dfvfwgmeb7iew" path="res://assets/entities/骨架（已由TK拼好）/eff/a3/14.png" id="15_3q35g"]
+[ext_resource type="Texture2D" uid="uid://d3mes4idw7lgr" path="res://assets/entities/骨架（已由TK拼好）/eff/a3/15.png" id="16_h23i7"]
+[ext_resource type="Texture2D" uid="uid://da13g2jua40dx" path="res://assets/entities/骨架（已由TK拼好）/eff/a3/16.png" id="17_5nfwb"]
+[ext_resource type="Texture2D" uid="uid://cia8qvwx7jtia" path="res://assets/entities/骨架（已由TK拼好）/eff/a3/17.png" id="18_d2cex"]
+[ext_resource type="Texture2D" uid="uid://c1fry63c34gtw" path="res://assets/entities/骨架（已由TK拼好）/eff/a3/18.png" id="19_bucbs"]
+[ext_resource type="Texture2D" uid="uid://do4nbdrf6a78s" path="res://assets/entities/骨架（已由TK拼好）/eff/a3/19.png" id="20_gutah"]
+[ext_resource type="Texture2D" uid="uid://b57ni8pum2twm" path="res://assets/entities/骨架（已由TK拼好）/eff/a3/20.png" id="21_mu6pa"]
+[ext_resource type="Texture2D" uid="uid://bqr6e32o0fe36" path="res://assets/entities/骨架（已由TK拼好）/eff/a3/21.png" id="22_c307x"]
+[ext_resource type="Texture2D" uid="uid://cqfks74msxo78" path="res://assets/entities/骨架（已由TK拼好）/eff/a3/22.png" id="23_nabux"]
+[ext_resource type="Texture2D" uid="uid://ysbyjaq18xog" path="res://assets/entities/骨架（已由TK拼好）/eff/a3/23.png" id="24_3dt2k"]
+[ext_resource type="Texture2D" uid="uid://oud4ogti0odm" path="res://assets/entities/骨架（已由TK拼好）/eff/a3/24.png" id="25_0bbxo"]
+[ext_resource type="Texture2D" uid="uid://0883g4fhk4je" path="res://assets/entities/骨架（已由TK拼好）/eff/a3/25.png" id="26_sdm30"]
+[ext_resource type="Texture2D" uid="uid://ci5p1y17yyhv7" path="res://assets/entities/骨架（已由TK拼好）/eff/a3/26.png" id="27_slde0"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_16nwe"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_53inv")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_bs48m")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_a5dxt")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_nvjds")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_a7rlk")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_lnubn")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_8o75l")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_ui8am")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_oinyc")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_td4lb")
+}, {
+"duration": 1.0,
+"texture": ExtResource("12_7ytx1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("13_jdd0c")
+}, {
+"duration": 1.0,
+"texture": ExtResource("14_i4252")
+}, {
+"duration": 1.0,
+"texture": ExtResource("15_3q35g")
+}, {
+"duration": 1.0,
+"texture": ExtResource("16_h23i7")
+}, {
+"duration": 1.0,
+"texture": ExtResource("17_5nfwb")
+}, {
+"duration": 1.0,
+"texture": ExtResource("18_d2cex")
+}, {
+"duration": 1.0,
+"texture": ExtResource("19_bucbs")
+}, {
+"duration": 1.0,
+"texture": ExtResource("20_gutah")
+}, {
+"duration": 1.0,
+"texture": ExtResource("21_mu6pa")
+}, {
+"duration": 1.0,
+"texture": ExtResource("22_c307x")
+}, {
+"duration": 1.0,
+"texture": ExtResource("23_nabux")
+}, {
+"duration": 1.0,
+"texture": ExtResource("24_3dt2k")
+}, {
+"duration": 1.0,
+"texture": ExtResource("25_0bbxo")
+}, {
+"duration": 1.0,
+"texture": ExtResource("26_sdm30")
+}, {
+"duration": 1.0,
+"texture": ExtResource("27_slde0")
+}],
+"loop": false,
+"name": &"a3",
+"speed": 40.0
+}]
+
+[node name="EffectsBase" unique_id=1341375117 instance=ExtResource("1_s5f3p")]
+script = ExtResource("2_bs48m")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." index="0" unique_id=248629759]
+sprite_frames = SubResource("SpriteFrames_16nwe")
+animation = &"a3"

@@ -1,0 +1,54 @@
+[gd_scene format=3 uid="uid://bae3mk4hbnpe7"]
+
+[ext_resource type="PackedScene" uid="uid://c5eauk5i5s64k" path="res://assets/entities/base/effects/effects_base.tscn" id="1_644hp"]
+[ext_resource type="Texture2D" uid="uid://c41q3te773nur" path="res://assets/entities/骨架（已由TK拼好）/eff/a4-1/1.png" id="2_m6fqr"]
+[ext_resource type="Script" uid="uid://bbw6kj4ns0dp4" path="res://assets/entities/骨架（已由TK拼好）/eff/a4-1/effects_base.gd" id="2_n47e7"]
+[ext_resource type="Texture2D" uid="uid://d1wkdkvgtbuql" path="res://assets/entities/骨架（已由TK拼好）/eff/a4-1/2.png" id="3_n47e7"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_i1ucv"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_m6fqr")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_n47e7")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_m6fqr")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_n47e7")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_m6fqr")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_n47e7")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_m6fqr")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_n47e7")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_m6fqr")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_n47e7")
+}],
+"loop": false,
+"name": &"a4_1",
+"speed": 20.0
+}]
+
+[node name="EffectsBase" unique_id=217310930 instance=ExtResource("1_644hp")]
+script = ExtResource("2_n47e7")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." index="0" unique_id=1063521206]
+scale = Vector2(1.96, 1.96)
+sprite_frames = SubResource("SpriteFrames_i1ucv")
+animation = &"a4_1"
+frame = 9
+frame_progress = 1.0

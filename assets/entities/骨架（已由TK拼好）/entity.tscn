@@ -609,6 +609,7 @@ animations = [{
 
 [node name="Entity" unique_id=1152390372 instance=ExtResource("1_abljq")]
 script = ExtResource("2_0nraj")
+debug_show_attack_boxes = false
 
 [node name="AnimatedSprite2D" parent="Visuals" parent_id_path=PackedInt32Array(599763896) index="0" unique_id=318864051]
 position = Vector2(0, -6.5000176)

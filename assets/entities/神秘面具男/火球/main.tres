@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="EntityData" format=3 uid="uid://dqsa1tt7u8n72"]
+
+[ext_resource type="Script" uid="uid://cm7ar1dcvtpvt" path="res://assets/entities/base/entity_data.gd" id="1_aupgl"]
+
+[resource]
+script = ExtResource("1_aupgl")
+entity_name = "火球"
+floder_path = "res://assets/entities/神秘面具男/火球/"
+metadata/_custom_type_script = "uid://cm7ar1dcvtpvt"

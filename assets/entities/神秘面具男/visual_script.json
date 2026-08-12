@@ -1,0 +1,3315 @@
+{
+	"blocks": [],
+	"editor_mode": 1,
+	"events": {
+		"rows": [
+			{
+				"_uid": "_1",
+				"color": "(0.9, 0.85, 0.6, 1.0)",
+				"name": "初始化",
+				"rows": [
+					{
+						"_uid": "_2",
+						"block_name": "when_game_start",
+						"children": [
+							{
+								"_uid": "_3",
+								"block_name": "set_var_val",
+								"children": [],
+								"exprs": {
+
+								},
+								"params": {
+									"val": "0",
+									"var": "4a"
+								}
+							}
+						],
+						"enabled": true,
+						"exprs": {
+
+						},
+						"id": 1012.0,
+						"params": {
+
+						}
+					},
+					{
+						"_uid": "_4",
+						"block_name": "when_setup_icon",
+						"children": [
+							{
+								"_uid": "_5",
+								"block_name": "set_icon",
+								"children": [],
+								"exprs": {
+
+								},
+								"params": {
+									"path": "res://assets/entities/神秘面具男/hhqzs.png",
+									"slot_id": 1.0
+								}
+							},
+							{
+								"_uid": "_6",
+								"block_name": "set_icon",
+								"children": [],
+								"exprs": {
+
+								},
+								"params": {
+									"path": "res://assets/entities/神秘面具男/tsbz.png",
+									"slot_id": 2.0
+								}
+							},
+							{
+								"_uid": "_7",
+								"block_name": "set_icon",
+								"children": [],
+								"exprs": {
+
+								},
+								"params": {
+									"path": "res://assets/entities/神秘面具男/jw.png",
+									"slot_id": 3.0
+								}
+							}
+						],
+						"enabled": true,
+						"exprs": {
+
+						},
+						"id": 1036.0,
+						"params": {
+
+						}
+					}
+				],
+				"type": "group"
+			},
+			{
+				"_uid": "_8",
+				"color": "(0.9, 0.85, 0.6, 1.0)",
+				"name": "普攻",
+				"rows": [
+					{
+						"_uid": "_9",
+						"color": "(0.9, 0.85, 0.6, 1.0)",
+						"name": "a1",
+						"rows": [
+							{
+								"_uid": "_10",
+								"block_name": "when_press_input",
+								"children": [
+									{
+										"_uid": "_11",
+										"block_name": "if_condition",
+										"children": [
+											{
+												"_uid": "_12",
+												"block_name": "if_condition",
+												"children": [
+													{
+														"_uid": "_13",
+														"block_name": "play_animation",
+														"children": [],
+														"exprs": {
+
+														},
+														"params": {
+															"anim_name": "a4"
+														}
+													},
+													{
+														"_uid": "_14",
+														"block_name": "set_timer",
+														"children": [],
+														"exprs": {
+
+														},
+														"params": {
+															"cd": 0.0,
+															"cd_id": 0.0,
+															"cd_max": 0.0,
+															"slot_id": 0.0
+														}
+													},
+													{
+														"_uid": "_15",
+														"block_name": "set_var_val",
+														"children": [],
+														"exprs": {
+
+														},
+														"params": {
+															"val": "0",
+															"var": "4a"
+														}
+													}
+												],
+												"exprs": {
+													"condition": "now_animation() in \"idle,run\""
+												},
+												"params": {
+													"condition": true
+												}
+											}
+										],
+										"exprs": {
+											"condition": "get_var(\"4a\") == 1"
+										},
+										"params": {
+											"condition": true
+										}
+									},
+									{
+										"_uid": "_16",
+										"block_name": "else_block",
+										"children": [
+											{
+												"_uid": "_17",
+												"block_name": "if_condition",
+												"children": [
+													{
+														"_uid": "_18",
+														"block_name": "play_animation",
+														"children": [],
+														"exprs": {
+
+														},
+														"params": {
+															"anim_name": "a1"
+														}
+													}
+												],
+												"exprs": {
+													"condition": "now_animation() in \"idle,run\""
+												},
+												"params": {
+													"condition": true
+												}
+											}
+										],
+										"exprs": {
+
+										},
+										"params": {
+
+										}
+									}
+								],
+								"enabled": true,
+								"exprs": {
+
+								},
+								"id": 1000.0,
+								"params": {
+									"key": 0.0
+								}
+							},
+							{
+								"_uid": "_19",
+								"block_name": "when_animation_playing",
+								"children": [
+									{
+										"_uid": "_20",
+										"block_name": "if_condition",
+										"children": [
+											{
+												"_uid": "_21",
+												"block_name": "turn_by_input",
+												"children": [],
+												"exprs": {
+
+												},
+												"params": {
+
+												}
+											}
+										],
+										"exprs": {
+											"condition": "frame_idx == 0"
+										},
+										"params": {
+											"condition": true
+										}
+									},
+									{
+										"_uid": "_22",
+										"block_name": "if_condition",
+										"children": [
+											{
+												"_uid": "_23",
+												"block_name": "slide",
+												"children": [],
+												"exprs": {
+
+												},
+												"params": {
+													"g": 0.0,
+													"m": "facing",
+													"r": {
+														"x": 1.0,
+														"y": 0.0,
+														"z": 0.0
+													},
+													"v": {
+														"x": 800.0,
+														"y": 0.0,
+														"z": 0.0
+													}
+												}
+											}
+										],
+										"exprs": {
+											"condition": "frame_idx == 1"
+										},
+										"params": {
+											"condition": true
+										}
+									},
+									{
+										"_uid": "_24",
+										"block_name": "if_condition",
+										"children": [
+											{
+												"_uid": "_25",
+												"block_name": "stop_slide",
+												"children": [],
+												"exprs": {
+
+												},
+												"params": {
+
+												}
+											}
+										],
+										"exprs": {
+											"condition": "frame_idx == 2"
+										},
+										"params": {
+											"condition": true
+										}
+									},
+									{
+										"_uid": "_26",
+										"block_name": "if_condition",
+										"children": [
+											{
+												"_uid": "_27",
+												"block_name": "if_condition",
+												"children": [
+													{
+														"_uid": "_28",
+														"block_name": "play_animation",
+														"children": [],
+														"exprs": {
+
+														},
+														"params": {
+															"anim_name": "a2"
+														}
+													}
+												],
+												"exprs": {
+													"condition": "is_press_key(0)"
+												},
+												"params": {
+													"condition": true
+												}
+											}
+										],
+										"exprs": {
+											"condition": "5 <= frame_idx <= 7"
+										},
+										"params": {
+											"condition": true
+										}
+									}
+								],
+								"enabled": true,
+								"exprs": {
+
+								},
+								"id": 1001.0,
+								"params": {
+									"anim_name": "a1",
+									"frame_type": "动画帧"
+								}
+							},
+							{
+								"_uid": "_29",
+								"block_name": "when_animation_exit",
+								"children": [
+									{
+										"_uid": "_30",
+										"block_name": "play_animation",
+										"children": [],
+										"exprs": {
+
+										},
+										"params": {
+											"anim_name": "idle"
+										}
+									}
+								],
+								"enabled": true,
+								"exprs": {
+
+								},
+								"id": 1002.0,
+								"params": {
+									"anim_name": "a1"
+								}
+							},
+							{
+								"_uid": "_31",
+								"block_name": "when_attack_box_hit",
+								"children": [
+									{
+										"_uid": "_32",
+										"block_name": "hit_entity",
+										"children": [],
+										"exprs": {
+											"target": "target"
+										},
+										"params": {
+											"bs": 0.0,
+											"cotg": false,
+											"hst": 0.5,
+											"hurt": 55000.0,
+											"isgd": true,
+											"ish": false,
+											"kr": 10.0,
+											"target": "",
+											"type": "push",
+											"v": {
+												"x": 820.0,
+												"y": 0.0,
+												"z": 150.0
+											}
+										}
+									}
+								],
+								"enabled": true,
+								"exprs": {
+
+								},
+								"id": 1007.0,
+								"params": {
+									"abox_name": "a1"
+								}
+							},
+							{
+								"_uid": "_33",
+								"block_name": "when_attack_box_hit",
+								"children": [
+									{
+										"_uid": "_34",
+										"block_name": "hit_entity",
+										"children": [],
+										"exprs": {
+											"target": "target"
+										},
+										"params": {
+											"bs": 0.0,
+											"cotg": false,
+											"hst": 0.5,
+											"hurt": 20000.0,
+											"isgd": true,
+											"ish": false,
+											"kr": 10.0,
+											"target": "",
+											"type": "push",
+											"v": {
+												"x": 0.0,
+												"y": 0.0,
+												"z": 100.0
+											}
+										}
+									}
+								],
+								"enabled": true,
+								"exprs": {
+
+								},
+								"id": 1016.0,
+								"params": {
+									"abox_name": "a1_2"
+								}
+							}
+						],
+						"type": "group"
+					},
+					{
+						"_uid": "_35",
+						"color": "(0.9, 0.85, 0.6, 1.0)",
+						"name": "a2",
+						"rows": [
+							{
+								"_uid": "_36",
+								"block_name": "when_animation_playing",
+								"children": [
+									{
+										"_uid": "_37",
+										"block_name": "if_condition",
+										"children": [
+											{
+												"_uid": "_38",
+												"block_name": "turn_by_input",
+												"children": [],
+												"exprs": {
+
+												},
+												"params": {
+
+												}
+											}
+										],
+										"exprs": {
+											"condition": "frame_idx == 0"
+										},
+										"params": {
+											"condition": true
+										}
+									},
+									{
+										"_uid": "_39",
+										"block_name": "if_condition",
+										"children": [
+											{
+												"_uid": "_40",
+												"block_name": "slide",
+												"children": [],
+												"exprs": {
+
+												},
+												"params": {
+													"g": 0.0,
+													"m": "facing",
+													"r": {
+														"x": 1.0,
+														"y": 0.0,
+														"z": 0.0
+													},
+													"v": {
+														"x": 800.0,
+														"y": 0.0,
+														"z": 0.0
+													}
+												}
+											}
+										],
+										"exprs": {
+											"condition": "frame_idx == 1"
+										},
+										"params": {
+											"condition": true
+										}
+									},
+									{
+										"_uid": "_41",
+										"block_name": "if_condition",
+										"children": [
+											{
+												"_uid": "_42",
+												"block_name": "stop_slide",
+												"children": [],
+												"exprs": {
+
+												},
+												"params": {
+
+												}
+											}
+										],
+										"exprs": {
+											"condition": "frame_idx == 2"
+										},
+										"params": {
+											"condition": true
+										}
+									},
+									{
+										"_uid": "_43",
+										"block_name": "if_condition",
+										"children": [
+											{
+												"_uid": "_44",
+												"block_name": "slide",
+												"children": [],
+												"exprs": {
+
+												},
+												"params": {
+													"g": 0.0,
+													"m": "-facing",
+													"r": {
+														"x": 1.0,
+														"y": 0.0,
+														"z": 0.0
+													},
+													"v": {
+														"x": 750.0,
+														"y": 0.0,
+														"z": 0.0
+													}
+												}
+											}
+										],
+										"exprs": {
+											"condition": "frame_idx == 6"
+										},
+										"params": {
+											"condition": true
+										}
+									},
+									{
+										"_uid": "_45",
+										"block_name": "if_condition",
+										"children": [
+											{
+												"_uid": "_46",
+												"block_name": "stop_slide",
+												"children": [],
+												"exprs": {
+
+												},
+												"params": {
+
+												}
+											}
+										],
+										"exprs": {
+											"condition": "frame_idx == 7"
+										},
+										"params": {
+											"condition": true
+										}
+									},
+									{
+										"_uid": "_47",
+										"block_name": "if_condition",
+										"children": [
+											{
+												"_uid": "_48",
+												"block_name": "if_condition",
+												"children": [
+													{
+														"_uid": "_49",
+														"block_name": "play_animation",
+														"children": [],
+														"enabled": true,
+														"exprs": {
+
+														},
+														"params": {
+															"anim_name": "a3"
+														}
+													}
+												],
+												"exprs": {
+													"condition": "is_press_key(0)"
+												},
+												"params": {
+													"condition": true
+												}
+											}
+										],
+										"exprs": {
+											"condition": "9 <= frame_idx <= 10"
+										},
+										"params": {
+											"condition": true
+										}
+									}
+								],
+								"enabled": true,
+								"exprs": {
+
+								},
+								"id": 1004.0,
+								"params": {
+									"anim_name": "a2",
+									"frame_type": "动画帧"
+								}
+							},
+							{
+								"_uid": "_50",
+								"block_name": "when_animation_exit",
+								"children": [
+									{
+										"_uid": "_51",
+										"block_name": "play_animation",
+										"children": [],
+										"exprs": {
+
+										},
+										"params": {
+											"anim_name": "idle"
+										}
+									}
+								],
+								"enabled": true,
+								"exprs": {
+
+								},
+								"id": 1005.0,
+								"params": {
+									"anim_name": "a2"
+								}
+							},
+							{
+								"_uid": "_52",
+								"block_name": "when_attack_box_hit",
+								"children": [
+									{
+										"_uid": "_53",
+										"block_name": "hit_entity",
+										"children": [],
+										"exprs": {
+											"target": "target"
+										},
+										"params": {
+											"bs": 0.0,
+											"cotg": true,
+											"hst": 0.5,
+											"hurt": 65000.0,
+											"isgd": true,
+											"ish": false,
+											"kr": 10.0,
+											"target": "",
+											"type": "push",
+											"v": {
+												"x": 820.0,
+												"y": 0.0,
+												"z": 160.0
+											}
+										}
+									}
+								],
+								"enabled": true,
+								"exprs": {
+
+								},
+								"id": 1008.0,
+								"params": {
+									"abox_name": "a2"
+								}
+							},
+							{
+								"_uid": "_54",
+								"block_name": "when_attack_box_hit",
+								"children": [
+									{
+										"_uid": "_55",
+										"block_name": "hit_entity",
+										"children": [],
+										"exprs": {
+											"target": "target"
+										},
+										"params": {
+											"bs": 0.0,
+											"cotg": false,
+											"hst": 0.450000047683716,
+											"hurt": 65000.0,
+											"isgd": true,
+											"ish": false,
+											"kr": 10.0,
+											"target": "",
+											"type": "push",
+											"v": {
+												"x": -950.0,
+												"y": 0.0,
+												"z": 160.0
+											}
+										}
+									}
+								],
+								"enabled": true,
+								"exprs": {
+
+								},
+								"id": 1009.0,
+								"params": {
+									"abox_name": "a2_2"
+								}
+							}
+						],
+						"type": "group"
+					},
+					{
+						"_uid": "_56",
+						"color": "(0.9, 0.85, 0.6, 1.0)",
+						"id": 1006.0,
+						"name": "a3",
+						"rows": [
+							{
+								"_uid": "_57",
+								"block_name": "when_animation_playing",
+								"children": [
+									{
+										"_uid": "_58",
+										"block_name": "if_condition",
+										"children": [
+											{
+												"_uid": "_59",
+												"block_name": "turn_by_input",
+												"children": [],
+												"exprs": {
+
+												},
+												"params": {
+
+												}
+											}
+										],
+										"exprs": {
+											"condition": "frame_idx == 0"
+										},
+										"params": {
+											"condition": true
+										}
+									},
+									{
+										"_uid": "_60",
+										"block_name": "if_condition",
+										"children": [
+											{
+												"_uid": "_61",
+												"block_name": "slide",
+												"children": [],
+												"exprs": {
+
+												},
+												"params": {
+													"g": 0.0,
+													"m": "facing",
+													"r": {
+														"x": 1.5,
+														"y": 0.0,
+														"z": 0.0
+													},
+													"v": {
+														"x": 1800.0,
+														"y": 0.0,
+														"z": 0.0
+													}
+												}
+											}
+										],
+										"exprs": {
+											"condition": "frame_idx == 2"
+										},
+										"params": {
+											"condition": true
+										}
+									},
+									{
+										"_uid": "_62",
+										"block_name": "if_condition",
+										"children": [
+											{
+												"_uid": "_63",
+												"block_name": "stop_slide",
+												"children": [],
+												"exprs": {
+
+												},
+												"params": {
+
+												}
+											}
+										],
+										"exprs": {
+											"condition": "frame_idx == 3"
+										},
+										"params": {
+											"condition": true
+										}
+									},
+									{
+										"_uid": "_64",
+										"block_name": "if_condition",
+										"children": [
+											{
+												"_uid": "_65",
+												"block_name": "slide",
+												"children": [],
+												"exprs": {
+
+												},
+												"params": {
+													"g": 0.0,
+													"m": "-facing",
+													"r": {
+														"x": 1.0,
+														"y": 0.0,
+														"z": 0.0
+													},
+													"v": {
+														"x": 750.0,
+														"y": 0.0,
+														"z": 0.0
+													}
+												}
+											}
+										],
+										"enabled": false,
+										"exprs": {
+											"condition": "frame_idx == 6"
+										},
+										"params": {
+											"condition": true
+										}
+									},
+									{
+										"_uid": "_66",
+										"block_name": "if_condition",
+										"children": [
+											{
+												"_uid": "_67",
+												"block_name": "stop_slide",
+												"children": [],
+												"exprs": {
+
+												},
+												"params": {
+
+												}
+											}
+										],
+										"enabled": false,
+										"exprs": {
+											"condition": "frame_idx == 7"
+										},
+										"params": {
+											"condition": true
+										}
+									},
+									{
+										"_uid": "_68",
+										"block_name": "if_condition",
+										"children": [
+											{
+												"_uid": "_69",
+												"block_name": "if_condition",
+												"children": [
+													{
+														"_uid": "_70",
+														"block_name": "play_animation",
+														"children": [],
+														"enabled": true,
+														"exprs": {
+
+														},
+														"params": {
+															"anim_name": "a4"
+														}
+													}
+												],
+												"exprs": {
+													"condition": "is_press_key(0)"
+												},
+												"params": {
+													"condition": true
+												}
+											}
+										],
+										"enabled": false,
+										"exprs": {
+											"condition": "8 <= frame_idx <= 10"
+										},
+										"params": {
+											"condition": true
+										}
+									}
+								],
+								"enabled": true,
+								"exprs": {
+
+								},
+								"id": 1004.0,
+								"params": {
+									"anim_name": "a3",
+									"frame_type": "动画帧"
+								}
+							},
+							{
+								"_uid": "_71",
+								"block_name": "when_animation_exit",
+								"children": [
+									{
+										"_uid": "_72",
+										"block_name": "play_animation",
+										"children": [],
+										"exprs": {
+
+										},
+										"params": {
+											"anim_name": "idle"
+										}
+									}
+								],
+								"enabled": true,
+								"exprs": {
+
+								},
+								"id": 1005.0,
+								"params": {
+									"anim_name": "a3"
+								}
+							},
+							{
+								"_uid": "_73",
+								"block_name": "when_attack_box_hit",
+								"children": [
+									{
+										"_uid": "_74",
+										"block_name": "set_timer",
+										"children": [],
+										"exprs": {
+
+										},
+										"params": {
+											"cd": 1.17999982833862,
+											"cd_id": 0.0,
+											"cd_max": 1.17999982833862,
+											"slot_id": 0.0
+										}
+									},
+									{
+										"_uid": "_75",
+										"block_name": "set_timer",
+										"children": [],
+										"exprs": {
+
+										},
+										"params": {
+											"cd": 1.17999982833862,
+											"cd_id": 1.0,
+											"cd_max": 1.17999982833862,
+											"slot_id": 1.0
+										}
+									},
+									{
+										"_uid": "_76",
+										"block_name": "set_timer",
+										"children": [],
+										"exprs": {
+
+										},
+										"params": {
+											"cd": 1.17999982833862,
+											"cd_id": 2.0,
+											"cd_max": 1.17999982833862,
+											"slot_id": 2.0
+										}
+									},
+									{
+										"_uid": "_77",
+										"block_name": "set_entity_immobilize",
+										"children": [],
+										"exprs": {
+											"target": "target"
+										},
+										"params": {
+											"ani": "immobilize",
+											"bs": 2.0,
+											"cs": false,
+											"g": 700.0,
+											"kt": 0.0,
+											"pos": {
+												"x": 0.0,
+												"y": 1000.0,
+												"z": 0.0
+											},
+											"rpos": {
+												"x": 0.0,
+												"y": 0.0,
+												"z": 0.0
+											},
+											"target": "",
+											"time": -1.0,
+											"v": {
+												"x": 0.0,
+												"y": 0.0,
+												"z": 0.0
+											},
+											"var": "",
+											"vr": 0.0
+										}
+									},
+									{
+										"_uid": "_78",
+										"block_name": "set_var_val",
+										"children": [],
+										"exprs": {
+
+										},
+										"params": {
+											"val": "1",
+											"var": "4a"
+										}
+									},
+									{
+										"_uid": "_79",
+										"block_name": "set_var_val",
+										"children": [],
+										"exprs": {
+											"val": "target"
+										},
+										"params": {
+											"val": "",
+											"var": "dr"
+										}
+									},
+									{
+										"_uid": "_80",
+										"block_name": "wait",
+										"children": [],
+										"exprs": {
+
+										},
+										"params": {
+											"duration": 1.17999982833862
+										}
+									},
+									{
+										"_uid": "_81",
+										"block_name": "if_condition",
+										"children": [
+											{
+												"_uid": "_82",
+												"block_name": "stop_entity_immobilize",
+												"children": [],
+												"exprs": {
+													"target": "target"
+												},
+												"params": {
+													"target": ""
+												}
+											},
+											{
+												"_uid": "_83",
+												"block_name": "move_entity_pos3d_immd",
+												"children": [],
+												"exprs": {
+													"pos": "add_pos3d_to_spos2d(get_info_point(\"a3\"))",
+													"target": "target"
+												},
+												"params": {
+													"pos": {
+														"x": 0.0,
+														"y": 0.0,
+														"z": 0.0
+													},
+													"target": ""
+												}
+											},
+											{
+												"_uid": "_84",
+												"block_name": "set_var_val",
+												"children": [],
+												"exprs": {
+
+												},
+												"params": {
+													"val": "0",
+													"var": "4a"
+												}
+											}
+										],
+										"exprs": {
+											"condition": "get_var(\"4a\") == 1"
+										},
+										"params": {
+											"condition": true
+										}
+									}
+								],
+								"enabled": true,
+								"exprs": {
+
+								},
+								"id": 1010.0,
+								"params": {
+									"abox_name": "a3"
+								}
+							}
+						],
+						"type": "group"
+					},
+					{
+						"_uid": "_85",
+						"color": "(0.9, 0.85, 0.6, 1.0)",
+						"name": "a4",
+						"rows": [
+							{
+								"_uid": "_86",
+								"block_name": "when_animation_playing",
+								"children": [
+									{
+										"_uid": "_87",
+										"block_name": "if_condition",
+										"children": [
+											{
+												"_uid": "_88",
+												"block_name": "slide",
+												"children": [],
+												"enabled": true,
+												"exprs": {
+
+												},
+												"params": {
+													"g": 900.0,
+													"m": "facing",
+													"r": {
+														"x": 0.0,
+														"y": 0.0,
+														"z": 50.0
+													},
+													"v": {
+														"x": 0.0,
+														"y": 0.0,
+														"z": 200.0
+													}
+												}
+											}
+										],
+										"exprs": {
+											"condition": "frame_idx == 0"
+										},
+										"params": {
+											"condition": true
+										}
+									},
+									{
+										"_uid": "_89",
+										"block_name": "if_condition",
+										"children": [],
+										"exprs": {
+											"condition": "frame_idx == 1"
+										},
+										"params": {
+											"condition": true
+										}
+									},
+									{
+										"_uid": "_90",
+										"block_name": "if_condition",
+										"children": [
+											{
+												"_uid": "_91",
+												"block_name": "slide",
+												"children": [],
+												"enabled": false,
+												"exprs": {
+
+												},
+												"params": {
+													"g": 0.0,
+													"m": "facing",
+													"r": {
+														"x": 0.299999952316284,
+														"y": 0.0,
+														"z": 0.0
+													},
+													"v": {
+														"x": 70.0,
+														"y": 0.0,
+														"z": 0.0
+													}
+												}
+											}
+										],
+										"exprs": {
+											"condition": "frame_idx == 2"
+										},
+										"params": {
+											"condition": true
+										}
+									},
+									{
+										"_uid": "_92",
+										"block_name": "if_condition",
+										"children": [
+											{
+												"_uid": "_93",
+												"block_name": "stop_entity_immobilize",
+												"children": [],
+												"exprs": {
+													"target": "get_var(\"dr\")"
+												},
+												"params": {
+													"target": ""
+												}
+											},
+											{
+												"_uid": "_94",
+												"block_name": "move_entity_pos3d_immd",
+												"children": [],
+												"exprs": {
+													"pos": "add_pos3d_to_spos2d(get_info_point(\"a4\"))",
+													"target": "get_var(\"dr\")"
+												},
+												"params": {
+													"pos": {
+														"x": 0.0,
+														"y": 0.0,
+														"z": 0.0
+													},
+													"target": ""
+												}
+											}
+										],
+										"exprs": {
+											"condition": "frame_idx == 6"
+										},
+										"params": {
+											"condition": true
+										}
+									},
+									{
+										"_uid": "_95",
+										"block_name": "if_condition",
+										"children": [
+											{
+												"_uid": "_96",
+												"block_name": "stop_slide",
+												"children": [],
+												"enabled": false,
+												"exprs": {
+
+												},
+												"params": {
+
+												}
+											}
+										],
+										"exprs": {
+											"condition": "frame_idx == 9"
+										},
+										"params": {
+											"condition": true
+										}
+									}
+								],
+								"enabled": true,
+								"exprs": {
+
+								},
+								"id": 1013.0,
+								"params": {
+									"anim_name": "a4",
+									"frame_type": "动画帧"
+								}
+							},
+							{
+								"_uid": "_97",
+								"block_name": "when_animation_exit",
+								"children": [
+									{
+										"_uid": "_98",
+										"block_name": "play_animation",
+										"children": [],
+										"exprs": {
+
+										},
+										"params": {
+											"anim_name": "idle"
+										}
+									}
+								],
+								"enabled": true,
+								"exprs": {
+
+								},
+								"id": 1014.0,
+								"params": {
+									"anim_name": "a4d"
+								}
+							},
+							{
+								"_uid": "_99",
+								"block_name": "when_attack_box_hit",
+								"children": [
+									{
+										"_uid": "_100",
+										"block_name": "hit_entity",
+										"children": [],
+										"exprs": {
+											"target": "target"
+										},
+										"params": {
+											"bs": 0.0,
+											"cotg": false,
+											"hst": 0.0,
+											"hurt": 65000.0,
+											"isgd": true,
+											"ish": true,
+											"kr": 10.0,
+											"target": "",
+											"type": "launch",
+											"v": {
+												"x": 800.0,
+												"y": 0.0,
+												"z": 180.0
+											}
+										}
+									},
+									{
+										"_uid": "_101",
+										"block_name": "camera_shake",
+										"children": [],
+										"exprs": {
+
+										},
+										"params": {
+											"duration": 0.0499999523162842,
+											"intensity": 8.0
+										}
+									}
+								],
+								"enabled": true,
+								"exprs": {
+
+								},
+								"id": 1015.0,
+								"params": {
+									"abox_name": "a4"
+								}
+							}
+						],
+						"type": "group"
+					}
+				],
+				"type": "group"
+			},
+			{
+				"_uid": "_102",
+				"color": "(0.9, 0.85, 0.6, 1.0)",
+				"name": "豪火球之术",
+				"rows": [
+					{
+						"_uid": "_103",
+						"block_name": "when_press_input",
+						"children": [
+							{
+								"_uid": "_104",
+								"block_name": "if_condition",
+								"children": [
+									{
+										"_uid": "_105",
+										"block_name": "play_animation",
+										"children": [],
+										"exprs": {
+
+										},
+										"params": {
+											"anim_name": "s1"
+										}
+									},
+									{
+										"_uid": "_106",
+										"block_name": "turn_by_input",
+										"children": [],
+										"exprs": {
+
+										},
+										"params": {
+
+										}
+									},
+									{
+										"_uid": "_107",
+										"block_name": "set_cd",
+										"children": [],
+										"exprs": {
+
+										},
+										"params": {
+											"cd": 1.0,
+											"cd_id": 0.0,
+											"slot_id": 1.0
+										}
+									}
+								],
+								"exprs": {
+									"condition": "now_animation() in \"idle,run,a1,a2,a3,a4\""
+								},
+								"params": {
+									"condition": true
+								}
+							}
+						],
+						"enabled": true,
+						"exprs": {
+
+						},
+						"id": 1017.0,
+						"params": {
+							"key": 1.0
+						}
+					},
+					{
+						"_uid": "_108",
+						"block_name": "when_animation_exit",
+						"children": [
+							{
+								"_uid": "_109",
+								"block_name": "play_animation",
+								"children": [],
+								"exprs": {
+
+								},
+								"params": {
+									"anim_name": "idle"
+								}
+							}
+						],
+						"enabled": true,
+						"exprs": {
+
+						},
+						"id": 1019.0,
+						"params": {
+							"anim_name": "s1"
+						}
+					},
+					{
+						"_uid": "_110",
+						"block_name": "when_animation_playing",
+						"children": [
+							{
+								"_uid": "_111",
+								"block_name": "if_condition",
+								"children": [
+									{
+										"_uid": "_112",
+										"block_name": "create_entity_by_path",
+										"children": [],
+										"exprs": {
+
+										},
+										"params": {
+											"name": "火球",
+											"path": "res://assets/entities/神秘面具男/火球/entity.tscn"
+										}
+									}
+								],
+								"exprs": {
+									"condition": "frame_idx == 3"
+								},
+								"params": {
+									"condition": true
+								}
+							}
+						],
+						"enabled": true,
+						"exprs": {
+
+						},
+						"id": 1020.0,
+						"params": {
+							"anim_name": "s1",
+							"frame_type": "动画帧"
+						}
+					},
+					{
+						"_uid": "_113",
+						"block_name": "when_animation_playing",
+						"children": [
+							{
+								"_uid": "_114",
+								"block_name": "if_condition",
+								"children": [
+									{
+										"_uid": "_115",
+										"block_name": "if_condition",
+										"children": [
+											{
+												"_uid": "_116",
+												"block_name": "play_animation",
+												"children": [],
+												"exprs": {
+
+												},
+												"params": {
+													"anim_name": "s1a"
+												}
+											}
+										],
+										"exprs": {
+											"condition": "is_press_key(0)"
+										},
+										"params": {
+											"condition": true
+										}
+									}
+								],
+								"exprs": {
+									"condition": "5<= frame_idx <= 7"
+								},
+								"params": {
+									"condition": true
+								}
+							}
+						],
+						"enabled": true,
+						"exprs": {
+
+						},
+						"id": 1023.0,
+						"params": {
+							"anim_name": "s1",
+							"frame_type": "动画帧"
+						}
+					},
+					{
+						"_uid": "_117",
+						"block_name": "when_animation_playing",
+						"children": [
+							{
+								"_uid": "_118",
+								"block_name": "if_condition",
+								"children": [
+									{
+										"_uid": "_119",
+										"block_name": "turn_by_input",
+										"children": [],
+										"exprs": {
+
+										},
+										"params": {
+
+										}
+									}
+								],
+								"exprs": {
+									"condition": "frame_idx == 0"
+								},
+								"params": {
+									"condition": true
+								}
+							},
+							{
+								"_uid": "_120",
+								"block_name": "if_condition",
+								"children": [
+									{
+										"_uid": "_121",
+										"block_name": "slide",
+										"children": [],
+										"exprs": {
+
+										},
+										"params": {
+											"g": 0.0,
+											"m": "facing",
+											"r": {
+												"x": 10.0,
+												"y": 0.0,
+												"z": 0.0
+											},
+											"v": {
+												"x": 10000.0,
+												"y": 0.0,
+												"z": 0.0
+											}
+										}
+									},
+									{
+										"_uid": "_122",
+										"block_name": "die_entity",
+										"children": [],
+										"exprs": {
+											"target": "get_var(\"豪火球\")"
+										},
+										"params": {
+											"target": ""
+										}
+									}
+								],
+								"exprs": {
+									"condition": "frame_idx == 2"
+								},
+								"params": {
+									"condition": true
+								}
+							},
+							{
+								"_uid": "_123",
+								"block_name": "if_condition",
+								"children": [
+									{
+										"_uid": "_124",
+										"block_name": "stop_slide",
+										"children": [],
+										"exprs": {
+
+										},
+										"params": {
+
+										}
+									}
+								],
+								"exprs": {
+									"condition": "frame_idx == 3"
+								},
+								"params": {
+									"condition": true
+								}
+							}
+						],
+						"enabled": true,
+						"exprs": {
+
+						},
+						"id": 1026.0,
+						"params": {
+							"anim_name": "s1a",
+							"frame_type": "动画帧"
+						}
+					},
+					{
+						"_uid": "_125",
+						"block_name": "when_animation_exit",
+						"children": [
+							{
+								"_uid": "_126",
+								"block_name": "play_animation",
+								"children": [],
+								"exprs": {
+
+								},
+								"params": {
+									"anim_name": "idle"
+								}
+							}
+						],
+						"enabled": true,
+						"exprs": {
+
+						},
+						"id": 1025.0,
+						"params": {
+							"anim_name": "s1a"
+						}
+					},
+					{
+						"_uid": "_127",
+						"block_name": "when_attack_box_hit",
+						"children": [
+							{
+								"_uid": "_128",
+								"block_name": "set_timer",
+								"children": [],
+								"exprs": {
+
+								},
+								"params": {
+									"cd": 1.17999982833862,
+									"cd_id": 0.0,
+									"cd_max": 1.17999982833862,
+									"slot_id": 0.0
+								}
+							},
+							{
+								"_uid": "_129",
+								"block_name": "set_timer",
+								"children": [],
+								"exprs": {
+
+								},
+								"params": {
+									"cd": 1.17999982833862,
+									"cd_id": 1.0,
+									"cd_max": 1.17999982833862,
+									"slot_id": 1.0
+								}
+							},
+							{
+								"_uid": "_130",
+								"block_name": "set_timer",
+								"children": [],
+								"exprs": {
+
+								},
+								"params": {
+									"cd": 1.17999982833862,
+									"cd_id": 2.0,
+									"cd_max": 1.17999982833862,
+									"slot_id": 2.0
+								}
+							},
+							{
+								"_uid": "_131",
+								"block_name": "set_entity_immobilize",
+								"children": [],
+								"exprs": {
+									"target": "target"
+								},
+								"params": {
+									"ani": "immobilize",
+									"bs": 2.0,
+									"cs": false,
+									"g": 700.0,
+									"kt": 0.0,
+									"pos": {
+										"x": 0.0,
+										"y": 1000.0,
+										"z": 0.0
+									},
+									"rpos": {
+										"x": 0.0,
+										"y": 0.0,
+										"z": 0.0
+									},
+									"target": "",
+									"time": -1.0,
+									"v": {
+										"x": 0.0,
+										"y": 0.0,
+										"z": 0.0
+									},
+									"var": "",
+									"vr": 0.0
+								}
+							},
+							{
+								"_uid": "_132",
+								"block_name": "set_var_val",
+								"children": [],
+								"exprs": {
+
+								},
+								"params": {
+									"val": "1",
+									"var": "4a"
+								}
+							},
+							{
+								"_uid": "_133",
+								"block_name": "set_var_val",
+								"children": [],
+								"exprs": {
+									"val": "target"
+								},
+								"params": {
+									"val": "",
+									"var": "dr"
+								}
+							},
+							{
+								"_uid": "_134",
+								"block_name": "wait",
+								"children": [],
+								"exprs": {
+
+								},
+								"params": {
+									"duration": 1.17999982833862
+								}
+							},
+							{
+								"_uid": "_135",
+								"block_name": "if_condition",
+								"children": [
+									{
+										"_uid": "_136",
+										"block_name": "stop_entity_immobilize",
+										"children": [],
+										"exprs": {
+											"target": "target"
+										},
+										"params": {
+											"target": ""
+										}
+									},
+									{
+										"_uid": "_137",
+										"block_name": "move_entity_pos3d_immd",
+										"children": [],
+										"exprs": {
+											"pos": "add_pos3d_to_spos2d(get_info_point(\"a3\"))",
+											"target": "target"
+										},
+										"params": {
+											"pos": {
+												"x": 0.0,
+												"y": 0.0,
+												"z": 0.0
+											},
+											"target": ""
+										}
+									},
+									{
+										"_uid": "_138",
+										"block_name": "set_var_val",
+										"children": [],
+										"exprs": {
+
+										},
+										"params": {
+											"val": "0",
+											"var": "4a"
+										}
+									}
+								],
+								"exprs": {
+									"condition": "get_var(\"4a\") == 1"
+								},
+								"params": {
+									"condition": true
+								}
+							}
+						],
+						"enabled": true,
+						"exprs": {
+
+						},
+						"id": 1028.0,
+						"params": {
+							"abox_name": "s1a"
+						}
+					}
+				],
+				"type": "group"
+			},
+			{
+				"_uid": "_139",
+				"block_name": "when_a_entity_create",
+				"children": [
+					{
+						"_uid": "_140",
+						"block_name": "if_condition",
+						"children": [
+							{
+								"_uid": "_141",
+								"block_name": "set_parent_entity",
+								"children": [],
+								"exprs": {
+									"parent": "self_entity()",
+									"target": "entity"
+								},
+								"params": {
+									"parent": "",
+									"target": ""
+								}
+							},
+							{
+								"_uid": "_142",
+								"block_name": "set_var_val",
+								"children": [],
+								"exprs": {
+									"val": "entity"
+								},
+								"params": {
+									"val": "",
+									"var": "豪火球"
+								}
+							}
+						],
+						"exprs": {
+							"condition": "entity.title == \"火球\""
+						},
+						"params": {
+							"condition": true
+						}
+					}
+				],
+				"enabled": true,
+				"exprs": {
+
+				},
+				"id": 1022.0,
+				"params": {
+
+				}
+			},
+			{
+				"_uid": "_143",
+				"color": "(0.9, 0.85, 0.6, 1.0)",
+				"name": "天锁爆葬",
+				"rows": [
+					{
+						"_uid": "_144",
+						"block_name": "when_press_input",
+						"children": [
+							{
+								"_uid": "_145",
+								"block_name": "if_condition",
+								"children": [
+									{
+										"_uid": "_146",
+										"block_name": "if_condition",
+										"children": [
+											{
+												"_uid": "_147",
+												"block_name": "play_animation",
+												"children": [],
+												"exprs": {
+
+												},
+												"params": {
+													"anim_name": "s2_2"
+												}
+											},
+											{
+												"_uid": "_148",
+												"block_name": "set_timer",
+												"children": [],
+												"exprs": {
+
+												},
+												"params": {
+													"cd": 0.0,
+													"cd_id": 0.0,
+													"cd_max": 0.0,
+													"slot_id": 0.0
+												}
+											},
+											{
+												"_uid": "_149",
+												"block_name": "set_timer",
+												"children": [],
+												"exprs": {
+
+												},
+												"params": {
+													"cd": 0.0,
+													"cd_id": 1.0,
+													"cd_max": 0.0,
+													"slot_id": 1.0
+												}
+											},
+											{
+												"_uid": "_150",
+												"block_name": "set_timer",
+												"children": [],
+												"exprs": {
+
+												},
+												"params": {
+													"cd": 0.0,
+													"cd_id": 2.0,
+													"cd_max": 0.0,
+													"slot_id": 2.0
+												}
+											},
+											{
+												"_uid": "_151",
+												"block_name": "set_cd",
+												"children": [],
+												"exprs": {
+
+												},
+												"params": {
+													"cd": 10.0,
+													"cd_id": 2.0,
+													"slot_id": 2.0
+												}
+											}
+										],
+										"exprs": {
+											"condition": "now_animation() in \"idle,run,a1,a2,a3,a4\""
+										},
+										"params": {
+											"condition": true
+										}
+									}
+								],
+								"exprs": {
+									"condition": "get_var(\"4a\") == 1"
+								},
+								"params": {
+									"condition": true
+								}
+							},
+							{
+								"_uid": "_152",
+								"block_name": "else_block",
+								"children": [
+									{
+										"_uid": "_153",
+										"block_name": "if_condition",
+										"children": [
+											{
+												"_uid": "_154",
+												"block_name": "play_animation",
+												"children": [],
+												"exprs": {
+
+												},
+												"params": {
+													"anim_name": "s2"
+												}
+											},
+											{
+												"_uid": "_155",
+												"block_name": "set_cd",
+												"children": [],
+												"exprs": {
+
+												},
+												"params": {
+													"cd": 1.0,
+													"cd_id": 2.0,
+													"slot_id": 2.0
+												}
+											}
+										],
+										"exprs": {
+											"condition": "now_animation() in \"idle,run,a1,a2,a3,a4\""
+										},
+										"params": {
+											"condition": true
+										}
+									}
+								],
+								"exprs": {
+
+								},
+								"params": {
+
+								}
+							}
+						],
+						"enabled": true,
+						"exprs": {
+
+						},
+						"id": 1030.0,
+						"params": {
+							"key": 2.0
+						}
+					},
+					{
+						"_uid": "_156",
+						"block_name": "when_animation_playing",
+						"children": [
+							{
+								"_uid": "_157",
+								"block_name": "if_condition",
+								"children": [
+									{
+										"_uid": "_158",
+										"block_name": "turn_by_input",
+										"children": [],
+										"exprs": {
+
+										},
+										"params": {
+
+										}
+									},
+									{
+										"_uid": "_159",
+										"block_name": "start_freemove",
+										"children": [],
+										"exprs": {
+
+										},
+										"params": {
+											"v": {
+												"x": 5000.0,
+												"y": 1200.0
+											}
+										}
+									},
+									{
+										"_uid": "_160",
+										"block_name": "slide",
+										"children": [],
+										"enabled": false,
+										"exprs": {
+
+										},
+										"params": {
+											"g": 900.0,
+											"m": "facing",
+											"r": {
+												"x": 0.0,
+												"y": 0.0,
+												"z": 50.0
+											},
+											"v": {
+												"x": 0.0,
+												"y": 0.0,
+												"z": 200.0
+											}
+										}
+									}
+								],
+								"exprs": {
+									"condition": "frame_idx == 1"
+								},
+								"params": {
+									"condition": true
+								}
+							},
+							{
+								"_uid": "_161",
+								"block_name": "if_condition",
+								"children": [
+									{
+										"_uid": "_162",
+										"block_name": "stop_freemove",
+										"children": [],
+										"exprs": {
+
+										},
+										"params": {
+
+										}
+									}
+								],
+								"exprs": {
+									"condition": "frame_idx == 2"
+								},
+								"params": {
+									"condition": true
+								}
+							},
+							{
+								"_uid": "_163",
+								"block_name": "if_condition",
+								"children": [
+									{
+										"_uid": "_164",
+										"block_name": "if_condition",
+										"children": [
+											{
+												"_uid": "_165",
+												"block_name": "stop_slide",
+												"children": [],
+												"exprs": {
+
+												},
+												"params": {
+
+												}
+											},
+											{
+												"_uid": "_166",
+												"block_name": "play_animation",
+												"children": [],
+												"exprs": {
+
+												},
+												"params": {
+													"anim_name": "s2a"
+												}
+											}
+										],
+										"exprs": {
+											"condition": "is_press_key(0)"
+										},
+										"params": {
+											"condition": true
+										}
+									}
+								],
+								"exprs": {
+									"condition": "frame_idx == 5"
+								},
+								"params": {
+									"condition": true
+								}
+							}
+						],
+						"enabled": true,
+						"exprs": {
+
+						},
+						"id": 1031.0,
+						"params": {
+							"anim_name": "s2",
+							"frame_type": "动画帧"
+						}
+					},
+					{
+						"_uid": "_167",
+						"block_name": "when_animation_exit",
+						"children": [
+							{
+								"_uid": "_168",
+								"block_name": "play_animation",
+								"children": [],
+								"exprs": {
+
+								},
+								"params": {
+									"anim_name": "idle"
+								}
+							}
+						],
+						"enabled": true,
+						"exprs": {
+
+						},
+						"id": 1032.0,
+						"params": {
+							"anim_name": "s2d"
+						}
+					},
+					{
+						"_uid": "_169",
+						"block_name": "when_attack_box_hit",
+						"children": [
+							{
+								"_uid": "_170",
+								"block_name": "repeat_in_range",
+								"children": [
+									{
+										"_uid": "_171",
+										"block_name": "hit_entity",
+										"children": [],
+										"exprs": {
+											"target": "target"
+										},
+										"params": {
+											"bs": 0.0,
+											"cotg": false,
+											"hst": 0.599999904632568,
+											"hurt": 100000.0,
+											"isgd": true,
+											"ish": false,
+											"kr": 10.0,
+											"target": "",
+											"type": "push",
+											"v": {
+												"x": 0.0,
+												"y": 0.0,
+												"z": 180.0
+											}
+										}
+									},
+									{
+										"_uid": "_172",
+										"block_name": "wait",
+										"children": [],
+										"exprs": {
+
+										},
+										"params": {
+											"duration": 0.0999999046325684
+										}
+									}
+								],
+								"exprs": {
+
+								},
+								"params": {
+									"n": 3.0
+								}
+							}
+						],
+						"enabled": true,
+						"exprs": {
+
+						},
+						"id": 1033.0,
+						"params": {
+							"abox_name": "s2"
+						}
+					},
+					{
+						"_uid": "_173",
+						"block_name": "when_attack_box_hit",
+						"children": [
+							{
+								"_uid": "_174",
+								"block_name": "repeat_in_range",
+								"children": [
+									{
+										"_uid": "_175",
+										"block_name": "hit_entity",
+										"children": [],
+										"exprs": {
+											"target": "target"
+										},
+										"params": {
+											"bs": 0.0,
+											"cotg": true,
+											"hst": 0.400000095367432,
+											"hurt": 50000.0,
+											"isgd": true,
+											"ish": false,
+											"kr": 10.0,
+											"target": "",
+											"type": "launch",
+											"v": {
+												"x": 0.0,
+												"y": 0.0,
+												"z": 350.0
+											}
+										}
+									},
+									{
+										"_uid": "_176",
+										"block_name": "wait",
+										"children": [],
+										"exprs": {
+
+										},
+										"params": {
+											"duration": 0.00999999046325684
+										}
+									}
+								],
+								"exprs": {
+
+								},
+								"params": {
+									"n": 2.0
+								}
+							}
+						],
+						"enabled": true,
+						"exprs": {
+
+						},
+						"id": 1034.0,
+						"params": {
+							"abox_name": "s2d"
+						}
+					},
+					{
+						"_uid": "_177",
+						"block_name": "when_animation_playing",
+						"children": [
+							{
+								"_uid": "_178",
+								"block_name": "if_condition",
+								"children": [
+									{
+										"_uid": "_179",
+										"block_name": "slide",
+										"children": [],
+										"enabled": true,
+										"exprs": {
+
+										},
+										"params": {
+											"g": 2000.0,
+											"m": "facing",
+											"r": {
+												"x": 6.0,
+												"y": 0.0,
+												"z": 250.0
+											},
+											"v": {
+												"x": 1000.0,
+												"y": 0.0,
+												"z": 300.0
+											}
+										}
+									}
+								],
+								"exprs": {
+									"condition": "frame_idx = 2"
+								},
+								"params": {
+									"condition": true
+								}
+							},
+							{
+								"_uid": "_180",
+								"block_name": "if_condition",
+								"children": [
+									{
+										"_uid": "_181",
+										"block_name": "stop_slide",
+										"children": [],
+										"enabled": false,
+										"exprs": {
+
+										},
+										"params": {
+
+										}
+									}
+								],
+								"exprs": {
+									"condition": "frame_idx = 4"
+								},
+								"params": {
+									"condition": true
+								}
+							}
+						],
+						"enabled": true,
+						"exprs": {
+
+						},
+						"id": 1038.0,
+						"params": {
+							"anim_name": "s2a",
+							"frame_type": "动画帧"
+						}
+					},
+					{
+						"_uid": "_182",
+						"block_name": "when_attack_box_hit",
+						"children": [
+							{
+								"_uid": "_183",
+								"block_name": "set_timer",
+								"children": [],
+								"exprs": {
+
+								},
+								"params": {
+									"cd": 1.17999982833862,
+									"cd_id": 0.0,
+									"cd_max": 1.17999982833862,
+									"slot_id": 0.0
+								}
+							},
+							{
+								"_uid": "_184",
+								"block_name": "set_timer",
+								"children": [],
+								"exprs": {
+
+								},
+								"params": {
+									"cd": 1.17999982833862,
+									"cd_id": 1.0,
+									"cd_max": 1.17999982833862,
+									"slot_id": 1.0
+								}
+							},
+							{
+								"_uid": "_185",
+								"block_name": "set_timer",
+								"children": [],
+								"exprs": {
+
+								},
+								"params": {
+									"cd": 1.17999982833862,
+									"cd_id": 2.0,
+									"cd_max": 1.17999982833862,
+									"slot_id": 2.0
+								}
+							},
+							{
+								"_uid": "_186",
+								"block_name": "set_entity_immobilize",
+								"children": [],
+								"exprs": {
+									"target": "target"
+								},
+								"params": {
+									"ani": "immobilize",
+									"bs": 2.0,
+									"cs": false,
+									"g": 700.0,
+									"kt": 0.0,
+									"pos": {
+										"x": 0.0,
+										"y": 1000.0,
+										"z": 0.0
+									},
+									"rpos": {
+										"x": 0.0,
+										"y": 0.0,
+										"z": 0.0
+									},
+									"target": "",
+									"time": -1.0,
+									"v": {
+										"x": 0.0,
+										"y": 0.0,
+										"z": 0.0
+									},
+									"var": "",
+									"vr": 0.0
+								}
+							},
+							{
+								"_uid": "_187",
+								"block_name": "set_var_val",
+								"children": [],
+								"exprs": {
+
+								},
+								"params": {
+									"val": "1",
+									"var": "4a"
+								}
+							},
+							{
+								"_uid": "_188",
+								"block_name": "set_var_val",
+								"children": [],
+								"exprs": {
+									"val": "target"
+								},
+								"params": {
+									"val": "",
+									"var": "dr"
+								}
+							},
+							{
+								"_uid": "_189",
+								"block_name": "wait",
+								"children": [],
+								"exprs": {
+
+								},
+								"params": {
+									"duration": 1.17999982833862
+								}
+							},
+							{
+								"_uid": "_190",
+								"block_name": "if_condition",
+								"children": [
+									{
+										"_uid": "_191",
+										"block_name": "stop_entity_immobilize",
+										"children": [],
+										"exprs": {
+											"target": "target"
+										},
+										"params": {
+											"target": ""
+										}
+									},
+									{
+										"_uid": "_192",
+										"block_name": "move_entity_pos3d_immd",
+										"children": [],
+										"exprs": {
+											"pos": "add_pos3d_to_spos2d(get_info_point(\"a3\"))",
+											"target": "target"
+										},
+										"params": {
+											"pos": {
+												"x": 0.0,
+												"y": 0.0,
+												"z": 0.0
+											},
+											"target": ""
+										}
+									},
+									{
+										"_uid": "_193",
+										"block_name": "set_var_val",
+										"children": [],
+										"exprs": {
+
+										},
+										"params": {
+											"val": "0",
+											"var": "4a"
+										}
+									}
+								],
+								"exprs": {
+									"condition": "get_var(\"4a\") == 1"
+								},
+								"params": {
+									"condition": true
+								}
+							}
+						],
+						"enabled": true,
+						"exprs": {
+
+						},
+						"id": 1040.0,
+						"params": {
+							"abox_name": "s2a"
+						}
+					},
+					{
+						"_uid": "_194",
+						"block_name": "when_animation_exit",
+						"children": [
+							{
+								"_uid": "_195",
+								"block_name": "play_animation",
+								"children": [],
+								"exprs": {
+
+								},
+								"params": {
+									"anim_name": "idle"
+								}
+							}
+						],
+						"enabled": true,
+						"exprs": {
+
+						},
+						"id": 1047.0,
+						"params": {
+							"anim_name": "s2_2"
+						}
+					},
+					{
+						"_uid": "_196",
+						"block_name": "when_animation_playing",
+						"children": [
+							{
+								"_uid": "_197",
+								"block_name": "if_condition",
+								"children": [
+									{
+										"_uid": "_198",
+										"block_name": "stop_entity_immobilize",
+										"children": [],
+										"exprs": {
+											"target": "get_var(\"dr\")"
+										},
+										"params": {
+											"target": ""
+										}
+									},
+									{
+										"_uid": "_199",
+										"block_name": "move_entity_pos3d_immd",
+										"children": [],
+										"exprs": {
+											"pos": "add_pos3d_to_spos2d(get_info_point(\"a4\"))",
+											"target": "get_var(\"dr\")"
+										},
+										"params": {
+											"pos": {
+												"x": 0.0,
+												"y": 0.0,
+												"z": 0.0
+											},
+											"target": ""
+										}
+									}
+								],
+								"exprs": {
+									"condition": "frame_idx == 5"
+								},
+								"params": {
+									"condition": true
+								}
+							}
+						],
+						"enabled": true,
+						"exprs": {
+
+						},
+						"id": 1051.0,
+						"params": {
+							"anim_name": "s2_2",
+							"frame_type": "动画帧"
+						}
+					},
+					{
+						"_uid": "_200",
+						"block_name": "when_attack_box_hit",
+						"children": [
+							{
+								"_uid": "_201",
+								"block_name": "hit_entity",
+								"children": [],
+								"exprs": {
+									"target": "target"
+								},
+								"params": {
+									"bs": 0.0,
+									"cotg": true,
+									"hst": 0.0,
+									"hurt": 100000.0,
+									"isgd": true,
+									"ish": false,
+									"kr": 10.0,
+									"target": "",
+									"type": "push",
+									"v": {
+										"x": 0.0,
+										"y": 0.0,
+										"z": 150.0
+									}
+								}
+							}
+						],
+						"enabled": true,
+						"exprs": {
+
+						},
+						"id": 1052.0,
+						"params": {
+							"abox_name": "s2_2-1"
+						}
+					},
+					{
+						"_uid": "_202",
+						"block_name": "when_attack_box_hit",
+						"children": [
+							{
+								"_uid": "_203",
+								"block_name": "hit_entity",
+								"children": [],
+								"exprs": {
+									"target": "target"
+								},
+								"params": {
+									"bs": 0.0,
+									"cotg": true,
+									"hst": 0.0,
+									"hurt": 100000.0,
+									"isgd": true,
+									"ish": false,
+									"kr": 10.0,
+									"target": "",
+									"type": "push",
+									"v": {
+										"x": 0.0,
+										"y": 0.0,
+										"z": 150.0
+									}
+								}
+							}
+						],
+						"enabled": true,
+						"exprs": {
+
+						},
+						"id": 1055.0,
+						"params": {
+							"abox_name": "s2_2-2"
+						}
+					},
+					{
+						"_uid": "_204",
+						"block_name": "when_attack_box_hit",
+						"children": [
+							{
+								"_uid": "_205",
+								"block_name": "hit_entity",
+								"children": [],
+								"exprs": {
+									"target": "target"
+								},
+								"params": {
+									"bs": 0.0,
+									"cotg": true,
+									"hst": 0.0,
+									"hurt": 100000.0,
+									"isgd": true,
+									"ish": false,
+									"kr": 10.0,
+									"target": "",
+									"type": "push",
+									"v": {
+										"x": 0.0,
+										"y": 0.0,
+										"z": 150.0
+									}
+								}
+							}
+						],
+						"enabled": true,
+						"exprs": {
+
+						},
+						"id": 1056.0,
+						"params": {
+							"abox_name": "s2_2-3"
+						}
+					},
+					{
+						"_uid": "_206",
+						"block_name": "when_attack_box_hit",
+						"children": [
+							{
+								"_uid": "_207",
+								"block_name": "hit_entity",
+								"children": [],
+								"exprs": {
+									"target": "target"
+								},
+								"params": {
+									"bs": 0.0,
+									"cotg": true,
+									"hst": 0.0,
+									"hurt": 100000.0,
+									"isgd": true,
+									"ish": false,
+									"kr": 10.0,
+									"target": "",
+									"type": "push",
+									"v": {
+										"x": 0.0,
+										"y": 0.0,
+										"z": 150.0
+									}
+								}
+							}
+						],
+						"enabled": true,
+						"exprs": {
+
+						},
+						"id": 1058.0,
+						"params": {
+							"abox_name": "s2_2-4"
+						}
+					},
+					{
+						"_uid": "_208",
+						"block_name": "when_attack_box_hit",
+						"children": [
+							{
+								"_uid": "_209",
+								"block_name": "repeat_in_range",
+								"children": [
+									{
+										"_uid": "_210",
+										"block_name": "hit_entity",
+										"children": [],
+										"exprs": {
+											"target": "target"
+										},
+										"params": {
+											"bs": 0.0,
+											"cotg": true,
+											"hst": 0.0,
+											"hurt": 8000.0,
+											"isgd": true,
+											"ish": false,
+											"kr": 10.0,
+											"target": "",
+											"type": "push",
+											"v": {
+												"x": 0.0,
+												"y": 0.0,
+												"z": 100.0
+											}
+										}
+									},
+									{
+										"_uid": "_211",
+										"block_name": "wait",
+										"children": [],
+										"exprs": {
+
+										},
+										"params": {
+											"duration": 0.00999999046325684
+										}
+									}
+								],
+								"exprs": {
+
+								},
+								"params": {
+									"n": 10.0
+								}
+							}
+						],
+						"enabled": true,
+						"exprs": {
+
+						},
+						"id": 1059.0,
+						"params": {
+							"abox_name": "s2_2-5"
+						}
+					}
+				],
+				"type": "group"
+			},
+			{
+				"_uid": "_212",
+				"color": "(0.9, 0.85, 0.6, 1.0)",
+				"name": "九尾",
+				"rows": [
+					{
+						"_uid": "_213",
+						"block_name": "when_press_input",
+						"children": [
+							{
+								"_uid": "_214",
+								"block_name": "if_condition",
+								"children": [
+									{
+										"_uid": "_215",
+										"block_name": "play_animation",
+										"children": [],
+										"exprs": {
+
+										},
+										"params": {
+											"anim_name": "s3"
+										}
+									},
+									{
+										"_uid": "_216",
+										"block_name": "set_ultimate_active",
+										"children": [],
+										"exprs": {
+
+										},
+										"params": {
+											"active": true
+										}
+									}
+								],
+								"exprs": {
+									"condition": "now_animation() in \"idle,run,a1,a2,a3,a4,a4d,s1,s1a,s2,s2a,s2d\""
+								},
+								"params": {
+									"condition": true
+								}
+							}
+						],
+						"enabled": true,
+						"exprs": {
+
+						},
+						"id": 1041.0,
+						"params": {
+							"key": 3.0
+						}
+					},
+					{
+						"_uid": "_217",
+						"block_name": "when_animation_exit",
+						"children": [
+							{
+								"_uid": "_218",
+								"block_name": "set_ultimate_active",
+								"children": [],
+								"exprs": {
+
+								},
+								"params": {
+									"active": false
+								}
+							}
+						],
+						"enabled": true,
+						"exprs": {
+
+						},
+						"id": 1042.0,
+						"params": {
+							"anim_name": "s3"
+						}
+					},
+					{
+						"_uid": "_219",
+						"block_name": "when_attack_box_hit",
+						"children": [
+							{
+								"_uid": "_220",
+								"block_name": "repeat_in_range",
+								"children": [
+									{
+										"_uid": "_221",
+										"block_name": "hit_entity",
+										"children": [],
+										"exprs": {
+											"target": "target"
+										},
+										"params": {
+											"bs": 0.0,
+											"cotg": true,
+											"hst": 0.0,
+											"hurt": 50000.0,
+											"isgd": true,
+											"ish": true,
+											"kr": 10.0,
+											"target": "",
+											"type": "launch",
+											"v": {
+												"x": 0.0,
+												"y": 0.0,
+												"z": 100.0
+											}
+										}
+									},
+									{
+										"_uid": "_222",
+										"block_name": "wait",
+										"children": [],
+										"exprs": {
+
+										},
+										"params": {
+											"duration": 0.0999999046325684
+										}
+									}
+								],
+								"exprs": {
+
+								},
+								"params": {
+									"n": 18.0
+								}
+							}
+						],
+						"enabled": true,
+						"exprs": {
+
+						},
+						"id": 1045.0,
+						"params": {
+							"abox_name": "s3"
+						}
+					},
+					{
+						"_uid": "_223",
+						"block_name": "when_animation_exit",
+						"children": [
+							{
+								"_uid": "_224",
+								"block_name": "play_animation",
+								"children": [],
+								"exprs": {
+
+								},
+								"params": {
+									"anim_name": "idle"
+								}
+							}
+						],
+						"enabled": true,
+						"exprs": {
+
+						},
+						"id": 1046.0,
+						"params": {
+							"anim_name": "s3"
+						}
+					}
+				],
+				"type": "group"
+			},
+			{
+				"_uid": "_225",
+				"color": "(0.9, 0.85, 0.6, 1.0)",
+				"name": "落地",
+				"rows": [
+					{
+						"_uid": "_226",
+						"block_name": "when_any_animation_frame_changed",
+						"children": [
+							{
+								"_uid": "_227",
+								"block_name": "if_condition",
+								"children": [
+									{
+										"_uid": "_228",
+										"block_name": "if_condition",
+										"children": [
+											{
+												"_uid": "_229",
+												"block_name": "play_animation",
+												"children": [],
+												"exprs": {
+
+												},
+												"params": {
+													"anim_name": "s2d"
+												}
+											}
+										],
+										"exprs": {
+											"condition": "anim_name == s2 and frame_idx == 7"
+										},
+										"params": {
+											"condition": true
+										}
+									},
+									{
+										"_uid": "_230",
+										"block_name": "else_if",
+										"children": [
+											{
+												"_uid": "_231",
+												"block_name": "play_animation",
+												"children": [],
+												"exprs": {
+
+												},
+												"params": {
+													"anim_name": "a4d"
+												}
+											}
+										],
+										"exprs": {
+											"condition": "anim_name == a4 and frame_idx == 8"
+										},
+										"params": {
+											"condition": true
+										}
+									},
+									{
+										"_uid": "_232",
+										"block_name": "else_if",
+										"children": [
+											{
+												"_uid": "_233",
+												"block_name": "play_animation",
+												"children": [],
+												"exprs": {
+
+												},
+												"params": {
+													"anim_name": "s2d"
+												}
+											}
+										],
+										"exprs": {
+											"condition": "anim_name == s2a and frame_idx == 4"
+										},
+										"params": {
+											"condition": true
+										}
+									}
+								],
+								"exprs": {
+									"condition": "self_entity().position_3d.z <= 0"
+								},
+								"params": {
+									"condition": true
+								}
+							}
+						],
+						"enabled": true,
+						"exprs": {
+
+						},
+						"id": 1035.0,
+						"params": {
+							"frame_type": "物理帧"
+						}
+					}
+				],
+				"type": "group"
+			}
+		]
+	},
+	"run_mode": "both",
+	"ui_state": {
+		"col_collapsed": {
+			"_1": false,
+			"_10": false,
+			"_100": false,
+			"_101": true,
+			"_102": true,
+			"_103": false,
+			"_105": true,
+			"_107": true,
+			"_108": true,
+			"_11": false,
+			"_110": true,
+			"_113": true,
+			"_114": true,
+			"_116": true,
+			"_117": true,
+			"_12": false,
+			"_122": true,
+			"_124": true,
+			"_125": true,
+			"_127": true,
+			"_13": true,
+			"_130": true,
+			"_134": true,
+			"_137": true,
+			"_138": false,
+			"_139": false,
+			"_142": true,
+			"_143": false,
+			"_144": false,
+			"_145": true,
+			"_147": true,
+			"_15": false,
+			"_150": false,
+			"_151": true,
+			"_153": false,
+			"_155": false,
+			"_156": true,
+			"_159": true,
+			"_16": false,
+			"_163": true,
+			"_167": true,
+			"_168": true,
+			"_169": false,
+			"_17": false,
+			"_173": true,
+			"_177": true,
+			"_178": true,
+			"_182": true,
+			"_187": false,
+			"_19": false,
+			"_191": true,
+			"_194": true,
+			"_196": true,
+			"_2": false,
+			"_200": false,
+			"_201": false,
+			"_202": true,
+			"_204": true,
+			"_206": true,
+			"_208": false,
+			"_21": true,
+			"_212": true,
+			"_22": false,
+			"_225": true,
+			"_23": false,
+			"_25": true,
+			"_26": false,
+			"_27": false,
+			"_29": true,
+			"_3": false,
+			"_30": false,
+			"_31": true,
+			"_32": false,
+			"_33": true,
+			"_35": true,
+			"_36": false,
+			"_4": false,
+			"_41": true,
+			"_42": true,
+			"_44": true,
+			"_46": true,
+			"_47": false,
+			"_5": true,
+			"_50": true,
+			"_52": true,
+			"_54": true,
+			"_56": true,
+			"_57": true,
+			"_6": false,
+			"_71": true,
+			"_72": false,
+			"_73": false,
+			"_77": true,
+			"_79": true,
+			"_8": false,
+			"_83": true,
+			"_84": false,
+			"_85": true,
+			"_86": true,
+			"_88": true,
+			"_89": false,
+			"_9": true,
+			"_90": false,
+			"_91": true,
+			"_92": false,
+			"_93": true,
+			"_95": true,
+			"_96": true,
+			"_97": true,
+			"_98": true,
+			"_99": true
+		}
+	},
+	"version": 2
+}

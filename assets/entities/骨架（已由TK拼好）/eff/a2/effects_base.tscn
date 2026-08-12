@@ -1,0 +1,71 @@
+[gd_scene format=3 uid="uid://b2jec5x0h0mfh"]
+
+[ext_resource type="PackedScene" uid="uid://c5eauk5i5s64k" path="res://assets/entities/base/effects/effects_base.tscn" id="1_noffk"]
+[ext_resource type="Script" uid="uid://depxo1ad1kh76" path="res://assets/entities/骨架（已由TK拼好）/eff/a2/effects_base.gd" id="2_b14vb"]
+[ext_resource type="Texture2D" uid="uid://dh7f8dcedji8r" path="res://assets/entities/骨架（已由TK拼好）/eff/a2/1.png" id="2_wyvxw"]
+[ext_resource type="Texture2D" uid="uid://bv1yrqg5tx7uj" path="res://assets/entities/骨架（已由TK拼好）/eff/a2/2.png" id="3_b14vb"]
+[ext_resource type="Texture2D" uid="uid://2v00iggp7sxw" path="res://assets/entities/骨架（已由TK拼好）/eff/a2/3.png" id="4_7eaai"]
+[ext_resource type="Texture2D" uid="uid://be7l8pqs0ww48" path="res://assets/entities/骨架（已由TK拼好）/eff/a2/4.png" id="5_h3ns8"]
+[ext_resource type="Texture2D" uid="uid://dvaweo7mc7fj3" path="res://assets/entities/骨架（已由TK拼好）/eff/a2/5.png" id="6_mmj5k"]
+[ext_resource type="Texture2D" uid="uid://dwa08s7sh5pmj" path="res://assets/entities/骨架（已由TK拼好）/eff/a2/6.png" id="7_n7j23"]
+[ext_resource type="Texture2D" uid="uid://dilomlv716hot" path="res://assets/entities/骨架（已由TK拼好）/eff/a2/7.png" id="8_x77gv"]
+[ext_resource type="Texture2D" uid="uid://c2pe8fqkec3i8" path="res://assets/entities/骨架（已由TK拼好）/eff/a2/8.png" id="9_o3afu"]
+[ext_resource type="Texture2D" uid="uid://bgva7b63stbug" path="res://assets/entities/骨架（已由TK拼好）/eff/a2/9.png" id="10_hg60v"]
+[ext_resource type="Texture2D" uid="uid://2yaa2h8pfxor" path="res://assets/entities/骨架（已由TK拼好）/eff/a2/10.png" id="11_nbg2b"]
+[ext_resource type="Texture2D" uid="uid://bspvjmeqh1e0k" path="res://assets/entities/骨架（已由TK拼好）/eff/a2/11.png" id="12_p2m81"]
+[ext_resource type="Texture2D" uid="uid://cduwtg3yw01or" path="res://assets/entities/骨架（已由TK拼好）/eff/a2/12.png" id="13_ca6e6"]
+[ext_resource type="Texture2D" uid="uid://bcf2ixqr23u4i" path="res://assets/entities/骨架（已由TK拼好）/eff/a2/13.png" id="14_8b466"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_m61q7"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_wyvxw")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_b14vb")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_7eaai")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_h3ns8")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_mmj5k")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_n7j23")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_x77gv")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_o3afu")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_hg60v")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_nbg2b")
+}, {
+"duration": 1.0,
+"texture": ExtResource("12_p2m81")
+}, {
+"duration": 1.0,
+"texture": ExtResource("13_ca6e6")
+}, {
+"duration": 1.0,
+"texture": ExtResource("14_8b466")
+}],
+"loop": false,
+"name": &"a2",
+"speed": 40.0
+}]
+
+[node name="EffectsBase" unique_id=130701703 instance=ExtResource("1_noffk")]
+script = ExtResource("2_b14vb")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." index="0" unique_id=95604555]
+sprite_frames = SubResource("SpriteFrames_m61q7")
+animation = &"a2"

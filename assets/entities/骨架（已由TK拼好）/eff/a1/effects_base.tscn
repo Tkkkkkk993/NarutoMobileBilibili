@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://bsjjjhekxvnvo"]
 
 [ext_resource type="PackedScene" uid="uid://c5eauk5i5s64k" path="res://assets/entities/base/effects/effects_base.tscn" id="1_xl6dn"]
-[ext_resource type="Script" uid="uid://wgstg2b50nk7" path="res://assets/entities/骨架（已由TK拼好）/eff/effects_base.gd" id="2_sn1je"]
+[ext_resource type="Script" uid="uid://wgstg2b50nk7" path="res://assets/entities/骨架（已由TK拼好）/eff/a1/effects_base.gd" id="2_sn1je"]
 [ext_resource type="Texture2D" uid="uid://xupk5npt1sj0" path="res://assets/entities/骨架（已由TK拼好）/eff/a1/1.png" id="2_x8gfj"]
 [ext_resource type="Texture2D" uid="uid://clw11m6umqlp3" path="res://assets/entities/骨架（已由TK拼好）/eff/a1/2.png" id="3_sn1je"]
 [ext_resource type="Texture2D" uid="uid://6jktnpg8fykv" path="res://assets/entities/骨架（已由TK拼好）/eff/a1/3.png" id="4_ccho3"]

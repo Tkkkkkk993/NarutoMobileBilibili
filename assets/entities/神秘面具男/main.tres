@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="EntityData" format=3 uid="uid://c0ynoqd8xdc5c"]
+
+[ext_resource type="Script" uid="uid://cm7ar1dcvtpvt" path="res://assets/entities/base/entity_data.gd" id="1_0bc6o"]
+
+[resource]
+script = ExtResource("1_0bc6o")
+entity_name = "神秘面具男[九尾之乱]"
+floder_path = "res://assets/entities/神秘面具男/"
+metadata/_custom_type_script = "uid://cm7ar1dcvtpvt"

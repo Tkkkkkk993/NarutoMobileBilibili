@@ -1,0 +1,668 @@
+[gd_scene format=3 uid="uid://s1yvjycwsjqr"]
+
+[ext_resource type="PackedScene" uid="uid://gkn20f0aex3q" path="res://assets/entities/base/animated_sprite_2d_entity.tscn" id="1_6ug17"]
+[ext_resource type="Texture2D" uid="uid://dkkyj4sfwna72" path="res://assets/entities/神秘面具男/1a/frame_13.png" id="2_k7fxs"]
+[ext_resource type="Script" uid="uid://clcvgil1hvjw8" path="res://assets/entities/神秘面具男/entity.gd" id="2_to2rb"]
+[ext_resource type="Texture2D" uid="uid://8wh46amfs2us" path="res://assets/entities/神秘面具男/1a/frame_14.png" id="3_to2rb"]
+[ext_resource type="Texture2D" uid="uid://c711a47wk8n8m" path="res://assets/entities/神秘面具男/1a/frame_16.png" id="4_we45b"]
+[ext_resource type="Texture2D" uid="uid://dpwe8mauvtihb" path="res://assets/entities/神秘面具男/1a/frame_29.png" id="5_4ocwq"]
+[ext_resource type="Texture2D" uid="uid://bpl7bq7426nmd" path="res://assets/entities/神秘面具男/1a/frame_31.png" id="6_rlh77"]
+[ext_resource type="Texture2D" uid="uid://dv8nigc78kpec" path="res://assets/entities/神秘面具男/1a/frame_34.png" id="7_sgbae"]
+[ext_resource type="Texture2D" uid="uid://7xn08o1ycj2j" path="res://assets/entities/神秘面具男/1a/frame_40.png" id="8_l5krb"]
+[ext_resource type="Texture2D" uid="uid://bx8kudt80uonb" path="res://assets/entities/神秘面具男/1a/frame_50.png" id="9_gdqeg"]
+[ext_resource type="Texture2D" uid="uid://dl6uw1iqrqp5r" path="res://assets/entities/神秘面具男/2a/frame_2.png" id="10_ba2am"]
+[ext_resource type="Texture2D" uid="uid://ct0hv5j4vpj" path="res://assets/entities/神秘面具男/2a/frame_4.png" id="11_maxg5"]
+[ext_resource type="Texture2D" uid="uid://cdk7rcyoope8j" path="res://assets/entities/神秘面具男/2a/frame_5.png" id="12_p85y0"]
+[ext_resource type="Texture2D" uid="uid://dumd0oepxd11s" path="res://assets/entities/神秘面具男/2a/frame_7.png" id="13_3jo0g"]
+[ext_resource type="Texture2D" uid="uid://dveq4e7opsq2u" path="res://assets/entities/神秘面具男/2a/frame_11.png" id="14_7tpkr"]
+[ext_resource type="Texture2D" uid="uid://umi7wyirvggp" path="res://assets/entities/神秘面具男/2a/frame_13.png" id="15_hvfgj"]
+[ext_resource type="Texture2D" uid="uid://mxxlffex2dv3" path="res://assets/entities/神秘面具男/2a/frame_15.png" id="16_rd36i"]
+[ext_resource type="Texture2D" uid="uid://tq4ihq7myy75" path="res://assets/entities/神秘面具男/2a/frame_18.png" id="17_qco4x"]
+[ext_resource type="Texture2D" uid="uid://b05yib7vr8g5m" path="res://assets/entities/神秘面具男/2a/frame_22.png" id="18_52lvm"]
+[ext_resource type="Texture2D" uid="uid://cxtg6wkggbxq3" path="res://assets/entities/神秘面具男/2a/frame_31.png" id="19_vra3m"]
+[ext_resource type="Texture2D" uid="uid://cnncigiwosm0i" path="res://assets/entities/神秘面具男/2a/frame_44.png" id="20_ixf4w"]
+[ext_resource type="Texture2D" uid="uid://imw3y4o347hr" path="res://assets/entities/神秘面具男/3a/frame_10.png" id="21_srukj"]
+[ext_resource type="Texture2D" uid="uid://qwoqifl0d5dh" path="res://assets/entities/神秘面具男/3a/frame_13.png" id="22_tsiuf"]
+[ext_resource type="Texture2D" uid="uid://dxgoiuxdxde2j" path="res://assets/entities/神秘面具男/3a/frame_18.png" id="23_fytub"]
+[ext_resource type="Texture2D" uid="uid://cpdifwje4l2se" path="res://assets/entities/神秘面具男/3a/frame_19.png" id="24_6obr2"]
+[ext_resource type="Texture2D" uid="uid://c1i0tp0rcmd8y" path="res://assets/entities/神秘面具男/3a/frame_25.png" id="25_2akd4"]
+[ext_resource type="Texture2D" uid="uid://blalmyie3fwq2" path="res://assets/entities/神秘面具男/3a/frame_28.png" id="26_7uyk4"]
+[ext_resource type="Texture2D" uid="uid://cqa6n4kwinkyi" path="res://assets/entities/神秘面具男/4a/frame_5.png" id="27_7g6v5"]
+[ext_resource type="Texture2D" uid="uid://dvpq4miexb64b" path="res://assets/entities/神秘面具男/4a/frame_10.png" id="28_kl5n6"]
+[ext_resource type="Texture2D" uid="uid://p4wqbr8ktw6e" path="res://assets/entities/神秘面具男/4a/frame_14.png" id="29_i5opp"]
+[ext_resource type="Texture2D" uid="uid://duvj7dyeoumeh" path="res://assets/entities/神秘面具男/4a/frame_16.png" id="30_y4mfg"]
+[ext_resource type="Texture2D" uid="uid://ppsp4jb3uy5w" path="res://assets/entities/神秘面具男/4a/frame_18.png" id="31_yshvy"]
+[ext_resource type="Texture2D" uid="uid://ckfpqanp1y5q7" path="res://assets/entities/神秘面具男/4a/frame_20.png" id="32_xehof"]
+[ext_resource type="Texture2D" uid="uid://difnomfl1622k" path="res://assets/entities/神秘面具男/4a/frame_24.png" id="33_0io2p"]
+[ext_resource type="Texture2D" uid="uid://6qlga3ir0u4c" path="res://assets/entities/神秘面具男/4a/frame_36.png" id="34_7t0y6"]
+[ext_resource type="Texture2D" uid="uid://cah13ffym83c2" path="res://assets/entities/神秘面具男/4a/frame_37.png" id="35_04a26"]
+[ext_resource type="Texture2D" uid="uid://3oc2g381r8mx" path="res://assets/entities/神秘面具男/4a/frame_41.png" id="36_cdhyn"]
+[ext_resource type="Texture2D" uid="uid://b46hlr05qdn4f" path="res://assets/entities/神秘面具男/4a/frame_48.png" id="37_psytm"]
+[ext_resource type="Texture2D" uid="uid://cdo52388opyt2" path="res://assets/entities/神秘面具男/4a/frame_53.png" id="38_0vtwl"]
+[ext_resource type="Texture2D" uid="uid://wequ4l47ceqy" path="res://assets/entities/神秘面具男/4a/frame_58.png" id="39_qt1br"]
+[ext_resource type="Texture2D" uid="uid://u3haw7du2pb" path="res://assets/entities/神秘面具男/这里不许睡觉/frame_2.png" id="40_x6o0c"]
+[ext_resource type="Texture2D" uid="uid://db44qoabysl0r" path="res://assets/entities/神秘面具男/入场/frame_0.png" id="41_wxom3"]
+[ext_resource type="Texture2D" uid="uid://bdh6ubhpn1dfq" path="res://assets/entities/神秘面具男/替身出场起身6fps不循环/frame_7.png" id="42_wxmjt"]
+[ext_resource type="Texture2D" uid="uid://dj8xylvx0c0cf" path="res://assets/entities/神秘面具男/替身出场起身6fps不循环/frame_14.png" id="43_l5rd3"]
+[ext_resource type="Texture2D" uid="uid://cm5sndl04tneo" path="res://assets/entities/神秘面具男/起身6fps不循环/frame_44.png" id="44_ah76q"]
+[ext_resource type="Texture2D" uid="uid://df4uqyts28xjn" path="res://assets/entities/神秘面具男/起身6fps不循环/frame_45.png" id="45_i1hwg"]
+[ext_resource type="Texture2D" uid="uid://bxjj4slxolnw5" path="res://assets/entities/神秘面具男/站着/frame_0.png" id="46_nn8q4"]
+[ext_resource type="Texture2D" uid="uid://dbh3egyvpxoq3" path="res://assets/entities/神秘面具男/站着/frame_2.png" id="47_3o7eo"]
+[ext_resource type="Texture2D" uid="uid://d4l8cngas4p81" path="res://assets/entities/神秘面具男/站着/frame_7.png" id="48_xvjxw"]
+[ext_resource type="Texture2D" uid="uid://cc5vv7s4717qr" path="res://assets/entities/神秘面具男/站着/frame_10.png" id="49_33v3n"]
+[ext_resource type="Texture2D" uid="uid://1fod35wfjueg" path="res://assets/entities/神秘面具男/抓取/frame_40.png" id="50_6dneq"]
+[ext_resource type="Texture2D" uid="uid://42prkg4xna3n" path="res://assets/entities/神秘面具男/击飞1/frame_24.png" id="51_nm5gh"]
+[ext_resource type="Texture2D" uid="uid://bn207asg48dcw" path="res://assets/entities/神秘面具男/击飞2/frame_3.png" id="52_8dknp"]
+[ext_resource type="Texture2D" uid="uid://bfmbvjixiuhr3" path="res://assets/entities/神秘面具男/击飞ed2/frame_43.png" id="53_d0a7q"]
+[ext_resource type="Texture2D" uid="uid://y17pq3qlhng0" path="res://assets/entities/神秘面具男/击飞EDED/frame_46.png" id="54_s2pp7"]
+[ext_resource type="Texture2D" uid="uid://m70rni8scpdi" path="res://assets/entities/神秘面具男/跑步/frame_0.png" id="55_iwf4w"]
+[ext_resource type="Texture2D" uid="uid://ir7saidd8hnq" path="res://assets/entities/神秘面具男/跑步/frame_3.png" id="56_r1hrp"]
+[ext_resource type="Texture2D" uid="uid://1ygx0ttkoaf4" path="res://assets/entities/神秘面具男/跑步/frame_4.png" id="57_p32rm"]
+[ext_resource type="Texture2D" uid="uid://5dhg2dpogx1q" path="res://assets/entities/神秘面具男/跑步/frame_6.png" id="58_8624p"]
+[ext_resource type="Texture2D" uid="uid://bqd5t5ce1ahff" path="res://assets/entities/神秘面具男/跑步/frame_9.png" id="59_ep0rc"]
+[ext_resource type="Texture2D" uid="uid://dmjygvpn2v555" path="res://assets/entities/神秘面具男/跑步/frame_12.png" id="60_8ea24"]
+[ext_resource type="Texture2D" uid="uid://bgmmq4vmagdh6" path="res://assets/entities/神秘面具男/跑步/frame_14.png" id="61_elay6"]
+[ext_resource type="Texture2D" uid="uid://cqvpecbo8mk3x" path="res://assets/entities/神秘面具男/一技能豪火球之术/frame_7.png" id="63_7xm20"]
+[ext_resource type="Texture2D" uid="uid://d10aq3t5txtdu" path="res://assets/entities/神秘面具男/一技能豪火球之术/frame_11.png" id="64_x7ygc"]
+[ext_resource type="Texture2D" uid="uid://bm3bri126piij" path="res://assets/entities/神秘面具男/一技能豪火球之术/frame_19.png" id="66_lpviq"]
+[ext_resource type="Texture2D" uid="uid://dwwjpatb52a3p" path="res://assets/entities/神秘面具男/一技能豪火球之术/frame_20.png" id="67_w4jha"]
+[ext_resource type="Texture2D" uid="uid://mnyja1gpflo7" path="res://assets/entities/神秘面具男/一技能豪火球之术/frame_21.png" id="68_faras"]
+[ext_resource type="Texture2D" uid="uid://b5x2d88o5j1lm" path="res://assets/entities/神秘面具男/一技能豪火球之术/frame_32.png" id="69_6tteu"]
+[ext_resource type="Texture2D" uid="uid://cq8bmpxodeicf" path="res://assets/entities/神秘面具男/一技能豪火球之术/frame_36.png" id="70_st3ox"]
+[ext_resource type="Texture2D" uid="uid://bp3ovcgaqboej" path="res://assets/entities/神秘面具男/一技能滑平a/frame_3.png" id="71_2rvr0"]
+[ext_resource type="Texture2D" uid="uid://tsq1rmtqq7p7" path="res://assets/entities/神秘面具男/一技能滑平a/frame_4.png" id="72_1yy3j"]
+[ext_resource type="Texture2D" uid="uid://coboi4jr5cn1h" path="res://assets/entities/神秘面具男/一技能滑平a/frame_5.png" id="73_bpwk5"]
+[ext_resource type="Texture2D" uid="uid://ecnabe7ceiqq" path="res://assets/entities/神秘面具男/二技能天锁爆葬/frame_1.png" id="74_atp8s"]
+[ext_resource type="Texture2D" uid="uid://lc5boh3yovjq" path="res://assets/entities/神秘面具男/二技能天锁爆葬/frame_4.png" id="75_qqhwv"]
+[ext_resource type="Texture2D" uid="uid://qg0v0jfhfa1a" path="res://assets/entities/神秘面具男/二技能天锁爆葬/frame_6.png" id="76_kpu87"]
+[ext_resource type="Texture2D" uid="uid://i55h23hfymrp" path="res://assets/entities/神秘面具男/二技能天锁爆葬/frame_8.png" id="77_vcgls"]
+[ext_resource type="Texture2D" uid="uid://bnfqvgh5iwu63" path="res://assets/entities/神秘面具男/二技能天锁爆葬/frame_11.png" id="78_kttcp"]
+[ext_resource type="Texture2D" uid="uid://ba3jjodtd5nng" path="res://assets/entities/神秘面具男/二技能天锁爆葬/frame_14.png" id="79_1spmu"]
+[ext_resource type="Texture2D" uid="uid://clfvy4k4308ds" path="res://assets/entities/神秘面具男/二技能天锁爆葬/frame_17.png" id="80_q44dn"]
+[ext_resource type="Texture2D" uid="uid://dfv41v70cj0li" path="res://assets/entities/神秘面具男/二技能天锁爆葬/frame_20.png" id="81_cyof2"]
+[ext_resource type="Texture2D" uid="uid://j8rl1tdwetl4" path="res://assets/entities/神秘面具男/抓取二技能乱挥/frame_19.png" id="81_kl5n6"]
+[ext_resource type="Texture2D" uid="uid://3s1vs5mtk2in" path="res://assets/entities/神秘面具男/抓取二技能乱挥/frame_25.png" id="82_i5opp"]
+[ext_resource type="Texture2D" uid="uid://yehmy6dyhw4w" path="res://assets/entities/神秘面具男/二技能天锁爆葬/frame_28.png" id="82_ncwax"]
+[ext_resource type="Texture2D" uid="uid://bh8imelsmrjv7" path="res://assets/entities/神秘面具男/二技能天锁爆葬/frame_33.png" id="83_1k6qa"]
+[ext_resource type="Texture2D" uid="uid://cq3s1k8onrphq" path="res://assets/entities/神秘面具男/抓取二技能乱挥/frame_34.png" id="83_y4mfg"]
+[ext_resource type="Texture2D" uid="uid://df1w1s2hx0q77" path="res://assets/entities/神秘面具男/二技能天锁爆葬/frame_35.png" id="84_jxx17"]
+[ext_resource type="Texture2D" uid="uid://droedv1gbm2an" path="res://assets/entities/神秘面具男/抓取二技能乱挥/frame_36.png" id="84_yshvy"]
+[ext_resource type="Texture2D" uid="uid://umdx5idaod28" path="res://assets/entities/神秘面具男/二技能天锁爆葬/frame_43.png" id="85_x12o5"]
+[ext_resource type="Texture2D" uid="uid://biifee3mvr38i" path="res://assets/entities/神秘面具男/抓取二技能乱挥/frame_40.png" id="85_xehof"]
+[ext_resource type="Texture2D" uid="uid://dqt58ae7qjaq" path="res://assets/entities/神秘面具男/抓取二技能乱挥/frame_42.png" id="86_0io2p"]
+[ext_resource type="Texture2D" uid="uid://daxfve5i2pnga" path="res://assets/entities/神秘面具男/二技能滑平a/frame_3.png" id="86_7ftxv"]
+[ext_resource type="Texture2D" uid="uid://ddhe1bhdwf6r" path="res://assets/entities/神秘面具男/抓取二技能乱挥/frame_46.png" id="87_7t0y6"]
+[ext_resource type="Texture2D" uid="uid://dhum7w6rf234f" path="res://assets/entities/神秘面具男/二技能滑平a/frame_4.png" id="87_icuxh"]
+[ext_resource type="Texture2D" uid="uid://b04sq0ua0str" path="res://assets/entities/神秘面具男/抓取二技能乱挥/frame_48.png" id="88_04a26"]
+[ext_resource type="Texture2D" uid="uid://b5v3wagdk4kwd" path="res://assets/entities/神秘面具男/二技能滑平a/frame_5.png" id="88_vy42q"]
+[ext_resource type="Texture2D" uid="uid://blpit5xiv2old" path="res://assets/entities/神秘面具男/二技能滑平a/frame_7.png" id="89_bue4d"]
+[ext_resource type="Texture2D" uid="uid://brta35dfq7o0m" path="res://assets/entities/神秘面具男/抓取二技能乱挥/frame_49.png" id="89_cdhyn"]
+[ext_resource type="Texture2D" uid="uid://b2tgu6crmrk06" path="res://assets/entities/神秘面具男/奥义/frame_3.png" id="89_l5krb"]
+[ext_resource type="Texture2D" uid="uid://cbeu3egh8f14o" path="res://assets/entities/神秘面具男/僵直1/frame_41.png" id="90_4q7mf"]
+[ext_resource type="Texture2D" uid="uid://c0xfhei6415f7" path="res://assets/entities/神秘面具男/奥义/frame_5.png" id="90_gdqeg"]
+[ext_resource type="Texture2D" uid="uid://ch84l1c41lcjh" path="res://assets/entities/神秘面具男/抓取二技能乱挥/frame_53.png" id="90_psytm"]
+[ext_resource type="Texture2D" uid="uid://b8xuc4itcgwuk" path="res://assets/entities/神秘面具男/抓取二技能乱挥/frame_57.png" id="91_0vtwl"]
+[ext_resource type="Texture2D" uid="uid://b4vc4aw80hy7b" path="res://assets/entities/神秘面具男/奥义/frame_10.png" id="91_ba2am"]
+[ext_resource type="Texture2D" uid="uid://dkmatev14r4ft" path="res://assets/entities/神秘面具男/僵直2/frame_14.png" id="91_fhb00"]
+[ext_resource type="Texture2D" uid="uid://d2dkff1thy85k" path="res://assets/entities/神秘面具男/奥义/frame_17.png" id="92_maxg5"]
+[ext_resource type="Texture2D" uid="uid://dfv3mhwdic5rw" path="res://assets/entities/神秘面具男/抓取二技能乱挥/frame_58.png" id="92_qt1br"]
+[ext_resource type="Texture2D" uid="uid://dgwsiy48wrus6" path="res://assets/entities/神秘面具男/僵直3/frame_12.png" id="92_rr46c"]
+[ext_resource type="Texture2D" uid="uid://dgrffr3q6sfw3" path="res://assets/entities/神秘面具男/僵直4/frame_15.png" id="93_f2bce"]
+[ext_resource type="Texture2D" uid="uid://3qets4ihj057" path="res://assets/entities/神秘面具男/奥义/frame_20.png" id="93_p85y0"]
+[ext_resource type="Texture2D" uid="uid://chdk5qe31ce0" path="res://assets/entities/神秘面具男/抓取二技能乱挥/frame_59.png" id="93_x6o0c"]
+[ext_resource type="Texture2D" uid="uid://syr71ghi53fh" path="res://assets/entities/神秘面具男/奥义/frame_26.png" id="94_3jo0g"]
+[ext_resource type="Texture2D" uid="uid://cd78e7ecxysi1" path="res://assets/entities/神秘面具男/抓取二技能乱挥/frame_64.png" id="94_wxom3"]
+[ext_resource type="Texture2D" uid="uid://c75piv1krte5a" path="res://assets/entities/神秘面具男/奥义/frame_35.png" id="95_7tpkr"]
+[ext_resource type="Texture2D" uid="uid://b4rstk46kyirg" path="res://assets/entities/神秘面具男/抓取二技能乱挥/frame_67.png" id="95_wxmjt"]
+[ext_resource type="Texture2D" uid="uid://b8i27bhdcrxl4" path="res://assets/entities/神秘面具男/奥义/frame_38.png" id="96_hvfgj"]
+[ext_resource type="Texture2D" uid="uid://d0nksqm6uyssr" path="res://assets/entities/神秘面具男/抓取二技能乱挥/frame_69.png" id="96_l5rd3"]
+[ext_resource type="Texture2D" uid="uid://d1ga1oxdlj7i7" path="res://assets/entities/神秘面具男/抓取二技能乱挥/frame_72.png" id="97_ah76q"]
+[ext_resource type="Texture2D" uid="uid://bn65dbvu7dl72" path="res://assets/entities/神秘面具男/抓取二技能乱挥/frame_78.png" id="98_i1hwg"]
+[ext_resource type="Texture2D" uid="uid://cmk0qiv8kinm5" path="res://assets/entities/神秘面具男/抓取二技能乱挥/frame_82.png" id="99_nn8q4"]
+[ext_resource type="Texture2D" uid="uid://coscj4vcpek8k" path="res://assets/entities/神秘面具男/抓取二技能乱挥/frame_87.png" id="100_3o7eo"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_fjxt4"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_k7fxs")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_to2rb")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_we45b")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_4ocwq")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_rlh77")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_sgbae")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_l5krb")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_gdqeg")
+}],
+"loop": false,
+"name": &"a1",
+"speed": 12.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("10_ba2am")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_maxg5")
+}, {
+"duration": 1.0,
+"texture": ExtResource("12_p85y0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("13_3jo0g")
+}, {
+"duration": 1.0,
+"texture": ExtResource("14_7tpkr")
+}, {
+"duration": 1.0,
+"texture": ExtResource("15_hvfgj")
+}, {
+"duration": 1.0,
+"texture": ExtResource("16_rd36i")
+}, {
+"duration": 1.0,
+"texture": ExtResource("17_qco4x")
+}, {
+"duration": 1.0,
+"texture": ExtResource("18_52lvm")
+}, {
+"duration": 1.0,
+"texture": ExtResource("19_vra3m")
+}, {
+"duration": 1.0,
+"texture": ExtResource("20_ixf4w")
+}],
+"loop": false,
+"name": &"a2",
+"speed": 12.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("21_srukj")
+}, {
+"duration": 1.0,
+"texture": ExtResource("22_tsiuf")
+}, {
+"duration": 1.0,
+"texture": ExtResource("23_fytub")
+}, {
+"duration": 1.0,
+"texture": ExtResource("24_6obr2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("25_2akd4")
+}, {
+"duration": 1.0,
+"texture": ExtResource("26_7uyk4")
+}],
+"loop": false,
+"name": &"a3",
+"speed": 12.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("27_7g6v5")
+}, {
+"duration": 1.0,
+"texture": ExtResource("28_kl5n6")
+}, {
+"duration": 1.0,
+"texture": ExtResource("29_i5opp")
+}, {
+"duration": 1.0,
+"texture": ExtResource("30_y4mfg")
+}, {
+"duration": 1.0,
+"texture": ExtResource("31_yshvy")
+}, {
+"duration": 1.0,
+"texture": ExtResource("32_xehof")
+}, {
+"duration": 1.0,
+"texture": ExtResource("33_0io2p")
+}, {
+"duration": 1.0,
+"texture": ExtResource("34_7t0y6")
+}, {
+"duration": 1.0,
+"texture": ExtResource("35_04a26")
+}],
+"loop": false,
+"name": &"a4",
+"speed": 12.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("36_cdhyn")
+}, {
+"duration": 1.0,
+"texture": ExtResource("37_psytm")
+}, {
+"duration": 1.0,
+"texture": ExtResource("38_0vtwl")
+}, {
+"duration": 1.0,
+"texture": ExtResource("39_qt1br")
+}],
+"loop": false,
+"name": &"a4d",
+"speed": 12.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("40_x6o0c")
+}],
+"loop": true,
+"name": &"downed",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("41_wxom3")
+}],
+"loop": true,
+"name": &"entry",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("42_wxmjt")
+}, {
+"duration": 1.0,
+"texture": ExtResource("43_l5rd3")
+}],
+"loop": false,
+"name": &"entry_e",
+"speed": 6.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("44_ah76q")
+}, {
+"duration": 1.0,
+"texture": ExtResource("45_i1hwg")
+}],
+"loop": false,
+"name": &"getup",
+"speed": 6.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("46_nn8q4")
+}, {
+"duration": 1.0,
+"texture": ExtResource("47_3o7eo")
+}, {
+"duration": 1.0,
+"texture": ExtResource("48_xvjxw")
+}, {
+"duration": 1.0,
+"texture": ExtResource("49_33v3n")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 12.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("50_6dneq")
+}],
+"loop": true,
+"name": &"immobilize",
+"speed": 12.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("51_nm5gh")
+}],
+"loop": true,
+"name": &"launch1",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("52_8dknp")
+}],
+"loop": true,
+"name": &"launch2",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("53_d0a7q")
+}],
+"loop": true,
+"name": &"launch_e",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("54_s2pp7")
+}],
+"loop": true,
+"name": &"launched",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("55_iwf4w")
+}, {
+"duration": 1.0,
+"texture": ExtResource("56_r1hrp")
+}, {
+"duration": 1.0,
+"texture": ExtResource("57_p32rm")
+}, {
+"duration": 1.0,
+"texture": ExtResource("58_8624p")
+}, {
+"duration": 1.0,
+"texture": ExtResource("59_ep0rc")
+}, {
+"duration": 1.0,
+"texture": ExtResource("60_8ea24")
+}, {
+"duration": 1.0,
+"texture": ExtResource("61_elay6")
+}],
+"loop": true,
+"name": &"run",
+"speed": 12.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("63_7xm20")
+}, {
+"duration": 1.0,
+"texture": ExtResource("64_x7ygc")
+}, {
+"duration": 1.0,
+"texture": ExtResource("66_lpviq")
+}, {
+"duration": 1.0,
+"texture": ExtResource("67_w4jha")
+}, {
+"duration": 1.0,
+"texture": ExtResource("68_faras")
+}, {
+"duration": 1.0,
+"texture": ExtResource("67_w4jha")
+}, {
+"duration": 1.0,
+"texture": ExtResource("68_faras")
+}, {
+"duration": 1.0,
+"texture": ExtResource("67_w4jha")
+}, {
+"duration": 1.0,
+"texture": ExtResource("68_faras")
+}, {
+"duration": 1.0,
+"texture": ExtResource("69_6tteu")
+}, {
+"duration": 1.0,
+"texture": ExtResource("70_st3ox")
+}],
+"loop": false,
+"name": &"s1",
+"speed": 13.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("71_2rvr0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("72_1yy3j")
+}, {
+"duration": 2.0,
+"texture": ExtResource("73_bpwk5")
+}, {
+"duration": 1.0,
+"texture": ExtResource("43_l5rd3")
+}],
+"loop": false,
+"name": &"s1a",
+"speed": 11.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("74_atp8s")
+}, {
+"duration": 1.0,
+"texture": ExtResource("75_qqhwv")
+}, {
+"duration": 1.0,
+"texture": ExtResource("76_kpu87")
+}, {
+"duration": 1.0,
+"texture": ExtResource("77_vcgls")
+}, {
+"duration": 1.0,
+"texture": ExtResource("78_kttcp")
+}, {
+"duration": 1.0,
+"texture": ExtResource("79_1spmu")
+}, {
+"duration": 1.0,
+"texture": ExtResource("80_q44dn")
+}, {
+"duration": 1.0,
+"texture": ExtResource("81_cyof2")
+}],
+"loop": false,
+"name": &"s2",
+"speed": 12.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("81_kl5n6")
+}, {
+"duration": 1.0,
+"texture": ExtResource("82_i5opp")
+}, {
+"duration": 1.0,
+"texture": ExtResource("83_y4mfg")
+}, {
+"duration": 1.0,
+"texture": ExtResource("84_yshvy")
+}, {
+"duration": 1.0,
+"texture": ExtResource("85_xehof")
+}, {
+"duration": 1.0,
+"texture": ExtResource("86_0io2p")
+}, {
+"duration": 1.0,
+"texture": ExtResource("87_7t0y6")
+}, {
+"duration": 1.0,
+"texture": ExtResource("88_04a26")
+}, {
+"duration": 1.0,
+"texture": ExtResource("89_cdhyn")
+}, {
+"duration": 1.0,
+"texture": ExtResource("90_psytm")
+}, {
+"duration": 1.0,
+"texture": ExtResource("91_0vtwl")
+}, {
+"duration": 1.0,
+"texture": ExtResource("92_qt1br")
+}, {
+"duration": 1.0,
+"texture": ExtResource("93_x6o0c")
+}, {
+"duration": 1.0,
+"texture": ExtResource("94_wxom3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("95_wxmjt")
+}, {
+"duration": 1.0,
+"texture": ExtResource("96_l5rd3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("97_ah76q")
+}, {
+"duration": 1.0,
+"texture": ExtResource("98_i1hwg")
+}, {
+"duration": 1.0,
+"texture": ExtResource("99_nn8q4")
+}, {
+"duration": 1.0,
+"texture": ExtResource("100_3o7eo")
+}],
+"loop": false,
+"name": &"s2_2",
+"speed": 12.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("86_7ftxv")
+}, {
+"duration": 1.0,
+"texture": ExtResource("87_icuxh")
+}, {
+"duration": 1.0,
+"texture": ExtResource("88_vy42q")
+}, {
+"duration": 1.0,
+"texture": ExtResource("89_bue4d")
+}, {
+"duration": 1.0,
+"texture": ExtResource("41_wxom3")
+}],
+"loop": false,
+"name": &"s2a",
+"speed": 12.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("82_ncwax")
+}, {
+"duration": 1.0,
+"texture": ExtResource("83_1k6qa")
+}, {
+"duration": 1.0,
+"texture": ExtResource("84_jxx17")
+}, {
+"duration": 1.0,
+"texture": ExtResource("85_x12o5")
+}],
+"loop": false,
+"name": &"s2d",
+"speed": 12.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("89_l5krb")
+}, {
+"duration": 1.0,
+"texture": ExtResource("90_gdqeg")
+}, {
+"duration": 1.0,
+"texture": ExtResource("91_ba2am")
+}, {
+"duration": 1.0,
+"texture": ExtResource("92_maxg5")
+}, {
+"duration": 1.0,
+"texture": ExtResource("93_p85y0")
+}, {
+"duration": 32.0,
+"texture": ExtResource("94_3jo0g")
+}, {
+"duration": 1.0,
+"texture": ExtResource("95_7tpkr")
+}, {
+"duration": 1.0,
+"texture": ExtResource("96_hvfgj")
+}],
+"loop": false,
+"name": &"s3",
+"speed": 12.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("90_4q7mf")
+}],
+"loop": true,
+"name": &"stun1",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("91_fhb00")
+}],
+"loop": true,
+"name": &"stun2",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("92_rr46c")
+}],
+"loop": true,
+"name": &"stun3",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("93_f2bce")
+}],
+"loop": true,
+"name": &"stun4",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("42_wxmjt")
+}, {
+"duration": 1.0,
+"texture": ExtResource("43_l5rd3")
+}],
+"loop": false,
+"name": &"substitution",
+"speed": 6.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3jhxi"]
+
+[node name="Entity" unique_id=1152390372 instance=ExtResource("1_6ug17")]
+script = ExtResource("2_to2rb")
+
+[node name="AnimatedSprite2D" parent="Visuals" parent_id_path=PackedInt32Array(599763896) index="0" unique_id=318864051]
+sprite_frames = SubResource("SpriteFrames_fjxt4")
+animation = &"s2_2"
+frame = 19
+frame_progress = 1.0
+
+[node name="HitboxArea2" type="Area2D" parent="Visuals/AnimatedSprite2D" index="1" unique_id=1316588893]
+collision_layer = 0
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Visuals/AnimatedSprite2D/HitboxArea2" index="0" unique_id=424350712]
+shape = SubResource("RectangleShape2D_3jhxi")
+
+[node name="HitboxArea3" type="Area2D" parent="Visuals/AnimatedSprite2D" index="2" unique_id=681328268]
+collision_layer = 0
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Visuals/AnimatedSprite2D/HitboxArea3" index="0" unique_id=1951989999]
+shape = SubResource("RectangleShape2D_3jhxi")

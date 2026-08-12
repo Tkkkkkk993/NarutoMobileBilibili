@@ -1,0 +1,171 @@
+{
+	"blocks": [],
+	"editor_mode": 1,
+	"events": {
+		"rows": [
+			{
+				"_uid": "_1",
+				"block_name": "when_entity_create",
+				"children": [
+					{
+						"_uid": "_2",
+						"block_name": "slide",
+						"children": [],
+						"exprs": {
+
+						},
+						"params": {
+							"g": 0.0,
+							"m": "facing",
+							"r": {
+								"x": 0.0,
+								"y": 0.0,
+								"z": 0.0
+							},
+							"v": {
+								"x": 1200.0,
+								"y": 0.0,
+								"z": 0.0
+							}
+						}
+					},
+					{
+						"_uid": "_3",
+						"block_name": "wait",
+						"children": [],
+						"exprs": {
+
+						},
+						"params": {
+							"duration": 0.599999904632568
+						}
+					},
+					{
+						"_uid": "_4",
+						"block_name": "stop_slide",
+						"children": [],
+						"exprs": {
+
+						},
+						"params": {
+
+						}
+					},
+					{
+						"_uid": "_5",
+						"block_name": "die",
+						"children": [],
+						"exprs": {
+
+						},
+						"params": {
+
+						}
+					}
+				],
+				"enabled": true,
+				"exprs": {
+
+				},
+				"id": 1000.0,
+				"params": {
+
+				}
+			},
+			{
+				"_uid": "_9",
+				"block_name": "when_attack_box_hit",
+				"children": [
+					{
+						"_uid": "_10",
+						"block_name": "hit_entity",
+						"children": [],
+						"exprs": {
+							"target": "target"
+						},
+						"params": {
+							"bs": 0.0,
+							"cotg": true,
+							"hst": 0.0,
+							"hurt": 0.0,
+							"isgd": true,
+							"ish": false,
+							"kr": 10.0,
+							"target": "",
+							"type": "launch",
+							"v": {
+								"x": 0.0,
+								"y": 0.0,
+								"z": 400.0
+							}
+						}
+					}
+				],
+				"enabled": true,
+				"exprs": {
+
+				},
+				"id": 1004.0,
+				"params": {
+					"abox_name": "sd"
+				}
+			},
+			{
+				"_uid": "_6",
+				"block_name": "when_attack_box_hit",
+				"children": [
+					{
+						"_uid": "_7",
+						"block_name": "hit_entity",
+						"children": [],
+						"exprs": {
+							"target": "target"
+						},
+						"params": {
+							"bs": 0.0,
+							"cotg": false,
+							"hst": 0.0,
+							"hurt": 400000.0,
+							"isgd": true,
+							"ish": true,
+							"kr": 10.0,
+							"target": "",
+							"type": "launch",
+							"v": {
+								"x": 0.0,
+								"y": 0.0,
+								"z": 400.0
+							}
+						}
+					},
+					{
+						"_uid": "_8",
+						"block_name": "die",
+						"children": [],
+						"exprs": {
+
+						},
+						"params": {
+
+						}
+					}
+				],
+				"enabled": true,
+				"exprs": {
+
+				},
+				"id": 1002.0,
+				"params": {
+					"abox_name": "idle"
+				}
+			}
+		]
+	},
+	"run_mode": "both",
+	"ui_state": {
+		"col_collapsed": {
+
+		}
+	},
+	"version": 2
+}
