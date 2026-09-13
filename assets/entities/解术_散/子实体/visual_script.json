@@ -1,0 +1,59 @@
+{
+	"blocks": [],
+	"editor_mode": 1,
+	"events": {
+		"rows": [
+			{
+				"_uid": "_1",
+				"block_name": "when_attack",
+				"children": [
+					{
+						"_uid": "_2",
+						"block_name": "hit_entity",
+						"children": [],
+						"exprs": {
+
+						},
+						"params": {
+							"ar": 1.0,
+							"bs": 0.0,
+							"cotg": false,
+							"hst": 0.5,
+							"hurt": 1000.0,
+							"isgd": true,
+							"ish": false,
+							"kr": 10.0,
+							"target": "target",
+							"type": "push",
+							"v": {
+								"x": 1000.0,
+								"y": 0.0,
+								"z": 1400.0
+							},
+							"va": {
+								"x": 0.0,
+								"y": 0.0,
+								"z": 0.0
+							}
+						}
+					}
+				],
+				"enabled": false,
+				"exprs": {
+
+				},
+				"id": 1001.0,
+				"params": {
+
+				}
+			}
+		]
+	},
+	"run_mode": "both",
+	"ui_state": {
+		"col_collapsed": {
+			"_1": true
+		}
+	},
+	"version": 2
+}

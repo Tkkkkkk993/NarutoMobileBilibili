@@ -42,7 +42,7 @@ var _block_defs = [
 		{"name": "prop", "type": "dropdown", "default": "scale", "label": "属性", "options": ["scale", "modulate", "modulate:a", "rotation", "position:x", "position:y"]},
 		{"name": "to", "type": "number", "default": 1.0, "label": "目标值"},
 		{"name": "dur", "type": "number", "default": 0.5, "label": "持续时间"},
-		{"name": "ease", "type": "dropdown", "default": "缓出", "label": "缓动", "options": ["线性", "缓入", "缓出", "缓入缓出"]},
+		{"name": "ease", "type": "curve", "default": "缓出", "label": "缓动", "options": ["线性", "缓入", "缓出", "缓入缓出", "linear", "sine", "quad", "cubic", "quart", "quint", "expo", "circ", "back", "bounce", "elastic", "spring", "正弦波", "三角波", "方波"]},
 		{"name": "delay", "type": "number", "default": 0.0, "label": "延迟"}
 	]},
 	{"type": BlockType.CONDITION, "name": "if_condition", "label": "如果 {condition}", "category": "条件", "params": [{"name": "condition", "type": "bool", "default": true, "label": "条件"}]},
@@ -1244,7 +1244,7 @@ func _get_inner_area_height(inner_ids: Array) -> float:
 	return max(MIN_INNER_HEIGHT, total)
 
 func _is_slot_type(param_type: String) -> bool:
-	return param_type in ["number", "bool", "dropdown", "node", "vector2", "vector3", "color", "string", "expr"]
+	return param_type in ["number", "bool", "dropdown", "node", "vector2", "vector3", "color", "string", "expr", "curve"]
 
 func _ensure_outputs(def: Dictionary) -> Array:
 	return def.get("outputs", [])
@@ -3021,11 +3021,16 @@ func _format_slot_value(block: Dictionary, param_def: Dictionary, param_name: St
 	if param_def.type == "expr":
 		var v = block.params.get(param_name, "")
 		return str(v) if str(v) != "" else param_def.label
+	if param_def.type == "curve":
+		var v = block.params.get(param_name, param_def.default)
+		return str(v) if str(v) != "" else param_def.label
 	return str(block.params.get(param_name, param_def.default))
 
 func _is_slot_empty(block: Dictionary, param_def: Dictionary, param_name: String) -> bool:
 	var val = block.params.get(param_name, param_def.default)
 	if param_def.type == "expr":
+		return str(val) == ""
+	if param_def.type == "curve":
 		return str(val) == ""
 	if param_def.type in ["node", "string"]:
 		return str(val) == ""
@@ -3289,6 +3294,10 @@ func _add_param_editor(container: HBoxContainer, block: Dictionary, p: Dictionar
 				opt_btn.select(i)
 		opt_btn.item_selected.connect(_on_param_dropdown_changed.bind(block.id, p.name, p))
 		container.add_child(opt_btn)
+	elif p.type == "curve":
+		container.add_child(_create_curve_combo(p, block.params.get(p.name, p.default), func(txt: String):
+			_on_param_string_changed(txt, block.id, p.name)
+		))
 	elif p.type == "node":
 		var line_edit = LineEdit.new()
 		line_edit.text = str(block.params.get(p.name, p.default))
@@ -3297,11 +3306,22 @@ func _add_param_editor(container: HBoxContainer, block: Dictionary, p: Dictionar
 		line_edit.text_changed.connect(_on_param_string_changed.bind(block.id, p.name))
 		container.add_child(line_edit)
 	elif p.type == "string":
-		var line_edit = LineEdit.new()
-		line_edit.text = str(block.params.get(p.name, p.default))
-		line_edit.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-		line_edit.text_changed.connect(_on_param_string_changed.bind(block.id, p.name))
-		container.add_child(line_edit)
+		if p.name == "code":
+			# 代码参数用多行输入
+			var code_edit = TextEdit.new()
+			code_edit.text = str(block.params.get(p.name, p.default))
+			code_edit.custom_minimum_size = Vector2(0, 80)
+			code_edit.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+			code_edit.text_changed.connect(func():
+				_on_param_string_changed(code_edit.text, block.id, p.name)
+			)
+			container.add_child(code_edit)
+		else:
+			var line_edit = LineEdit.new()
+			line_edit.text = str(block.params.get(p.name, p.default))
+			line_edit.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+			line_edit.text_changed.connect(_on_param_string_changed.bind(block.id, p.name))
+			container.add_child(line_edit)
 	elif p.type == "vector2":
 		var default_val = p.default if p.default is Dictionary else {"x": 0.0, "y": 0.0}
 		var current_val = block.params.get(p.name, default_val)
@@ -3390,6 +3410,39 @@ func _on_param_bool_changed(pressed: bool, block_id: int, param_name: String):
 	_update_all_z_indices.call_deferred()
 	if _is_block_in_slot(block_id):
 		_reposition_all_chains.call_deferred()
+
+func _create_curve_combo(param_def: Dictionary, current_val: Variant, on_change: Callable) -> Control:
+	# 待办: Godot4.7 提货为 ComboBox
+	var box = HBoxContainer.new()
+	box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	var options = param_def.get("options", [])
+	var edit = LineEdit.new()
+	edit.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	edit.text = str(current_val)
+	edit.tooltip_text = "可下拉选择；也可直接输入数值(0..13 或 7.1)或表达式(变量 t)"
+	box.add_child(edit)
+	edit.text_changed.connect(func(txt: String):
+		on_change.call(txt.strip_edges())
+	)
+	edit.text_submitted.connect(func(txt: String):
+		on_change.call(txt.strip_edges())
+	)
+	if options.size() > 0:
+		var opt = OptionButton.new()
+		for o in options:
+			opt.add_item(str(o))
+		var cur = str(current_val)
+		for i in range(options.size()):
+			if str(options[i]) == cur:
+				opt.select(i)
+				break
+		opt.item_selected.connect(func(idx: int):
+			var val = str(options[idx])
+			edit.text = val
+			on_change.call(val)
+		)
+		box.add_child(opt)
+	return box
 
 func _on_param_string_changed(text: String, block_id: int, param_name: String):
 	var block = _get_block_by_id(block_id)
@@ -6249,6 +6302,13 @@ func _add_event_param_widget(container: HBoxContainer, node: Dictionary, p: Dict
 			_refresh_current_event_item()
 		)
 		container.add_child(opt)
+	elif p.type == "curve":
+		container.add_child(_create_curve_combo(p, current_val, func(txt: String):
+			_save_undo_state()
+			node.params[pname] = txt
+			_mark_dirty()
+			_refresh_current_event_item()
+		))
 	elif p.type == "node":
 		var le = LineEdit.new()
 		le.text = str(current_val)
@@ -6261,15 +6321,28 @@ func _add_event_param_widget(container: HBoxContainer, node: Dictionary, p: Dict
 		)
 		container.add_child(le)
 	elif p.type == "string":
-		var le = LineEdit.new()
-		le.text = str(current_val)
-		le.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-		le.text_changed.connect(func(t: String):
-			node.params[pname] = t
-			_mark_dirty()
-			_refresh_current_event_item()
-		)
-		container.add_child(le)
+		if pname == "code":
+			# 代码参数用多行输入
+			var code_edit = TextEdit.new()
+			code_edit.text = str(current_val)
+			code_edit.custom_minimum_size = Vector2(0, 80)
+			code_edit.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+			code_edit.text_changed.connect(func():
+				node.params[pname] = code_edit.text
+				_mark_dirty()
+				_refresh_current_event_item()
+			)
+			container.add_child(code_edit)
+		else:
+			var le = LineEdit.new()
+			le.text = str(current_val)
+			le.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+			le.text_changed.connect(func(t: String):
+				node.params[pname] = t
+				_mark_dirty()
+				_refresh_current_event_item()
+			)
+			container.add_child(le)
 	elif p.type == "vector2":
 		var default_vec = p.default if p.default is Dictionary else {"x": 0.0, "y": 0.0}
 		var vec = current_val if current_val is Dictionary else default_vec
@@ -7747,7 +7820,7 @@ func _refresh_editor_params():
 		p_type_label.custom_minimum_size = Vector2(40, 0)
 		row1.add_child(p_type_label)
 		var p_type_opt = OptionButton.new()
-		var param_types = ["number", "string", "bool", "dropdown", "node", "vector2", "vector3", "color"]
+		var param_types = ["number", "string", "bool", "dropdown", "curve", "node", "vector2", "vector3", "color"]
 		for pt in param_types:
 			p_type_opt.add_item(pt)
 		for pt_idx in range(param_types.size()):
@@ -7756,12 +7829,13 @@ func _refresh_editor_params():
 				break
 		p_type_opt.item_selected.connect(func(idx):
 			p.type = param_types[idx]
-			if p.type == "dropdown" and not p.has("options"):
+			if p.type in ["dropdown", "curve"] and not p.has("options"):
 				p["options"] = []
 			if p.type == "number": p.default = 0.0
 			elif p.type == "bool": p.default = true
 			elif p.type == "string": p.default = ""
 			elif p.type == "node": p.default = ""
+			elif p.type == "curve": p.default = "" if p.get("options", []).size() == 0 else str(p.options[0])
 			elif p.type == "dropdown": p.default = "" if p.get("options", []).size() == 0 else str(p.options[0])
 			elif p.type == "vector2": p.default = {"x": 0.0, "y": 0.0}
 			elif p.type == "vector3": p.default = {"x": 0.0, "y": 0.0, "z": 0.0}
@@ -7886,7 +7960,7 @@ func _refresh_editor_params():
 				_sync_main_panel()
 			)
 			row2.add_child(p_def_edit)
-		if p.type == "dropdown":
+		if p.type in ["dropdown", "curve"]:
 			var row3 = HBoxContainer.new()
 			param_vbox.add_child(row3)
 			var p_opt_label = Label.new()
@@ -8254,6 +8328,37 @@ func _get_default_block_defs() -> Array:
 		{"type": BlockType.CONDITION, "name": "else_block", "label": "否则", "category": "条件", "event_only": true, "params": []},
 		{"type": BlockType.VALUE, "name": "number_value", "label": "{value}", "category": "值", "params": [{"name": "value", "type": "number", "default": 0, "label": "数值"}]},
 		{"type": BlockType.VALUE, "name": "compare", "label": "{left} {op} {right}", "category": "值", "params": [{"name": "left", "type": "number", "default": "0", "label": "左"}, {"name": "op", "type": "dropdown", "default": ">", "label": "运算", "options": ["<", "=", ">"]}, {"name": "right", "type": "number", "default": "0", "label": "右"}]},
+		{"type": BlockType.ACTION, "name": "start_z_slide", "label": "Z轴滑动; 速度: {speed}; 阻力: {r}", "category": "动作", "params": [{"name": "speed", "type": "number", "default": 0, "label": "速度"}, {"name": "r", "type": "number", "default": -1, "label": "阻力"}]},
+		{"type": BlockType.ACTION, "name": "stop_z_motion", "label": "停止Z轴运动; 模式: {m}", "category": "动作", "params": [{"name": "m", "type": "dropdown", "default": "all", "label": "模式", "options": ["slide", "fall", "all"]}]},
+		{"type": BlockType.ACTION, "name": "execute_code", "label": "执行代码", "category": "动作", "params": [{"name": "code", "type": "string", "default": "", "label": "代码"}]},
+		{"type": BlockType.ACTION, "name": "set_shadow_visible", "label": "设置阴影显隐 {visible}", "category": "动作", "params": [{"name": "visible", "type": "bool", "default": true, "label": "是否显示"}]},
+		{"type": BlockType.ACTION, "name": "set_wall_collision", "label": "设置墙体碰撞 {enabled}", "category": "动作", "params": [{"name": "enabled", "type": "bool", "default": true, "label": "是否碰撞"}]},
+		{"type": BlockType.VALUE, "name": "find_entity_by_regex", "label": "正则选择实体 {regex} 第 {index} 个", "category": "数据", "params": [{"name": "regex", "type": "string", "default": "", "label": "正则"}, {"name": "index", "type": "number", "default": 0, "label": "第几个(从0)"}, {"name": "props", "type": "string", "default": "name", "label": "匹配属性(逗号分隔)"}]},
+		{"type": BlockType.VALUE, "name": "find_effect_by_regex", "label": "正则选择特效 {regex} 第 {index} 个", "category": "数据", "params": [{"name": "regex", "type": "string", "default": "", "label": "正则"}, {"name": "index", "type": "number", "default": 0, "label": "第几个(从0)"}, {"name": "props", "type": "string", "default": "name", "label": "匹配属性(逗号分隔)"}]},
+		{"type": BlockType.ACTION, "name": "add_bonus", "label": "添加加成 {type} 值 {value} 持续 {duration}s 模式 {mode} 分组 {group}", "category": "动作", "params": [{"name": "type", "type": "dropdown", "default": "atk", "label": "类型", "options": ["atk", "speed", "def"]}, {"name": "value", "type": "number", "default": 0.1, "label": "值(乘=倍率,加=增量)"}, {"name": "duration", "type": "number", "default": -2.0, "label": "持续时间(-2永久)"}, {"name": "mode", "type": "dropdown", "default": "multiply", "label": "模式", "options": ["multiply", "add"]}, {"name": "group", "type": "string", "default": "", "label": "分组(移除时匹配)"}]},
+		{"type": BlockType.ACTION, "name": "remove_bonus", "label": "移除一层加成 {type} 分组 {group}", "category": "动作", "params": [{"name": "type", "type": "dropdown", "default": "atk", "label": "类型", "options": ["atk", "speed", "def"]}, {"name": "group", "type": "string", "default": "", "label": "分组(空=任意)"}]},
+		{"type": BlockType.ACTION, "name": "clear_bonus", "label": "清除加成 {type}", "category": "动作", "params": [{"name": "type", "type": "dropdown", "default": "all", "label": "类型", "options": ["all", "atk", "speed", "def"]}]},
+		{"type": BlockType.ACTION, "name": "add_state", "label": "添加状态 {state} 持续 {duration}s", "category": "动作", "params": [{"name": "state", "type": "string", "default": "", "label": "状态名"}, {"name": "duration", "type": "number", "default": -2.0, "label": "持续时间(-2永久)"}]},
+		{"type": BlockType.ACTION, "name": "remove_state", "label": "移除一层状态 {state}", "category": "动作", "params": [{"name": "state", "type": "string", "default": "", "label": "状态名"}]},
+		{"type": BlockType.ACTION, "name": "clear_state", "label": "清除状态 {state}", "category": "动作", "params": [{"name": "state", "type": "string", "default": "all", "label": "状态名(空=全部)"}]},
+		{"type": BlockType.VALUE, "name": "has_state", "label": "有状态 {state}", "category": "数据", "params": [{"name": "state", "type": "string", "default": "", "label": "状态名"}]},
+		{"type": BlockType.VALUE, "name": "get_state_count", "label": "状态 {state} 层数", "category": "数据", "params": [{"name": "state", "type": "string", "default": "", "label": "状态名"}]},
+		{"type": BlockType.VALUE, "name": "get_bonus_value", "label": "加成 {type} 数值", "category": "数据", "params": [{"name": "type", "type": "dropdown", "default": "atk", "label": "类型", "options": ["atk", "speed", "def"]}]},
+		{"type": BlockType.ACTION, "name": "create_attack_box", "label": "创建攻击框 {name};位置: {pos};大小: {size};绑定实体: {bind};持续: {duration}秒", "category": "动作", "params": [
+			{"name": "name", "type": "string", "default": "", "label": "框名"},
+			{"name": "pos", "type": "vector3", "default": Vector3.ZERO, "label": "位置偏移"},
+			{"name": "size", "type": "vector3", "default": Vector3(50, 50, 50), "label": "大小(3D)"},
+			{"name": "bind", "type": "bool", "default": true, "label": "绑定实体"},
+			{"name": "duration", "type": "number", "default": 0.0, "label": "持续秒数(0=永久)"}
+		]},
+		{"type": BlockType.ACTION, "name": "replay_attack_box", "label": "再现攻击框 {name};绑定实体: {bind};持续: {duration}秒", "category": "动作", "params": [
+			{"name": "name", "type": "string", "default": "", "label": "框名"},
+			{"name": "bind", "type": "bool", "default": true, "label": "绑定实体"},
+			{"name": "duration", "type": "number", "default": 0.0, "label": "持续秒数(0=永久)"}
+		]},
+		{"type": BlockType.ACTION, "name": "remove_attack_box", "label": "移除攻击框 {name}", "category": "动作", "params": [
+			{"name": "name", "type": "string", "default": "", "label": "框名"}
+		]},
 	]
 
 func _save_block_defs():

@@ -1,0 +1,74 @@
+[gd_scene format=3 uid="uid://db70b1mnldtph"]
+
+[ext_resource type="PackedScene" uid="uid://c5eauk5i5s64k" path="res://assets/entities/base/effects/effects_base.tscn" id="1_vlc5o"]
+[ext_resource type="Texture2D" uid="uid://d4bykgcrkytba" path="res://assets/entities/神秘面具男/虎皮4a(1)特效/B虎皮4a/1779714484461.png" id="2_7ough"]
+[ext_resource type="Script" uid="uid://cd27oo4mlfepa" path="res://assets/entities/神秘面具男/虎皮4a(1)特效/effects_base.gd" id="2_dj8ks"]
+[ext_resource type="Texture2D" uid="uid://f7vpcu0segj2" path="res://assets/entities/神秘面具男/虎皮4a(1)特效/B虎皮4a/1779716226034.png" id="3_dj8ks"]
+[ext_resource type="Texture2D" uid="uid://djw83mk2lg364" path="res://assets/entities/神秘面具男/虎皮4a(1)特效/B虎皮4a/1779716229638.png" id="4_bqtus"]
+[ext_resource type="Texture2D" uid="uid://dtcofctky1225" path="res://assets/entities/神秘面具男/虎皮4a(1)特效/B虎皮4a/1779716233999.png" id="5_i4d0o"]
+[ext_resource type="Texture2D" uid="uid://bhxo51nuq8an8" path="res://assets/entities/神秘面具男/虎皮4a(1)特效/B虎皮4a/1779716237751.png" id="6_fahuq"]
+[ext_resource type="Texture2D" uid="uid://cgr8gfx6vhgr1" path="res://assets/entities/神秘面具男/虎皮4a(1)特效/B虎皮4a/1779716240766.png" id="7_h4frc"]
+[ext_resource type="Texture2D" uid="uid://blt2sdfb5ap76" path="res://assets/entities/神秘面具男/虎皮4a(1)特效/B虎皮4a/1779716243803.png" id="8_hxugt"]
+[ext_resource type="Texture2D" uid="uid://chr6vxci4sia1" path="res://assets/entities/神秘面具男/虎皮4a(1)特效/B虎皮4a/1779716246816.png" id="9_dkdbl"]
+[ext_resource type="Texture2D" uid="uid://bxkjbcbrkwbc4" path="res://assets/entities/神秘面具男/虎皮4a(1)特效/B虎皮4a/1779716249648.png" id="10_e8jwb"]
+[ext_resource type="Texture2D" uid="uid://cjt80dxi8xr56" path="res://assets/entities/神秘面具男/虎皮4a(1)特效/B虎皮4a/1779716252473.png" id="11_ahdi8"]
+[ext_resource type="Texture2D" uid="uid://div66sjhvw2km" path="res://assets/entities/神秘面具男/虎皮4a(1)特效/B虎皮4a/1779716255220.png" id="12_uymfv"]
+[ext_resource type="Texture2D" uid="uid://bhkwqrgun5gvi" path="res://assets/entities/神秘面具男/虎皮4a(1)特效/B虎皮4a/1779716258118.png" id="13_edgd2"]
+[ext_resource type="Texture2D" uid="uid://bweenkp2d7wks" path="res://assets/entities/神秘面具男/虎皮4a(1)特效/B虎皮4a/1779716261099.png" id="14_se6h2"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_y7dnl"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_7ough")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_dj8ks")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_bqtus")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_i4d0o")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_fahuq")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_h4frc")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_hxugt")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_dkdbl")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_e8jwb")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_ahdi8")
+}, {
+"duration": 1.0,
+"texture": ExtResource("12_uymfv")
+}, {
+"duration": 1.0,
+"texture": ExtResource("13_edgd2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("14_se6h2")
+}],
+"loop": false,
+"name": &"4a",
+"speed": 60.0
+}]
+
+[node name="EffectsBase" unique_id=1697240412 instance=ExtResource("1_vlc5o")]
+script = ExtResource("2_dj8ks")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." index="0" unique_id=1086659932]
+scale = Vector2(0.5, 0.5)
+sprite_frames = SubResource("SpriteFrames_y7dnl")
+animation = &"4a"
+frame = 12
+frame_progress = 1.0

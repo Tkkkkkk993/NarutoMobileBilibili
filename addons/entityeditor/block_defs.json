@@ -551,7 +551,7 @@
 		},
 		{
 			"category": "实体",
-			"label": "对实体 {target} 进行 {type} 攻击;速度: {v};受击时间: {hst};扫地: {cotg};重攻击: {ish};攻击强度: {bs};是否根据当前朝向攻击: {isgd};伤害 {hurt};击退阻力: {kr}",
+			"label": "对实体 {target} 进行 {type} 攻击;速度: {v};空中速度: {va};受击时间: {hst};扫地: {cotg};重攻击: {ish};攻击强度: {bs};是否根据当前朝向攻击: {isgd};伤害 {hurt};击退阻力: {kr};空中阻力: {ar}",
 			"name": "hit_entity",
 			"outputs": [],
 			"params": [
@@ -579,6 +579,16 @@
 					},
 					"label": "速度",
 					"name": "v",
+					"type": "vector3"
+				},
+				{
+					"default": {
+						"x": 0.0,
+						"y": 0.0,
+						"z": 0.0
+					},
+					"label": "空中速度",
+					"name": "va",
 					"type": "vector3"
 				},
 				{
@@ -622,6 +632,101 @@
 					"label": "击退阻力",
 					"name": "kr",
 					"type": "number"
+				},
+				{
+					"default": 1.0,
+					"label": "空中阻力",
+					"name": "ar",
+					"type": "number"
+				}
+			],
+			"type": 1.0
+		},
+		{
+			"category": "动作",
+			"label": "创建攻击框 {name};位置: {pos};大小: {size};绑定实体: {bind};持续: {duration}秒",
+			"name": "create_attack_box",
+			"outputs": [],
+			"params": [
+				{
+					"default": "",
+					"label": "框名",
+					"name": "name",
+					"type": "string"
+				},
+				{
+					"default": {
+						"x": 0.0,
+						"y": 0.0,
+						"z": 0.0
+					},
+					"label": "位置偏移",
+					"name": "pos",
+					"type": "vector3"
+				},
+				{
+					"default": {
+						"x": 50.0,
+						"y": 50.0,
+						"z": 50.0
+					},
+					"label": "大小(3D)",
+					"name": "size",
+					"type": "vector3"
+				},
+				{
+					"default": true,
+					"label": "绑定实体",
+					"name": "bind",
+					"type": "bool"
+				},
+				{
+					"default": 0.0,
+					"label": "持续秒数",
+					"name": "duration",
+					"type": "number"
+				}
+			],
+			"type": 1.0
+		},
+		{
+			"category": "动作",
+			"label": "再现攻击框 {name};绑定实体: {bind};持续: {duration}秒",
+			"name": "replay_attack_box",
+			"outputs": [],
+			"params": [
+				{
+					"default": "",
+					"label": "框名",
+					"name": "name",
+					"type": "string"
+				},
+				{
+					"default": true,
+					"label": "绑定实体",
+					"name": "bind",
+					"type": "bool"
+				},
+				{
+					"default": 0.0,
+					"label": "持续秒数",
+					"name": "duration",
+					"type": "number"
+				}
+			],
+			"type": 1.0
+		},
+		{
+			"category": "动作",
+			"label": "移除攻击框 {name}",
+			"name": "remove_attack_box",
+			"outputs": [],
+			"params": [
+				{
+					"default": "",
+					"label": "框名",
+					"name": "name",
+					"type": "string"
 				}
 			],
 			"type": 1.0
@@ -686,7 +791,7 @@
 		},
 		{
 			"category": "实体",
-			"label": "吸附实体 {target};到 {mpos};持续时间: {d};速度: {spe}",
+			"label": "吸附实体 {target};到 {mpos};持续时间: {d};速度: {spe};强度: {st}",
 			"name": "magnetism_entity",
 			"outputs": [],
 			"params": [
@@ -719,6 +824,12 @@
 					"label": "速度",
 					"name": "spe",
 					"type": "vector2"
+				},
+				{
+					"default": 2,
+					"label": "吸附强度",
+					"name": "st",
+					"type": "number"
 				}
 			],
 			"type": 1.0
@@ -1029,6 +1140,60 @@
 					"label": "序号",
 					"name": "id",
 					"type": "number"
+				}
+			],
+			"type": 3.0
+		},
+		{
+			"category": "数据",
+			"label": "正则选择实体 {regex} 第 {index} 个",
+			"name": "find_entity_by_regex",
+			"outputs": [],
+			"params": [
+				{
+					"default": "",
+					"label": "正则",
+					"name": "regex",
+					"type": "string"
+				},
+				{
+					"default": 0.0,
+					"label": "第几个",
+					"name": "index",
+					"type": "number"
+				},
+				{
+					"default": "name",
+					"label": "匹配属性(逗号分隔)",
+					"name": "props",
+					"type": "string"
+				}
+			],
+			"type": 3.0
+		},
+		{
+			"category": "数据",
+			"label": "正则选择特效 {regex} 第 {index} 个",
+			"name": "find_effect_by_regex",
+			"outputs": [],
+			"params": [
+				{
+					"default": "",
+					"label": "正则",
+					"name": "regex",
+					"type": "string"
+				},
+				{
+					"default": 0.0,
+					"label": "第几个(从0)",
+					"name": "index",
+					"type": "number"
+				},
+				{
+					"default": "name",
+					"label": "匹配属性(逗号分隔)",
+					"name": "props",
+					"type": "string"
 				}
 			],
 			"type": 3.0
@@ -1457,7 +1622,7 @@
 				},
 				{
 					"default": "",
-					"label": "效果事件触发者(空=自己)",
+					"label": "效果事件触发者",
 					"name": "caster",
 					"type": "node"
 				}
@@ -1470,6 +1635,62 @@
 			"name": "stop_slide",
 			"outputs": [],
 			"params": [],
+			"type": 1.0
+		},
+		{
+			"category": "动作",
+			"label": "Z轴滑动; 速度: {speed}; 阻力: {r}",
+			"name": "start_z_slide",
+			"outputs": [],
+			"params": [
+				{
+					"default": 0.0,
+					"label": "速度",
+					"name": "speed",
+					"type": "number"
+				},
+				{
+					"default": -1.0,
+					"label": "阻力",
+					"name": "r",
+					"type": "number"
+				}
+			],
+			"type": 1.0
+		},
+		{
+			"category": "动作",
+			"label": "停止Z轴运动; 模式: {m}",
+			"name": "stop_z_motion",
+			"outputs": [],
+			"params": [
+				{
+					"default": "slide",
+					"label": "模式",
+					"name": "m",
+					"options": [
+						"all",
+						"slide",
+						"fall"
+					],
+					"type": "dropdown"
+				}
+			],
+			"type": 1.0
+		},
+		{
+			"category": "动作",
+			"label": "执行代码",
+			"name": "execute_code",
+			"outputs": [],
+			"params": [
+				{
+					"default": "",
+					"label": "代码",
+					"name": "code",
+					"type": "string"
+				}
+			],
 			"type": 1.0
 		},
 		{
@@ -2366,7 +2587,7 @@
 		},
 		{
 			"category": "摄像机",
-			"label": "屏幕震动 强度: {intensity} 持续时间: {duration}",
+			"label": "屏幕震动 强度: {intensity} 持续时间: {duration} 频率: {frequency}",
 			"name": "camera_shake",
 			"outputs": [],
 			"params": [
@@ -2380,6 +2601,12 @@
 					"default": 0.3,
 					"label": "持续时间",
 					"name": "duration",
+					"type": "number"
+				},
+				{
+					"default": 20.0,
+					"label": "频率",
+					"name": "frequency",
 					"type": "number"
 				}
 			],
@@ -2507,7 +2734,7 @@
 				},
 				{
 					"default": -1.0,
-					"label": "持续时间(-1=无限)",
+					"label": "持续时间",
 					"name": "duration",
 					"type": "number"
 				}
@@ -2583,19 +2810,35 @@
 					"type": "number"
 				},
 				{
-					"default": 0.0,
+					"default": "正弦波",
 					"label": "波形",
 					"name": "waveform",
 					"options": [
+						"线性",
+						"缓入",
+						"缓出",
+						"缓入缓出",
+						"linear",
+						"sine",
+						"quad",
+						"cubic",
+						"quart",
+						"quint",
+						"expo",
+						"circ",
+						"back",
+						"bounce",
+						"elastic",
+						"spring",
 						"正弦波",
 						"三角波",
 						"方波"
 					],
-					"type": "dropdown"
+					"type": "curve"
 				},
 				{
 					"default": 0.0,
-					"label": "持续时间(0=无限)",
+					"label": "持续时间",
 					"name": "duration",
 					"type": "number"
 				}
@@ -2612,7 +2855,7 @@
 		},
 		{
 			"category": "摄像机",
-			"label": "镜头移动 偏移: {offset} 缩放: {zoom} 持续时间: {duration}",
+			"label": "镜头移动 偏移: {offset} 缩放: {zoom} 持续时间: {duration};进入: {enter_duration} 退出: {exit_duration};进入缓动: {enter_ease} 退出缓动: {exit_ease}",
 			"name": "camera_move",
 			"outputs": [],
 			"params": [
@@ -2636,13 +2879,79 @@
 					"label": "持续时间",
 					"name": "duration",
 					"type": "number"
+				},
+				{
+					"default": 0.2,
+					"label": "进入时长",
+					"name": "enter_duration",
+					"type": "number"
+				},
+				{
+					"default": 0.3,
+					"label": "退出时长",
+					"name": "exit_duration",
+					"type": "number"
+				},
+				{
+					"default": "缓出",
+					"label": "进入缓动",
+					"name": "enter_ease",
+					"options": [
+						"线性",
+						"缓入",
+						"缓出",
+						"缓入缓出",
+						"linear",
+						"sine",
+						"quad",
+						"cubic",
+						"quart",
+						"quint",
+						"expo",
+						"circ",
+						"back",
+						"bounce",
+						"elastic",
+						"spring",
+						"正弦波",
+						"三角波",
+						"方波"
+					],
+					"type": "curve"
+				},
+				{
+					"default": "缓入",
+					"label": "退出缓动",
+					"name": "exit_ease",
+					"options": [
+						"线性",
+						"缓入",
+						"缓出",
+						"缓入缓出",
+						"linear",
+						"sine",
+						"quad",
+						"cubic",
+						"quart",
+						"quint",
+						"expo",
+						"circ",
+						"back",
+						"bounce",
+						"elastic",
+						"spring",
+						"正弦波",
+						"三角波",
+						"方波"
+					],
+					"type": "curve"
 				}
 			],
 			"type": 1.0
 		},
 		{
 			"category": "摄像机",
-			"label": "镜头移动到位置 世界坐标: {pos} 缩放: {zoom} 持续时间: {duration}",
+			"label": "镜头移动到位置 世界坐标: {pos} 缩放: {zoom} 持续时间: {duration};进入: {enter_duration} 退出: {exit_duration};进入缓动: {enter_ease} 退出缓动: {exit_ease};限制: {use_limit}",
 			"name": "camera_move_absolute",
 			"outputs": [],
 			"params": [
@@ -2666,6 +2975,78 @@
 					"label": "持续时间",
 					"name": "duration",
 					"type": "number"
+				},
+				{
+					"default": 0.2,
+					"label": "进入时长",
+					"name": "enter_duration",
+					"type": "number"
+				},
+				{
+					"default": 0.3,
+					"label": "退出时长",
+					"name": "exit_duration",
+					"type": "number"
+				},
+				{
+					"default": "缓出",
+					"label": "进入缓动",
+					"name": "enter_ease",
+					"options": [
+						"线性",
+						"缓入",
+						"缓出",
+						"缓入缓出",
+						"linear",
+						"sine",
+						"quad",
+						"cubic",
+						"quart",
+						"quint",
+						"expo",
+						"circ",
+						"back",
+						"bounce",
+						"elastic",
+						"spring",
+						"正弦波",
+						"三角波",
+						"方波"
+					],
+					"type": "curve"
+				},
+				{
+					"default": "缓入",
+					"label": "退出缓动",
+					"name": "exit_ease",
+					"options": [
+						"线性",
+						"缓入",
+						"缓出",
+						"缓入缓出",
+						"linear",
+						"sine",
+						"quad",
+						"cubic",
+						"quart",
+						"quint",
+						"expo",
+						"circ",
+						"back",
+						"bounce",
+						"elastic",
+						"spring",
+						"正弦波",
+						"三角波",
+						"方波"
+					],
+					"type": "curve"
+				},
+				{
+					"default": false,
+					"label": "范围限制",
+					"name": "use_limit",
+					"type": "bool"
 				}
 			],
 			"type": 1.0
@@ -2687,7 +3068,7 @@
 		},
 		{
 			"category": "摄像机",
-			"label": "镜头旋转 角度: {angle}° 进入: {enter_duration} 持续: {hold_duration} 退出: {exit_duration}",
+			"label": "镜头旋转 角度: {angle}° 进入: {enter_duration} 持续: {hold_duration} 退出: {exit_duration};进入缓动: {enter_ease} 退出缓动: {exit_ease}",
 			"name": "camera_rotate",
 			"outputs": [],
 			"params": [
@@ -2714,6 +3095,60 @@
 					"label": "退出时间",
 					"name": "exit_duration",
 					"type": "number"
+				},
+				{
+					"default": "缓出",
+					"label": "进入缓动",
+					"name": "enter_ease",
+					"options": [
+						"线性",
+						"缓入",
+						"缓出",
+						"缓入缓出",
+						"linear",
+						"sine",
+						"quad",
+						"cubic",
+						"quart",
+						"quint",
+						"expo",
+						"circ",
+						"back",
+						"bounce",
+						"elastic",
+						"spring",
+						"正弦波",
+						"三角波",
+						"方波"
+					],
+					"type": "curve"
+				},
+				{
+					"default": "缓入",
+					"label": "退出缓动",
+					"name": "exit_ease",
+					"options": [
+						"线性",
+						"缓入",
+						"缓出",
+						"缓入缓出",
+						"linear",
+						"sine",
+						"quad",
+						"cubic",
+						"quart",
+						"quint",
+						"expo",
+						"circ",
+						"back",
+						"bounce",
+						"elastic",
+						"spring",
+						"正弦波",
+						"三角波",
+						"方波"
+					],
+					"type": "curve"
 				}
 			],
 			"type": 1.0
@@ -2825,7 +3260,7 @@
 		},
 		{
 			"category": "动作",
-			"label": "创建全局吸附 {name};吸附中心: {center};吸附范围: [{range_x1},{range_y1},{range_x2},{range_y2}];吸力: {force};持续时间: {duration};阵营: {affected_teams}",
+			"label": "创建全局吸附 {name};吸附中心: {center};吸附范围: [{range_x1},{range_y1},{range_x2},{range_y2}];吸力: {force};持续时间: {duration};阵营: {affected_teams};强度: {st};吸无敌: {mag_inv}",
 			"name": "set_global_magnetism",
 			"outputs": [],
 			"params": [
@@ -2888,13 +3323,25 @@
 					"label": "可吸入阵营(逗号分隔,空=全部)",
 					"name": "affected_teams",
 					"type": "string"
+				},
+				{
+					"default": -1,
+					"label": "吸附强度",
+					"name": "st",
+					"type": "number"
+				},
+				{
+					"default": true,
+					"label": "吸附无敌",
+					"name": "mag_inv",
+					"type": "bool"
 				}
 			],
 			"type": 1.0
 		},
 		{
 			"category": "动作",
-			"label": "创建全局吸附(大小) {name};吸附中心: {center};范围中心: {range_center} 大小: {range_size};吸力: {force};持续时间: {duration};阵营: {affected_teams}",
+			"label": "创建全局吸附(大小) {name};吸附中心: {center};范围中心: {range_center} 大小: {range_size};吸力: {force};持续时间: {duration};阵营: {affected_teams};强度: {st};吸无敌: {mag_inv}",
 			"name": "set_global_magnetism_by_size",
 			"outputs": [],
 			"params": [
@@ -2927,7 +3374,7 @@
 						"x": 0.0,
 						"y": 0.0
 					},
-					"label": "范围大小(宽=X高=Y)",
+					"label": "范围大小",
 					"name": "range_size",
 					"type": "vector2"
 				},
@@ -2951,6 +3398,18 @@
 					"label": "可吸入阵营(逗号分隔,空=全部)",
 					"name": "affected_teams",
 					"type": "string"
+				},
+				{
+					"default": -1,
+					"label": "吸附强度",
+					"name": "st",
+					"type": "number"
+				},
+				{
+					"default": true,
+					"label": "吸附无敌",
+					"name": "mag_inv",
+					"type": "bool"
 				}
 			],
 			"type": 1.0
@@ -2965,6 +3424,36 @@
 					"default": true,
 					"label": "是否显示",
 					"name": "visible",
+					"type": "bool"
+				}
+			],
+			"type": 1.0
+		},
+		{
+			"category": "动作",
+			"label": "设置阴影显隐 {visible}",
+			"name": "set_shadow_visible",
+			"outputs": [],
+			"params": [
+				{
+					"default": true,
+					"label": "是否显示",
+					"name": "visible",
+					"type": "bool"
+				}
+			],
+			"type": 1.0
+		},
+		{
+			"category": "动作",
+			"label": "设置墙体碰撞 {enabled}",
+			"name": "set_wall_collision",
+			"outputs": [],
+			"params": [
+				{
+					"default": true,
+					"label": "是否碰撞",
+					"name": "enabled",
 					"type": "bool"
 				}
 			],
@@ -3285,9 +3774,24 @@
 						"线性",
 						"缓入",
 						"缓出",
-						"缓入缓出"
+						"缓入缓出",
+						"linear",
+						"sine",
+						"quad",
+						"cubic",
+						"quart",
+						"quint",
+						"expo",
+						"circ",
+						"back",
+						"bounce",
+						"elastic",
+						"spring",
+						"正弦波",
+						"三角波",
+						"方波"
 					],
-					"type": "dropdown"
+					"type": "curve"
 				},
 				{
 					"default": null,
@@ -3659,6 +4163,202 @@
 				}
 			],
 			"type": 3.0
+		},
+		{
+			"category": "动作",
+			"label": "添加加成 {type} 值 {value} 持续 {duration}s 模式 {mode} 分组 {group}",
+			"name": "add_bonus",
+			"outputs": [],
+			"params": [
+				{
+					"default": "atk",
+					"label": "类型",
+					"name": "type",
+					"options": [
+						"atk",
+						"speed",
+						"def"
+					],
+					"type": "dropdown"
+				},
+				{
+					"default": 0.1,
+					"label": "值",
+					"name": "value",
+					"type": "number"
+				},
+				{
+					"default": -2.0,
+					"label": "持续时间",
+					"name": "duration",
+					"type": "number"
+				},
+				{
+					"default": "multiply",
+					"label": "模式",
+					"name": "mode",
+					"options": [
+						"multiply",
+						"add"
+					],
+					"type": "dropdown"
+				},
+				{
+					"default": "",
+					"label": "分组",
+					"name": "group",
+					"type": "string"
+				}
+			],
+			"type": 1.0
+		},
+		{
+			"category": "动作",
+			"label": "移除一层加成 {type} 分组 {group}",
+			"name": "remove_bonus",
+			"outputs": [],
+			"params": [
+				{
+					"default": "atk",
+					"label": "类型",
+					"name": "type",
+					"options": [
+						"atk",
+						"speed",
+						"def"
+					],
+					"type": "dropdown"
+				},
+				{
+					"default": "",
+					"label": "分组",
+					"name": "group",
+					"type": "string"
+				}
+			],
+			"type": 1.0
+		},
+		{
+			"category": "动作",
+			"label": "清除加成 {type}",
+			"name": "clear_bonus",
+			"outputs": [],
+			"params": [
+				{
+					"default": "all",
+					"label": "类型",
+					"name": "type",
+					"options": [
+						"all",
+						"atk",
+						"speed",
+						"def"
+					],
+					"type": "dropdown"
+				}
+			],
+			"type": 1.0
+		},
+		{
+			"category": "动作",
+			"label": "添加状态 {state} 持续 {duration}s",
+			"name": "add_state",
+			"outputs": [],
+			"params": [
+				{
+					"default": "",
+					"label": "状态名",
+					"name": "state",
+					"type": "string"
+				},
+				{
+					"default": -2.0,
+					"label": "持续时间",
+					"name": "duration",
+					"type": "number"
+				}
+			],
+			"type": 1.0
+		},
+		{
+			"category": "动作",
+			"label": "移除一层状态 {state}",
+			"name": "remove_state",
+			"outputs": [],
+			"params": [
+				{
+					"default": "",
+					"label": "状态名",
+					"name": "state",
+					"type": "string"
+				}
+			],
+			"type": 1.0
+		},
+		{
+			"category": "动作",
+			"label": "清除状态 {state}",
+			"name": "clear_state",
+			"outputs": [],
+			"params": [
+				{
+					"default": "all",
+					"label": "状态名",
+					"name": "state",
+					"type": "string"
+				}
+			],
+			"type": 1.0
+		},
+		{
+			"category": "值",
+			"label": "有状态 {state}",
+			"name": "has_state",
+			"outputs": [],
+			"params": [
+				{
+					"default": "",
+					"label": "状态名",
+					"name": "state",
+					"type": "string"
+				}
+			],
+			"type": 3.0
+		},
+		{
+			"category": "值",
+			"label": "状态 {state} 层数",
+			"name": "get_state_count",
+			"outputs": [],
+			"params": [
+				{
+					"default": "",
+					"label": "状态名",
+					"name": "state",
+					"type": "string"
+				}
+			],
+			"type": 3.0
+		},
+		{
+			"category": "值",
+			"label": "加成 {type} 数值",
+			"name": "get_bonus_value",
+			"outputs": [],
+			"params": [
+				{
+					"default": "atk",
+					"label": "类型",
+					"name": "type",
+					"options": [
+						"atk",
+						"speed",
+						"def"
+					],
+					"type": "dropdown"
+				}
+			],
+			"type": 3.0
 		}
 	],
 	"categories": [
@@ -3672,7 +4372,6 @@
 		"实体",
 		"特效",
 		"摄像机",
-		"移动",
 		"声音"
 	],
 	"category_colors": {
@@ -3686,7 +4385,6 @@
 		"控制": "bb8800ff",
 		"摄像机": "00ad64ff",
 		"数据": "c92a19ff",
-		"特效": "a100bdff",
-		"移动": "bebebeff"
+		"特效": "a100bdff"
 	}
 }

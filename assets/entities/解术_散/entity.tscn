@@ -11,9 +11,10 @@ animations = [{
 "speed": 5.0
 }]
 
-[node name="Entity" instance=ExtResource("1_mg2bi")]
+[node name="Entity" unique_id=1928708377 instance=ExtResource("1_mg2bi")]
 script = ExtResource("2_ditwx")
+debug_show_attack_boxes = false
 
-[node name="AnimatedSprite2D" parent="Visuals" index="0"]
+[node name="AnimatedSprite2D" parent="Visuals" parent_id_path=PackedInt32Array(599763896) index="0" unique_id=318864051]
 sprite_frames = SubResource("SpriteFrames_80dgn")
 animation = &"attack"

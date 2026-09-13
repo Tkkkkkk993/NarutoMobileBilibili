@@ -285,7 +285,8 @@ var _slide_gravity_active: bool = false
 # ============================================
 
 var _knockback_velocity: Vector2 = Vector2.ZERO      # 当前击退速度
-var _knockback_resistance: float = 10.0              # 击退阻力
+var _knockback_resistance: float = 10.0              # 地面阻力
+var _knockback_air_resistance: float = 0.0           # 空中阻力（0=无阻力）
 var _knockback_active: bool = false                  # 是否正在击退
 var _knockback_timer: float = 0.0                    # 击退计时器
 
@@ -613,6 +614,16 @@ var ultimate_point_max: int = 4
 var cool_down_time: Array[Dictionary] = []
 var skill_timer: Array[Dictionary] = []
 var modifiers: Array[Dictionary] = []
+
+# 加成池：可堆叠数值加成（atk/speed/def），每帧重算最终加成
+var bonus_pool: Array[Dictionary] = []
+var final_atk: float = 1.0
+var final_speed: float = 1.0
+var final_def: float = 1.0
+var _bonus_next_id: int = 1
+# 状态池：自定义状态标记，可堆叠，供图形化脚本查询
+var state_pool: Array[Dictionary] = []
+var _state_next_id: int = 1
 enum EntryAction {
 	NONE,
 	DEFAULT,
@@ -1225,8 +1236,6 @@ func _update_debug_visuals():
 	# 按需创建调试节点
 	if debug_show_hitboxes or debug_show_attack_boxes or debug_show_info_points:
 		_ensure_debug_system()
-	# 逻辑简化：只要开启了任意调试，就启用 Process 来驱动 queue_redraw
-	set_process(debug_show_hitboxes or debug_show_attack_boxes or debug_show_info_points)
 	# 如果需要立即刷新，手动请求重绘
 	if _debug_draw_node:
 		_debug_draw_node.queue_redraw()
@@ -1417,6 +1426,8 @@ func _physics_process(delta):
 	_process_cd(delta)
 	_process_timer(delta)
 	_process_modifiers(delta)
+	_process_bonus(delta)
+	_process_states(delta)
 	_process_substitution_invincibility(delta)
 	_handle_body_state()
 	
@@ -1511,18 +1522,12 @@ func _process_substitution_invincibility(delta: float):
 	if not _substitution_invincible:
 		if mat:
 			# 恢复完全不透明
-			var c = mat.get_shader_parameter("self_modulate")
-			if c != null:
-				c.a = 1.0
-				mat.set_shader_parameter("self_modulate", c)
+			mat.set_shader_parameter("self_modulate", Color(1, 1, 1, 1.0))
 		return
 	
 	if mat:
 		# 半透明闪烁
-		var c = mat.get_shader_parameter("self_modulate")
-		if c != null:
-			c.a = 0.8
-			mat.set_shader_parameter("self_modulate", c)
+			mat.set_shader_parameter("self_modulate", Color(1, 1, 1, 0.8))
 	
 	_substitution_timer -= delta
 	
@@ -1538,7 +1543,8 @@ func _process_substitution_invincibility(delta: float):
 func set_cd(slot_id: int, cd_id: int, cd: float):
 	match entity_type:
 		EntityType.PLAYER:
-			skill_slot[slot_id].set_cd(cd)
+			if slot_id >= 0:
+				skill_slot[slot_id].set_cd(cd)
 	for i in cool_down_time.size():
 		if cool_down_time[i]["slot_id"] == slot_id:
 			cool_down_time[i]["slot_id"] = -114514
@@ -1548,7 +1554,8 @@ func set_timer(slot_id: int, cd_id: int, cd: float, cd_max: float):
 	_remove_sub_slot_from_all(slot_id)
 	match entity_type:
 		EntityType.PLAYER:
-			skill_slot[slot_id].timer_progress = cd / cd_max
+			if slot_id >= 0:
+				skill_slot[slot_id].timer_progress = cd / cd_max
 	for i in skill_timer.size():
 		if skill_timer[i]["slot_id"] == slot_id:
 			skill_timer[i]["slot_id"] = -114514
@@ -1674,14 +1681,16 @@ func _on_modifier_end(type: String, power: int, time_left: float = -2.0, target:
 func bind_cd(slot_id: int, cd_id: int):
 	match entity_type:
 		EntityType.PLAYER:
-			skill_slot[slot_id].set_cd(cool_down_time[cd_id]["time"])
+			if slot_id >= 0:
+				skill_slot[slot_id].set_cd(cool_down_time[cd_id]["time"])
 	for i in cool_down_time.size():
 		if cool_down_time[i]["slot_id"] == slot_id:
 			cool_down_time[i]["slot_id"] = -1
 	cool_down_time[cd_id]["slot_id"] = slot_id
 
 func set_slot_aura(slot_id: int, show: bool):
-	skill_slot[slot_id].show_aura = show
+	if slot_id >= 0:
+		skill_slot[slot_id].show_aura = show
 
 # ========== 附属槽位管理 ==========
 
@@ -1701,8 +1710,9 @@ func add_timer_sub_slot(cd_id: int, slot_id: int):
 		skill_timer[cd_id]["sub_slots"].append(slot_id)
 	match entity_type:
 		EntityType.PLAYER:
-			var p = skill_timer[cd_id]["time"] / skill_timer[cd_id]["max_time"] if skill_timer[cd_id]["max_time"] > 0 else 0
-			skill_slot[slot_id].timer_progress = p
+			if slot_id >= 0:
+				var p = skill_timer[cd_id]["time"] / skill_timer[cd_id]["max_time"] if skill_timer[cd_id]["max_time"] > 0 else 0
+				skill_slot[slot_id].timer_progress = p
 
 ## 取消计时的某槽位附属
 func remove_timer_sub_slot(cd_id: int, slot_id: int):
@@ -1735,8 +1745,141 @@ func have_modifiers(type: String) -> bool:
 			return true
 	return false
 
+# ========== 加成池（可堆叠数值加成） ==========
+
+## 添加加成：type=atk/speed/def，mode=multiply(乘算)/add(加算)，duration=-2 永久，group 用于精确移除，返回实例 id
+func add_bonus(e_type: String, value: float, duration: float = -2.0, mode: String = "multiply", source: Node2D = null, group: String = "") -> int:
+	var id = _bonus_next_id
+	_bonus_next_id += 1
+	bonus_pool.append({
+		"id": id, "type": e_type, "value": value,
+		"duration": duration, "time_left": duration,
+		"mode": mode, "source": source, "group": group
+	})
+	_recalc_bonus()
+	return id
+
+func remove_bonus(id: int):
+	for i in range(bonus_pool.size() - 1, -1, -1):
+		if bonus_pool[i]["id"] == id:
+			bonus_pool.remove_at(i)
+			_recalc_bonus()
+			return true
+	return false
+
+## 移除指定类型最早添加的一层；e_group 非空时仅匹配该分组，成功返回 true
+func remove_bonus_layer(e_type: String, e_group: String = "") -> bool:
+	for i in bonus_pool.size():
+		if bonus_pool[i]["type"] == e_type and (e_group == "" or bonus_pool[i].get("group", "") == e_group):
+			bonus_pool.remove_at(i)
+			_recalc_bonus()
+			return true
+	return false
+
+## 按类型清空，type 为空则清空全部
+func clear_bonus(e_type: String = ""):
+	if e_type == "":
+		bonus_pool.clear()
+	else:
+		for i in range(bonus_pool.size() - 1, -1, -1):
+			if bonus_pool[i]["type"] == e_type:
+				bonus_pool.remove_at(i)
+	_recalc_bonus()
+
+func get_bonus_value(e_type: String) -> float:
+	match e_type:
+		"atk": return final_atk
+		"speed": return final_speed
+		"def": return final_def
+	return 1.0
+
+## 遍历池子重算最终加成（乘算：直接乘 value，value=倍率 1=不变；加算：累加 value）
+func _recalc_bonus():
+	final_atk = 1.0
+	final_speed = 1.0
+	final_def = 1.0
+	for e in bonus_pool:
+		var v = e["value"]
+		var is_mult = e["mode"] == "multiply"
+		match e["type"]:
+			"atk":
+				final_atk = final_atk * v if is_mult else final_atk + v
+			"speed":
+				final_speed = final_speed * v if is_mult else final_speed + v
+			"def":
+				final_def = final_def * v if is_mult else final_def + v
+
+func _process_bonus(delta):
+	var changed = false
+	for i in range(bonus_pool.size() - 1, -1, -1):
+		var t: float = bonus_pool[i]["time_left"]
+		if t > 0:
+			bonus_pool[i]["time_left"] = t - delta
+			if bonus_pool[i]["time_left"] <= 0:
+				bonus_pool.remove_at(i)
+				changed = true
+	if changed:
+		_recalc_bonus()
+
+# ========== 状态池（自定义状态标记，可堆叠） ==========
+
+## 添加状态：state 为任意自定义名，duration=-2 永久，返回实例 id
+func add_state(state: String, duration: float = -2.0, source: Node2D = null) -> int:
+	var id = _state_next_id
+	_state_next_id += 1
+	state_pool.append({"id": id, "state": state, "duration": duration, "time_left": duration, "source": source})
+	return id
+
+func remove_state(id: int):
+	for i in range(state_pool.size() - 1, -1, -1):
+		if state_pool[i]["id"] == id:
+			state_pool.remove_at(i)
+			return true
+	return false
+
+## 按名称移除 count 层（count=-1 移除全部同名）
+func remove_state_by_name(state: String, count: int = -1):
+	var removed = 0
+	for i in range(state_pool.size() - 1, -1, -1):
+		if state_pool[i]["state"] == state:
+			state_pool.remove_at(i)
+			removed += 1
+			if count >= 0 and removed >= count:
+				break
+
+## 按名称清空，state 为空则清空全部
+func clear_state(state: String = ""):
+	if state == "":
+		state_pool.clear()
+	else:
+		for i in range(state_pool.size() - 1, -1, -1):
+			if state_pool[i]["state"] == state:
+				state_pool.remove_at(i)
+
+func has_state(state: String) -> bool:
+	return get_state_count(state) > 0
+
+func get_state_count(state: String) -> int:
+	var n = 0
+	for s in state_pool:
+		if s["state"] == state:
+			n += 1
+	return n
+
+func _process_states(delta):
+	for i in range(state_pool.size() - 1, -1, -1):
+		var t: float = state_pool[i]["time_left"]
+		if t > 0:
+			state_pool[i]["time_left"] = t - delta
+			if state_pool[i]["time_left"] <= 0:
+				state_pool.remove_at(i)
+
 func change_hp(d: int, show_number: bool = false, kv: float = 0.0, can_variation: bool = false, is_critical: bool = false):
 	if d < 0:
+		# 加成池：攻击者加成放大伤害，自身防御加成直接乘（>1 减伤，<1 易伤）
+		if _last_attacker and _last_attacker is EntityBase:
+			d = int(d * _last_attacker.final_atk)
+		d = int(d * final_def)
 		# 累计攻击者造成的伤害（用于局间继承）
 		if _last_attacker:
 			_last_attacker.total_damage_dealt += abs(d)
@@ -1833,7 +1976,10 @@ func hit(hit_type: HitStateType,
 		 zv: float, can_OTG: bool,
 		 is_heavy: bool, state: BodyState = BodyState.NORMAL,
 		 hurt: float = 0.0,
-		 kr: float = 10.0):
+		 kr: float = 10.0,
+		 ar: float = 0.0,
+		 kv_air: Vector2 = Vector2.ZERO,
+		 zv_air: float = 0.0):
 	
 	if state < body_state:
 		return
@@ -1849,9 +1995,13 @@ func hit(hit_type: HitStateType,
 	var is_launched = _launch_active and !get_is_low_floating()
 	var is_downed = (_launch_active and get_is_low_floating()) or _is_downed
 	
+	# 在空中被打时，默认击退速度降为地面的 1/3
+	if not is_grounded:
+		kv = kv * (1.0 / 3.0)
+	
 	# 处理平推
 	if hit_type == HitStateType.PUSH:
-		set_knockback(kv, hit_stun_time, kr)
+		set_knockback(kv, hit_stun_time, kr, ar)
 		
 		if is_launched or position_3d.z > 0:
 			set_hit_stun(hit_stun_time, stun_ani)
@@ -1874,14 +2024,18 @@ func hit(hit_type: HitStateType,
 	elif hit_type == HitStateType.LAUNCH:
 		if is_downed and can_OTG:
 			launched_flag = true
-			set_knockback(kv, hit_stun_time, kr)
-			set_launch(zv * 1.2, "launch1")
+			set_knockback(kv, hit_stun_time, kr, ar)
+			set_launch(zv, "launch1")
 		elif !is_downed or (get_is_low_floating() and !_is_downed):
 			launched_flag = true
-			set_knockback(kv, hit_stun_time, kr)
-			# 高度 <= 10: 1.2倍速, launch1; 高度 > 10: 1.0倍速, launch2
-			# set_launch(zv * (1 + 0.2 * int(position_3d.z <= 10)), "launch" + str(2 - int(position_3d.z <= 10)), g)
-			set_launch(zv, "launch2")
+			if position_3d.z <= 10:
+				set_knockback(kv, hit_stun_time, kr, ar)
+				set_launch(zv, "launch1")
+			else:
+				var air_kv: Vector2 = kv_air if kv_air != Vector2.ZERO else kv
+				var air_zv: float = zv_air if zv_air != 0.0 else zv
+				set_knockback(air_kv, hit_stun_time, kr, ar)
+				set_launch(air_zv, "launch2")
 	
 	_immobilize_release_active = false
 	
@@ -1931,6 +2085,7 @@ func set_magnetism(pos: Vector2, spe: Vector2, time: float, state: BodyState = B
 	_magnetism_pos = pos
 	_magnetism_speed = spe
 	_magnetism_time = time
+	_magnetism_state = state
 
 # ============================================
 # 全局吸附处理（多吸附共存）
@@ -1959,6 +2114,13 @@ func _process_global_magnetisms(delta: float):
 			continue
 		# 检查阵营是否允许被吸入
 		if not main.is_team_affected_by_magnetism(team_id, mag):
+			continue
+		# 检查吸附强度：低于实体当前 body_state 则吸附无效
+		var mag_state: int = int(mag.get("state", -1))
+		if mag_state >= 0 and mag_state < body_state:
+			continue
+		# 检查无敌：默认吸附无敌实体（替身无敌除外），false=不吸无敌
+		if not mag.get("mag_inv", true) and (is_invincible or custom_invincible):
 			continue
 		
 		active_this_frame.append(mag_name)
@@ -2810,10 +2972,14 @@ func _process_knockback(delta):
 	position_3d.x += _knockback_velocity.x * delta
 	position_3d.y += _knockback_velocity.y * delta
 	
-	# 根据是否在地面决定阻力倍率（地面阻力是空中的三倍）
+	# 旧版逻辑（已弃用）：地面阻力是空中的三倍，即空中阻力固定为地面的 1/3
+	# var current_resistance = _knockback_resistance
+	# if is_grounded:
+	# 	current_resistance = _knockback_resistance * 1.3
+	# 新版逻辑：地面使用击退阻力，空中使用独立的空中阻力（默认0=无阻力，速度不衰减）
 	var current_resistance = _knockback_resistance
-	if is_grounded:
-		current_resistance = _knockback_resistance * 1.3
+	if not is_grounded:
+		current_resistance = _knockback_air_resistance
 	
 	# 应用阻力（使用动态计算出的阻力值）
 	_knockback_velocity = _knockback_velocity.lerp(Vector2.ZERO, current_resistance * delta)
@@ -2826,7 +2992,7 @@ func _process_knockback(delta):
 		_stop_knockback()
 
 # 开始击退
-func set_knockback(velocity: Vector2, duration: float, resistance: float = -1.0):
+func set_knockback(velocity: Vector2, duration: float, resistance: float = -1.0, air_resistance: float = 0.0):
 	if _immobilize_active: return
 	
 	"""开始击退，不影响控制状态
@@ -2834,19 +3000,21 @@ func set_knockback(velocity: Vector2, duration: float, resistance: float = -1.0)
 	参数:
 		velocity: 初始击退速度
 		duration: 击退持续时间（秒）
-		resistance: 阻力系数（默认10.0，越大停得越快）
+		resistance: 地面阻力系数（默认10.0，越大停得越快）
+		air_resistance: 空中阻力系数（默认0，越大停得越快）
 	"""
 	_knockback_velocity = velocity
 	_knockback_timer = duration
 	
 	if resistance > 0:
 		_knockback_resistance = resistance
+	_knockback_air_resistance = air_resistance
 	
 	_knockback_active = true
 	
 	if debug_slide:
-		print("[击退] 开始 | 速度:%s | 时长:%.2f | 阻力:%.1f" % [
-			str(velocity), duration, _knockback_resistance
+		print("[击退] 开始 | 速度:%s | 时长:%.2f | 阻力:%.1f | 空中阻力:%.1f" % [
+			str(velocity), duration, _knockback_resistance, _knockback_air_resistance
 		])
 
 # 停止击退
@@ -2901,6 +3069,9 @@ func _exit_tree():
 	
 	if enable_depth_sort:
 		DepthManager.unregister_entity(self)
+	# 清理动态攻击框（不绑定的挂在父节点上，需手动释放）
+	if is_instance_valid(attack_box_manager):
+		attack_box_manager.clear_dynamic_boxes()
 
 func _deferred_team_setup():
 	_update_team_registration(TeamManager.TeamID.NONE)
@@ -3001,6 +3172,25 @@ func _on_attack_hit_detailed(hit_result: AttackBoxManager.HitResult):
 
 func get_attack_box_manager() -> AttackBoxManager:
 	return attack_box_manager
+
+# ---- 动态攻击框（脚本创建，不受动画帧驱动） ----
+
+## 创建动态攻击框，pos/size 为相对实体的偏移与3D大小；bind=是否跟随实体；duration<=0 表示常驻直到手动移除
+func create_attack_box(box_name: String, pos: Vector3, size: Vector3, bind: bool = true, duration: float = 0.0) -> String:
+	if not attack_box_manager:
+		return ""
+	return attack_box_manager.create_dynamic_box(box_name, pos, size, bind, duration)
+
+## 按框名再现已存在的攻击框（取首个匹配框的首帧配置）
+func replay_attack_box(box_name: String, bind: bool = true, duration: float = 0.0) -> String:
+	if not attack_box_manager:
+		return ""
+	return attack_box_manager.replay_dynamic_box(box_name, bind, duration)
+
+## 按框名移除所有匹配的动态攻击框
+func remove_attack_box(box_name: String):
+	if attack_box_manager:
+		attack_box_manager.remove_dynamic_box_by_name(box_name)
 
 func get_attack_box(box_id: String) -> AttackBoxData:
 	if attack_box_manager:
@@ -3219,6 +3409,22 @@ func apply_z_impulse(impulse: float):
 	z_velocity_override = impulse
 	is_grounded = false
 
+func start_z_slide(speed: float, resistance: float = -1.0):
+	"""Z 轴滑动：speed 沿高度方向滑动，resistance 为衰减阻力(-1 用默认)"""
+	z_velocity_override = speed
+	is_grounded = false
+	if resistance >= 0:
+		_slide_z_resistance = resistance
+
+func stop_z_motion(slide: bool = true, fall: bool = true):
+	"""停止 Z 轴运动：slide 停 Z 滑动，fall 停普通重力掉落"""
+	if slide:
+		z_velocity_override = 0.0
+		_slide_z_resistance = -1.0
+	if fall:
+		velocity_3d.z = 0.0
+		is_grounded = true
+
 func get_z_height() -> float:
 	return position_3d.z
 
@@ -3302,7 +3508,7 @@ func start_slide(slide_speed: float, direction: Vector2 = Vector2.ZERO, resistan
 	if direction == Vector2.ZERO:
 		direction = Vector2(facing_direction, 0)
 	
-	slide_velocity = direction.normalized() * slide_speed
+	slide_velocity = direction.normalized() * slide_speed * final_speed
 	
 	if resistance >= 0:
 		slide_resistance = Vector2(resistance, resistance)
@@ -3313,6 +3519,7 @@ func stop_slide():
 	velocity_3d.x = 0
 	velocity_3d.y = 0
 	velocity_smoothed = Vector2.ZERO
+	z_velocity_override = 0.0  # 停止 Z 轴滑动
 	_slide_z_resistance = -1.0
 
 func modify_slide_velocity(delta_velocity: Vector2):
@@ -3503,6 +3710,8 @@ func _process_effect_bindings(anim_name: String, frame_idx: int):
 				effect.scale = Vector2(scale_x, scale_y)
 				# 设置旋转（度转弧度）
 				effect.rotation = deg_to_rad(rot_deg)
+				# 记录生成者实体引用（用于深度排序）
+				effect.set_meta("_spawn_entity", self)
 				# 如果跟随朝向且不跟随实体，需要翻转位置
 				if follow_facing and not follow_entity:
 					if facing_direction < 0:
@@ -3706,8 +3915,8 @@ func _handle_movement(delta):
 			_update_animation_state()
 		return
 	
-	var base_speed_x = entity_data.move_speed_x if entity_data else 300.0
-	var base_speed_y = entity_data.move_speed_y if entity_data else 300.0
+	var base_speed_x = (entity_data.move_speed_x if entity_data else 300.0) * final_speed
+	var base_speed_y = (entity_data.move_speed_y if entity_data else 300.0) * final_speed
 	var run_multiplier = 1.5 if is_running else 1.0
 	
 	var input_dir = Vector2.ZERO
@@ -4498,10 +4707,10 @@ func _handle_free_move_physics(delta):
 	if input_down:
 		input_dir.y += 1
 	
-	# 计算目标速度（基于传入的参数）
+	# 计算目标速度（基于传入的参数，乘移速加成）
 	var target_vel = Vector2(
-		input_dir.x * _free_move_speed.x,
-		input_dir.y * _free_move_speed.y
+		input_dir.x * _free_move_speed.x * final_speed,
+		input_dir.y * _free_move_speed.y * final_speed
 	)
 	
 	# 应用惯性或直接设置速度

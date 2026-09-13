@@ -1,766 +1,6 @@
 {
 	"blocks": [
 		{
-			"id": 332,
-			"inner_block_ids": [],
-			"inner_else_ids": [],
-			"is_var_ref": false,
-			"name": "when_animation_playing",
-			"output_label": "",
-			"output_name": "",
-			"output_type": "",
-			"params": {
-				"anim_name": "s1"
-			},
-			"position": {
-				"x": 1714.79992675781,
-				"y": -44.8731384277344
-			},
-			"source_block_id": -1,
-			"stack_below_id": 292,
-			"type": "EVENT",
-			"value_slots": {
-
-			}
-		},
-		{
-			"id": 292,
-			"inner_block_ids": [
-				296
-			],
-			"inner_else_ids": [],
-			"is_var_ref": false,
-			"name": "if_condition",
-			"output_label": "",
-			"output_name": "",
-			"output_type": "",
-			"params": {
-				"condition": true
-			},
-			"position": {
-
-			},
-			"source_block_id": -1,
-			"stack_below_id": 314,
-			"type": "CONDITION",
-			"value_slots": {
-				"condition": 293
-			}
-		},
-		{
-			"id": 296,
-			"inner_block_ids": [],
-			"inner_else_ids": [],
-			"is_var_ref": false,
-			"name": "slide",
-			"output_label": "",
-			"output_name": "",
-			"output_type": "",
-			"params": {
-				"g": 0.0,
-				"m": "facing",
-				"r": {
-					"x": 6.0,
-					"y": 0.0
-				},
-				"v": {
-					"x": 4000.0,
-					"y": 0.0,
-					"z": 0.0
-				}
-			},
-			"position": {
-
-			},
-			"source_block_id": -1,
-			"stack_below_id": -1,
-			"type": "ACTION",
-			"value_slots": {
-
-			}
-		},
-		{
-			"id": 314,
-			"inner_block_ids": [
-				323
-			],
-			"inner_else_ids": [],
-			"is_var_ref": false,
-			"name": "if_condition",
-			"output_label": "",
-			"output_name": "",
-			"output_type": "",
-			"params": {
-				"condition": true
-			},
-			"position": {
-
-			},
-			"source_block_id": -1,
-			"stack_below_id": 306,
-			"type": "CONDITION",
-			"value_slots": {
-				"condition": 340
-			}
-		},
-		{
-			"id": 323,
-			"inner_block_ids": [],
-			"inner_else_ids": [],
-			"is_var_ref": false,
-			"name": "slide",
-			"output_label": "",
-			"output_name": "",
-			"output_type": "",
-			"params": {
-				"g": 0.0,
-				"m": "facing",
-				"r": {
-					"x": 0.0,
-					"y": 0.0
-				},
-				"v": {
-					"x": 1600.0,
-					"y": 0.0,
-					"z": 0.0
-				}
-			},
-			"position": {
-
-			},
-			"source_block_id": -1,
-			"stack_below_id": -1,
-			"type": "ACTION",
-			"value_slots": {
-
-			}
-		},
-		{
-			"id": 306,
-			"inner_block_ids": [
-				311
-			],
-			"inner_else_ids": [],
-			"is_var_ref": false,
-			"name": "if_condition",
-			"output_label": "",
-			"output_name": "",
-			"output_type": "",
-			"params": {
-				"condition": true
-			},
-			"position": {
-
-			},
-			"source_block_id": -1,
-			"stack_below_id": -1,
-			"type": "CONDITION",
-			"value_slots": {
-				"condition": 343
-			}
-		},
-		{
-			"id": 311,
-			"inner_block_ids": [],
-			"inner_else_ids": [],
-			"is_var_ref": false,
-			"name": "slide",
-			"output_label": "",
-			"output_name": "",
-			"output_type": "",
-			"params": {
-				"g": 0.0,
-				"m": "facing",
-				"r": {
-					"x": 10.0,
-					"y": 0.0
-				},
-				"v": {
-					"x": 800.0,
-					"y": 0.0,
-					"z": 0.0
-				}
-			},
-			"position": {
-
-			},
-			"source_block_id": -1,
-			"stack_below_id": -1,
-			"type": "ACTION",
-			"value_slots": {
-
-			}
-		},
-		{
-			"id": 345,
-			"inner_block_ids": [],
-			"inner_else_ids": [],
-			"is_var_ref": false,
-			"name": "when_animation_playing",
-			"output_label": "",
-			"output_name": "",
-			"output_type": "",
-			"params": {
-				"anim_name": "s1"
-			},
-			"position": {
-				"x": 1714.79992675781,
-				"y": -44.8731384277344
-			},
-			"source_block_id": -1,
-			"stack_below_id": -1,
-			"type": "EVENT",
-			"value_slots": {
-
-			}
-		},
-		{
-			"id": 293,
-			"inner_block_ids": [],
-			"inner_else_ids": [],
-			"is_var_ref": false,
-			"name": "compare",
-			"output_label": "",
-			"output_name": "",
-			"output_type": "",
-			"params": {
-				"left": "",
-				"op": "=",
-				"right": "1"
-			},
-			"position": {
-
-			},
-			"source_block_id": -1,
-			"stack_below_id": -1,
-			"type": "VALUE",
-			"value_slots": {
-				"left": 329
-			}
-		},
-		{
-			"id": 329,
-			"inner_block_ids": [],
-			"inner_else_ids": [],
-			"is_var_ref": true,
-			"name": "_var_ref_frame_idx",
-			"output_label": "当前帧",
-			"output_name": "frame_idx",
-			"output_type": "node",
-			"params": {
-
-			},
-			"position": {
-
-			},
-			"source_block_id": 309,
-			"stack_below_id": -1,
-			"type": "VALUE",
-			"value_slots": {
-
-			}
-		},
-		{
-			"id": 340,
-			"inner_block_ids": [],
-			"inner_else_ids": [],
-			"is_var_ref": false,
-			"name": "compare",
-			"output_label": "",
-			"output_name": "",
-			"output_type": "",
-			"params": {
-				"left": "",
-				"op": "=",
-				"right": "2"
-			},
-			"position": {
-
-			},
-			"source_block_id": -1,
-			"stack_below_id": -1,
-			"type": "VALUE",
-			"value_slots": {
-				"left": 341
-			}
-		},
-		{
-			"id": 341,
-			"inner_block_ids": [],
-			"inner_else_ids": [],
-			"is_var_ref": true,
-			"name": "_var_ref_frame_idx",
-			"output_label": "当前帧",
-			"output_name": "frame_idx",
-			"output_type": "node",
-			"params": {
-
-			},
-			"position": {
-
-			},
-			"source_block_id": 342,
-			"stack_below_id": -1,
-			"type": "VALUE",
-			"value_slots": {
-
-			}
-		},
-		{
-			"id": 343,
-			"inner_block_ids": [],
-			"inner_else_ids": [],
-			"is_var_ref": false,
-			"name": "compare",
-			"output_label": "",
-			"output_name": "",
-			"output_type": "",
-			"params": {
-				"left": "",
-				"op": "=",
-				"right": "4"
-			},
-			"position": {
-
-			},
-			"source_block_id": -1,
-			"stack_below_id": -1,
-			"type": "VALUE",
-			"value_slots": {
-				"left": 344
-			}
-		},
-		{
-			"id": 344,
-			"inner_block_ids": [],
-			"inner_else_ids": [],
-			"is_var_ref": true,
-			"name": "_var_ref_frame_idx",
-			"output_label": "当前帧",
-			"output_name": "frame_idx",
-			"output_type": "node",
-			"params": {
-
-			},
-			"position": {
-
-			},
-			"source_block_id": 345,
-			"stack_below_id": -1,
-			"type": "VALUE",
-			"value_slots": {
-
-			}
-		},
-		{
-			"id": 276,
-			"inner_block_ids": [],
-			"inner_else_ids": [],
-			"is_var_ref": false,
-			"name": "when_press_input",
-			"output_label": "",
-			"output_name": "",
-			"output_type": "",
-			"params": {
-				"key": 1.0
-			},
-			"position": {
-				"x": 766.0,
-				"y": -914.0
-			},
-			"source_block_id": -1,
-			"stack_below_id": 277,
-			"type": "EVENT",
-			"value_slots": {
-
-			}
-		},
-		{
-			"id": 277,
-			"inner_block_ids": [
-				283,
-				284,
-				325,
-				346,
-				326
-			],
-			"inner_else_ids": [],
-			"is_var_ref": false,
-			"name": "if_condition",
-			"output_label": "",
-			"output_name": "",
-			"output_type": "",
-			"params": {
-				"condition": true
-			},
-			"position": {
-
-			},
-			"source_block_id": -1,
-			"stack_below_id": -1,
-			"type": "CONDITION",
-			"value_slots": {
-				"condition": 278
-			}
-		},
-		{
-			"id": 278,
-			"inner_block_ids": [],
-			"inner_else_ids": [],
-			"is_var_ref": false,
-			"name": "compare",
-			"output_label": "",
-			"output_name": "",
-			"output_type": "",
-			"params": {
-				"left": "",
-				"op": "或",
-				"right": ""
-			},
-			"position": {
-
-			},
-			"source_block_id": -1,
-			"stack_below_id": -1,
-			"type": "VALUE",
-			"value_slots": {
-				"left": 279,
-				"right": 281
-			}
-		},
-		{
-			"id": 281,
-			"inner_block_ids": [],
-			"inner_else_ids": [],
-			"is_var_ref": false,
-			"name": "compare",
-			"output_label": "",
-			"output_name": "",
-			"output_type": "",
-			"params": {
-				"left": "",
-				"op": "=",
-				"right": "run"
-			},
-			"position": {
-
-			},
-			"source_block_id": -1,
-			"stack_below_id": -1,
-			"type": "VALUE",
-			"value_slots": {
-				"left": 282
-			}
-		},
-		{
-			"id": 282,
-			"inner_block_ids": [],
-			"inner_else_ids": [],
-			"is_var_ref": false,
-			"name": "now_animation",
-			"output_label": "",
-			"output_name": "",
-			"output_type": "",
-			"params": {
-
-			},
-			"position": {
-
-			},
-			"source_block_id": -1,
-			"stack_below_id": -1,
-			"type": "VALUE",
-			"value_slots": {
-
-			}
-		},
-		{
-			"id": 279,
-			"inner_block_ids": [],
-			"inner_else_ids": [],
-			"is_var_ref": false,
-			"name": "compare",
-			"output_label": "",
-			"output_name": "",
-			"output_type": "",
-			"params": {
-				"left": "",
-				"op": "=",
-				"right": "idle"
-			},
-			"position": {
-
-			},
-			"source_block_id": -1,
-			"stack_below_id": -1,
-			"type": "VALUE",
-			"value_slots": {
-				"left": 280
-			}
-		},
-		{
-			"id": 280,
-			"inner_block_ids": [],
-			"inner_else_ids": [],
-			"is_var_ref": false,
-			"name": "now_animation",
-			"output_label": "",
-			"output_name": "",
-			"output_type": "",
-			"params": {
-
-			},
-			"position": {
-
-			},
-			"source_block_id": -1,
-			"stack_below_id": -1,
-			"type": "VALUE",
-			"value_slots": {
-
-			}
-		},
-		{
-			"id": 283,
-			"inner_block_ids": [],
-			"inner_else_ids": [],
-			"is_var_ref": false,
-			"name": "turn_by_input",
-			"output_label": "",
-			"output_name": "",
-			"output_type": "",
-			"params": {
-
-			},
-			"position": {
-
-			},
-			"source_block_id": -1,
-			"stack_below_id": 284,
-			"type": "ACTION",
-			"value_slots": {
-
-			}
-		},
-		{
-			"id": 284,
-			"inner_block_ids": [],
-			"inner_else_ids": [],
-			"is_var_ref": false,
-			"name": "play_animation",
-			"output_label": "",
-			"output_name": "",
-			"output_type": "",
-			"params": {
-				"anim_name": "s1"
-			},
-			"position": {
-
-			},
-			"source_block_id": -1,
-			"stack_below_id": 325,
-			"type": "ACTION",
-			"value_slots": {
-
-			}
-		},
-		{
-			"id": 325,
-			"inner_block_ids": [
-				327,
-				328
-			],
-			"inner_else_ids": [
-				285,
-				286,
-				347
-			],
-			"is_var_ref": false,
-			"name": "if_else",
-			"output_label": "",
-			"output_name": "",
-			"output_type": "",
-			"params": {
-				"condition": true
-			},
-			"position": {
-
-			},
-			"source_block_id": -1,
-			"stack_below_id": 346,
-			"type": "CONDITION",
-			"value_slots": {
-				"condition": 326
-			}
-		},
-		{
-			"id": 326,
-			"inner_block_ids": [],
-			"inner_else_ids": [],
-			"is_var_ref": false,
-			"name": "timer_alive",
-			"output_label": "",
-			"output_name": "",
-			"output_type": "",
-			"params": {
-				"cd_id": 1.0
-			},
-			"position": {
-
-			},
-			"source_block_id": -1,
-			"stack_below_id": -1,
-			"type": "VALUE",
-			"value_slots": {
-
-			}
-		},
-		{
-			"id": 327,
-			"inner_block_ids": [],
-			"inner_else_ids": [],
-			"is_var_ref": false,
-			"name": "set_cd",
-			"output_label": "",
-			"output_name": "",
-			"output_type": "",
-			"params": {
-				"cd": 12.0,
-				"cd_id": 1.0,
-				"slot_id": 1.0
-			},
-			"position": {
-
-			},
-			"source_block_id": -1,
-			"stack_below_id": 328,
-			"type": "ACTION",
-			"value_slots": {
-
-			}
-		},
-		{
-			"id": 328,
-			"inner_block_ids": [],
-			"inner_else_ids": [],
-			"is_var_ref": false,
-			"name": "set_timer",
-			"output_label": "",
-			"output_name": "",
-			"output_type": "",
-			"params": {
-				"cd": 0.0,
-				"cd_id": 1.0,
-				"cd_max": 0.0,
-				"slot_id": 1.0
-			},
-			"position": {
-
-			},
-			"source_block_id": -1,
-			"stack_below_id": -1,
-			"type": "ACTION",
-			"value_slots": {
-
-			}
-		},
-		{
-			"id": 285,
-			"inner_block_ids": [],
-			"inner_else_ids": [],
-			"is_var_ref": false,
-			"name": "set_cd",
-			"output_label": "",
-			"output_name": "",
-			"output_type": "",
-			"params": {
-				"cd": 8.0,
-				"cd_id": 1.0,
-				"slot_id": -1.0
-			},
-			"position": {
-
-			},
-			"source_block_id": -1,
-			"stack_below_id": 286,
-			"type": "ACTION",
-			"value_slots": {
-
-			}
-		},
-		{
-			"id": 286,
-			"inner_block_ids": [],
-			"inner_else_ids": [],
-			"is_var_ref": false,
-			"name": "set_timer",
-			"output_label": "",
-			"output_name": "",
-			"output_type": "",
-			"params": {
-				"cd": 3.0,
-				"cd_id": 1.0,
-				"cd_max": 3.0,
-				"slot_id": 1.0
-			},
-			"position": {
-
-			},
-			"source_block_id": -1,
-			"stack_below_id": 347,
-			"type": "ACTION",
-			"value_slots": {
-
-			}
-		},
-		{
-			"id": 346,
-			"inner_block_ids": [],
-			"inner_else_ids": [],
-			"is_var_ref": false,
-			"name": "set_entity_modifiers",
-			"output_label": "",
-			"output_name": "",
-			"output_type": "",
-			"params": {
-				"d": -2.0,
-				"pow": 1.0,
-				"target": "",
-				"type": "customBodyState"
-			},
-			"position": {
-
-			},
-			"source_block_id": -1,
-			"stack_below_id": 326,
-			"type": "ACTION",
-			"value_slots": {
-				"target": 347
-			}
-		},
-		{
-			"id": 347,
-			"inner_block_ids": [],
-			"inner_else_ids": [],
-			"is_var_ref": false,
-			"name": "self_entity",
-			"output_label": "",
-			"output_name": "",
-			"output_type": "",
-			"params": {
-
-			},
-			"position": {
-
-			},
-			"source_block_id": -1,
-			"stack_below_id": -1,
-			"type": "VALUE",
-			"value_slots": {
-
-			}
-		},
-		{
 			"id": 304,
 			"inner_block_ids": [],
 			"inner_else_ids": [],
@@ -847,6 +87,7 @@
 			"output_name": "",
 			"output_type": "",
 			"params": {
+				"caster": "",
 				"d": -2.0,
 				"pow": 0.0,
 				"target": "",
@@ -1152,6 +393,7 @@
 			"output_name": "",
 			"output_type": "",
 			"params": {
+				"caster": "",
 				"d": -2.0,
 				"pow": 2.0,
 				"target": "",
@@ -2307,11 +1549,13 @@
 					"x": 300.0,
 					"y": 150.0
 				},
+				"mag_inv": true,
 				"name": "万象天引",
 				"range_x1": -1000.0,
 				"range_x2": 1000.0,
 				"range_y1": 0.0,
-				"range_y2": 250.0
+				"range_y2": 250.0,
+				"st": -1.0
 			},
 			"position": {
 
@@ -2355,7 +1599,8 @@
 			"output_name": "",
 			"output_type": "",
 			"params": {
-				"anim_name": "a2"
+				"anim_name": "a2",
+				"frame_type": "动画帧"
 			},
 			"position": {
 				"x": 263.48583984375,
@@ -2378,7 +1623,8 @@
 			"output_name": "",
 			"output_type": "",
 			"params": {
-				"anim_name": "a2"
+				"anim_name": "a2",
+				"frame_type": "动画帧"
 			},
 			"position": {
 				"x": 263.48583984375,
@@ -2401,7 +1647,8 @@
 			"output_name": "",
 			"output_type": "",
 			"params": {
-				"anim_name": "a4"
+				"anim_name": "a4",
+				"frame_type": "动画帧"
 			},
 			"position": {
 				"x": 263.48583984375,
@@ -2782,7 +2029,8 @@
 			"output_name": "",
 			"output_type": "",
 			"params": {
-				"anim_name": "a3"
+				"anim_name": "a3",
+				"frame_type": "动画帧"
 			},
 			"position": {
 				"x": -280.373657226563,
@@ -3860,6 +3108,7 @@
 			"output_name": "",
 			"output_type": "",
 			"params": {
+				"caster": "",
 				"d": -2.0,
 				"pow": 0.0,
 				"target": "",
@@ -3999,7 +3248,8 @@
 			"output_name": "",
 			"output_type": "",
 			"params": {
-				"anim_name": "a1"
+				"anim_name": "a1",
+				"frame_type": "动画帧"
 			},
 			"position": {
 				"x": -299.125732421875,
@@ -4022,7 +3272,8 @@
 			"output_name": "",
 			"output_type": "",
 			"params": {
-				"anim_name": "a1"
+				"anim_name": "a1",
+				"frame_type": "动画帧"
 			},
 			"position": {
 				"x": -299.125732421875,
@@ -4729,18 +3980,25 @@
 			"output_name": "",
 			"output_type": "",
 			"params": {
+				"ar": 1.0,
 				"bs": 0.0,
 				"cotg": true,
 				"hst": 0.0,
 				"hurt": 0.0,
 				"isgd": true,
 				"ish": false,
+				"kr": 10.0,
 				"target": "",
 				"type": "launch",
 				"v": {
 					"x": 800.0,
 					"y": 0.0,
 					"z": 200.0
+				},
+				"va": {
+					"x": 0.0,
+					"y": 0.0,
+					"z": 0.0
 				}
 			},
 			"position": {
@@ -4875,18 +4133,25 @@
 			"output_name": "",
 			"output_type": "",
 			"params": {
+				"ar": 1.0,
 				"bs": 0.0,
 				"cotg": true,
 				"hst": 0.0,
 				"hurt": 0.0,
 				"isgd": true,
 				"ish": false,
+				"kr": 10.0,
 				"target": "",
 				"type": "launch",
 				"v": {
 					"x": 500.0,
 					"y": 0.0,
 					"z": 220.0
+				},
+				"va": {
+					"x": 0.0,
+					"y": 0.0,
+					"z": 0.0
 				}
 			},
 			"position": {
@@ -5021,18 +4286,25 @@
 			"output_name": "",
 			"output_type": "",
 			"params": {
+				"ar": 1.0,
 				"bs": 0.0,
 				"cotg": false,
 				"hst": 0.400000000001455,
 				"hurt": 0.0,
 				"isgd": true,
 				"ish": true,
+				"kr": 10.0,
 				"target": "",
 				"type": "push",
 				"v": {
 					"x": 2000.0,
 					"y": 0.0,
 					"z": 250.0
+				},
+				"va": {
+					"x": 0.0,
+					"y": 0.0,
+					"z": 0.0
 				}
 			},
 			"position": {
@@ -5167,18 +4439,25 @@
 			"output_name": "",
 			"output_type": "",
 			"params": {
+				"ar": 1.0,
 				"bs": 0.0,
 				"cotg": false,
 				"hst": 0.450000000000728,
 				"hurt": 0.0,
 				"isgd": true,
 				"ish": false,
+				"kr": 10.0,
 				"target": "",
 				"type": "push",
 				"v": {
 					"x": 700.0,
 					"y": 0.0,
 					"z": 150.0
+				},
+				"va": {
+					"x": 0.0,
+					"y": 0.0,
+					"z": 0.0
 				}
 			},
 			"position": {
@@ -5291,18 +4570,25 @@
 			"output_name": "",
 			"output_type": "",
 			"params": {
+				"ar": 1.0,
 				"bs": 0.0,
 				"cotg": false,
 				"hst": 0.400000000001455,
 				"hurt": 0.0,
 				"isgd": true,
 				"ish": false,
+				"kr": 10.0,
 				"target": "",
 				"type": "push",
 				"v": {
 					"x": 800.0,
 					"y": 0.0,
 					"z": 200.0
+				},
+				"va": {
+					"x": 0.0,
+					"y": 0.0,
+					"z": 0.0
 				}
 			},
 			"position": {
@@ -5482,7 +4768,8 @@
 			"output_name": "",
 			"output_type": "",
 			"params": {
-				"anim_name": "a2"
+				"anim_name": "a2",
+				"frame_type": "动画帧"
 			},
 			"position": {
 				"x": 259.799926757813,
@@ -5769,7 +5056,8 @@
 			"output_name": "",
 			"output_type": "",
 			"params": {
-				"anim_name": "a2"
+				"anim_name": "a2",
+				"frame_type": "动画帧"
 			},
 			"position": {
 				"x": 263.48583984375,
@@ -5979,7 +5267,8 @@
 			"output_name": "",
 			"output_type": "",
 			"params": {
-				"anim_name": "s1"
+				"anim_name": "s1",
+				"frame_type": "动画帧"
 			},
 			"position": {
 				"x": 1714.79992675781,
@@ -6002,7 +5291,8 @@
 			"output_name": "",
 			"output_type": "",
 			"params": {
-				"anim_name": "s1"
+				"anim_name": "s1",
+				"frame_type": "动画帧"
 			},
 			"position": {
 				"x": 1714.79992675781,
@@ -6170,18 +5460,25 @@
 			"output_name": "",
 			"output_type": "",
 			"params": {
+				"ar": 1.0,
 				"bs": 0.0,
 				"cotg": true,
 				"hst": 0.400000000001455,
 				"hurt": 0.0,
 				"isgd": true,
 				"ish": false,
+				"kr": 10.0,
 				"target": "",
 				"type": "push",
 				"v": {
 					"x": 0.0,
 					"y": 0.0,
 					"z": 60.0
+				},
+				"va": {
+					"x": 0.0,
+					"y": 0.0,
+					"z": 0.0
 				}
 			},
 			"position": {
@@ -6281,6 +5578,7 @@
 					"x": 2000.0,
 					"y": 1600.0
 				},
+				"st": 2.0,
 				"target": ""
 			},
 			"position": {
@@ -6348,6 +5646,7 @@
 			"output_name": "",
 			"output_type": "",
 			"params": {
+				"caster": "",
 				"d": 3.0,
 				"pow": 1.0,
 				"target": "",
@@ -6384,17 +5683,784 @@
 			"value_slots": {
 
 			}
+		},
+		{
+			"id": 332,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_var_ref": false,
+			"name": "when_animation_playing",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"anim_name": "s1",
+				"frame_type": "动画帧"
+			},
+			"position": {
+				"x": 1714.79992675781,
+				"y": -44.8731384277344
+			},
+			"source_block_id": -1,
+			"stack_below_id": 292,
+			"type": "EVENT",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 292,
+			"inner_block_ids": [
+				296
+			],
+			"inner_else_ids": [],
+			"is_var_ref": false,
+			"name": "if_condition",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"condition": true
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": 314,
+			"type": "CONDITION",
+			"value_slots": {
+				"condition": 293
+			}
+		},
+		{
+			"id": 296,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_var_ref": false,
+			"name": "slide",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"g": 0.0,
+				"m": "facing",
+				"r": {
+					"x": 6.0,
+					"y": 0.0
+				},
+				"v": {
+					"x": 4000.0,
+					"y": 0.0,
+					"z": 0.0
+				}
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": -1,
+			"type": "ACTION",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 314,
+			"inner_block_ids": [
+				323
+			],
+			"inner_else_ids": [],
+			"is_var_ref": false,
+			"name": "if_condition",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"condition": true
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": 306,
+			"type": "CONDITION",
+			"value_slots": {
+				"condition": 340
+			}
+		},
+		{
+			"id": 323,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_var_ref": false,
+			"name": "slide",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"g": 0.0,
+				"m": "facing",
+				"r": {
+					"x": 0.0,
+					"y": 0.0
+				},
+				"v": {
+					"x": 1600.0,
+					"y": 0.0,
+					"z": 0.0
+				}
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": -1,
+			"type": "ACTION",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 306,
+			"inner_block_ids": [
+				311
+			],
+			"inner_else_ids": [],
+			"is_var_ref": false,
+			"name": "if_condition",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"condition": true
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": -1,
+			"type": "CONDITION",
+			"value_slots": {
+				"condition": 343
+			}
+		},
+		{
+			"id": 311,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_var_ref": false,
+			"name": "slide",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"g": 0.0,
+				"m": "facing",
+				"r": {
+					"x": 10.0,
+					"y": 0.0
+				},
+				"v": {
+					"x": 800.0,
+					"y": 0.0,
+					"z": 0.0
+				}
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": -1,
+			"type": "ACTION",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 293,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_var_ref": false,
+			"name": "compare",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"left": "",
+				"op": "=",
+				"right": "1"
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": -1,
+			"type": "VALUE",
+			"value_slots": {
+				"left": 329
+			}
+		},
+		{
+			"id": 329,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_var_ref": true,
+			"name": "_var_ref_frame_idx",
+			"output_label": "当前帧",
+			"output_name": "frame_idx",
+			"output_type": "node",
+			"params": {
+
+			},
+			"position": {
+
+			},
+			"source_block_id": 309,
+			"stack_below_id": -1,
+			"type": "VALUE",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 340,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_var_ref": false,
+			"name": "compare",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"left": "",
+				"op": "=",
+				"right": "2"
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": -1,
+			"type": "VALUE",
+			"value_slots": {
+				"left": 341
+			}
+		},
+		{
+			"id": 341,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_var_ref": true,
+			"name": "_var_ref_frame_idx",
+			"output_label": "当前帧",
+			"output_name": "frame_idx",
+			"output_type": "node",
+			"params": {
+
+			},
+			"position": {
+
+			},
+			"source_block_id": 342,
+			"stack_below_id": -1,
+			"type": "VALUE",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 343,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_var_ref": false,
+			"name": "compare",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"left": "",
+				"op": "=",
+				"right": "4"
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": -1,
+			"type": "VALUE",
+			"value_slots": {
+				"left": 344
+			}
+		},
+		{
+			"id": 344,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_var_ref": true,
+			"name": "_var_ref_frame_idx",
+			"output_label": "当前帧",
+			"output_name": "frame_idx",
+			"output_type": "node",
+			"params": {
+
+			},
+			"position": {
+
+			},
+			"source_block_id": 345,
+			"stack_below_id": -1,
+			"type": "VALUE",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 345,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_var_ref": false,
+			"name": "when_animation_playing",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"anim_name": "s1",
+				"frame_type": "动画帧"
+			},
+			"position": {
+				"x": 1714.79992675781,
+				"y": -44.8731384277344
+			},
+			"source_block_id": -1,
+			"stack_below_id": -1,
+			"type": "EVENT",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 276,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_var_ref": false,
+			"name": "when_press_input",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"key": 1.0
+			},
+			"position": {
+				"x": 766.0,
+				"y": -914.0
+			},
+			"source_block_id": -1,
+			"stack_below_id": 277,
+			"type": "EVENT",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 277,
+			"inner_block_ids": [
+				283,
+				284,
+				325,
+				346,
+				326
+			],
+			"inner_else_ids": [],
+			"is_var_ref": false,
+			"name": "if_condition",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"condition": true
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": -1,
+			"type": "CONDITION",
+			"value_slots": {
+				"condition": 278
+			}
+		},
+		{
+			"id": 278,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_var_ref": false,
+			"name": "compare",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"left": "",
+				"op": "或",
+				"right": ""
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": -1,
+			"type": "VALUE",
+			"value_slots": {
+				"left": 279,
+				"right": 281
+			}
+		},
+		{
+			"id": 281,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_var_ref": false,
+			"name": "compare",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"left": "",
+				"op": "=",
+				"right": "run"
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": -1,
+			"type": "VALUE",
+			"value_slots": {
+				"left": 282
+			}
+		},
+		{
+			"id": 282,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_var_ref": false,
+			"name": "now_animation",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": -1,
+			"type": "VALUE",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 279,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_var_ref": false,
+			"name": "compare",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"left": "",
+				"op": "=",
+				"right": "idle"
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": -1,
+			"type": "VALUE",
+			"value_slots": {
+				"left": 280
+			}
+		},
+		{
+			"id": 280,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_var_ref": false,
+			"name": "now_animation",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": -1,
+			"type": "VALUE",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 283,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_var_ref": false,
+			"name": "turn_by_input",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": 284,
+			"type": "ACTION",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 284,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_var_ref": false,
+			"name": "play_animation",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"anim_name": "s1"
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": 325,
+			"type": "ACTION",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 325,
+			"inner_block_ids": [
+				327,
+				328
+			],
+			"inner_else_ids": [
+				285,
+				286,
+				347
+			],
+			"is_var_ref": false,
+			"name": "if_else",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"condition": true
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": 346,
+			"type": "CONDITION",
+			"value_slots": {
+				"condition": 326
+			}
+		},
+		{
+			"id": 326,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_var_ref": false,
+			"name": "timer_alive",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"cd_id": 1.0
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": -1,
+			"type": "VALUE",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 327,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_var_ref": false,
+			"name": "set_cd",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"cd": 12.0,
+				"cd_id": 1.0,
+				"slot_id": 1.0
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": 328,
+			"type": "ACTION",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 328,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_var_ref": false,
+			"name": "set_timer",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"cd": 0.0,
+				"cd_id": 1.0,
+				"cd_max": 0.0,
+				"slot_id": 1.0
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": -1,
+			"type": "ACTION",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 285,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_var_ref": false,
+			"name": "set_cd",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"cd": 8.0,
+				"cd_id": 1.0,
+				"slot_id": -1.0
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": 286,
+			"type": "ACTION",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 286,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_var_ref": false,
+			"name": "set_timer",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"cd": 3.0,
+				"cd_id": 1.0,
+				"cd_max": 3.0,
+				"slot_id": 1.0
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": 347,
+			"type": "ACTION",
+			"value_slots": {
+
+			}
+		},
+		{
+			"id": 346,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_var_ref": false,
+			"name": "set_entity_modifiers",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+				"caster": "",
+				"d": -2.0,
+				"pow": 1.0,
+				"target": "",
+				"type": "customBodyState"
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": 326,
+			"type": "ACTION",
+			"value_slots": {
+				"target": 347
+			}
+		},
+		{
+			"id": 347,
+			"inner_block_ids": [],
+			"inner_else_ids": [],
+			"is_var_ref": false,
+			"name": "self_entity",
+			"output_label": "",
+			"output_name": "",
+			"output_type": "",
+			"params": {
+
+			},
+			"position": {
+
+			},
+			"source_block_id": -1,
+			"stack_below_id": -1,
+			"type": "VALUE",
+			"value_slots": {
+
+			}
 		}
 	],
+	"editor_mode": 1,
 	"events": {
 		"rows": [
 			{
+				"_uid": "_1",
 				"block_name": "when_animation_playing",
 				"children": [
 					{
+						"_uid": "_2",
 						"block_name": "if_condition",
 						"children": [
 							{
+								"_uid": "_3",
 								"block_name": "tween_property",
 								"children": [],
 								"exprs": {
@@ -6410,6 +6476,7 @@
 								}
 							},
 							{
+								"_uid": "_4",
 								"block_name": "tween_property",
 								"children": [],
 								"exprs": {
@@ -6434,6 +6501,7 @@
 						}
 					},
 					{
+						"_uid": "_5",
 						"block_name": "spawn_afterimage",
 						"children": [],
 						"enabled": false,
@@ -6450,12 +6518,15 @@
 						}
 					},
 					{
+						"_uid": "_6",
 						"block_name": "if_condition",
 						"children": [
 							{
+								"_uid": "_7",
 								"block_name": "if_condition",
 								"children": [
 									{
+										"_uid": "_8",
 										"block_name": "spawn_cancel_white",
 										"children": [],
 										"exprs": {
@@ -6466,6 +6537,7 @@
 										}
 									},
 									{
+										"_uid": "_9",
 										"block_name": "play_animation",
 										"children": [],
 										"exprs": {
@@ -6476,6 +6548,7 @@
 										}
 									},
 									{
+										"_uid": "_10",
 										"block_name": "stop_slide",
 										"children": [],
 										"exprs": {
@@ -6510,9 +6583,104 @@
 				"params": {
 					"anim_name": "s1"
 				}
+			},
+			{
+				"_uid": "_11",
+				"block_name": "when_attack_box_hit",
+				"children": [
+					{
+						"_uid": "_12",
+						"block_name": "hit_entity",
+						"children": [],
+						"exprs": {
+							"target": "target"
+						},
+						"params": {
+							"ar": 1.0,
+							"bs": 0.0,
+							"cotg": true,
+							"hst": 0.5,
+							"hurt": 200000.0,
+							"isgd": true,
+							"ish": false,
+							"kr": 10.0,
+							"target": "",
+							"type": "push",
+							"v": {
+								"x": 500.0,
+								"y": 0.0,
+								"z": 400.0
+							},
+							"va": {
+								"x": 0.0,
+								"y": 0.0,
+								"z": 0.0
+							}
+						}
+					}
+				],
+				"enabled": true,
+				"exprs": {
+
+				},
+				"id": 1001.0,
+				"params": {
+					"abox_name": "s1_1"
+				}
+			},
+			{
+				"_uid": "_13",
+				"block_name": "when_attack_box_hit",
+				"children": [
+					{
+						"_uid": "_14",
+						"block_name": "hit_entity",
+						"children": [],
+						"exprs": {
+							"target": "target"
+						},
+						"params": {
+							"ar": 1.0,
+							"bs": 0.0,
+							"cotg": true,
+							"hst": 0.5,
+							"hurt": 200000.0,
+							"isgd": true,
+							"ish": false,
+							"kr": 10.0,
+							"target": "",
+							"type": "push",
+							"v": {
+								"x": 500.0,
+								"y": 0.0,
+								"z": 400.0
+							},
+							"va": {
+								"x": 0.0,
+								"y": 0.0,
+								"z": 0.0
+							}
+						}
+					}
+				],
+				"enabled": true,
+				"exprs": {
+
+				},
+				"id": 1002.0,
+				"params": {
+					"abox_name": "s1_a"
+				}
 			}
 		]
 	},
 	"run_mode": "both",
+	"ui_state": {
+		"col_collapsed": {
+			"_1": true,
+			"_11": false,
+			"_13": false
+		}
+	},
 	"version": 2
 }

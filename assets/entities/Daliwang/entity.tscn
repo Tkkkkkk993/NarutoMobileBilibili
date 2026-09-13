@@ -461,6 +461,7 @@ animations = [{
 
 [node name="Entity" unique_id=738328288 instance=ExtResource("1_eqw6w")]
 script = ExtResource("2_dlwkh")
+debug_show_hitboxes = false
 
 [node name="AnimatedSprite2D" parent="Visuals" parent_id_path=PackedInt32Array(599763896) index="0" unique_id=318864051]
 scale = Vector2(1.86, 1.86)

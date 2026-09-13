@@ -64,12 +64,12 @@ func start_battle():
 	if current_mode == GameMode.TEST:
 		print("测试模式")
 		
-		p2_current_char = "Daliwang"
+		p2_current_char = "神秘面具男"
 		
 		p1_current_scroll = "解术_散"
 		p2_current_scroll = "解术_散"
 		
-		current_map = "normal"
+		current_map = "normal" #测试模式修改音乐
 		current_round = 1
 		
 		AudioManager.set_voice_pack("SenjuHashirama")

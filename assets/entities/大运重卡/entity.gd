@@ -3,7 +3,7 @@ extends AnimatedSprite2DEntity
 func _ready():
 	res_path = "res://assets/entities/大运重卡/main.tres"
 	enable_wall_collision = false
-	aux_cd_value = 20
+	aux_cd_value = 2
 	super._ready()
 	is_invincible = true
 	position_3d.x = -2000

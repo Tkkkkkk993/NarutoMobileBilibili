@@ -9,6 +9,7 @@ var _attack_box_editor_instance: Window = null
 var _info_point_editor_instance: Window = null
 var _effect_binder_editor_instance: Window = null
 var _visual_script_editor_instance: Window = null
+var _anim_preview_instance: Window = null
 
 func _ready():
 	_create_entity_container()
@@ -71,6 +72,13 @@ func _add_editor_buttons():
 	vs_btn.custom_minimum_size = Vector2(120, 40)
 	vs_btn.pressed.connect(_on_visual_script_edit_pressed)
 	button_container.add_child(vs_btn)
+
+	# 动画预览按钮
+	var anim_preview_btn = Button.new()
+	anim_preview_btn.text = "预览动画"
+	anim_preview_btn.custom_minimum_size = Vector2(120, 40)
+	anim_preview_btn.pressed.connect(_on_anim_preview_pressed)
+	button_container.add_child(anim_preview_btn)
 
 	# 测试运行按钮（调用 EditorInterface.play_main_scene）
 	var test_btn = Button.new()
@@ -351,6 +359,34 @@ func _get_entity_visuals_ref() -> Node:
 		return e.visuals_node if e.visuals_node else _current_entity_instance
 	return _current_entity_instance
 
+func _on_anim_preview_pressed():
+	if _current_entity_instance == null:
+		print("请先加载实体场景")
+		return
+	_close_anim_preview()
+	var editor_script = load("res://addons/entityeditor/animation_preview.gd")
+	if editor_script:
+		var editor = Window.new()
+		editor.title = "动画预览"
+		editor.size = Vector2i(500, 400)
+		editor.min_size = Vector2i(350, 160)
+		editor.unresizable = false
+		editor.script = editor_script
+		editor.close_requested.connect(_close_anim_preview)
+		add_child(editor)
+		await get_tree().process_frame
+		editor.popup_centered()
+		editor.setup(_current_entity_instance, _current_entity_scene_path)
+		_anim_preview_instance = editor
+		print("动画预览已打开")
+	else:
+		print("错误：无法加载动画预览脚本")
+
+func _close_anim_preview():
+	if _anim_preview_instance and is_instance_valid(_anim_preview_instance):
+		_anim_preview_instance.queue_free()
+		_anim_preview_instance = null
+
 func _notification(what):
 	if what == NOTIFICATION_RESIZED:
 		if _current_entity_instance != null and is_instance_valid(_current_entity_instance):
@@ -358,6 +394,7 @@ func _notification(what):
 			_current_entity_instance.position = _entity_container.size / 2
 
 func _exit_tree():
+	_close_anim_preview()
 	if _frame_editor_instance and is_instance_valid(_frame_editor_instance):
 		_frame_editor_instance.queue_free()
 	if _attack_box_editor_instance and is_instance_valid(_attack_box_editor_instance):

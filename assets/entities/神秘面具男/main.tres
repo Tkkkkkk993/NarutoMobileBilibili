@@ -4,6 +4,6 @@
 
 [resource]
 script = ExtResource("1_0bc6o")
-entity_name = "神秘面具男[九尾之乱]"
+entity_name = "戴面具的男子"
 floder_path = "res://assets/entities/神秘面具男/"
 metadata/_custom_type_script = "uid://cm7ar1dcvtpvt"

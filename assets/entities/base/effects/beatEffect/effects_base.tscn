@@ -1,7 +1,7 @@
-[gd_scene load_steps=11 format=3 uid="uid://c5yta4ykdcwdv"]
+[gd_scene format=3 uid="uid://c5yta4ykdcwdv"]
 
 [ext_resource type="PackedScene" uid="uid://c5eauk5i5s64k" path="res://assets/entities/base/effects/effects_base.tscn" id="1_2730m"]
-[ext_resource type="Script" path="res://assets/entities/base/effects/beatEffect/effects_base.gd" id="2_nmu8r"]
+[ext_resource type="Script" uid="uid://dx2qnht7ng17t" path="res://assets/entities/base/effects/beatEffect/effects_base.gd" id="2_nmu8r"]
 [ext_resource type="Texture2D" uid="uid://cgy1if13yt8xo" path="res://assets/entities/base/effects/beatEffect/beatEffect-bottom1.png" id="2_nyxvi"]
 [ext_resource type="Texture2D" uid="uid://d3r8ir5i7muqw" path="res://assets/entities/base/effects/beatEffect/beatEffect-bottom2.png" id="3_4oerj"]
 [ext_resource type="Texture2D" uid="uid://cwgqurs5c3sop" path="res://assets/entities/base/effects/beatEffect/beatEffect-bar.png" id="4_7swtk"]
@@ -536,41 +536,39 @@ tracks/16/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_qcakk"]
 _data = {
-"B2": SubResource("Animation_jkpf7"),
-"Beat": SubResource("Animation_n6mf7"),
-"RESET": SubResource("Animation_g6mat")
+&"B2": SubResource("Animation_jkpf7"),
+&"Beat": SubResource("Animation_n6mf7"),
+&"RESET": SubResource("Animation_g6mat")
 }
 
-[node name="BeatEffect" instance=ExtResource("1_2730m")]
+[node name="BeatEffect" unique_id=1853063535 instance=ExtResource("1_2730m")]
 script = ExtResource("2_nmu8r")
 
-[node name="e" type="Node2D" parent="." index="0"]
+[node name="e" type="Node2D" parent="." index="0" unique_id=1448100796]
 scale = Vector2(1.6, 1.6)
 
-[node name="BeatEffect-bottom1-1" type="Sprite2D" parent="e" index="0"]
+[node name="BeatEffect-bottom1-1" type="Sprite2D" parent="e" index="0" unique_id=667910256]
 texture = ExtResource("2_nyxvi")
 
-[node name="BeatEffect-bottom1-2" type="Sprite2D" parent="e" index="1"]
+[node name="BeatEffect-bottom1-2" type="Sprite2D" parent="e" index="1" unique_id=824240182]
 modulate = Color(1, 1, 1, 0.875)
 texture = ExtResource("2_nyxvi")
 
-[node name="BeatEffect-bottom1-3" type="Sprite2D" parent="e" index="2"]
+[node name="BeatEffect-bottom1-3" type="Sprite2D" parent="e" index="2" unique_id=2016833037]
 texture = ExtResource("2_nyxvi")
 
-[node name="BeatEffect-top-2" type="Sprite2D" parent="e" index="3"]
+[node name="BeatEffect-top-2" type="Sprite2D" parent="e" index="3" unique_id=343942108]
 texture = ExtResource("5_cu7t8")
 
-[node name="BeatEffect-bottom2" type="Sprite2D" parent="e" index="4"]
+[node name="BeatEffect-bottom2" type="Sprite2D" parent="e" index="4" unique_id=1291494393]
 texture = ExtResource("3_4oerj")
 
-[node name="BeatEffect-bar" type="Sprite2D" parent="e" index="5"]
+[node name="BeatEffect-bar" type="Sprite2D" parent="e" index="5" unique_id=1651776643]
 texture = ExtResource("4_7swtk")
 
-[node name="BeatEffect-top-1" type="Sprite2D" parent="e" index="6"]
+[node name="BeatEffect-top-1" type="Sprite2D" parent="e" index="6" unique_id=1089492437]
 scale = Vector2(2.5, 2.5)
 texture = ExtResource("5_cu7t8")
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="." index="1"]
-libraries = {
-"": SubResource("AnimationLibrary_qcakk")
-}
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." index="1" unique_id=626954791]
+libraries/ = SubResource("AnimationLibrary_qcakk")

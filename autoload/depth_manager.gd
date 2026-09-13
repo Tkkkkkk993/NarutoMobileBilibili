@@ -87,9 +87,7 @@ func _process(delta):
 			pass
 
 func _update_all_depths():
-	# 清理已释放的实体
 	_cleanup_invalid_references()
-	# 确保实体列表最新（动态增减时刷新）
 	_refresh_entity_list()
 
 	_entities.sort_custom(_depth_compare)
@@ -102,7 +100,6 @@ func _update_all_depths():
 
 	for i in range(_entities.size()):
 		var entity = _entities[i]
-		# 双重保险：再次检查有效性（_cleanup 已处理，但防止并发释放）
 		if not is_instance_valid(entity):
 			continue
 		var target_z = clampi(i * Z_INDEX_STEP, Z_INDEX_MIN, Z_INDEX_MAX)
@@ -165,7 +162,7 @@ func _calculate_depth(entity: Node2D) -> float:
 	match sort_mode:
 		SortMode.Y_POSITION:
 			var pos3d = _get_3d_pos(entity)
-			base = pos3d.y
+			base = snapped(pos3d.y, 0.001)
 		SortMode.Y_INVERSE:
 			base = -entity.position.y * y_sort_scale
 		SortMode.Z_POSITION:
@@ -250,7 +247,6 @@ func register_entity(entity: Node2D):
 	if debug_sort:
 		print("[深度] 注册实体: " + entity.name)
 	_dirty = true
-	# 立即强制更新，确保新注册的实体（如特效）立即获得正确的 z_index
 	force_update()
 
 func _on_entity_exited(entity: Node2D):

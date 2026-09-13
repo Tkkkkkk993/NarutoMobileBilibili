@@ -1,0 +1,28 @@
+{
+	"blocks": [],
+	"editor_mode": 1,
+	"events": {
+		"rows": [
+			{
+				"_uid": "_1",
+				"block_name": "when_entity_create",
+				"children": [],
+				"enabled": true,
+				"exprs": {
+
+				},
+				"id": 1000,
+				"params": {
+
+				}
+			}
+		]
+	},
+	"run_mode": "both",
+	"ui_state": {
+		"col_collapsed": {
+
+		}
+	},
+	"version": 2
+}

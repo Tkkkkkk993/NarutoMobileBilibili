@@ -17,6 +17,30 @@ class_name DuelCamera extends Camera2D
 enum ShakeType { RANDOM, DIRECTIONAL, TRAUMA, SPRING, EXPLOSION, OSCILLATE }
 enum TransitionType { LINEAR, EASE_IN, EASE_OUT, EASE_IN_OUT }
 enum PulseWaveform { SINE, TRIANGLE, SQUARE }   # 新增 SQUARE 方波
+# Godot Tween 同款枚举（数值与 Tween.TransitionType / Tween.EaseType 一致）
+const TRANS_LINEAR = 0
+const TRANS_SINE = 1
+const TRANS_QUINT = 2
+const TRANS_QUART = 3
+const TRANS_QUAD = 4
+const TRANS_EXPO = 5
+const TRANS_ELASTIC = 6
+const TRANS_CUBIC = 7
+const TRANS_CIRC = 8
+const TRANS_BOUNCE = 9
+const TRANS_BACK = 10
+const TRANS_CREDIT = 11
+const TRANS_SPRING = 12
+const TRANS_CUSTOM = 13
+const EASE_IN = 0
+const EASE_OUT = 1
+const EASE_IN_OUT = 2
+const EASE_OUT_IN = 3
+# 统一曲线字典（视觉脚本解析后传入）:
+#   {"kind": 0, "trans": int, "ease": int}   Godot 标准缓动
+#   {"kind": 1, "expr": String}              自定义表达式（变量 t∈[0,1]，返回插值）
+#   {"kind": 2, "wf": int}                   周期波形 0正弦/1三角/2方波
+var _curve_expr_cache: Dictionary = {}
 
 # ============================================
 # 震动系统
@@ -53,8 +77,8 @@ var _zoom_shock_intensity: float = 0.0
 var _zoom_shock_total_duration: float = 0.0
 var _zoom_shock_enter_duration: float = 0.0
 var _zoom_shock_exit_duration: float = 0.0
-var _zoom_shock_enter_ease: TransitionType = TransitionType.EASE_OUT
-var _zoom_shock_exit_ease: TransitionType = TransitionType.EASE_IN
+var _zoom_shock_enter_ease: Variant = TransitionType.EASE_OUT
+var _zoom_shock_exit_ease: Variant = TransitionType.EASE_IN
 var _current_zoom_multiplier: float = 1.0
 var _original_zoom: Vector2 = Vector2.ONE
 var _has_stored_original_zoom: bool = false
@@ -68,6 +92,7 @@ var _pulse_zoom_frequency: float = 2.0      # 每秒脉冲次数
 var _pulse_zoom_duration: float = 0.0       # 持续时间（秒），0 表示无限
 var _pulse_zoom_time: float = 0.0
 var _pulse_zoom_waveform: PulseWaveform = PulseWaveform.SINE
+var _pulse_zoom_expr: String = ""
 var _pulse_zoom_multiplier: float = 1.0
 
 # ============================================
@@ -79,8 +104,8 @@ var _camera_move_phase_time: float = 0.0
 var _move_duration: float = 0.0
 var _move_enter_duration: float = 0.0
 var _move_exit_duration: float = 0.0
-var _move_enter_ease: TransitionType = TransitionType.EASE_OUT
-var _move_exit_ease: TransitionType = TransitionType.EASE_IN
+var _move_enter_ease: Variant = TransitionType.EASE_OUT
+var _move_exit_ease: Variant = TransitionType.EASE_IN
 var _move_target_offset: Vector2 = Vector2.ZERO
 var _move_current_offset: Vector2 = Vector2.ZERO
 var _move_is_absolute: bool = false
@@ -100,8 +125,8 @@ var _rotate_angle: float = 0.0
 var _rotate_hold_duration: float = 0.0
 var _rotate_enter_duration: float = 0.0
 var _rotate_exit_duration: float = 0.0
-var _rotate_enter_ease: TransitionType = TransitionType.EASE_OUT
-var _rotate_exit_ease: TransitionType = TransitionType.EASE_IN
+var _rotate_enter_ease: Variant = TransitionType.EASE_OUT
+var _rotate_exit_ease: Variant = TransitionType.EASE_IN
 var _rotate_current_angle: float = 0.0
 
 # ============================================
@@ -242,28 +267,33 @@ func _update_pulse_zoom(delta: float):
 	var amp = _pulse_zoom_amplitude
 	var factor: float = 1.0
 	
-	match _pulse_zoom_waveform:
-		PulseWaveform.SINE:
-			var sin_val = sin(2.0 * PI * f * t)
-			factor = 1.0 + amp * (sin_val + 1.0) / 2.0
-		PulseWaveform.TRIANGLE:
-			var period = 1.0 / f
-			var phase = fmod(t, period)
-			var half_period = period / 2.0
-			if phase <= half_period:
-				var progress = phase / half_period
-				factor = 1.0 + amp * progress
-			else:
-				var progress = (phase - half_period) / half_period
-				factor = 1.0 + amp * (1.0 - progress)
-		PulseWaveform.SQUARE:
-			# 方波：半个周期放大，半个周期原样
-			var period = 1.0 / f
-			var phase = fmod(t, period)
-			if phase < period / 2.0:
-				factor = 1.0 + amp
-			else:
-				factor = 1.0
+	if _pulse_zoom_expr != "":
+		# 自定义波形表达式：以 t 为相位（t = 频率*时间），返回 0..1（0=原样, 1=最大放大）
+		var w = _eval_curve_expr(_pulse_zoom_expr, f * t)
+		factor = 1.0 + amp * clampf(w, 0.0, 1.0)
+	else:
+		match _pulse_zoom_waveform:
+			PulseWaveform.SINE:
+				var sin_val = sin(2.0 * PI * f * t)
+				factor = 1.0 + amp * (sin_val + 1.0) / 2.0
+			PulseWaveform.TRIANGLE:
+				var period = 1.0 / f
+				var phase = fmod(t, period)
+				var half_period = period / 2.0
+				if phase <= half_period:
+					var progress = phase / half_period
+					factor = 1.0 + amp * progress
+				else:
+					var progress = (phase - half_period) / half_period
+					factor = 1.0 + amp * (1.0 - progress)
+			PulseWaveform.SQUARE:
+				# 方波：半个周期放大，半个周期原样
+				var period = 1.0 / f
+				var phase = fmod(t, period)
+				if phase < period / 2.0:
+					factor = 1.0 + amp
+				else:
+					factor = 1.0
 	
 	_pulse_zoom_multiplier = factor
 
@@ -273,16 +303,27 @@ func _update_pulse_zoom(delta: float):
 ## 启动循环脉冲缩放
 ## @param amplitude       缩放幅度（0.2 = 放大到1.2倍）
 ## @param frequency_hz    脉冲频率（每秒完整脉冲次数）
-## @param waveform        波形：0=SINE(平滑),1=TRIANGLE(线性),2=SQUARE(突然)
+## @param waveform        波形：0=SINE(平滑),1=TRIANGLE(线性),2=SQUARE(突然)；也接受统一曲线字典 {kind:2,wf} 或 {kind:1,expr}
 ## @param duration        持续时间（秒），0或负数表示无限，直到手动停止
-func start_pulse_zoom(amplitude: float, frequency_hz: float = 2.0, waveform: int = 0, duration: float = 0.0):
+## @param expr            自定义波形表达式（变量 t=频率*时间，返回 0..1），优先于 waveform
+func start_pulse_zoom(amplitude: float, frequency_hz: float = 2.0, waveform: Variant = 0, duration: float = 0.0, expr: String = ""):
 	if amplitude <= 0.0:
 		stop_pulse_zoom()
 		return
 	_pulse_zoom_active = true
 	_pulse_zoom_amplitude = amplitude
 	_pulse_zoom_frequency = max(frequency_hz, 0.01)
-	_pulse_zoom_waveform = waveform as PulseWaveform
+	if waveform is Dictionary:
+		var wf_kind = int(waveform.get("kind", 0))
+		if wf_kind == 1:
+			_pulse_zoom_waveform = PulseWaveform.SINE
+			_pulse_zoom_expr = str(waveform.get("expr", ""))
+		else:
+			_pulse_zoom_waveform = int(waveform.get("wf", 0)) as PulseWaveform
+			_pulse_zoom_expr = ""
+	else:
+		_pulse_zoom_waveform = waveform as PulseWaveform
+		_pulse_zoom_expr = expr
 	_pulse_zoom_duration = max(duration, 0.0)   # 0 表示无限
 	_pulse_zoom_time = 0.0
 	# 立即更新初始值，避免第一帧无变化
@@ -356,10 +397,12 @@ func _end_camera_move():
 # ============================================
 # 公共API - 镜头移动（原有，不变）
 # ============================================
-func camera_move_snap_enter(target_world_pos: Vector2, target_zoom: float, hold_duration: float, exit_duration: float = 0.3, exit_ease: TransitionType = TransitionType.EASE_OUT):
+func camera_move_snap_enter(target_world_pos: Vector2, target_zoom: float, hold_duration: float, exit_duration: float = 0.3, exit_ease: Variant = TransitionType.EASE_OUT):
 	camera_move_to_absolute(target_world_pos, target_zoom, hold_duration + exit_duration, 0.0, exit_duration, TransitionType.LINEAR, exit_ease)
 
-func camera_move_to_absolute(target_world_pos: Vector2, target_zoom: float, duration: float, enter_duration: float = 0.2, exit_duration: float = 0.3, enter_ease: TransitionType = TransitionType.EASE_OUT, exit_ease: TransitionType = TransitionType.EASE_IN):
+func camera_move_to_absolute(target_world_pos: Vector2, target_zoom: float, duration: float, enter_duration: float = 0.2, exit_duration: float = 0.3, enter_ease: Variant = TransitionType.EASE_OUT, exit_ease: Variant = TransitionType.EASE_IN, use_limit: bool = false):
+	if use_limit:
+		target_world_pos.x = _constrain_camera_x(target_world_pos.x)
 	if not _camera_move_active: _move_abs_home_pos = global_position
 	_move_abs_enter_start_pos = global_position
 	_move_abs_target_pos = target_world_pos; _move_is_absolute = true
@@ -368,7 +411,7 @@ func camera_move_to_absolute(target_world_pos: Vector2, target_zoom: float, dura
 	_move_enter_ease = enter_ease; _move_exit_ease = exit_ease
 	_camera_move_active = true; _camera_move_phase = 0; _camera_move_phase_time = 0.0
 
-func camera_move(target_offset: Vector2, target_zoom: float, duration: float, enter_duration: float = 0.2, exit_duration: float = 0.3, enter_ease: TransitionType = TransitionType.EASE_OUT, exit_ease: TransitionType = TransitionType.EASE_IN):
+func camera_move(target_offset: Vector2, target_zoom: float, duration: float, enter_duration: float = 0.2, exit_duration: float = 0.3, enter_ease: Variant = TransitionType.EASE_OUT, exit_ease: Variant = TransitionType.EASE_IN):
 	_move_is_absolute = false; _move_target_offset = target_offset
 	_move_target_zoom = clamp(target_zoom, 0.1, 3.0); _move_duration = max(duration, 0.1)
 	_move_enter_duration = max(enter_duration, 0.0); _move_exit_duration = max(exit_duration, 0.0)
@@ -431,7 +474,7 @@ func _end_rotate():
 	_rotate_active = false
 	_rotate_current_angle = 0.0
 
-func camera_rotate(angle_deg: float, hold_duration: float, enter_duration: float = 0.2, exit_duration: float = 0.3, enter_ease: TransitionType = TransitionType.EASE_OUT, exit_ease: TransitionType = TransitionType.EASE_IN):
+func camera_rotate(angle_deg: float, hold_duration: float, enter_duration: float = 0.2, exit_duration: float = 0.3, enter_ease: Variant = TransitionType.EASE_OUT, exit_ease: Variant = TransitionType.EASE_IN):
 	_rotate_angle = angle_deg
 	_rotate_hold_duration = max(hold_duration, 0.0)
 	_rotate_enter_duration = max(enter_duration, 0.0)
@@ -482,7 +525,7 @@ func _start_zoom_hold(): _zoom_shock_phase = 1; _zoom_shock_phase_time = 0.0
 func _start_zoom_exit(): _zoom_shock_phase = 2; _zoom_shock_phase_time = 0.0
 func _end_zoom_shock(): _zoom_shock_active = false; _current_zoom_multiplier = 1.0
 
-func zoom_shock_advanced(intensity: float, total_duration: float, enter_duration: float = 0.05, exit_duration: float = 0.15, enter_ease: TransitionType = TransitionType.EASE_OUT, exit_ease: TransitionType = TransitionType.EASE_IN):
+func zoom_shock_advanced(intensity: float, total_duration: float, enter_duration: float = 0.05, exit_duration: float = 0.15, enter_ease: Variant = TransitionType.EASE_OUT, exit_ease: Variant = TransitionType.EASE_IN):
 	if not _has_stored_original_zoom: _original_zoom = zoom; _has_stored_original_zoom = true
 	_zoom_shock_intensity = clamp(intensity, 0.0, 1.0); _zoom_shock_total_duration = max(total_duration, 0.02)
 	_zoom_shock_enter_duration = max(enter_duration, 0.0); _zoom_shock_exit_duration = max(exit_duration, 0.0)
@@ -610,19 +653,97 @@ func stop_shake():
 # ============================================
 # 辅助函数与相机控制（原有，不变）
 # ============================================
-func _apply_easing(progress: float, ease_type: TransitionType) -> float:
-	match ease_type:
-		TransitionType.LINEAR: return progress
-		TransitionType.EASE_IN: return _ease_in_cubic(progress)
-		TransitionType.EASE_OUT: return _ease_out_cubic(progress)
-		TransitionType.EASE_IN_OUT: return _ease_in_out_cubic(progress)
-	return progress
+func _apply_easing(progress: float, ease: Variant) -> float:
+	if ease is Dictionary:
+		return _apply_curve(progress, ease)
+	# 兼容旧 TransitionType 枚举（cubic 系）
+	var trans = TRANS_CUBIC
+	var ease_t = EASE_IN_OUT
+	match int(ease):
+		TransitionType.LINEAR: trans = TRANS_LINEAR
+		TransitionType.EASE_IN: ease_t = EASE_IN
+		TransitionType.EASE_OUT: ease_t = EASE_OUT
+		TransitionType.EASE_IN_OUT: ease_t = EASE_IN_OUT
+	return _apply_godot_trans(progress, trans, ease_t)
 
-func _ease_in_cubic(x: float) -> float: return x * x * x
-func _ease_out_cubic(x: float) -> float: return 1.0 - pow(1.0 - x, 3)
-func _ease_in_out_cubic(x: float) -> float:
-	if x < 0.5: return 4.0 * x * x * x
-	else: return 1.0 - pow(-2.0 * x + 2.0, 3) / 2.0
+func _apply_curve(progress: float, curve: Dictionary) -> float:
+	match int(curve.get("kind", 0)):
+		1: return _eval_curve_expr(str(curve.get("expr", "")), progress)
+		2: return _eval_waveform_value(progress, int(curve.get("wf", 0)))
+	return _apply_godot_trans(progress, int(curve.get("trans", TRANS_LINEAR)), int(curve.get("ease", EASE_IN_OUT)))
+
+func _eval_waveform_value(phase: float, wf: int) -> float:
+	var p = fmod(phase, 1.0)
+	if p < 0.0: p += 1.0
+	match wf:
+		0: return (sin(p * TAU) + 1.0) / 2.0
+		1: return p * 2.0 if p < 0.5 else (1.0 - p) * 2.0
+	return 1.0 if p < 0.5 else 0.0
+
+# Godot Tween 同款缓动：trans=TransitionType 0..13, ease=EaseType 0..3
+func _apply_godot_trans(t: float, trans: int, ease: int) -> float:
+	var p = clampf(t, 0.0, 1.0)
+	match ease:
+		EASE_IN: return _apply_in(trans, p)
+		EASE_OUT: return _trans_out(trans, p)
+		EASE_IN_OUT:
+			if p < 0.5: return _apply_in(trans, p * 2.0) * 0.5
+			return _trans_out(trans, p * 2.0 - 1.0) * 0.5 + 0.5
+		EASE_OUT_IN:
+			if p < 0.5: return _trans_out(trans, p * 2.0) * 0.5
+			return _apply_in(trans, p * 2.0 - 1.0) * 0.5 + 0.5
+	return p
+
+func _apply_in(trans: int, x: float) -> float:
+	return 1.0 - _trans_out(trans, clampf(x, 0.0, 1.0))
+
+# 各 transition 的"出"版本公式（in 由镜像得出）
+func _trans_out(trans: int, x: float) -> float:
+	var p = clampf(x, 0.0, 1.0)
+	var c1 = 1.70158
+	var c3 = c1 + 1.0
+	match trans:
+		TRANS_SINE: return sin(p * PI * 0.5)
+		TRANS_QUAD: return 1.0 - (1.0 - p) * (1.0 - p)
+		TRANS_QUART: return 1.0 - pow(1.0 - p, 4)
+		TRANS_QUINT: return 1.0 - pow(1.0 - p, 5)
+		TRANS_EXPO: return 1.0 if p >= 1.0 else 1.0 - pow(2.0, -10.0 * p)
+		TRANS_CIRC: return sqrt(1.0 - (p - 1.0) * (p - 1.0))
+		TRANS_CUBIC: return 1.0 - pow(1.0 - p, 3)
+		TRANS_BACK: return 1.0 + c3 * pow(p - 1.0, 3) + c1 * (p - 1.0) * (p - 1.0)
+		TRANS_ELASTIC:
+			if p <= 0.0: return 0.0
+			if p >= 1.0: return 1.0
+			return pow(2.0, -10.0 * p) * sin((p * 10.0 - 0.75) * TAU / 3.0) + 1.0
+		TRANS_BOUNCE:
+			var n1 = 7.5625
+			var d1 = 2.75
+			var q = p
+			if q < 1.0 / d1: return n1 * q * q
+			elif q < 2.0 / d1:
+				q -= 1.5 / d1
+				return n1 * q * q + 0.75
+			elif q < 2.5 / d1:
+				q -= 2.25 / d1
+				return n1 * q * q + 0.9375
+			q -= 2.625 / d1
+			return n1 * q * q + 0.984375
+		TRANS_SPRING:
+			return (1.0 - cos(p * TAU)) * 0.5 * (1.0 - p) + p
+	return p
+
+# 自定义表达式求值（缓存编译结果，变量 t）
+func _eval_curve_expr(expr_str: String, t: float) -> float:
+	if expr_str.strip_edges() == "": return t
+	if not _curve_expr_cache.has(expr_str):
+		var e = Expression.new()
+		var err: Error = e.parse(expr_str, ["t"])
+		_curve_expr_cache[expr_str] = null if err != OK else e
+	var expr: Expression = _curve_expr_cache[expr_str]
+	if expr == null: return t
+	var res = expr.execute([t])
+	if expr.has_execute_failed(): return t
+	return float(res)
 
 func _calculate_constrained_x(target_x: float) -> float:
 	var ideal_camera_x = target_x + current_offset
@@ -637,6 +758,15 @@ func _calculate_constrained_x(target_x: float) -> float:
 	var min_camera_x = float(limit_left) + half_view
 	var max_camera_x = float(limit_right) - half_view
 	return clamp(ideal_camera_x, min_camera_x, max_camera_x)
+
+# 强制将摄像机 X 限制在 Limit 范围内（不读 use_limits，供移动类 API 主动调用）
+func _constrain_camera_x(x: float) -> float:
+	var viewport_width = get_viewport().get_visible_rect().size.x
+	var current_world_width = viewport_width / zoom.x
+	var half_view = current_world_width / 2.0
+	var min_camera_x = float(limit_left) + half_view
+	var max_camera_x = float(limit_right) - half_view
+	return clamp(x, min_camera_x, max_camera_x)
 
 func _update_facing_offset(delta):
 	var facing: int = 1

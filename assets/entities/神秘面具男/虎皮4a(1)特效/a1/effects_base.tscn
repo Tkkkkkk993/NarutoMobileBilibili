@@ -1,0 +1,92 @@
+[gd_scene format=3 uid="uid://nagjhwltt3og"]
+
+[ext_resource type="PackedScene" uid="uid://c5eauk5i5s64k" path="res://assets/entities/base/effects/effects_base.tscn" id="1_vo78c"]
+[ext_resource type="Script" uid="uid://bh605kjkqgpi0" path="res://assets/entities/神秘面具男/虎皮4a(1)特效/a1/effects_base.gd" id="2_kenqj"]
+[ext_resource type="Texture2D" uid="uid://b1tn0pv3c3jnh" path="res://assets/entities/神秘面具男/虎皮4a(1)特效/a1/1a/1.png" id="3_bwvmn"]
+[ext_resource type="Texture2D" uid="uid://bgobs48sjv0x4" path="res://assets/entities/神秘面具男/虎皮4a(1)特效/a1/1a/2.png" id="4_ea8n2"]
+[ext_resource type="Texture2D" uid="uid://bhpaiqiutlgg5" path="res://assets/entities/神秘面具男/虎皮4a(1)特效/a1/1a/3.png" id="5_yvm2o"]
+[ext_resource type="Texture2D" uid="uid://cpl5uv5dxtqo7" path="res://assets/entities/神秘面具男/虎皮4a(1)特效/a1/1a/4.png" id="6_4fl1g"]
+[ext_resource type="Texture2D" uid="uid://dyn1yyaw52kt4" path="res://assets/entities/神秘面具男/虎皮4a(1)特效/a1/1a/5.png" id="7_sacca"]
+[ext_resource type="Texture2D" uid="uid://djcf0yqkwmbd1" path="res://assets/entities/神秘面具男/虎皮4a(1)特效/a1/1a/6.png" id="8_8a5rf"]
+[ext_resource type="Texture2D" uid="uid://c7jnsvjbhxj0r" path="res://assets/entities/神秘面具男/虎皮4a(1)特效/a1/1a/7.png" id="9_4kq4s"]
+[ext_resource type="Texture2D" uid="uid://bgiu3mtnvr2ba" path="res://assets/entities/神秘面具男/虎皮4a(1)特效/a1/1a/8.png" id="10_m823k"]
+[ext_resource type="Texture2D" uid="uid://d3mi7vlu0vgy5" path="res://assets/entities/神秘面具男/虎皮4a(1)特效/a1/1a/9.png" id="11_7kh5u"]
+[ext_resource type="Texture2D" uid="uid://6i4q0e3bj4mq" path="res://assets/entities/神秘面具男/虎皮4a(1)特效/a1/1a/10.png" id="12_yrbct"]
+[ext_resource type="Texture2D" uid="uid://lp0lns8hbjcj" path="res://assets/entities/神秘面具男/虎皮4a(1)特效/a1/1a/11.png" id="13_54hh6"]
+[ext_resource type="Texture2D" uid="uid://dj6fj0db8vi25" path="res://assets/entities/神秘面具男/虎皮4a(1)特效/a1/1a/12.png" id="14_dwetv"]
+[ext_resource type="Texture2D" uid="uid://nuem2ys5biqx" path="res://assets/entities/神秘面具男/虎皮4a(1)特效/a1/1a/13.png" id="15_wu3jy"]
+[ext_resource type="Texture2D" uid="uid://drsifwqpwvy4b" path="res://assets/entities/神秘面具男/虎皮4a(1)特效/a1/1a/14.png" id="16_v4hfo"]
+[ext_resource type="Texture2D" uid="uid://c2n8guwaimp1b" path="res://assets/entities/神秘面具男/虎皮4a(1)特效/a1/1a/15.png" id="17_hwi5u"]
+[ext_resource type="Texture2D" uid="uid://cgm25o01g5c0t" path="res://assets/entities/神秘面具男/虎皮4a(1)特效/a1/1a/16.png" id="18_ymwgi"]
+[ext_resource type="Texture2D" uid="uid://pbhlaqvc8fr6" path="res://assets/entities/神秘面具男/虎皮4a(1)特效/a1/1a/17.png" id="19_fhtd3"]
+[ext_resource type="Texture2D" uid="uid://cnac5b021vcgn" path="res://assets/entities/神秘面具男/虎皮4a(1)特效/a1/1a/18.png" id="20_vcblo"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_kenqj"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_bwvmn")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_ea8n2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_yvm2o")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_4fl1g")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_sacca")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_8a5rf")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_4kq4s")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_m823k")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_7kh5u")
+}, {
+"duration": 1.0,
+"texture": ExtResource("12_yrbct")
+}, {
+"duration": 1.0,
+"texture": ExtResource("13_54hh6")
+}, {
+"duration": 1.0,
+"texture": ExtResource("14_dwetv")
+}, {
+"duration": 1.0,
+"texture": ExtResource("15_wu3jy")
+}, {
+"duration": 1.0,
+"texture": ExtResource("16_v4hfo")
+}, {
+"duration": 1.0,
+"texture": ExtResource("17_hwi5u")
+}, {
+"duration": 1.0,
+"texture": ExtResource("18_ymwgi")
+}, {
+"duration": 1.0,
+"texture": ExtResource("19_fhtd3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("20_vcblo")
+}],
+"loop": false,
+"name": &"default",
+"speed": 60.0
+}]
+
+[node name="EffectsBase" unique_id=178120057 instance=ExtResource("1_vo78c")]
+script = ExtResource("2_kenqj")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." index="0" unique_id=1626045329]
+sprite_frames = SubResource("SpriteFrames_kenqj")
+frame = 17
+frame_progress = 1.0

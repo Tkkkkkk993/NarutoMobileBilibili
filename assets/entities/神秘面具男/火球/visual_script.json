@@ -42,6 +42,17 @@
 					},
 					{
 						"_uid": "_4",
+						"block_name": "play_animation",
+						"children": [],
+						"exprs": {
+
+						},
+						"params": {
+							"anim_name": "ex"
+						}
+					},
+					{
+						"_uid": "_5",
 						"block_name": "stop_slide",
 						"children": [],
 						"exprs": {
@@ -52,9 +63,21 @@
 						}
 					},
 					{
-						"_uid": "_5",
+						"_uid": "_6",
+						"block_name": "wait",
+						"children": [],
+						"exprs": {
+
+						},
+						"params": {
+							"duration": 0.599999904632568
+						}
+					},
+					{
+						"_uid": "_7",
 						"block_name": "die",
 						"children": [],
+						"enabled": true,
 						"exprs": {
 
 						},
@@ -73,11 +96,11 @@
 				}
 			},
 			{
-				"_uid": "_9",
+				"_uid": "_8",
 				"block_name": "when_attack_box_hit",
 				"children": [
 					{
-						"_uid": "_10",
+						"_uid": "_9",
 						"block_name": "hit_entity",
 						"children": [],
 						"exprs": {
@@ -111,11 +134,24 @@
 				}
 			},
 			{
-				"_uid": "_6",
+				"_uid": "_10",
 				"block_name": "when_attack_box_hit",
 				"children": [
 					{
-						"_uid": "_7",
+						"_uid": "_11",
+						"block_name": "change_ultimate_point_for",
+						"children": [],
+						"enabled": false,
+						"exprs": {
+							"entity": "get_parent_entity(\"\")"
+						},
+						"params": {
+							"d": 1.0,
+							"entity": ""
+						}
+					},
+					{
+						"_uid": "_12",
 						"block_name": "hit_entity",
 						"children": [],
 						"exprs": {
@@ -123,7 +159,7 @@
 						},
 						"params": {
 							"bs": 0.0,
-							"cotg": false,
+							"cotg": true,
 							"hst": 0.0,
 							"hurt": 400000.0,
 							"isgd": true,
@@ -139,7 +175,53 @@
 						}
 					},
 					{
-						"_uid": "_8",
+						"_uid": "_13",
+						"block_name": "camera_shake",
+						"children": [],
+						"enabled": true,
+						"exprs": {
+
+						},
+						"params": {
+							"duration": 0.200000047683716,
+							"intensity": 23.0
+						}
+					},
+					{
+						"_uid": "_14",
+						"block_name": "play_animation",
+						"children": [],
+						"exprs": {
+
+						},
+						"params": {
+							"anim_name": "ex"
+						}
+					},
+					{
+						"_uid": "_15",
+						"block_name": "stop_slide",
+						"children": [],
+						"exprs": {
+
+						},
+						"params": {
+
+						}
+					},
+					{
+						"_uid": "_16",
+						"block_name": "wait",
+						"children": [],
+						"exprs": {
+
+						},
+						"params": {
+							"duration": 0.599999904632568
+						}
+					},
+					{
+						"_uid": "_17",
 						"block_name": "die",
 						"children": [],
 						"exprs": {
@@ -164,7 +246,13 @@
 	"run_mode": "both",
 	"ui_state": {
 		"col_collapsed": {
-
+			"_1": false,
+			"_10": false,
+			"_12": true,
+			"_3": false,
+			"_6": true,
+			"_8": true,
+			"_9": false
 		}
 	},
 	"version": 2

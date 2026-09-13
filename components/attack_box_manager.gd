@@ -143,6 +143,7 @@ func _init(entity: EntityBase):
 
 func _process(delta):
 	_update_active_boxes()
+	_update_dynamic_boxes(delta)
 
 func _update_active_boxes():
 	if not _entity:
@@ -255,6 +256,10 @@ func _update_box_transform(box: Area2D, box_data: AttackBoxData, frame: int):
 	if not config:
 		return
 	
+	# 同步当前帧配置，让 Y 轴深度碰撞使用最新 frame_configs
+	if _active_boxes.has(box_data.box_id):
+		_active_boxes[box_data.box_id]["config"] = config
+	
 	var facing = _entity.get_facing()
 	
 	var anchor_offset = _entity.current_anchor_offset
@@ -280,6 +285,134 @@ func _update_box_transform(box: Area2D, box_data: AttackBoxData, frame: int):
 	if collision and collision.shape is RectangleShape2D:
 		collision.shape.size = Vector2(config.size.x, config.size.z)
 		collision.position = Vector2.ZERO
+
+# ============================================
+# 动态攻击框（脚本创建，不受动画帧驱动）
+# ============================================
+
+var _dynamic_boxes: Dictionary = {}  # box_id -> active_data
+var _dyn_seq: int = 0
+
+## 创建动态攻击框，返回 box_id
+func create_dynamic_box(box_name: String, pos: Vector3, size: Vector3, bind: bool, duration: float) -> String:
+	if not _entity:
+		return ""
+	_dyn_seq += 1
+	var box_id = "dyn_%s_%d" % [box_name, _dyn_seq]
+	var box = AttackBoxData.new()
+	box.box_id = box_id
+	box.box_name = box_name
+	var config = AttackBoxData.FrameConfig.new()
+	config.position = pos
+	config.size = size
+	box.set_frame_config(0, config)
+
+	var box_area = Area2D.new()
+	box_area.name = "AttackBox_" + box_id
+	var collision = CollisionShape2D.new()
+	var shape = RectangleShape2D.new()
+	shape.size = Vector2(size.x, size.z)
+	collision.shape = shape
+	box_area.add_child(collision)
+	_setup_collision_layers(box_area)
+
+	if bind:
+		_entity.add_child(box_area)
+		_update_box_transform(box_area, box, 0)
+	else:
+		# 不绑定：位置取创建瞬间实体锚点+偏移，之后固定
+		box_area.position = _compute_dynamic_world_pos(pos)
+		var parent = _entity.get_parent()
+		if parent:
+			parent.add_child(box_area)
+		else:
+			_entity.add_child(box_area)
+		# 深度固定：Y轴碰撞检测改用创建时的绝对深度
+		config.position.y = _entity.position_3d.y + pos.y
+
+	var instance_key = "%s_%d" % [box_id, box_area.get_instance_id()]
+	var active_data = {
+		"node": box_area,
+		"instance_key": instance_key,
+		"config": config,
+		"box_data": box,
+		"bind": bind,
+		"duration": duration,  # 剩余秒数；<=0 表示常驻
+	}
+	_dynamic_boxes[box_id] = active_data
+
+	box_area.area_entered.connect(_on_attack_box_area_entered.bind(active_data))
+	box_area.body_entered.connect(_on_attack_box_body_entered.bind(active_data))
+	return box_id
+
+## 按框名再现已存在的攻击框（取第一个匹配框的首帧配置），返回 box_id
+func replay_dynamic_box(box_name: String, bind: bool, duration: float) -> String:
+	if not _entity:
+		return ""
+	for box in _attack_boxes.values():
+		if box.box_name == box_name:
+			var frame = box.bind_frames[0] if box.bind_frames.size() > 0 else 0
+			var config = box.get_frame_config(frame)
+			if config:
+				return create_dynamic_box(box_name, config.position, config.size, bind, duration)
+			return ""
+	return ""
+
+## 按框名移除所有匹配的动态攻击框，返回移除数量
+func remove_dynamic_box_by_name(box_name: String) -> int:
+	var removed = 0
+	for box_id in _dynamic_boxes.keys():
+		if _dynamic_boxes[box_id].box_data.box_name == box_name:
+			_remove_dynamic_box(box_id)
+			removed += 1
+	return removed
+
+func clear_dynamic_boxes():
+	for box_id in _dynamic_boxes.keys():
+		_remove_dynamic_box(box_id)
+
+func _update_dynamic_boxes(delta: float):
+	if not _entity:
+		return
+	var to_remove: Array[String] = []
+	for box_id in _dynamic_boxes.keys():
+		var data = _dynamic_boxes[box_id]
+		if data.duration > 0.0:
+			data.duration -= delta  # delta 已受时间缩放影响，时停中不流逝
+			if data.duration <= 0.0:
+				to_remove.append(box_id)
+				continue
+		if data.bind:
+			_update_box_transform(data.node, data.box_data, 0)
+	for box_id in to_remove:
+		_remove_dynamic_box(box_id)
+
+func _remove_dynamic_box(box_id: String):
+	if not _dynamic_boxes.has(box_id):
+		return
+	var data = _dynamic_boxes[box_id]
+	var node = data.node
+	if is_instance_valid(node):
+		if node.area_entered.is_connected(_on_attack_box_area_entered):
+			node.area_entered.disconnect(_on_attack_box_area_entered)
+		if node.body_entered.is_connected(_on_attack_box_body_entered):
+			node.body_entered.disconnect(_on_attack_box_body_entered)
+		node.queue_free()
+	_dynamic_boxes.erase(box_id)
+
+## 计算不绑定攻击框的世界2D位置（实体锚点 + 偏移，朝向翻转）
+func _compute_dynamic_world_pos(offset: Vector3) -> Vector2:
+	var facing = _entity.get_facing()
+	var anchor_offset = _entity.current_anchor_offset
+	if facing == -1:
+		anchor_offset.x = -anchor_offset.x
+	anchor_offset.y = -anchor_offset.y
+	var anim_scale = _entity.get_anim_sprite_scale()
+	var local = Vector2(
+		offset.x * facing - anchor_offset.x * anim_scale.x,
+		offset.z + anchor_offset.y * anim_scale.y - _entity.position_3d.y
+	)
+	return _entity.position + local
 
 # ============================================
 # 核心碰撞检测 - 检测受击框
@@ -619,6 +752,7 @@ func reset_all_triggers():
 func clear():
 	for box_id in _active_boxes.keys():
 		_deactivate_box(box_id)
+	clear_dynamic_boxes()
 	_attack_boxes.clear()
 
 func set_y_collision_enabled(enabled: bool):

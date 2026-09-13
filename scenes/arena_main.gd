@@ -132,7 +132,9 @@ func push_out_of_wall(pos: Vector2, wall: Array) -> Vector2:
 ## @param force: 吸力速度 Vector2（X=横向, Y=深度），单位/秒
 ## @param duration: 持续时间（秒）
 ## @param affected_teams: 可被吸入的阵营ID数组，空数组=全部阵营
-func add_global_magnetism(mag_name: String, center: Vector2, range_rect: Array, force: Vector2, duration: float, affected_teams: Array = []):
+## @param state: 吸附强度(BodyState)，-1=不判断；低于实体当前 body_state 的吸附无效
+## @param mag_inv: 是否吸附无敌实体（替身无敌除外），默认 true；false=不吸无敌
+func add_global_magnetism(mag_name: String, center: Vector2, range_rect: Array, force: Vector2, duration: float, affected_teams: Array = [], state: int = -1, mag_inv: bool = true):
 	if range_rect.size() < 4:
 		push_error("[GlobalMagnetism] 范围无效，需要 [x1, y1, x2, y2]")
 		return
@@ -146,7 +148,9 @@ func add_global_magnetism(mag_name: String, center: Vector2, range_rect: Array, 
 		"range": range_rect,
 		"force": force,
 		"time_left": duration,
-		"affected_teams": affected_teams.duplicate()
+		"affected_teams": affected_teams.duplicate(),
+		"state": state,
+		"mag_inv": mag_inv
 	}
 	global_magnetisms.append(mag)
 	print("[GlobalMagnetism] 添加吸附: %s, center=%s, duration=%.2f, teams=%s" % [mag_name, center, duration, affected_teams])

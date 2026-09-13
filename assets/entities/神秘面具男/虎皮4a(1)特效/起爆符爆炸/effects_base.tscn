@@ -1,0 +1,80 @@
+[gd_scene format=3 uid="uid://btu8x6v254gf0"]
+
+[ext_resource type="PackedScene" uid="uid://c5eauk5i5s64k" path="res://assets/entities/base/effects/effects_base.tscn" id="1_gy2fb"]
+[ext_resource type="Script" uid="uid://dcp8gmpt06nid" path="res://assets/entities/神秘面具男/虎皮4a(1)特效/起爆符爆炸/effects_base.gd" id="2_ump66"]
+[ext_resource type="Texture2D" uid="uid://nm18ga417uwr" path="res://assets/entities/神秘面具男/火球爆炸/1.png" id="3_4g5c6"]
+[ext_resource type="Texture2D" uid="uid://bva5xjwx3ng8w" path="res://assets/entities/神秘面具男/火球爆炸/2.png" id="4_1yxb3"]
+[ext_resource type="Texture2D" uid="uid://6fo1jvfp44nx" path="res://assets/entities/神秘面具男/火球爆炸/3.png" id="5_v5ugr"]
+[ext_resource type="Texture2D" uid="uid://b0ix2k8i535ai" path="res://assets/entities/神秘面具男/火球爆炸/4.png" id="6_l0ov5"]
+[ext_resource type="Texture2D" uid="uid://d1k5n7lovnxpf" path="res://assets/entities/神秘面具男/火球爆炸/5.png" id="7_g1xuo"]
+[ext_resource type="Texture2D" uid="uid://cljem84paobeo" path="res://assets/entities/神秘面具男/火球爆炸/6.png" id="8_q7tir"]
+[ext_resource type="Texture2D" uid="uid://7wvv15c1d21j" path="res://assets/entities/神秘面具男/火球爆炸/7.png" id="9_aylfl"]
+[ext_resource type="Texture2D" uid="uid://ccjhv18hh4cu4" path="res://assets/entities/神秘面具男/火球爆炸/8.png" id="10_sx7h6"]
+[ext_resource type="Texture2D" uid="uid://cad650wfspfcd" path="res://assets/entities/神秘面具男/火球爆炸/9.png" id="11_inikm"]
+[ext_resource type="Texture2D" uid="uid://dnhoe11nwvohg" path="res://assets/entities/神秘面具男/火球爆炸/10.png" id="12_penje"]
+[ext_resource type="Texture2D" uid="uid://dk1f56bcsfl11" path="res://assets/entities/神秘面具男/火球爆炸/11.png" id="13_c2vk2"]
+[ext_resource type="Texture2D" uid="uid://1oli03n7qfmh" path="res://assets/entities/神秘面具男/火球爆炸/12.png" id="14_ugi4n"]
+[ext_resource type="Texture2D" uid="uid://bba608opvnf00" path="res://assets/entities/神秘面具男/火球爆炸/13.png" id="15_hbtlf"]
+[ext_resource type="Texture2D" uid="uid://cp27nrtyc0cws" path="res://assets/entities/神秘面具男/火球爆炸/14.png" id="16_u1cof"]
+[ext_resource type="Texture2D" uid="uid://r50t1ahqjef3" path="res://assets/entities/神秘面具男/火球爆炸/15.png" id="17_pk3op"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ump66"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_4g5c6")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_1yxb3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_v5ugr")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_l0ov5")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_g1xuo")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_q7tir")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_aylfl")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_sx7h6")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_inikm")
+}, {
+"duration": 1.0,
+"texture": ExtResource("12_penje")
+}, {
+"duration": 1.0,
+"texture": ExtResource("13_c2vk2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("14_ugi4n")
+}, {
+"duration": 1.0,
+"texture": ExtResource("15_hbtlf")
+}, {
+"duration": 1.0,
+"texture": ExtResource("16_u1cof")
+}, {
+"duration": 1.0,
+"texture": ExtResource("17_pk3op")
+}],
+"loop": false,
+"name": &"default",
+"speed": 22.0
+}]
+
+[node name="EffectsBase" unique_id=29514053 instance=ExtResource("1_gy2fb")]
+script = ExtResource("2_ump66")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." index="0" unique_id=742732546]
+sprite_frames = SubResource("SpriteFrames_ump66")
+frame = 14
+frame_progress = 1.0

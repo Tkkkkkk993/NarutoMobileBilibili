@@ -8,7 +8,7 @@ class_name CharIconManager
 
 @export_group("数据设置")
 ## 要显示的角色数字编号（对应 JSON 的键）
-@export var char_ids: Array[int] = []
+@export var char_ids: Array[int] = [1,2,3]
 
 @export_group("路径约定")
 @export var base_entities_path: String = "res://assets/entities/"

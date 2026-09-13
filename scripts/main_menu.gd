@@ -32,7 +32,7 @@ func _ready():
 			
 			return
 	
-	bgm = preload("res://assets/audio/Music/圣德传说.ogg")
+	bgm = preload("res://assets/audio/Music/世界如此可爱.ogg")
 	
 	start_btn.button_pressed.connect(_on_start_clicked)
 	char_select_x.pressed.connect(_on_char_select_x_clicked)

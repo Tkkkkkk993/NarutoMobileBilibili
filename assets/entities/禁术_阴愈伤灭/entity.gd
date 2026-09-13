@@ -11,5 +11,5 @@ func _post_init():
 	await get_tree().create_timer(0.1).timeout
 	
 	parent_entity.set_modifiers("addBodyState", BodyState.SUPER_ARMOR, 5)
-	
+	parent_entity.add_bonus("speed", 1.8, 5.0, "multiply", self, "scroll_buff")
 	die()

@@ -1286,8 +1286,6 @@ func _find_innermost_value_call(s: String) -> Variant:
 					k += 1
 				if depth != 0: continue
 				var args_str = s.substr(j + 1, k - j - 2)
-				if _contains_unquoted_char(args_str, '('):
-					continue
 				return {
 					"name": call_name,
 					"args": args_str,
@@ -1303,7 +1301,15 @@ func _vs_eval_arg(arg_str: String, context: Dictionary) -> Variant:
 	# 值块嵌套时内层结果已存入临时变量，直接取回，避免 _vs_eval_expr 开头 clear() 丢失
 	if _vs_expr_temp_vars.has(arg_str):
 		return _vs_expr_temp_vars[arg_str]
+	# 保存临时变量，防止 _vs_eval_expr 清空后内层值块结果丢失
+	var saved_temp_vars = _vs_expr_temp_vars.duplicate()
+	var saved_counter = _vs_expr_temp_counter
 	var result = _vs_eval_expr(arg_str, context)
+	# 恢复外层临时变量（合并：保留内层新产生的，恢复外层被清掉的）
+	for k in saved_temp_vars:
+		if not _vs_expr_temp_vars.has(k):
+			_vs_expr_temp_vars[k] = saved_temp_vars[k]
+	_vs_expr_temp_counter = max(_vs_expr_temp_counter, saved_counter)
 	if result != null:
 		return result
 	return arg_str
@@ -1371,6 +1377,11 @@ func _vs_dispatch_value(block_name: String, params: Dictionary) -> Variant:
 		"get_entity_3d_var": return _value_get_entity_3d_var(params)
 		"self_entity": return _entity
 		"get_entity_by_id": return _value_get_entity_by_id(params)
+		"find_entity_by_regex": return _value_find_entity_by_regex(params)
+		"find_effect_by_regex": return _value_find_effect_by_regex(params)
+		"has_state": return _value_has_state(params)
+		"get_state_count": return _value_get_state_count(params)
+		"get_bonus_value": return _value_get_bonus_value(params)
 		"player_entity": return _value_player_entity(params)
 		"is_ourside_entity": return _value_is_ourside_entity(params)
 		"get_parent_entity": return _value_get_parent_entity(params)
@@ -1505,12 +1516,40 @@ func _vs_dispatch_action(block_name: String, params: Dictionary):
 			_action_stop_freemove(params)
 		"stop_slide":
 			_action_stop_slide(params)
+		"start_z_slide":
+			_action_start_z_slide(params)
+		"stop_z_motion":
+			_action_stop_z_motion(params)
+		"execute_code":
+			_action_execute_code(params)
+		"set_shadow_visible":
+			_action_set_shadow_visible(params)
+		"set_wall_collision":
+			_action_set_wall_collision(params)
+		"add_bonus":
+			_action_add_bonus(params)
+		"remove_bonus":
+			_action_remove_bonus(params)
+		"clear_bonus":
+			_action_clear_bonus(params)
+		"add_state":
+			_action_add_state(params)
+		"remove_state":
+			_action_remove_state(params)
+		"clear_state":
+			_action_clear_state(params)
 		"die":
 			_action_die(params)
 		"die_entity":
 			_action_die_entity(params)
 		"hit_entity":
 			_action_hit_entity(params)
+		"create_attack_box":
+			_action_create_attack_box(params)
+		"replay_attack_box":
+			_action_replay_attack_box(params)
+		"remove_attack_box":
+			_action_remove_attack_box(params)
 		"change_entity_hp":
 			_action_change_entity_hp(params)
 		"magnetism_entity":
@@ -1737,6 +1776,49 @@ func _vs_to_vector3(value: Variant) -> Vector3:
 		return Vector3(value.get("x", 0.0), value.get("y", 0.0), value.get("z", 0.0))
 	return Vector3.ZERO
 
+const _VS_TRANS_IDS := {
+	"linear": 0, "sine": 1, "quint": 2, "quart": 3, "quad": 4,
+	"expo": 5, "elastic": 6, "cubic": 7, "circ": 8, "bounce": 9,
+	"back": 10, "credit": 11, "spring": 12,
+}
+const _VS_EASE_IDS := { "in": 0, "out": 1, "in_out": 2, "out_in": 3 }
+
+# 统一曲线解析：返回 {"kind":0, trans, ease} / {"kind":1, expr} / {"kind":2, wf}
+# 支持: Godot 数值(0..13 或 "7.1"), 中文旧名(线性/缓入/缓出/缓入缓出/正弦波/三角波/方波),
+#       Godot 英文名(linear/sine/... 或 "back.out"), 自定义表达式(变量 t)
+func _vs_to_curve(value: Variant) -> Dictionary:
+	if value is Dictionary:
+		return value
+	if value is int or value is float:
+		return {"kind": 0, "trans": clampi(int(value), 0, 13), "ease": 2}
+	var s = str(value).strip_edges()
+	if s == "": return {"kind": 0, "trans": 7, "ease": 1}
+	# 数值或 "trans.ease" 数字组合
+	var num_parts = s.split(".")
+	if num_parts.size() <= 2 and num_parts[0].is_valid_int():
+		var trans = clampi(int(num_parts[0]), 0, 13)
+		var ease = 2
+		if num_parts.size() == 2 and num_parts[1].is_valid_int():
+			ease = clampi(int(num_parts[1]), 0, 3)
+		return {"kind": 0, "trans": trans, "ease": ease}
+	match s:
+		"线性": return {"kind": 0, "trans": 0, "ease": 2}
+		"缓入": return {"kind": 0, "trans": 7, "ease": 0}
+		"缓出": return {"kind": 0, "trans": 7, "ease": 1}
+		"缓入缓出": return {"kind": 0, "trans": 7, "ease": 2}
+		"正弦波": return {"kind": 2, "wf": 0}
+		"三角波": return {"kind": 2, "wf": 1}
+		"方波": return {"kind": 2, "wf": 2}
+	# Godot 英文名或 "trans.ease" 组合
+	var parts = s.to_lower().split(".")
+	if _VS_TRANS_IDS.has(parts[0]):
+		var ease = 2
+		if parts.size() > 1 and _VS_EASE_IDS.has(parts[1]):
+			ease = _VS_EASE_IDS[parts[1]]
+		return {"kind": 0, "trans": _VS_TRANS_IDS[parts[0]], "ease": ease}
+	# 其余视为自定义表达式（变量 t∈[0,1]，返回插值）
+	return {"kind": 1, "expr": s}
+
 func _vs_to_entity(value: Variant) -> EntityBase:
 	if value == null: return null
 	if value is EntityBase: return value
@@ -1890,17 +1972,38 @@ func _action_hit_entity(p: Dictionary):
 	var isgd = _vs_to_bool(p.get("isgd", false))
 	var hurt = _vs_to_float(p.get("hurt", 0.0))
 	var kr = _vs_to_float(p.get("kr", 10.0))
+	var ar = _vs_to_float(p.get("ar", 0.0))
+	var va = _vs_to_vector3(p.get("va", Vector3.ZERO))
 
 	var hit_type = _entity.HitStateType.PUSH if hit_type_str == "push" else _entity.HitStateType.LAUNCH
 	var kv = Vector2(v.x, v.y)
 	if isgd:
 		kv.x = kv.x * _entity.facing_direction
+		va.x = va.x * _entity.facing_direction
 
 	# 在 hit() 前设置攻击者，让 change_hp 能访问到
 	target._last_attacker = _entity
-	target.hit(hit_type, kv, hst, v.z, cotg, ish, bs, hurt, kr)
+	target.hit(hit_type, kv, hst, v.z, cotg, ish, bs, hurt, kr, ar, Vector2(va.x, va.y), va.z)
 	if target.has_method("_on_deal_hit"):
 		target._on_deal_hit(_entity)
+
+func _action_create_attack_box(p: Dictionary):
+	var box_name = str(p.get("name", ""))
+	var pos = _vs_to_vector3(p.get("pos", Vector3.ZERO))
+	var size = _vs_to_vector3(p.get("size", Vector3(50, 50, 50)))
+	var bind = _vs_to_bool(p.get("bind", true))
+	var duration = _vs_to_float(p.get("duration", 0.0))
+	_entity.create_attack_box(box_name, pos, size, bind, duration)
+
+func _action_replay_attack_box(p: Dictionary):
+	var box_name = str(p.get("name", ""))
+	var bind = _vs_to_bool(p.get("bind", true))
+	var duration = _vs_to_float(p.get("duration", 0.0))
+	_entity.replay_attack_box(box_name, bind, duration)
+
+func _action_remove_attack_box(p: Dictionary):
+	var box_name = str(p.get("name", ""))
+	_entity.remove_attack_box(box_name)
 
 func _action_change_entity_hp(p: Dictionary):
 	var target = _vs_to_entity(p.get("target", null))
@@ -1915,7 +2018,8 @@ func _action_magnetism_entity(p: Dictionary):
 	var mpos = _vs_to_vector2(p.get("mpos", Vector2.ZERO))
 	var d = _vs_to_float(p.get("d", 0.0))
 	var spe = _vs_to_vector2(p.get("spe", Vector2(3000, 3000)))
-	target.set_magnetism(mpos, spe, d)
+	var st = _vs_to_int(p.get("st", 2))  # 吸附强度(BodyState)
+	target.set_magnetism(mpos, spe, d, st)
 
 func _action_set_global_magnetism(p: Dictionary):
 	if not _entity.main or not "add_global_magnetism" in _entity.main:
@@ -1937,7 +2041,9 @@ func _action_set_global_magnetism(p: Dictionary):
 			var tid = part.strip_edges().to_int()
 			if tid > 0:
 				affected_teams.append(tid)
-	_entity.main.add_global_magnetism(_entity.name+"_"+mag_name, center, [range_x1, range_y1, range_x2, range_y2], force, duration, affected_teams)
+	var st = _vs_to_int(p.get("st", -1))  # 吸附强度(BodyState)，-1=不判断
+	var mag_inv = _vs_to_bool(p.get("mag_inv", true))  # 吸附无敌(替身无敌除外)，false=不吸
+	_entity.main.add_global_magnetism(_entity.name+"_"+mag_name, center, [range_x1, range_y1, range_x2, range_y2], force, duration, affected_teams, st, mag_inv)
 
 func _action_set_global_magnetism_by_size(p: Dictionary):
 	if not _entity.main or not "add_global_magnetism" in _entity.main:
@@ -1961,7 +2067,9 @@ func _action_set_global_magnetism_by_size(p: Dictionary):
 			var tid = part.strip_edges().to_int()
 			if tid > 0:
 				affected_teams.append(tid)
-	_entity.main.add_global_magnetism(_entity.name+"_"+mag_name, center, [range_x1, range_y1, range_x2, range_y2], force, duration, affected_teams)
+	var st = _vs_to_int(p.get("st", -1))  # 吸附强度(BodyState)，-1=不判断
+	var mag_inv = _vs_to_bool(p.get("mag_inv", true))  # 吸附无敌(替身无敌除外)，false=不吸
+	_entity.main.add_global_magnetism(_entity.name+"_"+mag_name, center, [range_x1, range_y1, range_x2, range_y2], force, duration, affected_teams, st, mag_inv)
 
 func _action_hit_stop_entity(p: Dictionary):
 	var target = _vs_to_entity(p.get("target", null))
@@ -1996,6 +2104,44 @@ func _action_stop_freemove(_p: Dictionary):
 func _action_stop_slide(_p: Dictionary):
 	_entity.stop_slide()
 
+func _action_start_z_slide(p: Dictionary):
+	var speed = _vs_to_float(p.get("speed", 0.0))
+	var res = _vs_to_float(p.get("r", -1.0))
+	_entity.start_z_slide(speed, res)
+
+func _action_stop_z_motion(p: Dictionary):
+	var m = str(p.get("m", "all"))
+	match m:
+		"slide":
+			_entity.stop_z_motion(true, false)
+		"fall":
+			_entity.stop_z_motion(false, true)
+		_:
+			_entity.stop_z_motion(true, true)
+
+func _action_execute_code(p: Dictionary):
+	var code = str(p.get("code", "")).strip_edges()
+	if code == "": return
+	_exec_code(code)
+
+# 动态编译执行 GDScript 代码，代码内用 entity 引用当前实体，vars 读写图形化脚本变量
+func _exec_code(code: String):
+	var gd = GDScript.new()
+	var src = "extends Object\nvar entity\nvar vars\nfunc run():\n"
+	for line in code.split("\n"):
+		src += "\t" + line + "\n"
+	gd.source_code = src
+	var err = gd.reload()
+	if err != OK:
+		push_error("[VS] 执行代码解析失败 行%d: %s\n%s" % [gd.get_error_line(), gd.get_error_text(), code])
+		return
+	var inst = gd.new()
+	inst.set("entity", _entity)
+	var env = _VsVarsEnv.new()
+	env.data = _vs_variables
+	inst.set("vars", env)
+	inst.call("run")
+
 func _action_die(_p: Dictionary):
 	_entity.die()
 
@@ -2006,11 +2152,19 @@ func _action_die_entity(p: Dictionary):
 
 func _action_outwall_entity(p: Dictionary):
 	var target = _vs_to_entity(p.get("target", null))
-	if target:
-		var wall_pos = target.main.point_walls(Vector2(target.position_3d.x, target.position_3d.y))
-		if wall_pos:
-			target.position_3d.x = wall_pos.x
-			target.position_3d.y = wall_pos.y
+	if not target:
+		print("[出墙] 未知节点")
+		return
+	if not target.main:
+		print("[出墙] main 节点为空")
+		return
+	var in_pos = Vector2(target.position_3d.x, target.position_3d.y)
+	var wall_pos = target.main.point_walls(in_pos)
+	#print("[出墙] 输入=", in_pos, " 输出=", wall_pos, " walls数量=", target.main.walls.size() if "walls" in target.main else "无walls")
+	if wall_pos != Vector2.ZERO:
+		target.position_3d.x = wall_pos.x
+		target.position_3d.y = wall_pos.y
+		target.set_position_3d(target.position_3d)
 
 func _action_turn_entity(p: Dictionary):
 	var target = _vs_to_entity(p.get("target", null))
@@ -2207,6 +2361,51 @@ func _action_set_aura_visible(p: Dictionary):
 	var visible = _vs_to_bool(p.get("visible", false))
 	_entity.set_aura_visible(visible)
 
+func _action_set_shadow_visible(p: Dictionary):
+	var visible = _vs_to_bool(p.get("visible", true))
+	if _entity.shadow_node:
+		_entity.shadow_node.visible = visible
+
+func _action_set_wall_collision(p: Dictionary):
+	var enabled = _vs_to_bool(p.get("enabled", true))
+	_entity.enable_wall_collision = enabled
+
+func _action_add_bonus(p: Dictionary):
+	var e_type = str(p.get("type", "atk"))
+	var value = _vs_to_float(p.get("value", 0.0))
+	var duration = _vs_to_float(p.get("duration", -2.0))
+	var mode = str(p.get("mode", "multiply"))
+	var group = str(p.get("group", ""))
+	_entity.add_bonus(e_type, value, duration, mode, _entity, group)
+
+func _action_remove_bonus(p: Dictionary):
+	_entity.remove_bonus_layer(str(p.get("type", "atk")), str(p.get("group", "")))
+
+func _action_clear_bonus(p: Dictionary):
+	var e_type = str(p.get("type", ""))
+	if e_type == "all": e_type = ""
+	_entity.clear_bonus(e_type)
+
+func _action_add_state(p: Dictionary):
+	var state = str(p.get("state", ""))
+	var duration = _vs_to_float(p.get("duration", -2.0))
+	_entity.add_state(state, duration, _entity)
+
+func _action_remove_state(p: Dictionary):
+	_entity.remove_state_by_name(str(p.get("state", "")), 1)
+
+func _action_clear_state(p: Dictionary):
+	_entity.clear_state(str(p.get("state", "")))
+
+func _value_has_state(p: Dictionary) -> bool:
+	return _entity.has_state(str(p.get("state", "")))
+
+func _value_get_state_count(p: Dictionary) -> int:
+	return _entity.get_state_count(str(p.get("state", "")))
+
+func _value_get_bonus_value(p: Dictionary) -> float:
+	return _entity.get_bonus_value(str(p.get("type", "atk")))
+
 func _action_set_custom_invincible(p: Dictionary):
 	var b = _vs_to_bool(p.get("b", false))
 	_entity.custom_invincible = b
@@ -2325,8 +2524,9 @@ func _action_make_zoom_shock(p: Dictionary):
 func _action_camera_shake(p: Dictionary):
 	var intensity = _vs_to_float(p.get("intensity", 10.0))
 	var duration = _vs_to_float(p.get("duration", 0.3))
+	var frequency = _vs_to_float(p.get("frequency", 20.0))
 	if _entity.camera:
-		_entity.camera.shake_random(intensity, duration)
+		_entity.camera.shake_random(intensity, duration, frequency)
 
 func _action_camera_shake_directional(p: Dictionary):
 	var intensity = _vs_to_float(p.get("intensity", 10.0))
@@ -2380,15 +2580,10 @@ func _action_camera_zoom_shock_hold(p: Dictionary):
 func _action_camera_pulse_zoom(p: Dictionary):
 	var amplitude = _vs_to_float(p.get("amplitude", 0.2))
 	var frequency = _vs_to_float(p.get("frequency", 2.0))
-	var waveform_str = str(p.get("waveform", "正弦波"))
 	var duration = _vs_to_float(p.get("duration", 0.0))
-	var waveform: int = 0
-	match waveform_str:
-		"正弦波": waveform = 0
-		"三角波": waveform = 1
-		"方波":   waveform = 2
+	var curve = _vs_to_curve(p.get("waveform", "正弦波"))
 	if _entity.camera:
-		_entity.camera.start_pulse_zoom(amplitude, frequency, waveform, duration)
+		_entity.camera.start_pulse_zoom(amplitude, frequency, curve, duration)
 
 func _action_camera_stop_pulse_zoom(_p: Dictionary):
 	if _entity.camera:
@@ -2398,15 +2593,24 @@ func _action_camera_move(p: Dictionary):
 	var offset = _vs_to_vector2(p.get("offset", Vector2.ZERO))
 	var zoom_val = _vs_to_float(p.get("zoom", 1.0))
 	var duration = _vs_to_float(p.get("duration", 0.5))
+	var enter_duration = _vs_to_float(p.get("enter_duration", 0.2))
+	var exit_duration = _vs_to_float(p.get("exit_duration", 0.3))
+	var enter_ease = _vs_to_curve(p.get("enter_ease", "缓出"))
+	var exit_ease = _vs_to_curve(p.get("exit_ease", "缓入"))
 	if _entity.camera:
-		_entity.camera.camera_move(offset, zoom_val, duration)
+		_entity.camera.camera_move(offset, zoom_val, duration, enter_duration, exit_duration, enter_ease, exit_ease)
 
 func _action_camera_move_absolute(p: Dictionary):
 	var pos = _vs_to_vector2(p.get("pos", Vector2.ZERO))
 	var zoom_val = _vs_to_float(p.get("zoom", 1.0))
 	var duration = _vs_to_float(p.get("duration", 0.5))
+	var enter_duration = _vs_to_float(p.get("enter_duration", 0.2))
+	var exit_duration = _vs_to_float(p.get("exit_duration", 0.3))
+	var enter_ease = _vs_to_curve(p.get("enter_ease", "缓出"))
+	var exit_ease = _vs_to_curve(p.get("exit_ease", "缓入"))
+	var use_limit = _vs_to_bool(p.get("use_limit", false))
 	if _entity.camera:
-		_entity.camera.camera_move_to_absolute(pos, zoom_val, duration)
+		_entity.camera.camera_move_to_absolute(pos, zoom_val, duration, enter_duration, exit_duration, enter_ease, exit_ease, use_limit)
 
 func _action_camera_stop_move(p: Dictionary):
 	var immediate = _vs_to_bool(p.get("immediate", false))
@@ -2418,8 +2622,10 @@ func _action_camera_rotate(p: Dictionary):
 	var enter_duration = _vs_to_float(p.get("enter_duration", 0.2))
 	var hold_duration = _vs_to_float(p.get("hold_duration", 0.5))
 	var exit_duration = _vs_to_float(p.get("exit_duration", 0.3))
+	var enter_ease = _vs_to_curve(p.get("enter_ease", "缓出"))
+	var exit_ease = _vs_to_curve(p.get("exit_ease", "缓入"))
 	if _entity.camera:
-		_entity.camera.camera_rotate(angle, hold_duration, enter_duration, exit_duration)
+		_entity.camera.camera_rotate(angle, hold_duration, enter_duration, exit_duration, enter_ease, exit_ease)
 
 # ---- 补间动画 ----
 
@@ -2432,12 +2638,15 @@ func _action_tween_property(p: Dictionary):
 	var prop = str(p.get("prop", "scale"))
 	var to_val = _vs_to_float(p.get("to", 1.0))
 	var dur = _vs_to_float(p.get("dur", 0.5))
-	var ease_str = str(p.get("ease", "缓出"))
 	var delay = _vs_to_float(p.get("delay", 0.0))
-	var ease_type = _vs_tween_ease(ease_str)
-	var trans_type = Tween.TRANS_SINE
-	match ease_str:
-		"线性": trans_type = Tween.TRANS_LINEAR
+	var curve = _vs_to_curve(p.get("ease", "缓出"))
+	var trans_type = Tween.TRANS_LINEAR
+	var ease_type = Tween.EASE_IN_OUT
+	if curve.get("kind", 0) == 0:
+		trans_type = int(curve.get("trans", Tween.TRANS_LINEAR))
+		ease_type = int(curve.get("ease", Tween.EASE_IN_OUT))
+	elif _vs_debug_print:
+		push_warning("[VS-tween] 自定义表达式缓动不支持 Tween，已用线性替代")
 	match prop:
 		"scale":
 			var tween = target.create_tween()
@@ -2481,13 +2690,6 @@ func _action_tween_property(p: Dictionary):
 			var tween = target.create_tween()
 			tween.tween_property(target, prop, to_val, dur).set_delay(delay).set_trans(trans_type).set_ease(ease_type)
 			await tween.finished
-
-func _vs_tween_ease(ease_str: String) -> int:
-	match ease_str:
-		"缓入": return Tween.EASE_IN
-		"缓出": return Tween.EASE_OUT
-		"缓入缓出": return Tween.EASE_IN_OUT
-		_: return Tween.EASE_IN_OUT
 
 func _action_play_voice(p: Dictionary):
 	var path = str(p.get("path", ""))
@@ -2704,6 +2906,72 @@ func _value_get_entity_by_id(p: Dictionary) -> EntityBase:
 		return all[id]
 	return null
 
+# 正则选择实体：props(逗号分隔的属性名) 的值用 | 拼接后正则匹配，取第 index 个匹配(注册顺序从0开始)
+func _value_find_entity_by_regex(p: Dictionary) -> EntityBase:
+	var regex_str = str(p.get("regex", "")).strip_edges()
+	if regex_str == "": return null
+	var index = _vs_to_int(p.get("index", 0))
+	var props: Array = []
+	for s in str(p.get("props", "name")).split(","):
+		var t = s.strip_edges()
+		if t != "": props.append(t)
+	if props.is_empty(): props = ["name"]
+	var em = _entity.entity_manager
+	if not em: return null
+	var reg = RegEx.new()
+	if reg.compile(regex_str) != OK:
+		push_warning("[VS] 正则编译失败: '%s'" % regex_str)
+		return null
+	var matched = 0
+	for e in em.get_all_entities():
+		if not is_instance_valid(e): continue
+		var parts: Array = []
+		for prop in props:
+			parts.append(_vs_obj_prop_str(e, prop))
+		if reg.search("|".join(parts)):
+			if matched == index:
+				return e
+			matched += 1
+	return null
+
+# 正则选择特效：遍历特效容器(注册顺序)，props 值用 | 拼接后正则匹配，取第 index 个匹配(从0开始)
+func _value_find_effect_by_regex(p: Dictionary) -> Node2D:
+	var regex_str = str(p.get("regex", "")).strip_edges()
+	if regex_str == "": return null
+	var index = _vs_to_int(p.get("index", 0))
+	var props: Array = []
+	for s in str(p.get("props", "name")).split(","):
+		var t = s.strip_edges()
+		if t != "": props.append(t)
+	if props.is_empty(): props = ["name"]
+	var ec = _entity.effects_container
+	if not ec: return null
+	var reg = RegEx.new()
+	if reg.compile(regex_str) != OK:
+		push_warning("[VS] 正则编译失败: '%s'" % regex_str)
+		return null
+	var matched = 0
+	for eff in ec.get_children():
+		if not is_instance_valid(eff): continue
+		var parts: Array = []
+		for prop in props:
+			parts.append(_vs_obj_prop_str(eff, prop))
+		if reg.search("|".join(parts)):
+			if matched == index:
+				return eff
+			matched += 1
+	return null
+
+func _vs_obj_prop_str(obj: Node, prop: String) -> String:
+	var v = obj.get(prop)
+	if v != null: return str(v)
+	# 视觉脚本变量：读实体挂载的组件
+	var comp = obj.get("_vs_component")
+	if comp is VisualScriptComponent:
+		var vv = comp._vs_get_variable(prop)
+		if vv != null: return str(vv)
+	return ""
+
 func _value_latest_non_player_entity(p: Dictionary) -> EntityBase:
 	var title_filter = str(p.get("title", ""))
 	var em = _entity.entity_manager
@@ -2813,6 +3081,7 @@ func _value_calculate_immobilize_position_3d(_p: Dictionary) -> Vector3:
 	return _entity.calculate_immobilize_position_3d(target, mifn, tifn)
 
 func _value_c_outwall_pos_3d(_p: Dictionary) -> Vector3:
+	print(_p.get("pos", Vector3.ZERO))
 	var pos = _vs_to_vector3(_p.get("pos", Vector3.ZERO))
 	var wall_pos = _entity.main.point_walls(Vector2(pos.x, pos.y))
 	if wall_pos:
@@ -2908,3 +3177,12 @@ func _vs_try_to_float(value: Variant) -> Variant:
 			return value.to_float()
 		return null
 	return null
+
+# 视觉脚本变量代理：vars.xxx 动态读写 _vs_variables
+class _VsVarsEnv:
+	var data: Dictionary = {}
+	func _get(property: StringName) -> Variant:
+		return data.get(property, null)
+	func _set(property: StringName, value: Variant) -> bool:
+		data[property] = value
+		return true

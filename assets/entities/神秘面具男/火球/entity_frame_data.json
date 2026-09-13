@@ -1,10 +1,10 @@
 {
 	"animation_data": {
-		"idle": {
+		"ex": {
 			"0": {
 				"anchor_point": {
-					"x": -20.0,
-					"y": 50.0
+					"x": -102.100006103516,
+					"y": 38.2000007629395
 				},
 				"frame_index": 0,
 				"hitboxes_data": [
@@ -24,14 +24,43 @@
 							"height": 20.0,
 							"width": 20.0
 						},
-						"visible": true
+						"visible": false
+					}
+				]
+			}
+		},
+		"idle": {
+			"0": {
+				"anchor_point": {
+					"x": -65.4000015258789,
+					"y": 40.2000007629395
+				},
+				"frame_index": 0,
+				"hitboxes_data": [
+					{
+						"area_name": "HitboxArea1",
+						"position": {
+							"x": 0.0,
+							"y": 0.0
+						},
+						"rotation": 0.0,
+						"scale": {
+							"x": 1.0,
+							"y": 1.0
+						},
+						"shape_type": "rectangle",
+						"size": {
+							"height": 20.0,
+							"width": 20.0
+						},
+						"visible": false
 					}
 				]
 			},
 			"1": {
 				"anchor_point": {
-					"x": -20.0,
-					"y": 50.0
+					"x": -65.4000015258789,
+					"y": 40.2000007629395
 				},
 				"frame_index": 1,
 				"hitboxes_data": [
@@ -57,8 +86,8 @@
 			},
 			"2": {
 				"anchor_point": {
-					"x": -20.0,
-					"y": 50.0
+					"x": -65.4000015258789,
+					"y": 40.2000007629395
 				},
 				"frame_index": 2,
 				"hitboxes_data": [
@@ -84,8 +113,8 @@
 			},
 			"3": {
 				"anchor_point": {
-					"x": -20.0,
-					"y": 50.0
+					"x": -65.4000015258789,
+					"y": 40.2000007629395
 				},
 				"frame_index": 3,
 				"hitboxes_data": [
@@ -111,8 +140,8 @@
 			},
 			"4": {
 				"anchor_point": {
-					"x": -20.0,
-					"y": 50.0
+					"x": -65.4000015258789,
+					"y": 40.2000007629395
 				},
 				"frame_index": 4,
 				"hitboxes_data": [
@@ -138,8 +167,8 @@
 			},
 			"5": {
 				"anchor_point": {
-					"x": -20.0,
-					"y": 50.0
+					"x": -65.4000015258789,
+					"y": 40.2000007629395
 				},
 				"frame_index": 5,
 				"hitboxes_data": [
@@ -165,8 +194,8 @@
 			},
 			"6": {
 				"anchor_point": {
-					"x": -20.0,
-					"y": 50.0
+					"x": -65.4000015258789,
+					"y": 40.2000007629395
 				},
 				"frame_index": 6,
 				"hitboxes_data": [
@@ -192,8 +221,8 @@
 			},
 			"7": {
 				"anchor_point": {
-					"x": -20.0,
-					"y": 50.0
+					"x": -65.4000015258789,
+					"y": 40.2000007629395
 				},
 				"frame_index": 7,
 				"hitboxes_data": [
@@ -220,12 +249,16 @@
 		}
 	},
 	"animation_global_anchors": {
+		"ex": {
+			"x": -102.100006103516,
+			"y": 38.2000007629395
+		},
 		"idle": {
-			"x": -20.0,
-			"y": 50.0
+			"x": -65.4000015258789,
+			"y": 40.2000007629395
 		}
 	},
 	"entity_scene_path": "res://assets/entities/神秘面具男/火球/entity.tscn",
 	"handle_size": 16.0,
-	"save_time": "2026-08-11T22:38:05"
+	"save_time": "2026-08-27T19:23:26"
 }

@@ -3,16 +3,81 @@
 [ext_resource type="PackedScene" uid="uid://gkn20f0aex3q" path="res://assets/entities/base/animated_sprite_2d_entity.tscn" id="1_3enrf"]
 [ext_resource type="Texture2D" uid="uid://b5tra25rsm1t8" path="res://assets/entities/神秘面具男/火球/1.png" id="2_3loay"]
 [ext_resource type="Script" uid="uid://7fe3xwr7ptri" path="res://assets/entities/神秘面具男/火球/entity.gd" id="2_non5a"]
+[ext_resource type="Texture2D" uid="uid://nm18ga417uwr" path="res://assets/entities/神秘面具男/火球爆炸/1.png" id="3_l52gv"]
 [ext_resource type="Texture2D" uid="uid://bpj08iugjopq1" path="res://assets/entities/神秘面具男/火球/2.png" id="3_non5a"]
+[ext_resource type="Texture2D" uid="uid://bva5xjwx3ng8w" path="res://assets/entities/神秘面具男/火球爆炸/2.png" id="4_7sggu"]
 [ext_resource type="Texture2D" uid="uid://l4oskebepnum" path="res://assets/entities/神秘面具男/火球/3.png" id="4_cniam"]
 [ext_resource type="Texture2D" uid="uid://brff5fo1i1etd" path="res://assets/entities/神秘面具男/火球/4.png" id="5_3uh82"]
+[ext_resource type="Texture2D" uid="uid://6fo1jvfp44nx" path="res://assets/entities/神秘面具男/火球爆炸/3.png" id="5_6qnqk"]
+[ext_resource type="Texture2D" uid="uid://b0ix2k8i535ai" path="res://assets/entities/神秘面具男/火球爆炸/4.png" id="6_2eavx"]
 [ext_resource type="Texture2D" uid="uid://c7u25uwey0dmj" path="res://assets/entities/神秘面具男/火球/5.png" id="6_afmbn"]
+[ext_resource type="Texture2D" uid="uid://d1k5n7lovnxpf" path="res://assets/entities/神秘面具男/火球爆炸/5.png" id="7_7fu2y"]
 [ext_resource type="Texture2D" uid="uid://0spxf8h30mp7" path="res://assets/entities/神秘面具男/火球/6.png" id="7_mw0da"]
+[ext_resource type="Texture2D" uid="uid://cljem84paobeo" path="res://assets/entities/神秘面具男/火球爆炸/6.png" id="8_b16w8"]
 [ext_resource type="Texture2D" uid="uid://km43nhyvvn4q" path="res://assets/entities/神秘面具男/火球/7.png" id="8_pddyf"]
+[ext_resource type="Texture2D" uid="uid://7wvv15c1d21j" path="res://assets/entities/神秘面具男/火球爆炸/7.png" id="9_853ys"]
 [ext_resource type="Texture2D" uid="uid://dy0b22xoplbty" path="res://assets/entities/神秘面具男/火球/8.png" id="9_qw8bf"]
+[ext_resource type="Texture2D" uid="uid://ccjhv18hh4cu4" path="res://assets/entities/神秘面具男/火球爆炸/8.png" id="10_psc8j"]
+[ext_resource type="Texture2D" uid="uid://cad650wfspfcd" path="res://assets/entities/神秘面具男/火球爆炸/9.png" id="11_w2p58"]
+[ext_resource type="Texture2D" uid="uid://dnhoe11nwvohg" path="res://assets/entities/神秘面具男/火球爆炸/10.png" id="12_nshni"]
+[ext_resource type="Texture2D" uid="uid://dk1f56bcsfl11" path="res://assets/entities/神秘面具男/火球爆炸/11.png" id="13_xy2qg"]
+[ext_resource type="Texture2D" uid="uid://1oli03n7qfmh" path="res://assets/entities/神秘面具男/火球爆炸/12.png" id="14_042ni"]
+[ext_resource type="Texture2D" uid="uid://bba608opvnf00" path="res://assets/entities/神秘面具男/火球爆炸/13.png" id="15_r5l6a"]
+[ext_resource type="Texture2D" uid="uid://cp27nrtyc0cws" path="res://assets/entities/神秘面具男/火球爆炸/14.png" id="16_6cwxe"]
+[ext_resource type="Texture2D" uid="uid://r50t1ahqjef3" path="res://assets/entities/神秘面具男/火球爆炸/15.png" id="17_2ych4"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_pcvif"]
 animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_l52gv")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_7sggu")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_6qnqk")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_2eavx")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_7fu2y")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_b16w8")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_853ys")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_psc8j")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_w2p58")
+}, {
+"duration": 1.0,
+"texture": ExtResource("12_nshni")
+}, {
+"duration": 1.0,
+"texture": ExtResource("13_xy2qg")
+}, {
+"duration": 1.0,
+"texture": ExtResource("14_042ni")
+}, {
+"duration": 1.0,
+"texture": ExtResource("15_r5l6a")
+}, {
+"duration": 1.0,
+"texture": ExtResource("16_6cwxe")
+}, {
+"duration": 1.0,
+"texture": ExtResource("17_2ych4")
+}],
+"loop": false,
+"name": &"ex",
+"speed": 16.0
+}, {
 "frames": [{
 "duration": 1.0,
 "texture": ExtResource("2_3loay")
@@ -45,13 +110,15 @@ animations = [{
 
 [node name="Entity" unique_id=1152390372 instance=ExtResource("1_3enrf")]
 script = ExtResource("2_non5a")
+debug_show_hitboxes = false
+debug_show_attack_boxes = false
 
 [node name="Aura" parent="Shadow" parent_id_path=PackedInt32Array(1440136799) index="0" unique_id=199583354]
 visible = false
 
 [node name="AnimatedSprite2D" parent="Visuals" parent_id_path=PackedInt32Array(599763896) index="0" unique_id=318864051]
 position = Vector2(1.0000038, 0)
-scale = Vector2(3.133065, 3.1330645)
+scale = Vector2(3.843, 3.843)
 sprite_frames = SubResource("SpriteFrames_pcvif")
-animation = &"idle"
-frame_progress = 0.9624641
+animation = &"ex"
+autoplay = "idle"

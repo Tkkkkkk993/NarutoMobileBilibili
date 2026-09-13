@@ -11,16 +11,25 @@ var _was_hit_stop: bool = false
 var _original_speed_scale: float = 1.0
 
 func _enter_tree():
-	visible = false
-	position = Vector2(pos_3d.x, pos_3d.y + pos_3d.z) # 防止瞬移
-
-func _ready():
 	visible = true
 	set_meta("sort_by_depth", true)
-	# 立即注册到深度管理器，确保特效生成后第一时间获得正确的 z_index
+	position = Vector2(pos_3d.x, pos_3d.y + pos_3d.z)
+	call_deferred("_deferred_depth_register")
+
+func _deferred_depth_register():
+	if not is_instance_valid(self) or not is_inside_tree():
+		return
 	var dm = get_node_or_null("/root/DepthManager")
 	if dm and dm.has_method("register_entity"):
 		dm.register_entity(self)
+
+func _ready():
+	visible = true
+	if not has_meta("sort_by_depth"):
+		set_meta("sort_by_depth", true)
+		var dm = get_node_or_null("/root/DepthManager")
+		if dm and dm.has_method("register_entity"):
+			dm.register_entity(self)
 	play()
 
 func play():
@@ -72,9 +81,19 @@ func get_effect_pos():
 	return pos_3d
 
 func get_depth_pos() -> Vector3:
-	if _follow_target:
-		return Vector3(pos_3d.x, pos_3d.y + _follow_target.position_3d.y, pos_3d.z)
-	return pos_3d
+	# 特效坐标系：Z = 深度（等价于其它东西的 Y）
+	# Y_POSITION 排序：depth 越大 → z_index 越大 → 渲染在前
+	# z_offset > 0 → 在实体前面 → 需要更大 depth
+	# z_offset < 0 → 在实体后面 → 需要更小 depth
+	if _follow_target and is_instance_valid(_follow_target):
+		var td = _follow_target.position_3d.y + _follow_target.position_3d.z
+		return Vector3(pos_3d.x, td + pos_3d.z, 0.0)
+	if has_meta("_spawn_entity"):
+		var entity = get_meta("_spawn_entity")
+		if is_instance_valid(entity) and entity is EntityBase:
+			var ed = entity.position_3d.y + entity.position_3d.z
+			return Vector3(pos_3d.x, ed + pos_3d.z, 0.0)
+	return Vector3(pos_3d.x, pos_3d.z, 0.0)
 
 func set_follow(target: Node, offset: Vector3 = Vector3.ZERO):
 	if not target:

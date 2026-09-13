@@ -1,0 +1,63 @@
+[gd_scene format=3 uid="uid://rri345mlb83x"]
+
+[ext_resource type="PackedScene" uid="uid://c5eauk5i5s64k" path="res://assets/entities/base/effects/effects_base.tscn" id="1_ox4j6"]
+[ext_resource type="Script" uid="uid://bkooim0lvehhg" path="res://assets/entities/Daliwang/受击特效/effects_base.gd" id="2_dvont"]
+[ext_resource type="Texture2D" uid="uid://0ld2sj3c16pm" path="res://assets/entities/Daliwang/受击特效/1726154494278.png" id="2_v2j8n"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dvont"]
+atlas = ExtResource("2_v2j8n")
+region = Rect2(0, 0, 270, 540)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yuvci"]
+atlas = ExtResource("2_v2j8n")
+region = Rect2(270, 0, 270, 540)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_f38o6"]
+atlas = ExtResource("2_v2j8n")
+region = Rect2(540, 0, 270, 540)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_iqwlb"]
+atlas = ExtResource("2_v2j8n")
+region = Rect2(810, 0, 270, 540)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2000i"]
+atlas = ExtResource("2_v2j8n")
+region = Rect2(0, 540, 270, 540)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_86x3v"]
+atlas = ExtResource("2_v2j8n")
+region = Rect2(270, 540, 270, 540)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_xieuu"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dvont")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yuvci")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_f38o6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_iqwlb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2000i")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_86x3v")
+}],
+"loop": false,
+"name": &"default",
+"speed": 40.0
+}]
+
+[node name="EffectsBase" unique_id=1285131697 instance=ExtResource("1_ox4j6")]
+script = ExtResource("2_dvont")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." index="0" unique_id=1794485216]
+sprite_frames = SubResource("SpriteFrames_xieuu")
+frame = 5
+frame_progress = 1.0

@@ -6,7 +6,7 @@ var et: EntityBase = null
 func _ready():
 	res_path = "res://assets/entities/鲨鱼/main.tres"
 	enable_wall_collision = false
-	aux_cd_value = 20
+	aux_cd_value = 1
 	super._ready()
 	is_invincible = true
 	effects_container.register_effects({

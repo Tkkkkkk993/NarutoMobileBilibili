@@ -3,7 +3,7 @@ extends AnimatedSprite2DEntity
 func _ready():
 	res_path = "res://assets/entities/解术_散/子实体/main.tres"
 	enable_wall_collision = false
-	aux_cd_value = 20
+	aux_cd_value = 1
 	super._ready()
 	is_invincible = true
 	effects_container.register_effects({
@@ -37,7 +37,7 @@ func _on_attack_hit(hit_result: AttackBoxManager.HitResult):
 			facing_direction < 0
 		)
 		
-		target.change_hp(-150000)
+		target.change_hp(-1000)
 		
 		if target.have_modifiers("addBodyState"):
 			parent_entity.set_modifiers("addBodyState", BodyState.NORMAL, 0)

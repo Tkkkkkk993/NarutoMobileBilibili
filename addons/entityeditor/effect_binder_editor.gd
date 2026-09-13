@@ -34,6 +34,15 @@ var _save_btn: Button               # 保存按钮
 var _sprite_scale: Vector2 = Vector2.ONE
 
 # ==========================================
+# 撤回重做
+# ==========================================
+var _undo_stack: Array = []   # Array of {action, old_state, new_state}
+var _redo_stack: Array = []
+const MAX_UNDO_STEPS := 50
+var _prop_undo_captured: bool = false  # 属性面板焦点进入时是否已捕获状态
+var _prop_undo_state: Dictionary = {}  # 属性面板编辑前的绑定快照
+
+# ==========================================
 # 画布
 # ==========================================
 var preview_root_position: Vector2 = Vector2(300, 300)
@@ -43,6 +52,7 @@ var _drag_offset: Vector2 = Vector2.ZERO
 var _is_panning: bool = false
 var _pan_start_mouse_pos: Vector2 = Vector2.ZERO
 var _pan_start_offset: Vector2 = Vector2.ZERO
+var _drag_undo_state: Dictionary = {}  # 拖拽开始前的绑定快照
 
 # ==========================================
 # UI 引用
@@ -73,6 +83,12 @@ var _auto_flip_facing_check: CheckBox
 var _play_btn: Button
 var _stop_btn: Button
 var _frame_label: Label
+var _undo_btn: Button
+var _redo_btn: Button
+
+# 预览特效图层（深度排序）
+var _preview_layer: Node2D
+var _prop_undo_timer: Timer  # 属性变更后延迟推入撤回栈
 
 var _ui_built: bool = false
 var _panel_updating: bool = false  # 防抖：面板更新期间屏蔽信号回调
@@ -302,6 +318,24 @@ func _build_ui():
 	del_btn.pressed.connect(_on_del_binding)
 	effect_btn_hbox.add_child(del_btn)
 
+	# 撤回重做按钮
+	var undo_redo_hbox = HBoxContainer.new()
+	left_vbox.add_child(undo_redo_hbox)
+	_undo_btn = Button.new()
+	_undo_btn.text = "撤回"
+	_undo_btn.tooltip_text = "Ctrl+Z"
+	_undo_btn.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_undo_btn.pressed.connect(_undo)
+	_undo_btn.disabled = true
+	undo_redo_hbox.add_child(_undo_btn)
+	_redo_btn = Button.new()
+	_redo_btn.text = "重做"
+	_redo_btn.tooltip_text = "Ctrl+Y"
+	_redo_btn.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_redo_btn.pressed.connect(_redo)
+	_redo_btn.disabled = true
+	undo_redo_hbox.add_child(_redo_btn)
+
 	# 中间画布
 	var center_vbox = VBoxContainer.new()
 	center_vbox.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -318,6 +352,19 @@ func _build_ui():
 	_draw_node.z_as_relative = false
 	_draw_node.draw.connect(_on_canvas_draw)
 	_canvas.add_child(_draw_node)
+
+	# 预览特效图层：子节点使用绝对 z_index，与实体统一深度排序
+	_preview_layer = Node2D.new()
+	_preview_layer.z_index = 0
+	_preview_layer.z_as_relative = false
+	_canvas.add_child(_preview_layer)
+
+	# 属性变更撤回定时器（延迟推入，合并连续修改）
+	_prop_undo_timer = Timer.new()
+	_prop_undo_timer.one_shot = true
+	_prop_undo_timer.wait_time = 0.5
+	_prop_undo_timer.timeout.connect(_on_prop_undo_timer_timeout)
+	add_child(_prop_undo_timer)
 
 	_interaction_layer = ColorRect.new()
 	_interaction_layer.color = Color(0, 0, 0, 0)
@@ -339,6 +386,8 @@ func _build_ui():
 	_effect_name_input.placeholder_text = "注册名..."
 	_effect_name_input.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	_effect_name_input.text_changed.connect(_on_prop_changed)
+	_effect_name_input.focus_entered.connect(_on_prop_focus_entered)
+	_effect_name_input.focus_exited.connect(_on_prop_focus_exited)
 	right_vbox.add_child(_effect_name_input)
 
 	right_vbox.add_child(_mk_label("场景路径:", 11))
@@ -346,6 +395,8 @@ func _build_ui():
 	_scene_path_input.placeholder_text = "或 .tscn 路径..."
 	_scene_path_input.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	_scene_path_input.text_changed.connect(_on_prop_changed)
+	_scene_path_input.focus_entered.connect(_on_prop_focus_entered)
+	_scene_path_input.focus_exited.connect(_on_prop_focus_exited)
 	right_vbox.add_child(_scene_path_input)
 
 	var popup_btn = Button.new()
@@ -369,11 +420,17 @@ func _build_ui():
 	_pos_y_spin = _mk_spinbox("Y:", -999999, 999999, 1.0, right_vbox)
 	_pos_x_spin.value_changed.connect(_on_prop_changed)
 	_pos_y_spin.value_changed.connect(_on_prop_changed)
+	_pos_x_spin.focus_entered.connect(_on_prop_focus_entered)
+	_pos_x_spin.focus_exited.connect(_on_prop_focus_exited)
+	_pos_y_spin.focus_entered.connect(_on_prop_focus_entered)
+	_pos_y_spin.focus_exited.connect(_on_prop_focus_exited)
 
 	right_vbox.add_child(_mk_hsep())
 	right_vbox.add_child(_mk_label("相对深度（Z偏移）", 11))
 	_z_offset_spin = _mk_spinbox("Z:", -999999, 999999, 1.0, right_vbox)
 	_z_offset_spin.value_changed.connect(_on_prop_changed)
+	_z_offset_spin.focus_entered.connect(_on_prop_focus_entered)
+	_z_offset_spin.focus_exited.connect(_on_prop_focus_exited)
 
 	right_vbox.add_child(_mk_hsep())
 	right_vbox.add_child(_mk_label("大小（缩放）", 11))
@@ -383,11 +440,17 @@ func _build_ui():
 	_scale_y_spin.value = 1.0
 	_scale_x_spin.value_changed.connect(_on_prop_changed)
 	_scale_y_spin.value_changed.connect(_on_prop_changed)
+	_scale_x_spin.focus_entered.connect(_on_prop_focus_entered)
+	_scale_x_spin.focus_exited.connect(_on_prop_focus_exited)
+	_scale_y_spin.focus_entered.connect(_on_prop_focus_entered)
+	_scale_y_spin.focus_exited.connect(_on_prop_focus_exited)
 
 	right_vbox.add_child(_mk_hsep())
 	right_vbox.add_child(_mk_label("旋转（度）", 11))
 	_rotation_spin = _mk_spinbox("R:", -999999, 999999, 1.0, right_vbox)
 	_rotation_spin.value_changed.connect(_on_prop_changed)
+	_rotation_spin.focus_entered.connect(_on_prop_focus_entered)
+	_rotation_spin.focus_exited.connect(_on_prop_focus_exited)
 
 	right_vbox.add_child(_mk_hsep())
 	_follow_entity_check = CheckBox.new()
@@ -510,6 +573,10 @@ func _on_effect_selected(index: int):
 	var b = _get_binding_by_id(_selected_binding_id)
 	if b.is_empty(): return
 	
+	# 选中新绑定时，为后续属性编辑预备撤回快照
+	_prop_undo_state = b.duplicate(true)
+	_prop_undo_captured = true
+	
 	_update_panel(b)
 	_timeline.queue_redraw()
 	_draw_node.queue_redraw()
@@ -543,6 +610,7 @@ func _on_add_binding():
 		"flip_h": false,
 		"auto_flip_by_facing": false
 	}
+	_push_undo("添加特效", new_b["id"], {}, new_b.duplicate(true))
 	_bindings.append(new_b)
 	_selected_binding_id = new_b["id"]
 	_refresh_effect_list()
@@ -558,6 +626,9 @@ func _on_add_binding():
 
 func _on_del_binding():
 	if _selected_binding_id == "": return
+	var old_b = _get_binding_by_id(_selected_binding_id)
+	if old_b.is_empty(): return
+	_push_undo("删除特效", _selected_binding_id, old_b.duplicate(true), {})
 	var new_array = []
 	for b in _bindings:
 		if b["id"] != _selected_binding_id:
@@ -622,6 +693,10 @@ func _on_prop_changed(_v = null):
 	b["follow_facing"] = _follow_facing_check.button_pressed if _follow_facing_check else false
 	b["flip_h"] = _flip_h_check.button_pressed if _flip_h_check else false
 	b["auto_flip_by_facing"] = _auto_flip_facing_check.button_pressed if _auto_flip_facing_check else false
+	# 撤回：确保快照已捕获，重置延迟定时器
+	_ensure_prop_undo_captured()
+	if _prop_undo_timer:
+		_prop_undo_timer.start()
 	_refresh_effect_list_keep_selection()
 	_timeline.queue_redraw()
 	_draw_node.queue_redraw()
@@ -647,7 +722,9 @@ func _on_bind_frame_changed(value: float):
 	if _panel_updating: return
 	var b = _get_binding_by_id(_selected_binding_id)
 	if b.is_empty(): return
+	var old_state = b.duplicate(true)
 	b["frame"] = int(value)
+	_push_undo("修改绑定帧", b["id"], old_state, b.duplicate(true))
 	_refresh_effect_list_keep_selection()
 	_timeline.queue_redraw()
 	_draw_node.queue_redraw()
@@ -656,6 +733,125 @@ func _on_bind_frame_changed(value: float):
 func _update_frame_label():
 	if _frame_label:
 		_frame_label.text = "帧: " + str(_play_frame)
+
+# ==========================================
+# 撤回重做系统
+# ==========================================
+func _push_undo(action: String, binding_id: String, old_state: Dictionary, new_state: Dictionary):
+	_undo_stack.append({
+		"action": action,
+		"id": binding_id,
+		"old": old_state,
+		"new": new_state
+	})
+	if _undo_stack.size() > MAX_UNDO_STEPS:
+		_undo_stack.pop_front()
+	_redo_stack.clear()
+	_update_undo_redo_buttons()
+
+func _undo():
+	if _undo_stack.is_empty(): return
+	var entry = _undo_stack.pop_back()
+	_redo_stack.append(entry)
+	_apply_undo_entry(entry, true)
+	_update_undo_redo_buttons()
+
+func _redo():
+	if _redo_stack.is_empty(): return
+	var entry = _redo_stack.pop_back()
+	_undo_stack.append(entry)
+	_apply_undo_entry(entry, false)
+	_update_undo_redo_buttons()
+
+func _apply_undo_entry(entry: Dictionary, is_undo: bool):
+	var action = entry.get("action", "")
+	var bid = entry.get("id", "")
+	var state = entry.get("old", {}) if is_undo else entry.get("new", {})
+
+	match action:
+		"添加特效":
+			if is_undo:
+				# 撤回添加 → 删除
+				_bindings = _bindings.filter(func(b): return b["id"] != bid)
+				if _selected_binding_id == bid:
+					_selected_binding_id = ""
+			else:
+				# 重做添加 → 重新添加
+				if not state.is_empty():
+					_bindings.append(state.duplicate(true))
+		"删除特效":
+			if is_undo:
+				# 撤回删除 → 恢复
+				if not state.is_empty():
+					_bindings.append(state.duplicate(true))
+			else:
+				# 重做删除 → 删除
+				_bindings = _bindings.filter(func(b): return b["id"] != bid)
+				if _selected_binding_id == bid:
+					_selected_binding_id = ""
+		"修改属性", "修改绑定帧", "拖拽位置":
+			var b = _get_binding_by_id(bid)
+			if not b.is_empty() and not state.is_empty():
+				for key in state:
+					b[key] = state[key]
+
+	_refresh_effect_list()
+	if _selected_binding_id != "":
+		var b = _get_binding_by_id(_selected_binding_id)
+		if not b.is_empty():
+			_update_panel(b)
+		else:
+			_selected_binding_id = ""
+			_update_panel({})
+	else:
+		_update_panel({})
+	_timeline.queue_redraw()
+	_draw_node.queue_redraw()
+	_has_unsaved_changes = true
+
+func _update_undo_redo_buttons():
+	if _undo_btn:
+		_undo_btn.disabled = _undo_stack.is_empty()
+	if _redo_btn:
+		_redo_btn.disabled = _redo_stack.is_empty()
+
+# 属性面板焦点跟踪（用于撤回重做）
+# 采用延迟定时器策略：选中绑定或首次编辑时捕获快照，
+# 每次属性变更重置定时器，停止编辑 0.5s 后自动推入撤回栈
+func _on_prop_focus_entered():
+	if _panel_updating: return
+	_ensure_prop_undo_captured()
+
+func _on_prop_focus_exited():
+	if _panel_updating: return
+	# 焦点离开时立即提交（如果定时器正在等待）
+	if _prop_undo_captured:
+		_commit_prop_undo()
+
+func _ensure_prop_undo_captured():
+	if not _prop_undo_captured:
+		var b = _get_binding_by_id(_selected_binding_id)
+		if b.is_empty(): return
+		_prop_undo_state = b.duplicate(true)
+		_prop_undo_captured = true
+
+func _commit_prop_undo():
+	if not _prop_undo_captured: return
+	_prop_undo_timer.stop()
+	var b = _get_binding_by_id(_selected_binding_id)
+	if not b.is_empty() and not _prop_undo_state.is_empty():
+		var changed = false
+		for key in _prop_undo_state:
+			if b.get(key) != _prop_undo_state.get(key):
+				changed = true
+				break
+		if changed:
+			_push_undo("修改属性", b["id"], _prop_undo_state, b.duplicate(true))
+	_prop_undo_captured = false
+	_prop_undo_state = {}
+
+func _on_prop_undo_timer_timeout():
+	_commit_prop_undo()
 
 # ==========================================
 # 预览播放
@@ -771,24 +967,29 @@ func _precreate_all_effects():
 		var offset_x = b.get("x", 0.0)
 		var offset_y = b.get("y", 0.0)
 		var z_off = b.get("z_offset", 0.0)
-		# Z偏移在运行时影响屏幕Y（depth + height → screen_y），且 z_off 不乘 sprite_scale
-		# 除以原始 sprite_scale 使编辑器预览与运行时显示对齐
-		var spawn_2d = base_pos + Vector2(offset_x / _sprite_scale.x * _canvas_zoom, (offset_y / _sprite_scale.y + z_off) * _canvas_zoom)
+		# 特效加在 canvas 上，需要加上实体位置偏移
+		var spawn_2d = base_pos + Vector2(offset_x / _sprite_scale.x, offset_y / _sprite_scale.y + z_off)
 		effect.position = spawn_2d
-		effect.scale = Vector2(b.get("scale_x", 1.0) / _sprite_scale.x * _canvas_zoom, b.get("scale_y", 1.0) / _sprite_scale.y * _canvas_zoom)
+		effect.scale = Vector2(b.get("scale_x", 1.0) / _sprite_scale.x, b.get("scale_y", 1.0) / _sprite_scale.y)
 		effect.rotation = deg_to_rad(b.get("rotation", 0.0))
 		if b.get("flip_h", false):
 			effect.scale.x = -abs(effect.scale.x)
 		
-		# 标记所属绑定，隐藏
+		# 标记所属绑定和深度排序信息
 		effect.set_meta("_bind_id", b["id"])
+		effect.set_meta("_depth_y", offset_y / _sprite_scale.y)
+		effect.set_meta("_depth_z", z_off)
 		effect.visible = false
 		
+		# 添加到 canvas（和实体同级），由 _sort_preview_layer 统一排序
 		_canvas.add_child(effect)
 		_preview_effects.append(effect)
 		
 		# 延迟：等 _ready() 执行后，停止动画并断开自动销毁信号
 		call_deferred("_freeze_effect", effect)
+	
+	# 初始深度排序
+	call_deferred("_sort_preview_layer")
 
 func _freeze_effect(effect: Node):
 	if not is_instance_valid(effect): return
@@ -801,6 +1002,52 @@ func _freeze_effect(effect: Node):
 	if effect.visible:
 		return
 	anim_sprite.stop()
+
+# 预览特效深度排序
+# 特效直接加在 canvas 上，与 EntityPreview 同级
+# 深度只由 z_offset 决定：正值在实体前面，负值在实体后面
+const Z_INDEX_STEP := 10
+const Z_INDEX_MIN := -4096
+const Z_INDEX_MAX := 4096
+
+func _sort_preview_layer():
+	if not _canvas: return
+	var effects: Array[Node2D] = []
+	for child in _canvas.get_children():
+		if child is Node2D and child.has_meta("_bind_id"):
+			effects.append(child)
+	if effects.is_empty(): return
+
+	var entity_z = 0
+	var preview_root = _canvas.get_node_or_null("EntityPreview")
+	if preview_root and preview_root is Node2D:
+		entity_z = (preview_root as Node2D).z_index
+
+	# 只按 z_offset 排序：负值（后面）→ 0（同层）→ 正值（前面）
+	var depth_arr: Array = []
+	for eff in effects:
+		var dz = eff.get_meta("_depth_z", 0.0)
+		depth_arr.append({"eff": eff, "dz": dz})
+	depth_arr.sort_custom(func(a, b): return a["dz"] < b["dz"])
+
+	# 分界点：z_offset < 0 的在实体后面，>= 0 的在实体前面
+	var split = 0
+	for i in range(depth_arr.size()):
+		if depth_arr[i]["dz"] >= 0.0:
+			split = i
+			break
+		else:
+			split = i + 1
+
+	for i in range(depth_arr.size()):
+		var entry = depth_arr[i]
+		var z: int
+		if i < split:
+			z = entity_z - (split - i) * Z_INDEX_STEP
+		else:
+			z = entity_z + (i - split + 1) * Z_INDEX_STEP
+		z = clampi(z, Z_INDEX_MIN, Z_INDEX_MAX)
+		entry["eff"].z_index = z
 
 # 播放时：显示当前帧的特效并播放其动画
 func _show_preview_effects_at_frame(frame_idx: int):
@@ -821,6 +1068,8 @@ func _show_preview_effects_at_frame(frame_idx: int):
 				anim_sprite.stop()
 				anim_sprite.frame = 0
 				anim_sprite.play()
+	# 每次显示新特效后重新排序（新可见节点可能影响排序）
+	_sort_preview_layer()
 
 func _find_effect_scene_by_name(effect_name: String):
 	var entity_dir = _entity_scene_path.get_base_dir()
@@ -1253,6 +1502,7 @@ func _on_interaction_input(event: InputEvent):
 						_is_dragging = true
 						_drag_offset = pt_pos - logical_mouse
 						_selected_binding_id = b["id"]
+						_drag_undo_state = b.duplicate(true)
 						_update_panel(b)
 						for i in range(_effect_list.item_count):
 							if _effect_list.get_item_metadata(i) == b["id"]:
@@ -1261,7 +1511,19 @@ func _on_interaction_input(event: InputEvent):
 						_timeline.queue_redraw()
 						return
 			else:
-				if _is_dragging: _is_dragging = false
+				if _is_dragging:
+					_is_dragging = false
+					# 拖拽结束，推入撤回栈
+					var b = _get_binding_by_id(_selected_binding_id)
+					if not b.is_empty() and not _drag_undo_state.is_empty():
+						var changed = false
+						for key in _drag_undo_state:
+							if b.get(key) != _drag_undo_state.get(key):
+								changed = true
+								break
+						if changed:
+							_push_undo("拖拽位置", b["id"], _drag_undo_state, b.duplicate(true))
+					_drag_undo_state = {}
 	elif event is InputEventMouseMotion:
 		var mm = event as InputEventMouseMotion
 		if _is_panning:
@@ -1276,8 +1538,11 @@ func _on_interaction_input(event: InputEvent):
 			# 显示坐标转回绑定坐标（乘以 sprite_scale，与绘制时的除法对称，z_off 不参与 sprite_scale 转换）
 			b["x"] = new_pos.x * _sprite_scale.x
 			b["y"] = (new_pos.y - b.get("z_offset", 0.0)) * _sprite_scale.y
+			# 防抖：更新 spinbox 时不触发 _on_prop_changed（避免重复撤回条目）
+			_panel_updating = true
 			if _pos_x_spin: _pos_x_spin.value = b["x"]
 			if _pos_y_spin: _pos_y_spin.value = b["y"]
+			_panel_updating = false
 			if _draw_node: _draw_node.queue_redraw()
 			_has_unsaved_changes = true
 
@@ -1323,6 +1588,15 @@ func _input(event: InputEvent):
 	if event is InputEventKey and event.pressed and not event.echo:
 		if event.keycode == KEY_S and event.ctrl_pressed:
 			_on_save_data()
+			get_viewport().set_input_as_handled()
+		elif event.keycode == KEY_Z and event.ctrl_pressed and event.shift_pressed:
+			_redo()
+			get_viewport().set_input_as_handled()
+		elif event.keycode == KEY_Z and event.ctrl_pressed:
+			_undo()
+			get_viewport().set_input_as_handled()
+		elif event.keycode == KEY_Y and event.ctrl_pressed:
+			_redo()
 			get_viewport().set_input_as_handled()
 
 func _notification(what):
