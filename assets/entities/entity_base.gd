@@ -276,6 +276,7 @@ var current_slide_sequence: Array = []
 var current_slide_index: int = -1
 var slide_locked_facing: int = 1
 var processed_frames: Dictionary = {}
+var _last_processed_frame: int = -1  # 上一帧索引，用于检测跳帧
 var frame_events_enabled: bool = true
 var _current_slide_gravity: float = -1.0
 var _slide_gravity_active: bool = false
@@ -342,7 +343,7 @@ var _immobilize_time: float = -1
 var _immobilize_knockback: Vector2 = Vector2.ZERO
 var _immobilize_knockback_time: float = 0
 var _immobilize_launch: float = 0
-var _immobilize_launch_gravity: float = 800
+var _immobilize_launch_gravity: float = 730
 var _immobilize_can_substitute: bool = false  # 定身期间能否替身
 var _immobilize_visuals_rotation: float = 0.0  # 定身时 visuals 旋转角度
 var _saved_visuals_rotation: float = 0.0        # 定身前保存的 visuals 旋转
@@ -369,6 +370,16 @@ var _free_move_speed: Vector2 = Vector2.ZERO
 # ============================================
 # 保护系统
 # ============================================
+
+## 保护值作用模式（一个变量即可切换）
+enum ProtectionEffect { LAUNCH_SPEED, FALL_SPEED }
+## LAUNCH_SPEED(默认)：保护值越高，受击时的击飞初速(zv)越弱，连段中后续击飞越来越矮
+## FALL_SPEED(旧行为)：保护值越高，被击飞后下落越快（通过加快落地来断连）
+@export_group("保护系统")
+@export var protection_effect: ProtectionEffect = ProtectionEffect.LAUNCH_SPEED
+@export_group("")
+## 击飞初速衰减系数：击飞初速 *= 1 - 该系数 * 保护值（LAUNCH_SPEED 模式下生效）
+var launch_protection_decay: float = 0.38
 
 # 公用
 var launched_combo_cnt: int = 0
@@ -880,7 +891,7 @@ func _post_init():
 			_entry_fall_speed_x = 600.0 * facing_direction
 			
 			apply_z_impulse(0)
-			set_slide_gravity(700)
+			set_slide_gravity(730)
 		else:
 			play_animation("idle")
 			entry_action = EntryAction.NONE
@@ -998,7 +1009,29 @@ func _load_effect_bindings():
 		if data is Dictionary and data.has("bindings"):
 			_effect_bindings = data["bindings"]
 			print("[特效绑定] 已加载 %d 个特效绑定" % _effect_bindings.size())
+			_register_pooled_bindings()
 	file.close()
+
+func _register_pooled_bindings():
+	"""预注册池化特效绑定，开场由 init_pooled_effects() 实例化"""
+	if not effects_container:
+		return
+	for binding in _effect_bindings:
+		if not binding.get("pooled", false):
+			continue
+		var scene_path = binding.get("scene_path", "")
+		var effect_name = binding.get("effect_name", "")
+		var pool_size = binding.get("pool_size", 1)
+		if scene_path != "":
+			var scene = load(scene_path)
+			if scene:
+				var reg_name = "_efb_" + binding.get("id", "tmp")
+				effects_container.register_pooled_effect(reg_name, scene, pool_size)
+		elif effect_name != "":
+			# 已通过 entity.gd register_effects 注册，需升级为池化
+			var scene = effects_container._effect_scenes.get(effect_name)
+			if scene and not effects_container._pooled_scenes.has(effect_name):
+				effects_container.register_pooled_effect(effect_name, scene, pool_size)
 
 func _sync_skill_slot_binding():
 	"""根据当前操控者切换 skill_slot 绑定：操控者用真实 SkillPanel，其它用 NullSlot"""
@@ -1421,6 +1454,7 @@ func _physics_process(delta):
 	
 	if _hit_stop_active:
 		out_of_wall()
+		_update_visual_position()  # 卡肉中若被墙回推，视觉立即同步，避免墙体穿模残影
 		return
 	
 	_process_cd(delta)
@@ -1462,7 +1496,10 @@ func _physics_process(delta):
 			position_3d.x = _entry_target_x
 			_entry_fall_speed_x = 0.0
 			stop_slide()
-			play_animation("entry_e")
+			# 只播一次：本分支每帧都会进入，而 play_animation 对同动画会重置重播，
+			# 若不守卫会把 entry_e 永远卡在第一帧
+			if current_animation != "entry_e":
+				play_animation("entry_e")
 	
 	_update_visual_position()
 	
@@ -1896,6 +1933,9 @@ func change_hp(d: int, show_number: bool = false, kv: float = 0.0, can_variation
 			else:
 				cumulative_launch_damage += abs(d)
 	
+	kv *=  randf_range(0.9, 1.1)
+	print("[更变血量] kv: ", kv)
+	
 	var old_hp = hp
 	# 奥义期间无视保护值
 	var _ignore_protection = _last_attacker and _last_attacker.ultimate_active
@@ -1914,6 +1954,8 @@ func change_hp(d: int, show_number: bool = false, kv: float = 0.0, can_variation
 	var epos = position_3d
 	epos.z *= -1
 	epos.z -= 150
+	epos.x += randf_range(-20.0, 20.0)
+	epos.z += randf_range(-15.0, 15.0)
 	if show_number and d < 0 and effects_container:
 		var dmg = int(old_hp - hp)
 		if dmg > 0:
@@ -1962,6 +2004,13 @@ func calculate_protection_value(x: float) -> float:
 		# 公式：y = 极限 - 差值 * e^(-速度 * 距离)
 		return limit_y - 0.55 * exp(-decay_speed * offset_x)
 
+## 保护值作用到击飞初速(zv)：FALL_SPEED 模式原样返回；LAUNCH_SPEED 模式按当前保护值削弱
+func _apply_launch_protection(velocity_z: float) -> float:
+	if protection_effect == ProtectionEffect.FALL_SPEED:
+		return velocity_z
+	var pv: float = calculate_protection_value(float(cumulative_launch_damage) / hp_max)
+	return velocity_z * (1.0 - launch_protection_decay * pv)
+
 func _reset_attack_state():
 	clear_temporary_status()
 	clear_attack_state()
@@ -1999,17 +2048,18 @@ func hit(hit_type: HitStateType,
 	if not is_grounded:
 		kv = kv * (1.0 / 3.0)
 	
+	var in_air: bool = false
+	
 	# 处理平推
 	if hit_type == HitStateType.PUSH:
 		set_knockback(kv, hit_stun_time, kr, ar)
 		
 		if is_launched or position_3d.z > 0:
-			set_hit_stun(hit_stun_time, stun_ani)
-			set_launch(zv, "launch2")
+			in_air = true
 		elif is_downed:
 			if can_OTG:
 				set_hit_stun(hit_stun_time, stun_ani)
-				set_launch(zv * 1.5, "launch1")
+				set_launch(_apply_launch_protection(zv * 1.5), "launch1")
 			elif _immobilize_release_active:
 				clear_temporary_status()
 				set_hit_stun(hit_stun_time, stun_ani)
@@ -2021,21 +2071,21 @@ func hit(hit_type: HitStateType,
 			set_hit_stun(hit_stun_time, stun_ani)
 	
 	# 处理击飞
-	elif hit_type == HitStateType.LAUNCH:
+	if hit_type == HitStateType.LAUNCH or in_air:
 		if is_downed and can_OTG:
 			launched_flag = true
 			set_knockback(kv, hit_stun_time, kr, ar)
-			set_launch(zv, "launch1")
+			set_launch(_apply_launch_protection(zv), "launch1")
 		elif !is_downed or (get_is_low_floating() and !_is_downed):
 			launched_flag = true
 			if position_3d.z <= 10:
 				set_knockback(kv, hit_stun_time, kr, ar)
-				set_launch(zv, "launch1")
+				set_launch(_apply_launch_protection(zv), "launch1")
 			else:
 				var air_kv: Vector2 = kv_air if kv_air != Vector2.ZERO else kv
 				var air_zv: float = zv_air if zv_air != 0.0 else zv
 				set_knockback(air_kv, hit_stun_time, kr, ar)
-				set_launch(air_zv, "launch2")
+				set_launch(_apply_launch_protection(air_zv), "launch2")
 	
 	_immobilize_release_active = false
 	
@@ -2161,7 +2211,7 @@ func _process_immobilize(delta):
 func set_immobilize(pos: Vector3, time: float = -1, rpos: Vector3 = pos,
 					ani: String = "",
 					kv: Vector2 = Vector2.ZERO, knockback_time: float = 0,
-					launch: float = 0, launch_g: float = 700,
+					launch: float = 0, launch_g: float = 730,
 					state: BodyState = BodyState.SUPER_ARMOR,
 					can_substitute: bool = false,
 					visuals_rotation: float = 0.0):
@@ -2337,7 +2387,12 @@ func _process_launch(delta):
 	# 物理阶段：更新位置和速度
 	if _current_launch_phase != "getup":
 		position_3d.z += 2 * _launch_velocity_z * delta
-		_launch_velocity_z -= _launch_gravity * delta * 1+0.38*calculate_protection_value(float(cumulative_launch_damage) / hp_max)
+		if protection_effect == ProtectionEffect.FALL_SPEED:
+			# 旧模式：保护值加快下落（等效于原式 `重力*delta*1 + 0.38*保护值`）
+			_launch_velocity_z -= _launch_gravity * delta + 0.38 * calculate_protection_value(float(cumulative_launch_damage) / hp_max)
+		else:
+			# 新模式：下落速度不受保护值影响
+			_launch_velocity_z -= _launch_gravity * delta
 	
 	# 动画计时器（所有阶段）
 	if _launch_anim_timer > 0:
@@ -2536,6 +2591,10 @@ func _start_getup():
 	position_3d.z = ground_level
 	is_grounded = true
 	_is_downed = false  # 确保倒地状态被清除
+	# 起身清除效果：清掉上一次击退残留的水平速度/计时，
+	# 否则起身动画期间（以及起身结束后）角色仍会被旧击退推着滑动
+	_stop_knockback()
+	knockback_active = false
 	
 	_play_launch_anim("getup", -1)
 	_current_launch_phase = "getup"
@@ -2560,7 +2619,7 @@ func set_launch(velocity_z: float, launch_anim: String = "launch1", custom_gravi
 	_has_bounced = false
 	
 	# 强制设置重力，确保生效
-	_launch_gravity = 700.0  # 默认值
+	_launch_gravity = 730.0  # 默认值
 	if custom_gravity > 0:
 		_launch_gravity = custom_gravity
 	
@@ -3346,8 +3405,9 @@ func _process_z_physics(delta):
 	if position_3d.z <= ground_level:
 		position_3d.z = ground_level
 		velocity_3d.z = 0
+		z_velocity_override = 0.0  # 落地时清除残留的Z轴冲量
 		is_grounded = true
-		
+
 		if _slide_gravity_active:
 			_slide_gravity_active = false
 			_current_slide_gravity = -1.0
@@ -3359,6 +3419,10 @@ func _process_z_physics(delta):
 		
 		if debug_z_axis and not was_grounded:
 			print("[Z轴] 落地 | 位置: %.2f" % position_3d.z)
+	else:
+		# 位置高于地面 → 非地面状态，确保重力等正常生效
+		# （修复 z_velocity_override 在 grounded 状态下推高实体但重力不生效的 bug）
+		is_grounded = false
 	
 	_update_visual_position()
 
@@ -3547,6 +3611,7 @@ func _on_animation_changed():
 	current_animation = get_current_animation()
 	processed_frames.clear()
 	_processed_effect_frames.clear()
+	_last_processed_frame = -1  # 重置上一帧索引
 	
 	# 【修复卡帧】：强制使用新动画的第 0 帧进行同步，而不是等待引擎更新 frame 索引
 	_apply_frame_data_forced(current_animation, 0)
@@ -3570,8 +3635,34 @@ func _on_frame_changed():
 	
 	# 先应用帧数据（这会计算实际帧）
 	_apply_frame_data()
+	
+	# 保存上一帧索引，用于计算中间帧
+	var last_frame = _last_processed_frame
 	_process_frame_event()
-	_process_effect_bindings(current_animation, get_current_frame())
+	
+	# 处理特效绑定（需要为每个中间帧触发）
+	var current_frame = get_current_frame()
+	
+	# 计算需要触发的帧列表
+	var frames_to_trigger: Array[int] = []
+	if last_frame == -1:
+		frames_to_trigger.append(current_frame)
+	else:
+		var total_frames = get_animation_frame_count(current_animation)
+		if total_frames > 0:
+			if current_frame > last_frame:
+				for f in range(last_frame + 1, current_frame + 1):
+					frames_to_trigger.append(f)
+			else:
+				for f in range(last_frame + 1, total_frames):
+					frames_to_trigger.append(f)
+				for f in range(0, current_frame + 1):
+					frames_to_trigger.append(f)
+		else:
+			frames_to_trigger.append(current_frame)
+	
+	for trigger_frame in frames_to_trigger:
+		_process_effect_bindings(current_animation, trigger_frame)
 
 func _on_animation_finished():
 	if entry_action != EntryAction.NONE:
@@ -3621,16 +3712,48 @@ func _process_frame_event():
 	if not frame_events_enabled:
 		return
 	
-	var frame_key = "%s_%d" % [current_animation, get_current_frame()]
+	var current_frame = get_current_frame()
+	var last_frame = _last_processed_frame
 	
-	if processed_frames.has(frame_key):
+	# 检测帧索引是否变化
+	if current_frame == last_frame:
 		return
 	
-	processed_frames[frame_key] = true
+	# 计算需要触发的帧列表（处理跳帧）
+	var frames_to_trigger: Array[int] = []
+	if last_frame == -1:
+		# 首次进入动画，只触发当前帧
+		frames_to_trigger.append(current_frame)
+	else:
+		# 计算中间帧
+		var total_frames = get_animation_frame_count(current_animation)
+		if total_frames > 0:
+			if current_frame > last_frame:
+				# 正常前进：触发 last_frame+1 到 current_frame 的所有帧
+				for f in range(last_frame + 1, current_frame + 1):
+					frames_to_trigger.append(f)
+			else:
+				# 动画循环：触发 last_frame+1 到末尾，再触发 0 到 current_frame
+				for f in range(last_frame + 1, total_frames):
+					frames_to_trigger.append(f)
+				for f in range(0, current_frame + 1):
+					frames_to_trigger.append(f)
+		else:
+			# 无法获取总帧数，只触发当前帧
+			frames_to_trigger.append(current_frame)
 	
-	_process_slide_sequence(current_animation, get_current_frame())
-	_on_frame_trigger(current_animation, get_current_frame())
-	_handle_frame_spe(current_animation, get_current_frame())
+	_last_processed_frame = current_frame
+	
+	# 为每个需要触发的帧执行事件
+	for trigger_frame in frames_to_trigger:
+		var frame_key = "%s_%d" % [current_animation, trigger_frame]
+		if processed_frames.has(frame_key):
+			continue
+		processed_frames[frame_key] = true
+		
+		_process_slide_sequence(current_animation, trigger_frame)
+		_on_frame_trigger(current_animation, trigger_frame)
+		_handle_frame_spe(current_animation, trigger_frame)
 
 func _on_frame_trigger(anim_name: String, frame_idx: int):
 	pass
@@ -3679,11 +3802,9 @@ func _process_effect_bindings(anim_name: String, frame_idx: int):
 			
 			# 优先使用场景路径直接加载
 			if scene_path != "":
-				var scene = load(scene_path)
-				if scene:
-					# 注册后走标准 spawn 方法，保证与 effect_name 路径行为一致
-					var reg_name = "_efb_" + binding.get("id", "tmp")
-					effects_container.register_effect(reg_name, scene, true)
+				var reg_name = "_efb_" + binding.get("id", "tmp")
+				if binding.get("pooled", false) and effects_container._pooled_scenes.has(reg_name):
+					# 池化绑定：已预注册，直接走 spawn（会从池中取）
 					if follow_entity:
 						effect = effects_container.spawn_follow_effect(
 							reg_name, self, Vector3(offset_x, offset_y, z_off), true, actual_flip
@@ -3692,8 +3813,20 @@ func _process_effect_bindings(anim_name: String, frame_idx: int):
 						effect = effects_container.spawn_effect(
 							reg_name, spawn_pos, actual_flip
 						)
-				elif effect_name != "":
-					scene_path = ""
+				else:
+					var scene = load(scene_path)
+					if scene:
+						effects_container.register_effect(reg_name, scene, true)
+						if follow_entity:
+							effect = effects_container.spawn_follow_effect(
+								reg_name, self, Vector3(offset_x, offset_y, z_off), true, actual_flip
+							)
+						else:
+							effect = effects_container.spawn_effect(
+								reg_name, spawn_pos, actual_flip
+							)
+					elif effect_name != "":
+						scene_path = ""
 			
 			if not effect and effect_name != "":
 				if follow_entity:
@@ -4392,6 +4525,8 @@ func get_effect_pos() -> Vector3:
 func calculate_intersection(hit_result: AttackBoxManager.HitResult, _box_config: Dictionary = {}) -> Vector2:
 	"""
 	计算攻击框与受击框的相交区域，并返回一个随机点。
+	攻击框可能同时盖住多个受击框（手/脚/躯干），而 hit_result 记录的不一定是最合理的那个，
+	这里遍历目标所有受击框，取与攻击框重叠面积最大者作为命中点基准，避免被远端受击框带偏。
 	如果计算失败，则回退到在受击框（def_node）上随机取一个点。
 	"""
 	# 安全获取受击节点（兜底方案的基础）
@@ -4406,33 +4541,52 @@ func calculate_intersection(hit_result: AttackBoxManager.HitResult, _box_config:
 	if not atk_node:
 		return _get_random_point_on_area(def_node)
 	
-	# 3. 安全获取形状尺寸
+	# 3. 安全获取攻击框尺寸
 	var atk_size = _get_rect_size_safe(atk_node)
-	var def_size = _get_rect_size_safe(def_node)
-	
-	# 【兜底触发点 2】：如果形状获取失败或不是矩形
-	if atk_size == Vector2.ZERO or def_size == Vector2.ZERO:
+	if atk_size == Vector2.ZERO:
 		return _get_random_point_on_area(def_node)
-		
-	# 4. 构建矩形并计算相交区域
+	
 	var atk_rect = Rect2(atk_node.global_position - atk_size * 0.5, atk_size)
-	var def_rect = Rect2(def_node.global_position - def_size * 0.5, def_size)
 	
-	var inter_rect = atk_rect.intersection(def_rect)
+	# 4. 遍历目标所有受击框，选与攻击框重叠面积最大的那个作为命中点基准
+	var target_entity = hit_result.target_entity
+	var best_def: Area2D = null
+	var best_inter = Rect2()
+	var best_area = -1.0
+	if target_entity:
+		for area in target_entity.hitbox_areas:
+			if not is_instance_valid(area): continue
+			var d_size = _get_rect_size_safe(area)
+			if d_size == Vector2.ZERO: continue
+			var d_rect = Rect2(area.global_position - d_size * 0.5, d_size)
+			var inter = atk_rect.intersection(d_rect)
+			if inter.size.x <= 0 or inter.size.y <= 0: continue
+			var area_val = inter.size.x * inter.size.y
+			if area_val > best_area:
+				best_area = area_val
+				best_def = area
+				best_inter = inter
 	
-	# 【兜底触发点 3】：如果两者没有实际重叠区域（比如刚好擦边没碰到）
-	if inter_rect.size.x <= 0 or inter_rect.size.y <= 0:
-		return _get_random_point_on_area(def_node)
+	# 没找到可用的重叠受击框，回退到 hit_result 记录的受击框
+	if best_def == null:
+		best_def = def_node
+		var d_size = _get_rect_size_safe(def_node)
+		if d_size == Vector2.ZERO:
+			return _get_random_point_on_area(def_node)
+		best_inter = atk_rect.intersection(Rect2(def_node.global_position - d_size * 0.5, d_size))
+		# 【兜底触发点 2】：如果没有实际重叠区域（比如刚好擦边没碰到）
+		if best_inter.size.x <= 0 or best_inter.size.y <= 0:
+			return _get_random_point_on_area(def_node)
 		
 	# 5. 正常逻辑：在相交区域内随机取点
-	inter_rect = inter_rect.grow_individual(
-		-inter_rect.size.x * 0.1, -inter_rect.size.y * 0.1, 
-		-inter_rect.size.x * 0.1, -inter_rect.size.y * 0.1
+	best_inter = best_inter.grow_individual(
+		-best_inter.size.x * 0.1, -best_inter.size.y * 0.1, 
+		-best_inter.size.x * 0.1, -best_inter.size.y * 0.1
 	)
 	
 	return Vector2(
-		randf_range(inter_rect.position.x, inter_rect.end.x),
-		randf_range(inter_rect.position.y, inter_rect.end.y)
+		randf_range(best_inter.position.x, best_inter.end.x),
+		randf_range(best_inter.position.y, best_inter.end.y)
 	)
 
 
@@ -4821,9 +4975,10 @@ func teleport_to_position(target_pos: Vector3, adjust_for_wall: bool = true, cla
 	
 	print("[瞬移] %s 移动到 (%.1f, %.1f, %.1f)" % [name, new_pos.x, new_pos.y, new_pos.z])
 
-func show_info_text(text: String):
+func show_info_text(text: String, color: Color = Color.WHITE):
 	if info_animation_player.is_playing(): return
 	info_label.text = text
+	info_label.add_theme_color_override("font_color", color)
 	info_animation_player.play("Jump")
 
 func set_aura_visible(b: bool):

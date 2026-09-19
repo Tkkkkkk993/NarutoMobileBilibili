@@ -43,7 +43,7 @@
 		"动画精灵2D实体": {
 			"path": "res://assets/entities/animated_sprite_2d_entity.gd",
 			"project_id": "jrmd-editorv3-Entity-AnimatedSprite2D",
-			"version": "1.2.0"
+			"version": "1.2.1"
 		},
 		"动画预览器": {
 			"path": "res://addons/entityeditor/animation_preview.gd",
@@ -58,17 +58,17 @@
 		"图形化脚本编辑器": {
 			"path": "res://addons/entityeditor/visual_script_editor.gd",
 			"project_id": "jrmd-editorv3-visualscripteditor",
-			"version": "1.3.2"
+			"version": "1.3.3"
 		},
 		"图形化脚本运行时引擎": {
 			"path": "res://assets/entities/visual_script_component.gd",
 			"project_id": "jrmd-editorv3-Entity-VisualScriptComponent",
-			"version": "1.6.1"
+			"version": "1.6.2"
 		},
 		"实体基类": {
 			"path": "res://assets/entities/entity_base.gd",
 			"project_id": "jrmd-editorv3-Entity-Base",
-			"version": "1.6.3"
+			"version": "1.6.4"
 		},
 		"实体管理器": {
 			"path": "res://managers/entity_manager.gd",
@@ -78,7 +78,7 @@
 		"实体编辑器": {
 			"path": "res://addons/entityeditor/entity_editor.gd",
 			"project_id": "jrmd-editorv3-entityeditor",
-			"version": "1.0.0"
+			"version": "1.1.0"
 		},
 		"实体编辑器菜单代码": {
 			"path": "res://addons/entityeditor/entity_editor_menu.gd",
@@ -148,7 +148,7 @@
 		"积木块定义": {
 			"path": "res://addons/entityeditor/block_defs.json",
 			"project_id": "jrmd-editorv3-blockdefs",
-			"version": "1.6.0"
+			"version": "1.6.1"
 		},
 		"角色模板V1": {
 			"path": "res://scripts/character_script_template_v1.gd",

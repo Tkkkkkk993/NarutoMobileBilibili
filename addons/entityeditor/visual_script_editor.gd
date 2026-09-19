@@ -6129,8 +6129,9 @@ func _update_event_prop_panel():
 			_save_undo_state()
 			node["name"] = new_text
 			_mark_dirty()
-			_render_events()
-			name_le.text = new_text  # 保留焦点
+			# 只刷新当前选中行的显示文本即可；不要整树重建，
+			# 也禁止回写 name_le.text（设置 text 会把光标重置到行首）
+			_refresh_current_event_item()
 		)
 		name_hbox.add_child(name_le)
 		_prop_panel.add_child(name_hbox)

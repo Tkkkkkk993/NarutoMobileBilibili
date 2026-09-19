@@ -10,9 +10,13 @@ var _info_point_editor_instance: Window = null
 var _effect_binder_editor_instance: Window = null
 var _visual_script_editor_instance: Window = null
 var _anim_preview_instance: Window = null
+var _entity_switcher_option: OptionButton = null
+var _entity_reload_btn: Button = null
+var _entity_list: Array[String] = []
 
 func _ready():
 	_create_entity_container()
+	_add_entity_switcher()
 	_add_editor_buttons()
 	_update_window_title()
 
@@ -27,6 +31,46 @@ func _create_entity_container():
 		add_child(_entity_container)
 		move_child(_entity_container, 0)
 		print("创建实体容器: ", _entity_container.name)
+
+func _add_entity_switcher():
+	# 创建左上角的实体切换容器
+	var hbox = HBoxContainer.new()
+	hbox.name = "EntitySwitcher"
+	hbox.set_anchors_and_offsets_preset(Control.PRESET_TOP_LEFT)
+	hbox.offset_left = 10
+	hbox.offset_top = 10
+	hbox.offset_right = 310
+	hbox.offset_bottom = 50
+	hbox.add_theme_constant_override("separation", 5)
+	
+	# 创建下拉框（实体选择）
+	_entity_switcher_option = OptionButton.new()
+	_entity_switcher_option.custom_minimum_size = Vector2(220, 30)
+	_entity_switcher_option.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_entity_switcher_option.item_selected.connect(_on_entity_switcher_selected)
+	
+	# 创建重载按钮
+	_entity_reload_btn = Button.new()
+	_entity_reload_btn.text = "重载"
+	_entity_reload_btn.custom_minimum_size = Vector2(60, 30)
+	_entity_reload_btn.pressed.connect(_on_entity_reload_pressed)
+	
+	hbox.add_child(_entity_switcher_option)
+	hbox.add_child(_entity_reload_btn)
+	
+	add_child(hbox)
+	# 下拉框初始为空，加载一个实体就添加一个
+
+func _on_entity_switcher_selected(index: int):
+	if index >= 0 and index < _entity_list.size():
+		var entity_path = _entity_list[index]
+		_load_and_instantiate_scene(entity_path)
+
+func _on_entity_reload_pressed():
+	if _current_entity_scene_path != "":
+		_load_and_instantiate_scene(_current_entity_scene_path)
+	else:
+		print("没有加载的实体可以重载")
 
 func _add_editor_buttons():
 	var button_container = $ToolContainer
@@ -208,7 +252,29 @@ func _load_and_instantiate_scene(scene_path: String):
 	_current_entity_scene_path = scene_path
 	_update_window_title()
 	
+	# 将实体添加到下拉框（如果还没添加过）
+	if _entity_switcher_option != null:
+		var idx = _entity_list.find(scene_path)
+		if idx < 0:
+			# 新实体，添加到列表
+			_entity_list.append(scene_path)
+			# 按显示名字母排序
+			_entity_list.sort_custom(func(a: String, b: String) -> bool:
+				return _get_entity_display_name(a) < _get_entity_display_name(b))
+			# 重建下拉框项
+			_entity_switcher_option.clear()
+			for p in _entity_list:
+				_entity_switcher_option.add_item(_get_entity_display_name(p))
+			idx = _entity_list.find(scene_path)
+		_entity_switcher_option.select(idx)
+	
 	print("场景已成功实例化: ", scene_path)
+
+## 生成实体在下拉框中的显示名（相对 assets/entities/ 的目录路径）
+## 例如 res://assets/entities/sasuke_ywhyt/Form/yd/entity.tscn -> sasuke_ywhyt/Form/yd
+func _get_entity_display_name(scene_path: String) -> String:
+	var base_dir = scene_path.get_base_dir()
+	return base_dir.trim_prefix("res://assets/entities/")
 
 
 func _update_window_title():

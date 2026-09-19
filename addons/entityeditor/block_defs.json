@@ -733,7 +733,7 @@
 		},
 		{
 			"category": "特效",
-			"label": "生成特效 {name};位置: {pos};方向: {dir};数据: {data}",
+			"label": "生成特效 {name};位置: {pos};方向: {dir};拉伸: {scale};旋转: {rotation}°",
 			"name": "create_effect",
 			"outputs": [],
 			"params": [
@@ -758,6 +758,21 @@
 					"label": "方向",
 					"name": "dir",
 					"type": "bool"
+				},
+				{
+					"default": {
+						"x": 1.0,
+						"y": 1.0
+					},
+					"label": "拉伸",
+					"name": "scale",
+					"type": "vector2"
+				},
+				{
+					"default": 0.0,
+					"label": "旋转(度)",
+					"name": "rotation",
+					"type": "number"
 				},
 				{
 					"default": "",
@@ -826,7 +841,7 @@
 					"type": "vector2"
 				},
 				{
-					"default": 2,
+					"default": 2.0,
 					"label": "吸附强度",
 					"name": "st",
 					"type": "number"
@@ -938,7 +953,7 @@
 		},
 		{
 			"category": "特效",
-			"label": "生成跟随特效 {name} 跟随实体: {target};位置: {pos};方向: {dir};数据: {data}",
+			"label": "生成跟随特效 {name} 跟随: {target};位置: {pos};拉伸: {scale};旋转: {rotation}°;翻转: {auto_flip_by_facing}",
 			"name": "create_effect_copy",
 			"outputs": [],
 			"params": [
@@ -968,6 +983,27 @@
 					"default": true,
 					"label": "方向",
 					"name": "dir",
+					"type": "bool"
+				},
+				{
+					"default": {
+						"x": 1.0,
+						"y": 1.0
+					},
+					"label": "拉伸",
+					"name": "scale",
+					"type": "vector2"
+				},
+				{
+					"default": 0.0,
+					"label": "旋转(度)",
+					"name": "rotation",
+					"type": "number"
+				},
+				{
+					"default": false,
+					"label": "跟随朝向翻转",
+					"name": "auto_flip_by_facing",
 					"type": "bool"
 				},
 				{
@@ -2127,6 +2163,17 @@
 					"label": "文本",
 					"name": "text",
 					"type": "string"
+				},
+				{
+					"default": {
+						"a": 1.0,
+						"b": 1.0,
+						"g": 1.0,
+						"r": 1.0
+					},
+					"label": "字体颜色",
+					"name": "color",
+					"type": "color"
 				}
 			],
 			"type": 1.0
@@ -2399,8 +2446,8 @@
 		},
 		{
 			"category": "声音",
-			"label": "按路径播放语音 {path} 真实感: {isz} 标记: {tag} 音量: {volume}",
-			"name": "play_voice",
+			"label": "按路径播放音效 {path} 真实感: {isz} 标记: {tag} 音量: {volume}",
+			"name": "play_sound",
 			"outputs": [],
 			"params": [
 				{
@@ -2432,8 +2479,8 @@
 		},
 		{
 			"category": "声音",
-			"label": "按路径播放音效 {path} 真实感: {isz} 标记: {tag} 音量: {volume}",
-			"name": "play_sound",
+			"label": "按路径播放语音 {path} 真实感: {isz} 标记: {tag} 音量: {volume}",
+			"name": "play_voice",
 			"outputs": [],
 			"params": [
 				{
@@ -3325,7 +3372,7 @@
 					"type": "string"
 				},
 				{
-					"default": -1,
+					"default": -1.0,
 					"label": "吸附强度",
 					"name": "st",
 					"type": "number"
@@ -3400,7 +3447,7 @@
 					"type": "string"
 				},
 				{
-					"default": -1,
+					"default": -1.0,
 					"label": "吸附强度",
 					"name": "st",
 					"type": "number"

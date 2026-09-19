@@ -38,6 +38,9 @@ func play_animation(anim_name: String, custom_speed: float = -1.0):
 	if not animated_sprite or not is_instance_valid(animated_sprite):
 		return
 	if has_animation(anim_name):
+		# 如果正在播放同一动画，先停止再重新播放，确保从头开始
+		if animated_sprite.animation == anim_name and animated_sprite.is_playing():
+			animated_sprite.stop()
 		if custom_speed > 0:
 			animated_sprite.play(anim_name, custom_speed)
 		else:
@@ -222,9 +225,7 @@ func setup_icon():
 		_vs_component.setup_icon()
 
 func _on_frame_changed():
-	# 先执行父类逻辑：帧数据应用、帧事件处理、特效绑定
 	super._on_frame_changed()
-	_on_frame_trigger(get_current_animation(), get_current_frame())
 
 func _on_animation_changed():
 	# 父类处理：current_animation更新、帧数据强制应用、锚点约束、滑步序列、动画进入回调

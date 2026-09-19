@@ -44,6 +44,7 @@
 						"_uid": "_4",
 						"block_name": "play_animation",
 						"children": [],
+						"enabled": false,
 						"exprs": {
 
 						},
@@ -66,6 +67,7 @@
 						"_uid": "_6",
 						"block_name": "wait",
 						"children": [],
+						"enabled": false,
 						"exprs": {
 
 						},
@@ -191,6 +193,7 @@
 						"_uid": "_14",
 						"block_name": "play_animation",
 						"children": [],
+						"enabled": false,
 						"exprs": {
 
 						},
@@ -213,6 +216,7 @@
 						"_uid": "_16",
 						"block_name": "wait",
 						"children": [],
+						"enabled": false,
 						"exprs": {
 
 						},
@@ -229,6 +233,29 @@
 						},
 						"params": {
 
+						}
+					},
+					{
+						"_uid": "_18",
+						"block_name": "create_effect",
+						"children": [],
+						"exprs": {
+							"pos": "add_pos3d_to_hpos2d(get_info_point(\"ex\"))"
+						},
+						"params": {
+							"data": "",
+							"dir": true,
+							"name": "baozha",
+							"pos": {
+								"x": 0.0,
+								"y": 0.0,
+								"z": 0.0
+							},
+							"rotation": 0.0,
+							"scale": {
+								"x": 5.0,
+								"y": 5.0
+							}
 						}
 					}
 				],

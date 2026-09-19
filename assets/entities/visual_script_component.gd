@@ -338,10 +338,32 @@ func _vs_check_events(delta):
 		if frame_val == 0 or _vs_pending_frame_count > 2:
 			_vs_pending_anim = ""
 
-	var anim_frame_changed = _vs_pending_anim == "" and current_animation != "" and frame_val != _vs_last_frame_idx.get(current_animation, -1)
+	var last_frame = _vs_last_frame_idx.get(current_animation, -1)
+	var anim_frame_changed = _vs_pending_anim == "" and current_animation != "" and frame_val != last_frame
+	
+	# 计算中间帧列表（仅用于"动画帧"类型的事件）
+	var frames_to_trigger: Array[int] = []
 	if anim_frame_changed:
+		if last_frame == -1:
+			frames_to_trigger.append(frame_val)
+		else:
+			var total_frames = _entity.get_animation_frame_count(current_animation)
+			if total_frames > 0:
+				if frame_val > last_frame:
+					for f in range(last_frame + 1, frame_val + 1):
+						frames_to_trigger.append(f)
+				else:
+					for f in range(last_frame + 1, total_frames):
+						frames_to_trigger.append(f)
+					for f in range(0, frame_val + 1):
+						frames_to_trigger.append(f)
+			else:
+				frames_to_trigger.append(frame_val)
 		_vs_last_frame_idx[current_animation] = frame_val
 
+	# ---- when_animation_playing ----
+	# 物理帧类型：每物理帧触发一次，用当前帧（持续轮询语义，如落地检测）
+	# 动画帧类型：帧变化时为每个中间帧触发一次
 	var matched_playing_ids: Array = []
 	if _vs_event_chains.has("when_animation_playing"):
 		for eid in _vs_event_chains["when_animation_playing"]:
@@ -350,7 +372,7 @@ func _vs_check_events(delta):
 			var target_anim = str(eblock.params.get("anim_name", ""))
 			if target_anim != current_animation: continue
 			var frame_type = str(eblock.params.get("frame_type", "动画帧"))
-			if frame_type == "画面帧": continue  # 画面帧在 _process 中处理
+			if frame_type == "画面帧": continue
 			var should_fire = (frame_type == "物理帧") or (frame_type == "动画帧" and anim_frame_changed)
 			if not should_fire: continue
 			matched_playing_ids.append(eid)
@@ -371,7 +393,9 @@ func _vs_check_events(delta):
 			"frame_idx": frame_val
 		}, matched_playing_ids, matched_playing_rows)
 
-	# ---- when_frame_changed（每帧触发，按帧类型分流）----
+	# ---- when_frame_changed ----
+	# 物理帧类型：每物理帧触发一次，用当前帧
+	# 动画帧类型：帧变化时为每个中间帧触发一次
 	var matched_fc_ids: Array = []
 	if _vs_run_mode != "events_only" and _vs_event_chains.has("when_frame_changed"):
 		for eid in _vs_event_chains["when_frame_changed"]:
@@ -393,6 +417,8 @@ func _vs_check_events(delta):
 		_vs_fire_event("when_frame_changed", {"anim_name": current_animation, "frame_idx": frame_val}, matched_fc_ids, matched_fc_rows)
 
 	# ---- when_any_animation_frame_changed ----
+	# 物理帧类型：每物理帧触发一次，用当前帧
+	# 动画帧类型：帧变化时为每个中间帧触发一次
 	var matched_any_fc_ids: Array = []
 	if _vs_event_chains.has("when_any_animation_frame_changed"):
 		for eid in _vs_event_chains["when_any_animation_frame_changed"]:
@@ -417,6 +443,79 @@ func _vs_check_events(delta):
 			"anim_name": current_animation,
 			"frame_idx": frame_val
 		}, matched_any_fc_ids, matched_any_fc_rows)
+
+	# ---- 动画帧类型事件的中间帧补偿 ----
+	# 当帧索引跳变时，为跳过的每个中间帧触发"动画帧"类型的事件
+	if frames_to_trigger.size() > 1:
+		for trigger_frame in frames_to_trigger:
+			if trigger_frame == frame_val:
+				continue  # 当前帧已在上面处理过
+			# when_animation_playing (动画帧)
+			var mid_playing_ids: Array = []
+			if _vs_event_chains.has("when_animation_playing"):
+				for eid in _vs_event_chains["when_animation_playing"]:
+					var eblock = _vs_blocks_by_id[eid]
+					if not bool(eblock.get("enabled", true)): continue
+					var target_anim = str(eblock.params.get("anim_name", ""))
+					if target_anim != current_animation: continue
+					var frame_type = str(eblock.params.get("frame_type", "动画帧"))
+					if frame_type != "动画帧": continue
+					mid_playing_ids.append(eid)
+			var mid_playing_rows: Array = []
+			if _vs_event_table_chains.has("when_animation_playing"):
+				for row in _vs_event_table_chains["when_animation_playing"]:
+					if not bool(row.get("enabled", true)): continue
+					var target_anim = str(row.get("params", {}).get("anim_name", ""))
+					if target_anim != current_animation: continue
+					var frame_type = str(row.get("params", {}).get("frame_type", "动画帧"))
+					if frame_type != "动画帧": continue
+					mid_playing_rows.append(row)
+			if mid_playing_ids.size() > 0 or mid_playing_rows.size() > 0:
+				_vs_fire_event("when_animation_playing", {
+					"anim_name": current_animation,
+					"frame_idx": trigger_frame
+				}, mid_playing_ids, mid_playing_rows)
+			# when_frame_changed (动画帧)
+			var mid_fc_ids: Array = []
+			if _vs_run_mode != "events_only" and _vs_event_chains.has("when_frame_changed"):
+				for eid in _vs_event_chains["when_frame_changed"]:
+					var eblock = _vs_blocks_by_id[eid]
+					if not bool(eblock.get("enabled", true)): continue
+					var frame_type = str(eblock.params.get("frame_type", "物理帧"))
+					if frame_type != "动画帧": continue
+					if _vs_birth_protect_active(eblock.params): continue
+					mid_fc_ids.append(eid)
+			var mid_fc_rows: Array = []
+			if _vs_run_mode != "blocks_only" and _vs_event_table_chains.has("when_frame_changed"):
+				for row in _vs_event_table_chains["when_frame_changed"]:
+					if not bool(row.get("enabled", true)): continue
+					var frame_type = str(row.get("params", {}).get("frame_type", "物理帧"))
+					if frame_type != "动画帧": continue
+					if _vs_birth_protect_active(row.get("params", {})): continue
+					mid_fc_rows.append(row)
+			if mid_fc_ids.size() > 0 or mid_fc_rows.size() > 0:
+				_vs_fire_event("when_frame_changed", {"anim_name": current_animation, "frame_idx": trigger_frame}, mid_fc_ids, mid_fc_rows)
+			# when_any_animation_frame_changed (动画帧)
+			var mid_any_ids: Array = []
+			if _vs_event_chains.has("when_any_animation_frame_changed"):
+				for eid in _vs_event_chains["when_any_animation_frame_changed"]:
+					var eblock = _vs_blocks_by_id[eid]
+					if not bool(eblock.get("enabled", true)): continue
+					var frame_type = str(eblock.params.get("frame_type", "动画帧"))
+					if frame_type != "动画帧": continue
+					mid_any_ids.append(eid)
+			var mid_any_rows: Array = []
+			if _vs_event_table_chains.has("when_any_animation_frame_changed"):
+				for row in _vs_event_table_chains["when_any_animation_frame_changed"]:
+					if not bool(row.get("enabled", true)): continue
+					var frame_type = str(row.get("params", {}).get("frame_type", "动画帧"))
+					if frame_type != "动画帧": continue
+					mid_any_rows.append(row)
+			if mid_any_ids.size() > 0 or mid_any_rows.size() > 0:
+				_vs_fire_event("when_any_animation_frame_changed", {
+					"anim_name": current_animation,
+					"frame_idx": trigger_frame
+				}, mid_any_ids, mid_any_rows)
 
 	# ---- when_press_input ----
 	var matched_input_ids: Array = []
@@ -531,7 +630,7 @@ func _on_attack_hit(hit_result):
 	var box_config = hit_result.attack_config
 	var hit_eff_pos = _entity.calculate_intersection(hit_result, box_config.to_dict())
 	var abox_name = hit_result.attack_box_name
-	var ipoint = Vector3(hit_eff_pos.x, _entity.position_3d.y, hit_eff_pos.y)
+	var ipoint = Vector3(hit_eff_pos.x, target_entity.position_3d.y, hit_eff_pos.y)
 
 	_vs_fire_event("when_attack", {
 		"target": target_entity,
@@ -893,8 +992,6 @@ func _vs_eval_expr(expr_str: String, context: Dictionary) -> Variant:
 	_vs_expr_temp_vars.clear()
 	_vs_expr_temp_counter = 0
 	var processed = _vs_preprocess_value_calls(expr_str, context)
-	if _vs_debug_print:
-		print("[VS-EQ] _vs_eval_expr: raw='", expr_str, "' → processed='", processed, "'")
 	if processed == "": return null
 	var input_names: Array = []
 	var input_values: Array = []
@@ -909,6 +1006,10 @@ func _vs_eval_expr(expr_str: String, context: Dictionary) -> Variant:
 	for k in _vs_expr_temp_vars:
 		input_names.append(str(k))
 		input_values.append(_vs_expr_temp_vars[k])
+
+	if _vs_debug_print:
+		print("[VS-EQ] raw='", expr_str, "' → processed='", processed, "'")
+		print("[VS-EQ] names=", input_names, " vals=", input_values)
 
 	var result = _vs_try_eval(processed, input_names, input_values, expr_str)
 	if result != null:
@@ -1721,7 +1822,7 @@ func _vs_resolve_params(block: Dictionary, event_block_id) -> Dictionary:
 			if expr_str != "":
 				var evaluated = _vs_eval_expr(expr_str, context)
 				if _vs_debug_print:
-					print("[DEBUG] _vs_resolve_params: evaluated result=", evaluated, " type=", typeof(evaluated))
+					print("[DEBUG] _vs_resolve_params: '", param_name, "' expr='", expr_str, "' => evaluated=", evaluated, " type=", typeof(evaluated))
 				if evaluated != null:
 					result[param_name] = evaluated
 				else:
@@ -2280,6 +2381,8 @@ func _action_create_effect(p: Dictionary):
 	var eff_name = str(p.get("name", ""))
 	var pos = _vs_to_vector3(p.get("pos", Vector3.ZERO))
 	var dir = _vs_to_bool(p.get("dir", true))
+	var scale_vec = _vs_to_vector2(p.get("scale", Vector2.ONE))
+	var rot_deg = _vs_to_float(p.get("rotation", 0.0))
 	var data_str = str(p.get("data", ""))
 	var data = {}
 	if data_str != "":
@@ -2287,13 +2390,21 @@ func _action_create_effect(p: Dictionary):
 		if parsed is Dictionary:
 			data = parsed
 	if _entity.effects_container:
-		_entity.effects_container.spawn_effect(eff_name, pos, not dir, data)
+		var eff = _entity.effects_container.spawn_effect(eff_name, pos, not dir, data)
+		if eff:
+			if scale_vec != Vector2.ONE:
+				eff.scale = scale_vec
+			if rot_deg != 0.0:
+				eff.rotation = deg_to_rad(rot_deg)
 
 func _action_create_effect_copy(p: Dictionary):
 	var eff_name = str(p.get("name", ""))
 	var target = _vs_to_entity(p.get("target", null))
 	var pos = _vs_to_vector3(p.get("pos", Vector3.ZERO))
 	var dir = _vs_to_bool(p.get("dir", true))
+	var scale_vec = _vs_to_vector2(p.get("scale", Vector2.ONE))
+	var rot_deg = _vs_to_float(p.get("rotation", 0.0))
+	var auto_flip = _vs_to_bool(p.get("auto_flip_by_facing", false))
 	var data_str = str(p.get("data", ""))
 	var data = {}
 	if data_str != "":
@@ -2301,7 +2412,14 @@ func _action_create_effect_copy(p: Dictionary):
 		if parsed is Dictionary:
 			data = parsed
 	if _entity.effects_container and target:
-		_entity.effects_container.spawn_follow_effect(eff_name, target, pos, true, not dir, data)
+		var eff = _entity.effects_container.spawn_follow_effect(eff_name, target, pos, true, not dir, data)
+		if eff:
+			if scale_vec != Vector2.ONE:
+				eff.scale = scale_vec
+			if rot_deg != 0.0:
+				eff.rotation = deg_to_rad(rot_deg)
+			if auto_flip and _entity.facing_direction < 0:
+				eff.scale.x = -abs(eff.scale.x)
 
 func _action_spawn_afterimage(p: Dictionary):
 	var fade = _vs_to_float(p.get("fade", 0.5))
@@ -2324,10 +2442,11 @@ func _action_print(p: Dictionary):
 
 func _action_show_info_text(p: Dictionary):
 	var text = str(p.get("text", ""))
-	_entity.show_info_text(text)
+	var color = _vs_to_color(p.get("color", Color.WHITE))
+	_entity.show_info_text(text, color)
 	print("提示: ", text)
 	if _vs_debug_print:
-		print("[DEBUG] _action_show_info_text: raw params=", p, " text='", text, "'")
+		print("[DEBUG] _action_show_info_text: raw params=", p, " text='", text, "' color=", color)
 
 # ---- 广播 ----
 
@@ -2710,6 +2829,7 @@ func _action_play_sound(p: Dictionary):
 	var stream = load(path)
 	if stream:
 		AudioManager.play_sfx(stream, isz, tag, volume)
+	print("[音效] ", path)
 
 func _action_stop_sfx_by_tag(p: Dictionary):
 	var tag = str(p.get("tag", ""))
@@ -3146,12 +3266,12 @@ func _value_is_moving(p: Dictionary) -> bool:
 	return _entity.input_left or _entity.input_right or _entity.input_up or _entity.input_down
 
 func _value_is_moving_dir(p: Dictionary) -> bool:
-	var dir = _vs_to_int(p.get("dir", 0))
+	var dir = str(p.get("dir", "上"))
 	match dir:
-		0: return _entity.input_up
-		1: return _entity.input_down
-		2: return _entity.input_left
-		3: return _entity.input_right
+		"上": return _entity.input_up
+		"下": return _entity.input_down
+		"左": return _entity.input_left
+		"右": return _entity.input_right
 	return false
 
 # ============================================
