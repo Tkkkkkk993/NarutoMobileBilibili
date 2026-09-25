@@ -1,1 +1,5 @@
+res://assets/entities/神秘面具男/火球/entity.tscn
+res://theme/normal.tres
+res://shader/entity_animated_sprite_shader.gdshader
+res://shader/color_filter.gdshader
 res://assets/entities/神秘面具男/visual_script.json

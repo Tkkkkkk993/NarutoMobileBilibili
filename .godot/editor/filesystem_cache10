@@ -1,5 +1,5 @@
 dd77f4d9c6ad4e6d2a3a0b0444a17b75
-::res://::1789821842
+::res://::1790259143
 default_bus_layout.tres::AudioBusLayout::4971528056694885388::1789292365::0::1::::<><><>0<>0<><>::
 export_presets.cfg::TextFile::-1::1789292365::0::1::::<><><>0<>0<><>::
 icon.svg::CompressedTexture2D::6648753853331128428::1789292365::1789292365::1::::<><><>0<>0<>ea1f06e83e77b2eb915af235a6a8a335<>res://.godot/imported/icon.svg-218a8f2b3041327d8a5756f3a245f83b.ctex::
@@ -463,7 +463,7 @@ attack_boxes.json::JSON::-1::1789292970::0::1::::<><><>0<>0<><>::
 entity.gd::GDScript::5426169682892222641::1789292970::0::1::::<>AnimatedSprite2DEntity<><>0<>0<><>::
 entity.tscn::PackedScene::2068438675859323919::1789292970::0::1::::<><><>0<>0<><>::uid://gkn20f0aex3q::::res://assets/entities/base/animated_sprite_2d_entity.tscn<>uid://cjkqhsryg2w78::::res://assets/entities/火遁_裂炎弹/子实体/entity.gd<>uid://de2iknu33fhof::::res://assets/UI/empty.png
 main.tres::Resource/EntityData::2498150225514494174::1789292970::0::1::::<><><>0<>0<><>::res://assets/entities/base/entity_data.gd
-::res://assets/entities/神秘面具男/::1789303463
+::res://assets/entities/神秘面具男/::1789915881
 attack_boxes.json::JSON::-1::1789292914::0::1::::<><><>0<>0<><>::
 effect_bindings.json::JSON::-1::1789292914::0::1::::<><><>0<>0<><>::
 entity.gd::GDScript::5550333612895364681::1789292914::0::1::::神秘面具男<>AnimatedSprite2DEntity<><>0<>0<><>::
@@ -474,7 +474,7 @@ info_points.json::JSON::-1::1789292914::0::1::::<><><>0<>0<><>::
 jw.png::CompressedTexture2D::1029889449239421943::1789292914::1789292914::1::::<><><>0<>0<>683ee918dc352323e28acf39a0a156c9<>res://.godot/imported/jw.png-dbbe248e3f93ffcecc2176ba33aa5b0f.ctex::
 main.tres::Resource/EntityData::6577922692993320430::1789292914::0::1::::<><><>0<>0<><>::uid://cm7ar1dcvtpvt::::res://assets/entities/base/entity_data.gd
 tsbz.png::CompressedTexture2D::5183081353521832737::1789292915::1789292914::1::::<><><>0<>0<>753d96818158f7d3c17b569a5ac54b2c<>res://.godot/imported/tsbz.png-a564d11b77fc76435fe91b8518fa0cd7.ctex::
-visual_script.json::JSON::-1::1789292915::0::1::::<><><>0<>0<><>::
+visual_script.json::JSON::-1::1789915881::0::1::::<><><>0<>0<><>::
 ::res://assets/entities/神秘面具男/1a/::1789303462
 frame_13.png::CompressedTexture2D::7883269096212486211::1789292970::1789292970::1::::<><><>0<>0<>3f0273b5fdf246d341ee029c2e8b6cf4<>res://.godot/imported/frame_13.png-0883206ec021bab218d397c6d4cf20af.ctex::
 frame_14.png::CompressedTexture2D::2362126586393491590::1789292970::1789292970::1::::<><><>0<>0<>7db7013d1ca7bd4f523d71431c490055<>res://.godot/imported/frame_14.png-22a0861ae7413d4bb926fedbaf0f258a.ctex::
@@ -643,7 +643,7 @@ frame_87.png::CompressedTexture2D::5792783039751541156::1789292978::1789292978::
 ::res://assets/entities/神秘面具男/替身出场起身6fps不循环/::1789303463
 frame_7.png::CompressedTexture2D::2613355865576385286::1789292976::1789292976::1::::<><><>0<>0<>4b1a77840808e647367833fb0314b20a<>res://.godot/imported/frame_7.png-fa53ee4ff6e252423a2e95480107868b.ctex::
 frame_14.png::CompressedTexture2D::7860526070869188461::1789292976::1789292976::1::::<><><>0<>0<>7475175ee7af5d0ffcf8db4dae966bef<>res://.godot/imported/frame_14.png-154f9fe86daca948b6eb12ff77e877c8.ctex::
-::res://assets/entities/神秘面具男/火球/::1789465256
+::res://assets/entities/神秘面具男/火球/::1789824806
 1.png::CompressedTexture2D::4532342824309783215::1789292974::1789292974::1::::<><><>0<>0<>534e74bfa54d295345800d972c293fe9<>res://.godot/imported/1.png-f3459c1fce409d8512dd9f947568f1dd.ctex::
 2.png::CompressedTexture2D::3459410045436245174::1789292974::1789292974::1::::<><><>0<>0<>ba68cb5573dcbc3e18b095f211144094<>res://.godot/imported/2.png-059b4034b1e72b29176dbe3bfe1e262d.ctex::
 3.png::CompressedTexture2D::832826948539213504::1789292974::1789292974::1::::<><><>0<>0<>19b71c30ac279a9f6eea5f25bfacad7e<>res://.godot/imported/3.png-7ae1a2db9be891e7c677d8ca1a4493c6.ctex::
@@ -652,12 +652,13 @@ frame_14.png::CompressedTexture2D::7860526070869188461::1789292976::1789292976::
 6.png::CompressedTexture2D::1792832032626953974::1789292974::1789292974::1::::<><><>0<>0<>cd2821d5a79c135273c581a5c80f6ff7<>res://.godot/imported/6.png-1bdde20edd1ea1790ce788f3a7a9eef6.ctex::
 7.png::CompressedTexture2D::728472459185143126::1789292974::1789292974::1::::<><><>0<>0<>bb62f736a1718fa5a2d66d3963e2caf0<>res://.godot/imported/7.png-bc52257022866b5dd6bc56601683d76f.ctex::
 8.png::CompressedTexture2D::8895514129989304042::1789292974::1789292974::1::::<><><>0<>0<>eb256b065808f2e9cb6b17f9c56c79ca<>res://.godot/imported/8.png-ec73cb79dd835df8b23ec86943f9fdee.ctex::
-attack_boxes.json::JSON::-1::1789465256::0::1::::<><><>0<>0<><>::
+attack_boxes.json::JSON::-1::1789823291::0::1::::<><><>0<>0<><>::
 entity.gd::GDScript::2256658998226265646::1789292974::0::1::::火球<>AnimatedSprite2DEntity<><>0<>0<><>::
 entity.tscn::PackedScene::7400775945063061333::1789292974::0::1::::<><><>0<>0<><>::uid://gkn20f0aex3q::::res://assets/entities/base/animated_sprite_2d_entity.tscn<>uid://b5tra25rsm1t8::::res://assets/entities/神秘面具男/火球/1.png<>uid://7fe3xwr7ptri::::res://assets/entities/神秘面具男/火球/entity.gd<>uid://nm18ga417uwr::::res://assets/entities/神秘面具男/火球爆炸/1.png<>uid://bpj08iugjopq1::::res://assets/entities/神秘面具男/火球/2.png<>uid://bva5xjwx3ng8w::::res://assets/entities/神秘面具男/火球爆炸/2.png<>uid://l4oskebepnum::::res://assets/entities/神秘面具男/火球/3.png<>uid://brff5fo1i1etd::::res://assets/entities/神秘面具男/火球/4.png<>uid://6fo1jvfp44nx::::res://assets/entities/神秘面具男/火球爆炸/3.png<>uid://b0ix2k8i535ai::::res://assets/entities/神秘面具男/火球爆炸/4.png<>uid://c7u25uwey0dmj::::res://assets/entities/神秘面具男/火球/5.png<>uid://d1k5n7lovnxpf::::res://assets/entities/神秘面具男/火球爆炸/5.png<>uid://0spxf8h30mp7::::res://assets/entities/神秘面具男/火球/6.png<>uid://cljem84paobeo::::res://assets/entities/神秘面具男/火球爆炸/6.png<>uid://km43nhyvvn4q::::res://assets/entities/神秘面具男/火球/7.png<>uid://7wvv15c1d21j::::res://assets/entities/神秘面具男/火球爆炸/7.png<>uid://dy0b22xoplbty::::res://assets/entities/神秘面具男/火球/8.png<>uid://ccjhv18hh4cu4::::res://assets/entities/神秘面具男/火球爆炸/8.png<>uid://cad650wfspfcd::::res://assets/entities/神秘面具男/火球爆炸/9.png<>uid://dnhoe11nwvohg::::res://assets/entities/神秘面具男/火球爆炸/10.png<>uid://dk1f56bcsfl11::::res://assets/entities/神秘面具男/火球爆炸/11.png<>uid://1oli03n7qfmh::::res://assets/entities/神秘面具男/火球爆炸/12.png<>uid://bba608opvnf00::::res://assets/entities/神秘面具男/火球爆炸/13.png<>uid://cp27nrtyc0cws::::res://assets/entities/神秘面具男/火球爆炸/14.png<>uid://r50t1ahqjef3::::res://assets/entities/神秘面具男/火球爆炸/15.png
 entity_frame_data.json::JSON::-1::1789292974::0::1::::<><><>0<>0<><>::
+info_points.json::JSON::-1::1789823990::0::1::::<><><>0<>0<><>::
 main.tres::Resource/EntityData::8319489808279334679::1789292974::0::1::::<><><>0<>0<><>::uid://cm7ar1dcvtpvt::::res://assets/entities/base/entity_data.gd
-visual_script.json::JSON::-1::1789292974::0::1::::<><><>0<>0<><>::
+visual_script.json::JSON::-1::1789824806::0::1::::<><><>0<>0<><>::
 ::res://assets/entities/神秘面具男/火球爆炸/::1789303463
 1.png::CompressedTexture2D::938865389847682445::1789292974::1789292974::1::::<><><>0<>0<>d6938423e83e786e4f04a91dc582c040<>res://.godot/imported/1.png-5fdbc5ba5a19c8cde8f81933c53c5082.ctex::
 2.png::CompressedTexture2D::3862249490913387288::1789292974::1789292974::1::::<><><>0<>0<>dd5f7471d9a14bd815e7cbb53d37968d<>res://.godot/imported/2.png-0ec7216cbad228d9744d4e0a5ee96dcf.ctex::
@@ -783,7 +784,7 @@ entity_frame_data.json::JSON::-1::1789292970::0::1::::<><><>0<>0<><>::
 M.png::CompressedTexture2D::8536004150536895865::1789292970::1789292970::1::::<><><>0<>0<>2ad60cbe2e36c726920a9a078c17bb00<>res://.godot/imported/M.png-820ea9fe289feedee196b95614dd3854.ctex::
 main.tres::Resource/EntityData::7745748739184368302::1789292970::0::1::::<><><>0<>0<><>::res://assets/entities/base/entity_data.gd
 visual_script.json::JSON::-1::1789292970::0::1::::<><><>0<>0<><>::
-::res://assets/entities/骨架（已由TK拼好）/::1789303465
+::res://assets/entities/骨架（已由TK拼好）/::1789915624
 attack_boxes.json::JSON::-1::1789292913::0::1::::<><><>0<>0<><>::
 effect_bindings.json::JSON::-1::1789292913::0::1::::<><><>0<>0<><>::
 entity.gd::GDScript::5530909510029028959::1789292913::0::1::::须佐佐助<>AnimatedSprite2DEntity<><>0<>0<><>::
@@ -791,7 +792,7 @@ entity.tscn::PackedScene::4098076948360960937::1789292913::0::1::::<><><>0<>0<><
 entity_frame_data.json::JSON::-1::1789292913::0::1::::<><><>0<>0<><>::
 info_points.json::JSON::-1::1789292913::0::1::::<><><>0<>0<><>::
 main.tres::Resource/EntityData::8181432893751086389::1789292913::0::1::::<><><>0<>0<><>::uid://cm7ar1dcvtpvt::::res://assets/entities/base/entity_data.gd
-visual_script.json::JSON::-1::1789292913::0::1::::<><><>0<>0<><>::
+visual_script.json::JSON::-1::1789915624::0::1::::<><><>0<>0<><>::
 ::res://assets/entities/骨架（已由TK拼好）/audio/::1789303463
 ::res://assets/entities/骨架（已由TK拼好）/audio/attack/::1789303463
 1.wav::AudioStreamWAV::291500644353381075::1789293033::1789293033::1::::<><><>0<>0<>17138f25e8c501953a15203f8270d623<>res://.godot/imported/1.wav-797061711a836b1109055e1f189b7893.sample::
@@ -1616,7 +1617,7 @@ spine_godot_extension.gdextension::GDExtension::3588906597357681648::1789292370:
 ::res://bin/macos/libspine_godot.macos.template_release.framework/Resources/::1789303466
 ::res://bin/macos/macos.framework/::1789292923
 ::res://bin/web/::1789303466
-::res://bin/windows/::1789821839
+::res://bin/windows/::1790259140
 ::res://components/::1789303466
 attack_box_manager.gd::GDScript::762842275570035909::1789292370::0::1::::AttackBoxManager<>Node<><>0<>0<><>::
 ::res://data/::1789303466
