@@ -79,6 +79,8 @@ var _follow_entity_check: CheckBox
 var _follow_facing_check: CheckBox
 var _flip_h_check: CheckBox
 var _auto_flip_facing_check: CheckBox
+var _pooled_check: CheckBox
+var _pool_size_spin: SpinBox
 
 var _play_btn: Button
 var _stop_btn: Button
@@ -416,8 +418,8 @@ func _build_ui():
 
 	right_vbox.add_child(_mk_hsep())
 	right_vbox.add_child(_mk_label("位置 (相对实体中心)", 11))
-	_pos_x_spin = _mk_spinbox("X:", -999999, 999999, 1.0, right_vbox)
-	_pos_y_spin = _mk_spinbox("Y:", -999999, 999999, 1.0, right_vbox)
+	_pos_x_spin = _mk_spinbox("X:", -999999, 999999, 0.1, right_vbox)
+	_pos_y_spin = _mk_spinbox("Y:", -999999, 999999, 0.1, right_vbox)
 	_pos_x_spin.value_changed.connect(_on_prop_changed)
 	_pos_y_spin.value_changed.connect(_on_prop_changed)
 	_pos_x_spin.focus_entered.connect(_on_prop_focus_entered)
@@ -427,7 +429,7 @@ func _build_ui():
 
 	right_vbox.add_child(_mk_hsep())
 	right_vbox.add_child(_mk_label("相对深度（Z偏移）", 11))
-	_z_offset_spin = _mk_spinbox("Z:", -999999, 999999, 1.0, right_vbox)
+	_z_offset_spin = _mk_spinbox("Z:", -999999, 999999, 0.1, right_vbox)
 	_z_offset_spin.value_changed.connect(_on_prop_changed)
 	_z_offset_spin.focus_entered.connect(_on_prop_focus_entered)
 	_z_offset_spin.focus_exited.connect(_on_prop_focus_exited)
@@ -447,7 +449,7 @@ func _build_ui():
 
 	right_vbox.add_child(_mk_hsep())
 	right_vbox.add_child(_mk_label("旋转（度）", 11))
-	_rotation_spin = _mk_spinbox("R:", -999999, 999999, 1.0, right_vbox)
+	_rotation_spin = _mk_spinbox("R:", -999999, 999999, 0.1, right_vbox)
 	_rotation_spin.value_changed.connect(_on_prop_changed)
 	_rotation_spin.focus_entered.connect(_on_prop_focus_entered)
 	_rotation_spin.focus_exited.connect(_on_prop_focus_exited)
@@ -472,6 +474,17 @@ func _build_ui():
 	_auto_flip_facing_check.text = "根据朝向翻转特效"
 	_auto_flip_facing_check.toggled.connect(_on_prop_changed)
 	right_vbox.add_child(_auto_flip_facing_check)
+
+	right_vbox.add_child(_mk_hsep())
+	_pooled_check = CheckBox.new()
+	_pooled_check.text = "池化（开场预加载，用完隐藏复用）"
+	_pooled_check.toggled.connect(_on_pooled_toggled)
+	right_vbox.add_child(_pooled_check)
+
+	_pool_size_spin = _mk_spinbox("池大小:", 1, 10, 1, right_vbox)
+	_pool_size_spin.value = 1
+	_pool_size_spin.value_changed.connect(_on_prop_changed)
+	_pool_size_spin.editable = false
 
 	right_vbox.add_child(_mk_hsep())
 	var save_btn = Button.new()
@@ -608,7 +621,9 @@ func _on_add_binding():
 		"follow_entity": false,
 		"follow_facing": false,
 		"flip_h": false,
-		"auto_flip_by_facing": false
+		"auto_flip_by_facing": false,
+		"pooled": false,
+		"pool_size": 1
 	}
 	_push_undo("添加特效", new_b["id"], {}, new_b.duplicate(true))
 	_bindings.append(new_b)
@@ -660,6 +675,8 @@ func _update_panel(b: Dictionary):
 		if _follow_facing_check: _follow_facing_check.button_pressed = false
 		if _flip_h_check: _flip_h_check.button_pressed = false
 		if _auto_flip_facing_check: _auto_flip_facing_check.button_pressed = false
+		if _pooled_check: _pooled_check.button_pressed = false
+		if _pool_size_spin: _pool_size_spin.value = 1; _pool_size_spin.editable = false
 	else:
 		if _effect_name_input: _effect_name_input.text = b.get("effect_name", "")
 		if _scene_path_input: _scene_path_input.text = b.get("scene_path", "")
@@ -674,6 +691,10 @@ func _update_panel(b: Dictionary):
 		if _follow_facing_check: _follow_facing_check.button_pressed = b.get("follow_facing", false)
 		if _flip_h_check: _flip_h_check.button_pressed = b.get("flip_h", false)
 		if _auto_flip_facing_check: _auto_flip_facing_check.button_pressed = b.get("auto_flip_by_facing", false)
+		if _pooled_check: _pooled_check.button_pressed = b.get("pooled", false)
+		if _pool_size_spin:
+			_pool_size_spin.value = b.get("pool_size", 1)
+			_pool_size_spin.editable = b.get("pooled", false)
 	_panel_updating = false
 
 # 统一属性变更回调
@@ -693,6 +714,8 @@ func _on_prop_changed(_v = null):
 	b["follow_facing"] = _follow_facing_check.button_pressed if _follow_facing_check else false
 	b["flip_h"] = _flip_h_check.button_pressed if _flip_h_check else false
 	b["auto_flip_by_facing"] = _auto_flip_facing_check.button_pressed if _auto_flip_facing_check else false
+	b["pooled"] = _pooled_check.button_pressed if _pooled_check else false
+	b["pool_size"] = int(_pool_size_spin.value) if _pool_size_spin else 1
 	# 撤回：确保快照已捕获，重置延迟定时器
 	_ensure_prop_undo_captured()
 	if _prop_undo_timer:
@@ -701,6 +724,11 @@ func _on_prop_changed(_v = null):
 	_timeline.queue_redraw()
 	_draw_node.queue_redraw()
 	_has_unsaved_changes = true
+
+func _on_pooled_toggled(pressed: bool):
+	if _pool_size_spin:
+		_pool_size_spin.editable = pressed
+	_on_prop_changed()
 
 func _on_frame_spin_changed(value: float):
 	var frame_idx = int(value)
@@ -1323,7 +1351,9 @@ func _load_existing_data():
 				"follow_entity": b.get("follow_entity", false),
 				"follow_facing": b.get("follow_facing", false),
 				"flip_h": b.get("flip_h", false),
-				"auto_flip_by_facing": b.get("auto_flip_by_facing", false)
+				"auto_flip_by_facing": b.get("auto_flip_by_facing", false),
+				"pooled": b.get("pooled", false),
+				"pool_size": b.get("pool_size", 1)
 			}
 			_bindings.append(nb)
 		print("[特效绑定器] 已加载 %d 个特效绑定" % _bindings.size())
@@ -1462,7 +1492,8 @@ func _on_canvas_draw():
 		var info_text = ""
 		if b.get("follow_entity", false): info_text += "F"
 		if b.get("follow_facing", false): info_text += "D"
-		var label_text = b.get("effect_name", "?")
+		if b.get("pooled", false): info_text += "P" + str(b.get("pool_size", 1))
+		var label_text = b.get("effect_name", "?") if b.get("effect_name", "") != "" else b.get("scene_path", "?").get_file()
 		if info_text != "": label_text += " " + info_text
 		_draw_node.draw_string(ThemeDB.fallback_font, draw_pos + Vector2(ms + 20 + sx + 4, -8), label_text, HORIZONTAL_ALIGNMENT_LEFT, -1, 12, color)
 

@@ -36,8 +36,8 @@ func has_animation(anim_name: String) -> bool:
 		return false
 	return animation_player.has_animation(anim_name)
 
-func play_animation(anim_name: String, custom_speed: float = -1.0):
-	super.play_animation(anim_name, custom_speed)
+func play_animation(anim_name: String, custom_speed: float = -1.0, start_frame: int = 0):
+	super.play_animation(anim_name, custom_speed, start_frame)
 	if not animation_player or not is_instance_valid(animation_player):
 		return
 	if has_animation(anim_name):
@@ -46,6 +46,8 @@ func play_animation(anim_name: String, custom_speed: float = -1.0):
 		animation_player.stop(true)
 		animation_player.play(anim_name)
 		_last_frame = -1
+		# 起始帧必须在 play 之后 seek，否则会被 play 重置回第 0 帧
+		_apply_play_start_frame(anim_name, start_frame)
 
 func get_current_frame() -> int:
 	if animation_player and is_instance_valid(animation_player) and animation_player.is_playing():
@@ -113,6 +115,10 @@ func get_animation_list() -> PackedStringArray:
 func get_anim_sprite_scale() -> Vector2:
 	if visuals_node and is_instance_valid(visuals_node):
 		return visuals_node.scale
+	return Vector2.ONE
+
+func get_visuals_extra_scale() -> Vector2:
+	# get_anim_sprite_scale() 返回的就是 Visuals.scale，锚点补偿里已经算过一次，不再重复乘
 	return Vector2.ONE
 
 func get_anim_global_scale() -> Vector2:

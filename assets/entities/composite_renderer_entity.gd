@@ -39,7 +39,7 @@ func get_animator_node() -> Node:
 func has_animation(anim_name: String) -> bool:
 	return UFEDataCache.animations.has(anim_name)
 
-func play_animation(anim_name: String, custom_speed: float = 1.0):
+func play_animation(anim_name: String, custom_speed: float = 1.0, start_frame: int = 0):
 	if _immobilize_active:
 		return
 	if not has_animation(anim_name):
@@ -55,7 +55,10 @@ func play_animation(anim_name: String, custom_speed: float = 1.0):
 	_loop = anim_data.get("loop", true)
 	# 通知 EntityBase 动画已变更（触发锚点/滑步/入场等）
 	_on_animation_changed()
+	# 起始帧：seek 放在 _apply_current_frame 之前，本次就直接画起始帧
+	_apply_play_start_frame(anim_name, start_frame)
 	_apply_current_frame()
+	_on_animation_play_started(anim_name, start_frame)
 
 func get_current_frame() -> int:
 	return _current_frame
@@ -101,6 +104,10 @@ func get_current_frame_texture() -> Texture2D:
 func get_anim_sprite_scale() -> Vector2:
 	if visuals_node:
 		return visuals_node.scale
+	return Vector2.ONE
+
+func get_visuals_extra_scale() -> Vector2:
+	# get_anim_sprite_scale() 返回的就是 Visuals.scale，锚点补偿里已经算过一次，不再重复乘
 	return Vector2.ONE
 
 func get_anim_global_scale() -> Vector2:
@@ -322,7 +329,6 @@ func _on_animation_changed():
 
 func _on_frame_changed():
 	super._on_frame_changed()
-	_on_frame_trigger(get_current_animation(), get_current_frame())
 
 func _on_attack_hit(hit_result):
 	super._on_attack_hit(hit_result)

@@ -33,8 +33,8 @@ func has_animation(anim_name: String) -> bool:
 		return false
 	return animated_sprite.sprite_frames.has_animation(anim_name)
 
-func play_animation(anim_name: String, custom_speed: float = -1.0):
-	super.play_animation(anim_name, custom_speed)
+func play_animation(anim_name: String, custom_speed: float = -1.0, start_frame: int = 0):
+	super.play_animation(anim_name, custom_speed, start_frame)
 	if not animated_sprite or not is_instance_valid(animated_sprite):
 		return
 	if has_animation(anim_name):
@@ -45,6 +45,8 @@ func play_animation(anim_name: String, custom_speed: float = -1.0):
 			animated_sprite.play(anim_name, custom_speed)
 		else:
 			animated_sprite.play(anim_name)
+		# 起始帧必须在 play 之后设，否则会被 play 重置回第 0 帧
+		_apply_play_start_frame(anim_name, start_frame)
 
 func get_current_frame() -> int:
 	return animated_sprite.frame if animated_sprite and is_instance_valid(animated_sprite) else 0

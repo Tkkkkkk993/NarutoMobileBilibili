@@ -12,6 +12,19 @@ var current_controller_name: String = "Player1":
 
 var current_mode: GameMode = GameMode.PLAYER_VS_CPU
 
+## 调试总开关。
+## 关闭后实体不再绘制受击框、攻击框、信息点与 Z 深度标签，也不再输出任何调试 print，
+## 无论实体自己的调试开关是什么状态。编辑器与调试构建默认开启，导出发布默认关闭。
+## 运行中改这个值会广播 debug_enabled_changed，实体收到后立刻重算。
+signal debug_enabled_changed(enabled: bool)
+
+var debug_enabled: bool = OS.has_feature("editor") or OS.is_debug_build():
+	set(value):
+		if debug_enabled == value:
+			return
+		debug_enabled = value
+		debug_enabled_changed.emit(value)
+
 var p1_team: Array = []
 var p1_team_scroll: Array = []
 var p1_team_summon: Array = []
@@ -60,7 +73,19 @@ const maps = [
 
 var current_map: String = "normal"
 
+## 全局逻辑帧号：每个物理帧 +1。
+## 停帧（场景树暂停）与 Engine.time_scale 为 0 时物理帧不推进，它也不推进。
+## 与实体各自的 _buffer_clock 不同，它是全局唯一、跨实体可比的，
+## 供联机输入包与将来的动画时钟使用。
+var logic_frame: int = 0
+
+func _physics_process(_delta):
+	logic_frame += 1
+
 func start_battle():
+	logic_frame = 0
+	AudioManager.set_voice_pack("KirisameMarisa")
+	
 	if current_mode == GameMode.TEST:
 		print("测试模式")
 		
@@ -69,10 +94,17 @@ func start_battle():
 		p1_current_scroll = "解术_散"
 		p2_current_scroll = "解术_散"
 		
-		current_map = "normal" #测试模式修改音乐
-		current_round = 1
+		# 训练场给满三个通灵。这份名单原来硬编码在 EntityBase 的字段初值里，
+		# 那边现在默认什么都不携带，想测通灵就得在这里显式给。
+		var test_summon_ids := ["大运重卡", "鲨鱼", "三方封印"]
+		p1_current_summon = []
+		p2_current_summon = []
+		for summon_id in test_summon_ids:
+			p1_current_summon.append("res://assets/entities/%s/entity.tscn" % summon_id)
+			p2_current_summon.append("res://assets/entities/%s/entity.tscn" % summon_id)
 		
-		AudioManager.set_voice_pack("SenjuHashirama")
+		current_map = "normal"
+		current_round = 1
 		
 		get_tree().change_scene_to_file("res://scenes/arena_loading_screen.tscn")
 		
@@ -101,6 +133,7 @@ func start_battle():
 	get_tree().change_scene_to_file("res://scenes/arena_loading_screen.tscn")
 
 func reset_match():
+	logic_frame = 0
 	current_mode = GameMode.PLAYER_VS_CPU
 	p1_team.clear()
 	p2_team.clear()
@@ -137,3 +170,17 @@ func get_char_id(player: int):
 	for i in team.size():
 		result.append(team[(index + i) % team.size()]["id"])
 	return result
+
+func _input(event):
+	if not event is InputEventKey or not event.pressed or event.echo:
+		return
+	match event.keycode:
+		KEY_1:
+			# 主键盘数字 1 切换调试总开关。小键盘 1 是 P2 的攻击键，不要混用。
+			debug_enabled = not debug_enabled
+			print("调试总开关: ", "开启" if debug_enabled else "关闭")
+		KEY_QUOTELEFT:
+			# 引号键切换操控方。原挂在 DebugManager 上，该自动加载因没有任何注册者已删除。
+			var next = "Player2" if current_controller_name == "Player1" else "Player1"
+			current_controller_name = next
+			print("操控切换: ", next)

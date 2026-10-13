@@ -35,6 +35,9 @@ var frame_data_path: String = ""
 @export var debug_slide: bool = true
 @export var debug_z_axis: bool = true
 @export var debug_team: bool = true
+## 打印逐帧链路的跳帧补偿情况（帧事件 / 位移序列 / 攻击框）。
+## 打开后若出现"跳帧补偿 N 帧"，说明那一 tick 发生了卡顿 —— 用于核对补偿是否生效。
+@export var debug_frame_pipeline: bool = false
 
 ## 碰撞框调试
 @export_group("碰撞框调试")
@@ -102,7 +105,7 @@ var info_animation_player
 #   - get_animator_node() -> Node
 #   - has_animation(anim_name: String) -> bool
 #   - can_play_animation(anim_name: String) -> bool
-#   - play_animation(anim_name: String, custom_speed: float = -1.0)
+#   - play_animation(anim_name: String, custom_speed: float = -1.0, start_frame: int = 0)
 #   - get_current_frame() -> int
 #   - get_current_animation() -> String
 #   - pause_animation()
@@ -124,9 +127,18 @@ func can_play_animation(anim_name: String) -> bool:
 	"""判断当前是否能够播放指定动画（动画存在 且 未被定身）"""
 	return has_animation(anim_name) and not _immobilize_active
 
-func play_animation(anim_name: String, custom_speed: float = 1.0):
-	"""播放指定动画"""
+func play_animation(anim_name: String, custom_speed: float = 1.0, start_frame: int = 0):
+	"""播放指定动画。
+	start_frame 为从第几帧开始播，默认 0。
+	大于 0 时，起始帧之前那几帧视为没播过：挂在它们上面的帧事件、滑步序列、
+	特效绑定与攻击框都不会补出来。"""
 	if _immobilize_active: return
+	# 动画不存在时必须整体拒绝，不能先写 current_animation 再让子类跳过。
+	# 否则产生幽灵动画：精灵还在播旧动画，逻辑层却以为在播新动画，
+	# 状态机的退出回调（animation_finished）永远等不到，标志位永久挂死。
+	if not has_animation(anim_name):
+		push_warning("[play_animation] %s 没有动画 %s，忽略" % [name, anim_name])
+		return
 	current_animation = anim_name
 	if anim_name == "idle":
 		var wall_pos = main.point_walls(Vector2(position_3d.x, position_3d.y))
@@ -136,6 +148,46 @@ func play_animation(anim_name: String, custom_speed: float = 1.0):
 			_last_valid_wall_pos = wall_pos
 		else:
 			_last_valid_wall_pos = Vector2(position_3d.x, position_3d.y)
+	_on_animation_play_started(anim_name, start_frame)
+
+# ============================================
+# 播放起点（起始帧）
+# ============================================
+
+## 本次播放的起始帧，0 表示从第 0 帧播。
+var play_start_frame: int = 0
+## 播放序号，每真正开始播放一次动画自增一次。
+## 图形化脚本靠它判断「这是一次新的播放」，从而把帧事件游标对齐到起始帧。
+## play_animation 里被拒掉的调用（定身中、动画不存在）不增。
+var play_seq: int = 0
+
+## 动画真正开始播放时由各动画实现调用：记录本次播放起点，并把三处帧游标对齐到起始帧。
+##
+## 三处游标都要对齐，缺一处起始帧之前那几帧就会被当成「播过了」补出来：
+##   _last_processed_visual_frame / processed_frames 管帧事件、滑步序列与特效绑定，
+##   attack_box_manager 的 _last_box_anim / _last_box_frame 管攻击框开合。
+## 起始帧为 0 时不碰这些游标，行为与加起始帧之前完全一致。
+func _on_animation_play_started(anim_name: String, start_frame: int) -> void:
+	play_start_frame = maxi(start_frame, 0)
+	play_seq += 1
+	if attack_box_manager:
+		attack_box_manager.on_animation_play(anim_name, play_start_frame)
+	if play_start_frame > 0:
+		_last_processed_animation = anim_name
+		_last_processed_visual_frame = play_start_frame - 1
+		processed_frames.clear()
+
+## 把播放位置挪到起始帧。不大于 0 时不动，越界夹到末帧。
+## 各动画实现必须在真正 play 之后再调它，顺序反了会被 play 重置回第 0 帧。
+func _apply_play_start_frame(anim_name: String, start_frame: int) -> void:
+	if start_frame <= 0:
+		return
+	var total := get_animation_frame_count(anim_name)
+	var f := start_frame
+	if total > 0:
+		f = mini(f, total - 1)
+	if f > 0:
+		set_animation_frame(f)
 
 func get_current_frame() -> int:
 	"""获取当前动画帧索引"""
@@ -180,6 +232,17 @@ func get_current_frame_texture() -> Texture2D:
 
 func get_anim_sprite_scale() -> Vector2:
 	"""获取动画节点的本地缩放"""
+	return Vector2.ONE
+
+func get_visuals_extra_scale() -> Vector2:
+	"""锚点补偿里额外要乘的 Visuals 缩放大小。
+	两种动画实现的口径不同：AnimatedSprite2DEntity 的 get_anim_sprite_scale()
+	返回动画节点自身的缩放，Visuals 的缩放不在其中，必须在这里补上；
+	AnimationPlayerEntity 与 CompositeRendererEntity 返回的就是 Visuals.scale，
+	已经算过一次，各自覆盖成 ONE 避免重复相乘。
+	Visuals.scale 为 ±1 时本项恒为 ONE，锚点补偿与加这一项之前完全一致。"""
+	if visuals_node:
+		return visuals_node.scale.abs()
 	return Vector2.ONE
 
 func get_anim_global_scale() -> Vector2:
@@ -245,6 +308,10 @@ signal modifier_update(type: String, power: int, time_left: float, target: Node2
 signal modifier_end(type: String, power: int, time_left: float, target: Node2D)
 ## 冷却计时器到期时发射
 signal timer_out(cd_id: int)
+## 状态栈：某状态进入时发射（观察层，只报事实不驱动行为，见 assets/entities/base/entity_state_stack.gd）
+signal entity_state_entered(state: int, frame: int)
+## 状态栈：某状态退出时发射
+signal entity_state_exited(state: int, frame: int)
 
 # ============================================
 # 控制系统
@@ -285,11 +352,34 @@ var _slide_gravity_active: bool = false
 # 击退系统
 # ============================================
 
+@export_group("击退")
+## 落地进入倒地时是否清零水平击退速度（"倒地即停"手感）。
+## 只在**本次击飞真的离过地**时才生效：否则"零上抛的扫地"会在写入击退的同一帧
+## 就满足落地判定，把刚给出去的水平速度当场抹掉（扫地打不动人）。
+## false = 保留残余水平速度，倒地的身体会继续滑一小段（旧行为）。
+@export var clear_knockback_on_downed: bool = true
+@export_group("")
+
 var _knockback_velocity: Vector2 = Vector2.ZERO      # 当前击退速度
 var _knockback_resistance: float = 10.0              # 地面阻力
 var _knockback_air_resistance: float = 0.0           # 空中阻力（0=无阻力）
 var _knockback_active: bool = false                  # 是否正在击退
 var _knockback_timer: float = 0.0                    # 击退计时器
+
+# 击退模型（由 hit() 每次按招式传入，见 KnockbackModel）
+# EXPONENTIAL = 指数衰减（旧公式，默认行为，数据缺键时即此）
+# LINEAR      = 线性匀减速（新公式）：地面用 kr、空中用 ar，皆为恒定减速度且
+#               总滑行距离与旧公式一致。
+#               （想要"空中一路推着走"，把 ar 填 0 即可 —— 两种模型下 ar=0 都表示不衰减。）
+# 注意：模型只决定"衰减曲线形状"，不决定"给多少初速"。空中/地面的初速差异
+#       由 hit() 的高度分支（z<=10 用 v、z>10 用 va）决定，没有额外的乘算惩罚。
+var _knockback_linear: bool = false
+var _knockback_initial_speed: float = 0.0            # 本次击退的初速大小（线性模型算减速度用）
+
+enum KnockbackModel {
+	EXPONENTIAL,  # 指数衰减（旧）
+	LINEAR,       # 线性匀减速（新）
+}
 
 # ============================================
 # 击飞系统
@@ -298,6 +388,9 @@ var _knockback_timer: float = 0.0                    # 击退计时器
 var _launch_velocity_z: float = 0.0
 var _launch_active: bool = false
 var _launch_gravity: float = 7000.0
+## 本次击飞序列是否真的离过地（z 超过地面 1 单位）。
+## 用作"倒地清零击退"的判据：零上抛的扫地从未离地，不能被当成落地。
+var _launch_left_ground: bool = false
 
 # 回弹相关
 var _has_bounced: bool = false
@@ -323,6 +416,12 @@ var _hit_stop_active: bool = false
 var _hit_stop_timer: float = 0.0        
 var _hit_stop_freeze_frame: bool = true 
 var _hit_stop_prevent_physics: bool = true 
+## 减帧是否为「延迟减帧」触发的。clear_temporary_status 只结束这一类减帧，
+## 直接调 set_hit_stop 进来的减帧不归它管。
+var _hit_stop_from_delay: bool = false
+## 待触发的延迟减帧队列，每项 {duration, freeze_frame, prevent_physics, delay}。
+## delay 走完就按登记时的参数进卡肉；clear_temporary_status 会整体清掉。
+var _hit_stop_pending: Array = []
 
 # 冻结前保存的速度状态
 var _saved_velocity_3d: Vector3 = Vector3.ZERO
@@ -347,6 +446,15 @@ var _immobilize_launch_gravity: float = 730
 var _immobilize_can_substitute: bool = false  # 定身期间能否替身
 var _immobilize_visuals_rotation: float = 0.0  # 定身时 visuals 旋转角度
 var _saved_visuals_rotation: float = 0.0        # 定身前保存的 visuals 旋转
+var _immobilize_release_ani: String = ""        # 释放时播放的动画；空 = 按原来的 launch1/launch2
+
+# ---- 抓取跟随模式（抓取模式为「跟随位置」时才有值） ----
+# 固定位置模式：pos / rpos / 速度都是调用瞬间算好的世界坐标，抓取期间不再变。
+# 跟随位置模式：把它们换算成「相对施术者」的偏移，每帧按施术者实时位置与朝向重算。
+var _immobilize_follow_caster: EntityBase = null   # 参照实体；null 表示固定位置模式
+var _immobilize_follow_pos: Vector3 = Vector3.ZERO     # 相对施术者的偏移，z 正数向上
+var _immobilize_follow_rpos: Vector3 = Vector3.ZERO    # 相对施术者的释放点
+var _immobilize_follow_kv: Vector2 = Vector2.ZERO      # 面向相对口径的击退速度
 
 # ============================================
 # 吸附系统
@@ -499,8 +607,15 @@ func get_is_invincible():
 var can_cast_aux: bool = false
 var aux_cd_value: float = 0
 var scroll_addon_entity_path: String = ""
-var scroll_entity_path: String = "res://assets/entities/禁术_阴愈伤灭/entity.tscn"
-var summon_entity_path = ["res://assets/entities/大运重卡/entity.tscn", "res://assets/entities/鲨鱼/entity.tscn", "res://assets/entities/三方封印/entity.tscn"]
+## 默认什么都不携带：谁携带由队伍数据决定，EntityManager 生成时按定义填进来。
+## 此前这里硬编码着一个密卷与三个通灵，没配过的实体也会凭空带上，训练场那份名单已挪去 MatchConfig。
+var scroll_entity_path: String = ""
+var summon_entity_path: Array = []
+## 密卷与通灵槽位图标取的那张图，目录规则与角色图标一致，见 _refresh_scroll_summon_icons
+const PORTRAIT_ICON_FILE := "portraits/icon_idle.png"
+## 密卷槽位与通灵槽位在 skill_slot 里的下标，与 _real_skill_slots 的装配一致
+const SLOT_SCROLL := 5
+const SLOT_SUMMON := 6
 # 杂项
 var substitution_distance: float = 0
 var enable_wall_collision: bool = true
@@ -523,8 +638,17 @@ enum ActionPriority {  # 按钮优先级
 	SUMMON=4         # 通灵
 }
 @export var buffer_max_size: int = 3
-@export var buffer_valid_frames: int = 12   # 60fps ≈ 0.2秒
+## 预输入窗口长度，单位【秒】。用秒而不是物理帧数：物理帧率可配（30/60），
+## 按帧数计的窗口在 30Hz 下会翻倍成 400 毫秒，预输入会变得过分宽容。
+@export var buffer_valid_seconds: float = 0.2
 var _input_buffer: Array[Dictionary] = []
+## 预输入缓冲的两把尺子，都只在"实体能动的帧"里走，所以停帧与卡肉期间缓冲不流逝：
+##   停帧：场景树暂停（get_tree().paused）。被暂停的实体连 _physics_process 都不跑，
+##         能跑的实体靠这行判断，避免"停帧把别人攒下的预输入烧掉"。
+##   卡肉：_hit_stop_active。卡肉期间 _physics_process 照跑，必须显式不加。
+## _buffer_time 是超时判据（秒，物理帧率改了窗口也不变），_buffer_clock 只在同一帧内排序用。
+var _buffer_clock: int = 0
+var _buffer_time: float = 0.0
 var _current_action_priority: int = ActionPriority.NORMAL_ATTACK
 var _is_executing_action: bool = false
 func _get_action_priority(action: String) -> int:
@@ -661,6 +785,11 @@ var _virtual_inputs: Dictionary = {
 	"buttons": [false, false, false, false, false, false, false, false, false] # 对应9个技能槽
 }
 
+# AI 按键上一帧的电平，用于检测上升沿（按下瞬间）
+# 目的：让 AI 的每一次「按键」都走与真实输入相同的门控 handle_button_press()，
+#       而不是仅靠电平注入绕过优先级判定与输入缓冲。
+var _ai_prev_buttons: Array = [false, false, false, false, false, false, false, false, false]
+
 # 供 AI 控制器调用的公开接口
 func set_virtual_input(action: String, pressed: bool) -> void:
 	if action in _virtual_inputs:
@@ -677,6 +806,12 @@ func clear_virtual_inputs() -> void:
 				_virtual_inputs.buttons[i] = false
 		else:
 			_virtual_inputs[key] = false
+	# 同步重置上升沿基线。
+	# 原因：AI 每次决策前都会先 clear 再 _decide_action()，两步在同一次调用内完成，
+	# 而 _entity_input() 每物理帧只采样一次，永远观察不到中间那个 false 状态。
+	# 不在这里清基线，按键的上升沿就几乎永远检不出来（统一门控形同虚设）。
+	for i in range(_ai_prev_buttons.size()):
+		_ai_prev_buttons[i] = false
 
 # ============================================
 # 初始化
@@ -684,7 +819,14 @@ func clear_virtual_inputs() -> void:
 
 var enable_keyboard_input: bool = false
 func _ready():
+	# 调试总开关：print 类开关按总开关压一次，绘制类在每次绘制时现查，见 _apply_debug_master_switch
+	_apply_debug_master_switch()
+	if not MatchConfig.debug_enabled_changed.is_connected(_on_match_debug_enabled_changed):
+		MatchConfig.debug_enabled_changed.connect(_on_match_debug_enabled_changed)
+	
 	enable_keyboard_input = OS.has_feature("windows") or OS.has_feature("editor")
+	# 键盘上升沿靠 _input 截获，见 KEYBOARD_ACTIONS 上方的注释
+	set_process_input(enable_keyboard_input)
 	
 	camera = _get_duel_camera()
 	
@@ -775,10 +917,6 @@ func _deferred_heavy_init():
 		skill_panel = main.get_parent().get_node("SkillPanel")
 		var skill_slots = skill_panel.get_node("PanelContainer").get_node("TextureRect")
 		_real_skill_slots.resize(9)
-		inputs.resize(9)
-		for i in range(9):
-			cool_down_time.append({"time": 0.0, "slot_id": 0})
-			skill_timer.append({"time": 0.0, "max_time": 0, "slot_id": 0, "sub_slots": []})
 		_real_skill_slots[0] = skill_slots.get_node("Attack")
 		_real_skill_slots[1] = skill_slots.get_node("Skill1")
 		_real_skill_slots[2] = skill_slots.get_node("Skill2")
@@ -793,6 +931,16 @@ func _deferred_heavy_init():
 		_real_skill_slots[8].visible = false
 		
 		virtual_joystick = skill_panel.get_node("VirtualJoystick")
+	
+	# 输入、冷却与计时三张表按 9 个槽位建立，与有没有面板无关。
+	# 这段此前在 if is_player 里面，而子实体的名字不是 PlayerN，三张表全是空的：
+	# set_timer 与 set_cd 会写越界并被静默丢弃，计时结束事件永远不触发。
+	# 负数 slot_id 的计时恰恰是子实体在用的那种（它没有面板可显示），
+	# 所以这个缺陷表现为「负数槽位计时不能触发计时结束事件」。
+	inputs.resize(9)
+	for i in range(9):
+		cool_down_time.append({"time": 0.0, "slot_id": 0})
+		skill_timer.append({"time": 0.0, "max_time": 0, "slot_id": 0, "sub_slots": []})
 	
 	_sync_skill_slot_binding()
 	_update_summon_dot()
@@ -879,6 +1027,16 @@ func is_player_with_number(text: String) -> bool:
 	return false
 
 func _post_init():
+	_begin_entry()
+
+# ============================================
+# 入场状态（进场 / entry）
+# ============================================
+
+## 结算当前 entry_action 对应的入场流程。_post_init 与图形化脚本的动作块共用这一条路径。
+## 注意：DEFAULT 分支会把实体挪到场外高处，落点记在 _entry_target_x；
+## CUSTOM 分支把原位记在 entry_pos3d，两者都是退出入场时归位的依据。
+func _begin_entry():
 	if entry_action == EntryAction.DEFAULT:
 		if can_play_animation("entry"):
 			play_animation("entry")
@@ -900,6 +1058,66 @@ func _post_init():
 		entry_pos3d = position_3d
 		teleport_to_position(position_3d + custom_entry_extra_pos3d)
 		play_animation(custom_entry_anim_name)
+
+## 设置入场状态。图形化脚本与角色脚本的统一入口。
+## mode = NONE 时等价于 cancel_entry()。
+## mode = DEFAULT / CUSTOM 时会先结束当前入场再按新方式重新入场，
+## 这样落点不会在半空中被重算（entry_action 已经是所选模式时也是重新入场）。
+## anim_name 与 extra_pos3d 只在 CUSTOM 下生效，留空与零向量时沿用 EntityData 的配置。
+## extra_pos3d 与 EntityData.custom_entry_extra_pos3d 同口径，按朝向镜像。
+func set_entry_state(mode: EntryAction, anim_name: String = "", extra_pos3d: Vector3 = Vector3.ZERO) -> void:
+	if mode == EntryAction.NONE:
+		cancel_entry()
+		return
+	if mode == EntryAction.CUSTOM:
+		if anim_name != "":
+			custom_entry_anim_name = anim_name
+		if custom_entry_anim_name == "":
+			push_warning("set_entry_state: CUSTOM 入场缺少动画名，本次忽略（%s）" % name)
+			return
+		if extra_pos3d != Vector3.ZERO:
+			custom_entry_extra_pos3d = extra_pos3d
+			custom_entry_extra_pos3d.x *= facing_direction
+	# 已在入场中：先归位，避免在半空中重算落点
+	if entry_action != EntryAction.NONE:
+		_settle_entry(false)
+	entry_action = mode
+	_begin_entry()
+
+## 取消入场：归位到落点并转入 idle，等价于"入场正常结束"的收尾流程。
+## 入场已结束时不做事，可安全重复调用。
+## 注意：本方法是"事后归位"，DEFAULT 入场在 _post_init 里已经先把实体挪到场外高处，
+## 所以若调用发生在入场开始后的某一帧，那一帧仍可能在场外画出实体。
+## 图形化脚本的 when_entity_create 与 _post_init 同帧触发，正常用法下不会看到这一帧。
+func cancel_entry() -> void:
+	if entry_action == EntryAction.NONE:
+		return
+	_settle_entry(true)
+
+## 把入场中的实体归位到落点并清掉入场状态。
+## play_idle 为 true 时接 idle 并回调 _on_entry_end，即入场正常结束；
+## 为 false 时只归位，供紧接着重新入场用（此时不回调 _on_entry_end）。
+func _settle_entry(play_idle: bool) -> void:
+	match entry_action:
+		EntryAction.DEFAULT:
+			# 默认入场是"从场外高处坠入"，落点 X 记在 _entry_target_x
+			position_3d.x = _entry_target_x
+			_entry_fall_speed_x = 0.0
+			stop_slide()
+			stop_z_motion(true, true)
+		EntryAction.CUSTOM:
+			# 自定义入场是"按偏移瞬移出去"，原位记在 entry_pos3d
+			position_3d = entry_pos3d
+			stop_slide()
+			stop_z_motion(true, true)
+	entry_action = EntryAction.NONE
+	position_3d.z = ground_level
+	is_grounded = true
+	_update_visual_position()
+	if play_idle:
+		clear_temporary_status()
+		play_animation("idle")
+		_on_entry_end()
 
 func die():
 	# 1. 停止所有物理运动
@@ -1040,9 +1258,35 @@ func _sync_skill_slot_binding():
 	if _real_skill_slots.size() > 0 and name == MatchConfig.current_controller_name:
 		for i in _real_skill_slots.size():
 			skill_slot[i] = _real_skill_slots[i]
+		_push_slot_state_to_panel()
+
+func _push_slot_state_to_panel():
+	"""接管真实面板时，把实体自己的 CD、计时与点数推回面板。
+	面板在非操控期间收不到 set_cd 与 _process_cd 的写入，会停在交接瞬间的旧值。
+	若某个 CD 在离开期间走完，面板就永久停在正数上，该槽位再也按不动 —— 交接回来即死锁。"""
+	for i in cool_down_time.size():
+		var cd_sid: int = int(cool_down_time[i]["slot_id"])
+		if cd_sid >= 0 and cd_sid < skill_slot.size():
+			skill_slot[cd_sid].cool_down_time_now = cool_down_time[i]["time"]
+	for i in skill_timer.size():
+		var t_sid: int = int(skill_timer[i]["slot_id"])
+		var t_max: float = float(skill_timer[i]["max_time"])
+		var progress: float = (float(skill_timer[i]["time"]) / t_max) if t_max > 0.0 else 0.0
+		if t_sid >= 0 and t_sid < skill_slot.size():
+			skill_slot[t_sid].timer_progress = progress
+		for sub in skill_timer[i].get("sub_slots", []):
+			var sub_sid: int = int(sub)
+			if sub_sid >= 0 and sub_sid < skill_slot.size():
+				skill_slot[sub_sid].timer_progress = progress
+	_process_ultimate_point()
+	_update_summon_dot()
+	_refresh_scroll_summon_icons()
 
 func setup_player_config():
 	setup_icon()
+	# 图标与角色技能图标同一个入口。面板绑定可能晚于 _ready（操控者名字是生成后才写的），
+	# 那条路由 _on_controller_changed 再进来一次，两边都调一次才不漏。
+	_refresh_scroll_summon_icons()
 
 func _on_controller_changed(new_name: String):
 	if is_player:
@@ -1090,6 +1334,8 @@ func _find_camera_recursive(node: Node) -> DuelCamera:
 
 func _ensure_debug_system():
 	"""按需创建调试系统，避免不必要的节点开销"""
+	if not MatchConfig.debug_enabled:
+		return
 	if _debug_canvas_layer:
 		return
 	_debug_canvas_layer = CanvasLayer.new()
@@ -1108,11 +1354,63 @@ func _ensure_debug_system():
 	set_process(true)
 
 func _setup_debug_system():
-	# 仅在开启了任意调试开关时才创建调试节点
+	# 仅在总开关开启且开启了任意调试开关时才创建调试节点
+	if not MatchConfig.debug_enabled:
+		return
 	if debug_show_hitboxes or debug_show_attack_boxes or debug_show_info_points:
 		_ensure_debug_system()
 
+# ============================================
+# 调试总开关（MatchConfig.debug_enabled）
+# ============================================
+
+## 总开关关闭时被压掉的 print 类开关的原值，重新打开时原样恢复。
+var _debug_print_flags_saved: Dictionary = {}
+var _debug_print_flags_muted: bool = false
+
+## 总开关关闭时压掉 print 类开关，避免发布包刷日志；重新打开时把原值放回去。
+## 绘制类开关不在这里压：它们每次绘制都现查总开关，所以运行中开关总开关都立刻生效。
+func _apply_debug_master_switch():
+	if MatchConfig.debug_enabled:
+		if not _debug_print_flags_muted:
+			return
+		_debug_print_flags_muted = false
+		debug_anchor = _debug_print_flags_saved.get("debug_anchor", debug_anchor)
+		debug_slide = _debug_print_flags_saved.get("debug_slide", debug_slide)
+		debug_z_axis = _debug_print_flags_saved.get("debug_z_axis", debug_z_axis)
+		debug_team = _debug_print_flags_saved.get("debug_team", debug_team)
+		debug_frame_pipeline = _debug_print_flags_saved.get("debug_frame_pipeline", debug_frame_pipeline)
+		debug_state_stack = _debug_print_flags_saved.get("debug_state_stack", debug_state_stack)
+		_debug_print_flags_saved.clear()
+		return
+	
+	if _debug_print_flags_muted:
+		return
+	_debug_print_flags_muted = true
+	_debug_print_flags_saved = {
+		"debug_anchor": debug_anchor,
+		"debug_slide": debug_slide,
+		"debug_z_axis": debug_z_axis,
+		"debug_team": debug_team,
+		"debug_frame_pipeline": debug_frame_pipeline,
+		"debug_state_stack": debug_state_stack,
+	}
+	debug_anchor = false
+	debug_slide = false
+	debug_z_axis = false
+	debug_team = false
+	debug_frame_pipeline = false
+	debug_state_stack = false
+
+func _on_match_debug_enabled_changed(_enabled: bool) -> void:
+	_apply_debug_master_switch()
+	_update_debug_visuals()
+
 func _on_draw_all_debug():
+	# 总开关关闭时整帧都不画，绘制内容自然被清空
+	if not MatchConfig.debug_enabled:
+		return
+	
 	# 1. 绘制信息点 (保持原有逻辑)
 	if debug_show_info_points:
 		_on_debug_draw_info_points()
@@ -1128,64 +1426,85 @@ func _on_draw_all_debug():
 func _draw_attack_boxes_batch():
 	if not is_instance_valid(_debug_draw_node) or not attack_box_manager: return
 	
-	var active_boxes = attack_box_manager._active_boxes
-	for box_id in active_boxes.keys():
-		var data = active_boxes[box_id]
-		var node = data.node as Area2D
-		var config = data.config as AttackBoxData.FrameConfig
-		
-		if not is_instance_valid(node): continue
-		
-		# --- 1. 获取逻辑坐标 (已经剥离了深度) ---
-		var logic_global_pos = node.global_position
-		
-		# --- 2. 计算视觉坐标 (加回深度 position_3d.y) ---
-		var visual_global_pos = Vector2(logic_global_pos.x, logic_global_pos.y + position_3d.y)
-		
-		# --- 3. 转换为屏幕视口坐标 ---
-		var viewport_pos = get_viewport().canvas_transform * visual_global_pos
-		
-		# --- 4. 获取形状尺寸 ---
-		var shape_node = node.get_child(0) as CollisionShape2D
-		if not shape_node or not shape_node.shape: continue
-		
-		var shape_size = Vector2.ZERO
-		if shape_node.shape is RectangleShape2D:
-			shape_size = shape_node.shape.size * node.global_scale.abs()
-		
-		# --- 5. 绘制形状与文字 ---
-		var rect = Rect2(viewport_pos - shape_size / 2.0, shape_size)
-		
-		# 填充
-		_debug_draw_node.draw_rect(rect, Color(debug_attack_box_color, debug_box_fill_alpha))
-		
-		# 边框
-		_draw_rect_border(rect, debug_attack_box_color, debug_box_line_width)
-		
-		# 文字
-		var trigger_mark = "✓" if data.box_data.has_triggered_instance(data.instance_key) else "○"
-		var z_text = ""
-		if debug_show_z_depth:
-			z_text = "\nZ:%.0f(±%.0f) | D:%.0f" % [config.position.z, config.size.z/2, config.size.y]
-		var text = "%s [%s]%s" % [data.box_data.box_name, trigger_mark, z_text]
-		
-		var font = ThemeDB.fallback_font
-		var text_pos = viewport_pos + Vector2(0, -50 if debug_show_z_depth else -20)
-		
-		# 文字背景
-		var text_size = font.get_string_size(text, HORIZONTAL_ALIGNMENT_LEFT, -1, 10)
-		_debug_draw_node.draw_rect(Rect2(text_pos - Vector2(2, 12), text_size + Vector2(4, 4)), Color(0, 0, 0, 0.5))
-		
-		_debug_draw_node.draw_string(font, text_pos, text, HORIZONTAL_ALIGNMENT_LEFT, -1, 10, debug_attack_box_color)
-		
-		# Z轴深度指示器
-		if debug_show_z_depth:
-			var z_ratio = clamp(config.size.z / 200.0, 0.1, 1.0)
-			var ind_h = shape_size.y * z_ratio
-			var ind_w = 4.0
-			# 注意：指示器位置也要基于 viewport_pos
-			var ind_pos = Vector2(rect.position.x + rect.size.x + 2, rect.position.y + (shape_size.y - ind_h) / 2.0)
-			_debug_draw_node.draw_rect(Rect2(ind_pos, Vector2(ind_w, ind_h)), Color.CYAN)
+	# 动画帧驱动的攻击框
+	for box_id in attack_box_manager._active_boxes.keys():
+		_draw_attack_box_entry(attack_box_manager._active_boxes[box_id], "")
+	
+	# 图形化脚本创建的动态攻击框。它们存在另一张表里（_dynamic_boxes），
+	# 不受动画帧驱动，此前只遍历 _active_boxes 导致这批量完全不绘制。
+	for box_id in attack_box_manager._dynamic_boxes.keys():
+		_draw_attack_box_entry(attack_box_manager._dynamic_boxes[box_id], "动态:")
+
+## 绘制单个攻击框。_active_boxes 与 _dynamic_boxes 的条目结构一致
+## （node / instance_key / config / box_data），所以两者共用本函数。
+## label_prefix 用于区分来源，动态框传 "动态:"。
+func _draw_attack_box_entry(data: Dictionary, label_prefix: String = ""):
+	var node = data.get("node") as Area2D
+	if not is_instance_valid(node): return
+	var config = data.get("config") as AttackBoxData.FrameConfig
+	if not config: return
+	var box_data = data.get("box_data") as AttackBoxData
+	if not box_data: return
+	
+	# --- 1. 获取逻辑坐标 (已经剥离了深度) ---
+	var logic_global_pos = node.global_position
+	
+	# --- 2. 计算视觉坐标 (加回深度 position_3d.y) ---
+	# 2D 判定平面不含深度，显示时要加回深度才落进视觉平面。
+	# 脱手框有自己冻结的深度，必须用它的：用绘制者当前的深度会让框在画面上跟着人走。
+	var box_depth: float = float(data.get("detached_y", NAN))
+	if is_nan(box_depth):
+		box_depth = position_3d.y
+	var visual_global_pos = Vector2(logic_global_pos.x, logic_global_pos.y + box_depth)
+	
+	# --- 3. 转换为屏幕视口坐标 ---
+	var viewport_pos = get_viewport().canvas_transform * visual_global_pos
+	
+	# --- 4. 获取形状尺寸 ---
+	var shape_node = node.get_child(0) as CollisionShape2D
+	if not shape_node or not shape_node.shape: return
+	
+	var shape_size = Vector2.ZERO
+	if shape_node.shape is RectangleShape2D:
+		shape_size = shape_node.shape.size * node.global_scale.abs()
+	
+	# --- 5. 绘制形状与文字 ---
+	var rect = Rect2(viewport_pos - shape_size / 2.0, shape_size)
+	
+	# 填充
+	_debug_draw_node.draw_rect(rect, Color(debug_attack_box_color, debug_box_fill_alpha))
+	
+	# 边框
+	_draw_rect_border(rect, debug_attack_box_color, debug_box_line_width)
+	
+	# 文字
+	var trigger_mark = "✓" if box_data.has_triggered_instance(data.get("instance_key", "")) else "○"
+	var z_text = ""
+	if debug_show_z_depth:
+		z_text = "\nZ:%.0f(±%.0f) | D:%.0f" % [config.position.z, config.size.z/2, config.size.y]
+		# 脱手框：深度是创建瞬间冻结的绝对值，跟实体当前位置无关，画出来方便核对
+		var detached_y: float = float(data.get("detached_y", NAN))
+		if not is_nan(detached_y):
+			z_text += " | 脱手Y:%.0f" % detached_y
+	var text = "%s%s [%s]%s" % [label_prefix, box_data.box_name, trigger_mark, z_text]
+	
+	var font = ThemeDB.fallback_font
+	var text_pos = viewport_pos + Vector2(0, -50 if debug_show_z_depth else -20)
+	
+	# 文字背景
+	var text_size = font.get_string_size(text, HORIZONTAL_ALIGNMENT_LEFT, -1, 10)
+	_debug_draw_node.draw_rect(Rect2(text_pos - Vector2(2, 12), text_size + Vector2(4, 4)), Color(0, 0, 0, 0.5))
+	
+	_debug_draw_node.draw_string(font, text_pos, text, HORIZONTAL_ALIGNMENT_LEFT, -1, 10, debug_attack_box_color)
+	
+	# Z轴深度指示器
+	if debug_show_z_depth:
+		var z_ratio = clamp(config.size.z / 200.0, 0.1, 1.0)
+		var ind_h = shape_size.y * z_ratio
+		var ind_w = 4.0
+		# 注意：指示器位置也要基于 viewport_pos
+		var ind_pos = Vector2(rect.position.x + rect.size.x + 2, rect.position.y + (shape_size.y - ind_h) / 2.0)
+		_debug_draw_node.draw_rect(Rect2(ind_pos, Vector2(ind_w, ind_h)), Color.CYAN)
 
 func _draw_rect_border(rect: Rect2, color: Color, width: float):
 	var tl = rect.position
@@ -1266,9 +1585,16 @@ func _on_frame_changed_debug():
 	pass
 
 func _update_debug_visuals():
+	# 总开关关闭时既不建也不画，已存在的调试层一并隐藏
+	if not MatchConfig.debug_enabled:
+		if _debug_canvas_layer:
+			_debug_canvas_layer.visible = false
+		return
 	# 按需创建调试节点
 	if debug_show_hitboxes or debug_show_attack_boxes or debug_show_info_points:
 		_ensure_debug_system()
+	if _debug_canvas_layer:
+		_debug_canvas_layer.visible = true
 	# 如果需要立即刷新，手动请求重绘
 	if _debug_draw_node:
 		_debug_draw_node.queue_redraw()
@@ -1425,24 +1751,89 @@ func _clear_attack_box_debug_visuals():
 	_debug_attack_box_visuals.clear()
 
 # ============================================
+# 状态栈（观察层，纯附加）
+# ============================================
+# 把散落的状态布尔量汇总成一处可枚举的位掩码，实现在
+# assets/entities/base/entity_state_stack.gd。本层不改写任何字段、
+# 不驱动任何行为，进入与退出只发信号。
+#
+# 接入方式是纯附加的：
+#   - 每次读字段重新推导，不新增任何状态真值来源
+#   - 只在 _physics_process 开头观测一次，故观测延迟最多一个物理帧
+#   - 状态真值仍是原来的布尔量，删掉本层不影响任何现有行为
+
+@export var debug_state_stack: bool = false
+var state_stack: EntityStateStack = null
+
+func _init_state_stack() -> void:
+	state_stack = EntityStateStack.new()
+	state_stack.state_entered.connect(_on_entity_state_entered)
+	state_stack.state_exited.connect(_on_entity_state_exited)
+
+func _update_state_stack() -> void:
+	if state_stack == null:
+		_init_state_stack()
+	state_stack.update(self, Engine.get_physics_frames())
+
+func _on_entity_state_entered(state: int, frame: int) -> void:
+	entity_state_entered.emit(state, frame)
+	if debug_state_stack:
+		print("[状态栈] +%s @f%d | %s" % [state_stack.get_state_name(state), frame, state_stack.describe()])
+
+func _on_entity_state_exited(state: int, frame: int) -> void:
+	entity_state_exited.emit(state, frame)
+	if debug_state_stack:
+		print("[状态栈] -%s @f%d | %s" % [state_stack.get_state_name(state), frame, state_stack.describe()])
+
+## 当前是否处于某状态（传 EntityStateStack.State.*）
+func has_entity_state(state: int) -> bool:
+	return state_stack != null and state_stack.has(state)
+
+## 当前激活状态的位掩码。int，可直接进快照/同步。
+func get_entity_state_mask() -> int:
+	return state_stack.get_mask() if state_stack else 0
+
+## 优先级最高的激活状态
+func get_entity_state_top() -> int:
+	return state_stack.get_top() if state_stack else EntityStateStack.State.NONE
+
+## 调试用单行描述
+func describe_entity_states() -> String:
+	return state_stack.describe() if state_stack else "NONE"
+
+# ============================================
 # 处理循环
 # ============================================
 
 func _process(delta):
-	_consume_local_buffer()
 	_ensure_frame_sync()
 	
-	if debug_show_hitboxes or debug_show_attack_boxes or debug_show_info_points:
+	if MatchConfig.debug_enabled and (debug_show_hitboxes or debug_show_attack_boxes or debug_show_info_points):
 		_ensure_debug_system()
 		if _debug_draw_node:
 			_debug_draw_node.queue_redraw()
 
 func _physics_process(delta):
+	# 换上新收到的键盘上升沿，供本帧两条输入路径消费，见 _input 上方的注释。
+	# 放在函数最开头：无论下面走哪条早退分支，上一帧的快照都不会留到下一帧。
+	_key_edges_tick = _key_edges
+	_key_edges = {}
+	# 预输入缓冲的时钟：停帧与卡肉这两类帧不走，缓冲窗口就只在实体能动的帧里流逝
+	if not _hit_stop_active and not get_tree().paused:
+		_buffer_clock += 1
+		_buffer_time += delta
+	_update_state_stack()
 	if is_player:
 		hp_red.value = hp
 	_process_magnetism(delta) # 优先级这一块/.
 	_process_global_magnetisms(delta) # 全局吸附（多吸附共存）
 	_record_inputs()
+	# 预输入消费必须与"记录"同挂物理帧：
+	# 计时用 _buffer_time（只在实体能动的帧里累加，见该字段注释），
+	# 窗口恒为 buffer_valid_seconds（0.2 秒），不会因为停帧或卡肉而白烧。
+	# 若挂在 _process（渲染帧）而 VSync 又是关的，帧率越高缓冲窗口越短
+	# （144fps→83ms、300fps→40ms），预输入手感会随机器变化。
+	_consume_local_buffer()
 	
 	# 卡肉状态：冻结所有更新，不调用 move_and_slide
 	if _hit_stop_active:
@@ -1452,14 +1843,21 @@ func _physics_process(delta):
 	if _immobilize_active:
 		_process_immobilize(delta)
 	
+	# 效果的处理挪到卡肉早退之前：勾了「不受减帧影响」的效果在卡肉停帧期间照常走计时与回调。
+	# 没勾的那部分由 _process_modifiers 自己按卡肉状态跳过，与挪动之前同口径。
+	# 注意只挪到这一处，下面那个 _process_modifiers 调用点已经删除，免得勾了的效果一帧走两次。
+	_process_modifiers(delta)
+	
 	if _hit_stop_active:
 		out_of_wall()
 		_update_visual_position()  # 卡肉中若被墙回推，视觉立即同步，避免墙体穿模残影
 		return
 	
+	# 延迟减帧的计时放在卡肉早退之后：卡肉期间不流逝，与停帧同口径
+	_process_pending_hit_stops(delta)
+	
 	_process_cd(delta)
 	_process_timer(delta)
-	_process_modifiers(delta)
 	_process_bonus(delta)
 	_process_states(delta)
 	_process_substitution_invincibility(delta)
@@ -1542,6 +1940,31 @@ func _update_summon_dot():
 			EntityType.PLAYER:
 				skill_slot[6].dot = summon_entity_path.size()
 
+## 密卷与通灵槽位的图标按「携带的那个东西自己的 icon_idle」取，目录规则与角色图标一致。
+## 密卷可重复使用，所以整局不变；通灵是队列，用掉一个就换成队列里的下一个。
+## 三个调用点：角色配置就绪（setup_player_config）、面板交接手（_push_slot_state_to_panel）、
+## 消耗通灵（handle_summon），后两处都紧跟点数刷新。
+func _refresh_scroll_summon_icons():
+	if not is_player or entity_type != EntityType.PLAYER:
+		return
+	_apply_slot_icon_from_entity_path(SLOT_SCROLL, scroll_entity_path)
+	# 队列空时什么都不做：图标留在最后一个通灵上，剩余数量由点数显示，与手游玩法一致
+	if summon_entity_path.size() > 0:
+		_apply_slot_icon_from_entity_path(SLOT_SUMMON, str(summon_entity_path[0]))
+
+## entity_scene_path 形如 res://assets/entities/大运重卡/entity.tscn，取同级目录的 portraits/icon_idle.png。
+## 找不到就保留槽位原图并告警：槽位图标同时被角色脚本的 setup_icon 用着，
+## 塞一张占位图会把图标缩放基准带偏（112 除以贴图尺寸），什么都不做比放错图安全。
+func _apply_slot_icon_from_entity_path(slot_id: int, entity_scene_path: String):
+	if slot_id < 0 or slot_id >= skill_slot.size() or entity_scene_path == "":
+		return
+	var icon_path := entity_scene_path.get_base_dir().path_join(PORTRAIT_ICON_FILE)
+	if not ResourceLoader.exists(icon_path):
+		push_warning("[图标] %s 下没有 %s，槽位 %d 保留原图" % [
+			entity_scene_path.get_base_dir().get_file(), PORTRAIT_ICON_FILE, slot_id])
+		return
+	skill_slot[slot_id].set_texture(load(icon_path))
+
 func _handle_body_state():
 	var dc_body_state: BodyState = BodyState.NORMAL
 	if current_animation in ["scroll", "summon"]:
@@ -1577,10 +2000,23 @@ func _process_substitution_invincibility(delta: float):
 		if debug_team:
 			print("[替身无敌] %s 时间到，自动结束" % name)
 
+## cd_id 是否有对应的冷却 / 计时项。两张表固定 9 项且与面板无关，
+## 每个实体都建，所以这里只可能是作者填了越界序号。
+func _has_cd_slot(cd_id: int) -> bool:
+	return cd_id >= 0 and cd_id < skill_timer.size()
+
+## slot_id 是否有真实的面板槽位可写。负数表示不绑面板（子实体、只有事件没有进度条的计时），
+## 越界表示该实体根本没绑面板。两种都为假，调用方据此跳过界面写入。
+func _has_panel_slot(slot_id: int) -> bool:
+	return slot_id >= 0 and slot_id < skill_slot.size()
+
 func set_cd(slot_id: int, cd_id: int, cd: float):
+	if not _has_cd_slot(cd_id):
+		push_warning("[冷却] cd_id %d 越界，%s 上本次设置被忽略" % [cd_id, name])
+		return
 	match entity_type:
 		EntityType.PLAYER:
-			if slot_id >= 0:
+			if _has_panel_slot(slot_id):
 				skill_slot[slot_id].set_cd(cd)
 	for i in cool_down_time.size():
 		if cool_down_time[i]["slot_id"] == slot_id:
@@ -1588,10 +2024,13 @@ func set_cd(slot_id: int, cd_id: int, cd: float):
 	cool_down_time[cd_id] = {"time": cd, "slot_id": slot_id}
 
 func set_timer(slot_id: int, cd_id: int, cd: float, cd_max: float):
+	if not _has_cd_slot(cd_id):
+		push_warning("[计时] cd_id %d 越界，%s 上本次设置被忽略" % [cd_id, name])
+		return
 	_remove_sub_slot_from_all(slot_id)
 	match entity_type:
 		EntityType.PLAYER:
-			if slot_id >= 0:
+			if _has_panel_slot(slot_id):
 				skill_slot[slot_id].timer_progress = cd / cd_max
 	for i in skill_timer.size():
 		if skill_timer[i]["slot_id"] == slot_id:
@@ -1603,12 +2042,19 @@ func set_timer(slot_id: int, cd_id: int, cd: float, cd_max: float):
 		match entity_type:
 			EntityType.PLAYER:
 				for sid in skill_timer[cd_id].get("sub_slots", []) + [slot_id]:
-					if sid >= 0:
+					if _has_panel_slot(sid):
 						skill_slot[sid].timer_progress = 0
 
+## 设置一个效果。同类型已存在时是覆盖式重设，并把启动回调重新走一遍。
+##
+## 两个开关都挂在这条效果自己身上，同一个实体上不同类型的效果可以各勾各的：
+##   clearable   可被清除。clear_temporary_status 会把勾了的效果按收尾流程结束掉，
+##               没勾的照旧不受影响，默认不勾，老数据的口径不变。
+##   hit_stop_inv 不受减帧影响。默认勾上，卡肉停帧期间照常走计时与每帧回调；
+##               不勾的整条跳过，与加这个开关之前的口径一致。
 func set_modifiers(type: String, pow: int, time: float = -2,
 		on_start: String = "", on_update: String = "", on_end: String = "",
-		caster: Node2D = null):
+		caster: Node2D = null, clearable: bool = false, hit_stop_inv: bool = true):
 	for i in modifiers.size():
 		if modifiers[i]["type"] == type:
 			modifiers[i]["power"] = pow
@@ -1618,11 +2064,14 @@ func set_modifiers(type: String, pow: int, time: float = -2,
 			modifiers[i]["on_end"] = on_end
 			modifiers[i]["_started"] = false
 			modifiers[i]["caster"] = caster
+			modifiers[i]["clearable"] = clearable
+			modifiers[i]["hit_stop_inv"] = hit_stop_inv
 			return
 	modifiers.append({
 		"time": time, "type": type, "power": pow,
 		"on_start": on_start, "on_update": on_update, "on_end": on_end,
-		"_started": false, "caster": caster
+		"_started": false, "caster": caster,
+		"clearable": clearable, "hit_stop_inv": hit_stop_inv
 	})
 
 func _process_cd(delta):
@@ -1631,7 +2080,7 @@ func _process_cd(delta):
 			cool_down_time[i]["time"] -= delta
 			if cool_down_time[i]["time"] < 0:
 				cool_down_time[i]["time"] = 0
-			if cool_down_time[i]["slot_id"] >= 0:
+			if _has_panel_slot(cool_down_time[i]["slot_id"]):
 				match entity_type:
 					EntityType.PLAYER:
 						skill_slot[cool_down_time[i]["slot_id"]].cool_down_time_now = cool_down_time[i]["time"]
@@ -1640,17 +2089,21 @@ func _process_timer(delta):
 	for i in skill_timer.size():
 		if skill_timer[i]["time"] > 0:
 			skill_timer[i]["time"] -= delta
-			if skill_timer[i]["time"] < 0:
+			# 判据必须是 <=0：卡顿或大 delta 会让 time 一次减到正好 0，
+			# 用 <0 就漏掉这一帧，而下一帧 time>0 已经不成立，事件永久丢失。
+			if skill_timer[i]["time"] <= 0:
 				skill_timer[i]["time"] = 0
+				# slot_id 只决定要不要画进度，不影响事件。负数（子实体没有面板时用的那种）
+				# 同样必须触发。
 				on_timer_out(i)
 			if skill_timer[i]["slot_id"] >= 0 or skill_timer[i].get("sub_slots", []).size() > 0:
 				match entity_type:
 					EntityType.PLAYER:
 						var p = skill_timer[i]["time"] / skill_timer[i]["max_time"]
-						if skill_timer[i]["slot_id"] >= 0:
+						if _has_panel_slot(skill_timer[i]["slot_id"]):
 							skill_slot[skill_timer[i]["slot_id"]].timer_progress = p
 						for sid in skill_timer[i].get("sub_slots", []):
-							if sid >= 0:
+							if _has_panel_slot(sid):
 								skill_slot[sid].timer_progress = p
 
 func on_timer_out(cd_id: int):
@@ -1660,6 +2113,10 @@ func on_timer_out(cd_id: int):
 
 func _process_modifiers(delta):
 	for i in modifiers.size():
+		# 卡肉停帧期间只放过勾了「不受减帧影响」的效果。没勾的整条跳过：
+		# 计时不走、每帧回调不调、when_modifier_update 也不触发，与加这个开关之前同口径。
+		if _hit_stop_active and not modifiers[i].get("hit_stop_inv", true):
+			continue
 		if modifiers[i]["time"] > 0 or modifiers[i]["time"] == -2:
 			var type = modifiers[i]["type"]
 			var power = modifiers[i]["power"]
@@ -1703,6 +2160,35 @@ func _process_modifiers(delta):
 					caster._on_modifier_end(type, power, time_left, self)
 				modifiers[i]["time"] = -1
 
+## 结束所有勾了「可被清除」的效果。走与自然到期同一条收尾：
+## 反向处理 + on_end 回调 + modifier_end 信号，最后把 time 标成 -1，
+## 所以 when_modifier_end 照常触发，作者写在结束分支里的善后不会漏。
+##
+## time_left 传的是这条效果还剩下的时间。自然到期那条路走出来必然是 0，
+## 被清除的可能是正数，也可能是 -2 表示本来就是永久效果，读这个值能分辨两者。
+##
+## 一次都没跑过启动的只标掉、不发结束事件：那次效果根本没生效过，
+## 发出去只会让作者收到一次没有对应开始的结束。
+func _clear_clearable_modifiers():
+	for i in modifiers.size():
+		if not modifiers[i].get("clearable", false):
+			continue
+		if modifiers[i]["time"] == -1:
+			continue  # 已经结束过，不能重复收尾
+		if modifiers[i].get("_started", false):
+			handle_modifiers_reverse_solo(i)
+			var type = modifiers[i]["type"]
+			var power = modifiers[i]["power"]
+			var time_left = modifiers[i]["time"]
+			var caster = modifiers[i].get("caster", null)
+			var cb = modifiers[i].get("on_end", "")
+			if cb and has_method(cb):
+				call(cb, self)
+			_on_modifier_end(type, power, time_left)
+			if caster and caster != self:
+				caster._on_modifier_end(type, power, time_left, self)
+		modifiers[i]["time"] = -1
+
 func _on_modifier_start(type: String, power: int, time_left: float = -2.0, target: Node2D = null):
 	modifier_start.emit(type, power, time_left, target)
 	pass
@@ -1716,9 +2202,12 @@ func _on_modifier_end(type: String, power: int, time_left: float = -2.0, target:
 	pass
 
 func bind_cd(slot_id: int, cd_id: int):
+	if not _has_cd_slot(cd_id):
+		push_warning("[冷却] 绑定: cd_id %d 越界，%s 上本次绑定被忽略" % [cd_id, name])
+		return
 	match entity_type:
 		EntityType.PLAYER:
-			if slot_id >= 0:
+			if _has_panel_slot(slot_id):
 				skill_slot[slot_id].set_cd(cool_down_time[cd_id]["time"])
 	for i in cool_down_time.size():
 		if cool_down_time[i]["slot_id"] == slot_id:
@@ -1726,7 +2215,7 @@ func bind_cd(slot_id: int, cd_id: int):
 	cool_down_time[cd_id]["slot_id"] = slot_id
 
 func set_slot_aura(slot_id: int, show: bool):
-	if slot_id >= 0:
+	if _has_panel_slot(slot_id):
 		skill_slot[slot_id].show_aura = show
 
 # ========== 附属槽位管理 ==========
@@ -1740,6 +2229,9 @@ func _remove_sub_slot_from_all(slot_id: int):
 
 ## 给计时添加附属槽位
 func add_timer_sub_slot(cd_id: int, slot_id: int):
+	if not _has_cd_slot(cd_id):
+		push_warning("[计时] 附属槽位: cd_id %d 越界，%s 上本次设置被忽略" % [cd_id, name])
+		return
 	_remove_sub_slot_from_all(slot_id)
 	if not skill_timer[cd_id].has("sub_slots"):
 		skill_timer[cd_id]["sub_slots"] = []
@@ -1747,17 +2239,23 @@ func add_timer_sub_slot(cd_id: int, slot_id: int):
 		skill_timer[cd_id]["sub_slots"].append(slot_id)
 	match entity_type:
 		EntityType.PLAYER:
-			if slot_id >= 0:
+			if _has_panel_slot(slot_id):
 				var p = skill_timer[cd_id]["time"] / skill_timer[cd_id]["max_time"] if skill_timer[cd_id]["max_time"] > 0 else 0
 				skill_slot[slot_id].timer_progress = p
 
 ## 取消计时的某槽位附属
 func remove_timer_sub_slot(cd_id: int, slot_id: int):
+	if not _has_cd_slot(cd_id):
+		push_warning("[计时] 取消附属: cd_id %d 越界，%s 上本次操作被忽略" % [cd_id, name])
+		return
 	if skill_timer[cd_id].has("sub_slots"):
 		skill_timer[cd_id]["sub_slots"].erase(slot_id)
 
 ## 清除某计时的所有槽位附属
 func clear_timer_sub_slots(cd_id: int):
+	if not _has_cd_slot(cd_id):
+		push_warning("[计时] 清空附属: cd_id %d 越界，%s 上本次操作被忽略" % [cd_id, name])
+		return
 	skill_timer[cd_id]["sub_slots"] = []
 
 func handle_modifiers_solo(id: int):
@@ -1937,7 +2435,8 @@ func change_hp(d: int, show_number: bool = false, kv: float = 0.0, can_variation
 	print("[更变血量] kv: ", kv)
 	
 	var old_hp = hp
-	# 奥义期间无视保护值
+	# 攻击者处于奥义期间 → 这一击不吃被打者(自己)的保护值减伤。
+	# 注意是"攻击者的 ultimate_active"，不是本实体自己的；其他来源的伤害照常吃保护值。
 	var _ignore_protection = _last_attacker and _last_attacker.ultimate_active
 	hp += d if _ignore_protection else d * (1-calculate_protection_value(float(cumulative_launch_damage) / hp_max))
 	if hp < 0:
@@ -2020,6 +2519,142 @@ func clear_attack_state():
 	current_attack = ""
 	_waiting_for_land = false
 
+# ============================================
+# 招式识别（只读观察层）
+# ============================================
+# 目的：让 AI / UI / 调试 能回答"现在在放哪个招式、处于哪个阶段"。
+# 设计原则：纯附加、只读、不改动任何现有行为；角色脚本与 JSON 均无需改动。
+#   ① 招式身份：沿 attack_configs 的 next_attack / end_anim 反向走到链起点，再按前缀归类
+#      （可选增强：给某个节点加 "move_id": "xxx" 可覆盖前缀推断）
+#   ② 三阶段：由 attack_boxes.json 已有的 bind_frames 推导（前摇 / 判定 / 收招）
+# 已知边界：attack_configs 里不含奥义/秘卷/通灵的节点，故奥义靠既有 ultimate_active
+#   标志判断，秘卷/通灵返回空串（它们走独立子实体，不占本实体的招式链）。
+
+enum MovePhase { NONE, STARTUP, ACTIVE, RECOVERY }
+
+const MOVE_ID_ATTACK: String = "attack"
+const MOVE_ID_SKILL1: String = "skill1"
+const MOVE_ID_SKILL2: String = "skill2"
+const MOVE_ID_ULTIMATE: String = "ultimate"
+
+## 反向走到链起点（如 a3 -> a2 -> a1）
+func get_chain_root() -> String:
+	if current_attack == "":
+		return ""
+	return _resolve_chain_root(current_attack)
+
+func _resolve_chain_root(node: String) -> String:
+	if not (attack_configs is Dictionary) or attack_configs.is_empty():
+		return node
+	var cur: String = node
+	var guard: int = 0
+	while guard < 32:
+		guard += 1
+		var prev: String = ""
+		for key in attack_configs.keys():
+			var cfg = attack_configs[key]
+			if not (cfg is Dictionary):
+				continue
+			if String(cfg.get("next_attack", "")) == cur or String(cfg.get("end_anim", "")) == cur:
+				prev = String(key)
+				break
+		if prev == "" or prev == cur:
+			break
+		cur = prev
+	return cur
+
+func _move_id_from_root(root: String) -> String:
+	if root == "":
+		return ""
+	if attack_configs is Dictionary and attack_configs.has(root):
+		var cfg = attack_configs[root]
+		if cfg is Dictionary:
+			var explicit: String = String(cfg.get("move_id", ""))
+			if explicit != "":
+				return explicit
+	if root.begins_with("s1"):
+		return MOVE_ID_SKILL1
+	if root.begins_with("s2"):
+		return MOVE_ID_SKILL2
+	if root.begins_with("s3"):
+		return MOVE_ID_ULTIMATE
+	if root.begins_with("a"):
+		return MOVE_ID_ATTACK
+	return root
+
+## 当前招式身份；无招式时返回 ""
+func get_move_id() -> String:
+	if ultimate_active:
+		return MOVE_ID_ULTIMATE
+	if not is_attacking or current_attack == "":
+		return ""
+	return _move_id_from_root(get_chain_root())
+
+## 取某动画的判定帧区间（来自 attack_boxes.json 的 bind_frames）
+func _get_anim_active_span(anim: String) -> Dictionary:
+	if anim == "" or not attack_box_manager:
+		return {}
+	var first: int = -1
+	var last: int = -1
+	for box in attack_box_manager.get_all_attack_boxes():
+		if box == null or box.bind_animation != anim:
+			continue
+		for fr in box.bind_frames:
+			var fi: int = int(fr)
+			if first < 0 or fi < first:
+				first = fi
+			if fi > last:
+				last = fi
+	if last < 0:
+		return {}
+	return {"first": first, "last": last}
+
+## 当前阶段（前摇 / 判定 / 收招）；无判定框的动画返回 NONE
+func get_move_phase() -> int:
+	if not is_attacking:
+		return MovePhase.NONE
+	var span: Dictionary = _get_anim_active_span(current_animation)
+	if span.is_empty():
+		return MovePhase.NONE
+	var f: int = get_current_frame()
+	if f < int(span["first"]):
+		return MovePhase.STARTUP
+	if f <= int(span["last"]):
+		return MovePhase.ACTIVE
+	return MovePhase.RECOVERY
+
+## 打包当前招式信息（供 AI / UI / 调试消费）
+func get_move_info() -> Dictionary:
+	var mid: String = get_move_id()
+	if mid == "":
+		return {}
+	var anim: String = current_animation
+	var span: Dictionary = _get_anim_active_span(anim)
+	var frame: int = get_current_frame()
+	var total: int = get_animation_frame_count(anim)
+	var cancel_win: Array = []
+	var next_node: String = ""
+	if attack_configs is Dictionary and attack_configs.has(current_attack):
+		var cfg = attack_configs[current_attack]
+		if cfg is Dictionary:
+			cancel_win = cfg.get("cancel_window", [])
+			next_node = String(cfg.get("next_attack", ""))
+	return {
+		"move_id": mid,
+		"chain_root": get_chain_root(),
+		"node": current_attack,
+		"next_node": next_node,
+		"anim": anim,
+		"phase": get_move_phase(),
+		"frame": frame,
+		"total_frames": total,
+		"frames_left": max(0, total - 1 - frame),
+		"active_first": span.get("first", -1),
+		"active_last": span.get("last", -1),
+		"cancel_window": cancel_win,
+		"action_priority": _current_action_priority,
+	}
+
 func hit(hit_type: HitStateType,
 		 kv: Vector2, hit_stun_time: float,
 		 zv: float, can_OTG: bool,
@@ -2028,7 +2663,8 @@ func hit(hit_type: HitStateType,
 		 kr: float = 10.0,
 		 ar: float = 0.0,
 		 kv_air: Vector2 = Vector2.ZERO,
-		 zv_air: float = 0.0):
+		 zv_air: float = 0.0,
+		 kb_linear: bool = false):
 	
 	if state < body_state:
 		return
@@ -2038,21 +2674,24 @@ func hit(hit_type: HitStateType,
 	clear_attack_state()
 	stop_slide()
 	
+	# 本次击退使用的模型（只影响减速曲线形状，见 _process_knockback）
+	_knockback_linear = kb_linear
+	
 	# 根据轻重击随机选择眩晕动画
 	var stun_ani: String = "stun" + str(randi() % 2 + (1 if is_heavy else 3))
 	
 	var is_launched = _launch_active and !get_is_low_floating()
 	var is_downed = (_launch_active and get_is_low_floating()) or _is_downed
 	
-	# 在空中被打时，默认击退速度降为地面的 1/3
-	if not is_grounded:
-		kv = kv * (1.0 / 3.0)
-	
+	# 空中命中**不再降速**：低浮空（z <= 10）与地面拿同一个水平速度（= v.x），
+	# 所以"被挑起来再打"和"站地上被打"的横推距离一致。
+	# （曾经这里有一条 `if not is_grounded: kv *= 1/3` 的隐式规则，会造成
+	#   同一招在 0 < z <= 10 与 z > 10 之间横向击退差 3 倍，已删除。）
 	var in_air: bool = false
 	
 	# 处理平推
 	if hit_type == HitStateType.PUSH:
-		set_knockback(kv, hit_stun_time, kr, ar)
+		set_knockback(kv, hit_stun_time, kr, ar, kb_linear)
 		
 		if is_launched or position_3d.z > 0:
 			in_air = true
@@ -2074,17 +2713,17 @@ func hit(hit_type: HitStateType,
 	if hit_type == HitStateType.LAUNCH or in_air:
 		if is_downed and can_OTG:
 			launched_flag = true
-			set_knockback(kv, hit_stun_time, kr, ar)
+			set_knockback(kv, hit_stun_time, kr, ar, kb_linear)
 			set_launch(_apply_launch_protection(zv), "launch1")
 		elif !is_downed or (get_is_low_floating() and !_is_downed):
 			launched_flag = true
 			if position_3d.z <= 10:
-				set_knockback(kv, hit_stun_time, kr, ar)
+				set_knockback(kv, hit_stun_time, kr, ar, kb_linear)
 				set_launch(_apply_launch_protection(zv), "launch1")
 			else:
 				var air_kv: Vector2 = kv_air if kv_air != Vector2.ZERO else kv
 				var air_zv: float = zv_air if zv_air != 0.0 else zv
-				set_knockback(air_kv, hit_stun_time, kr, ar)
+				set_knockback(air_kv, hit_stun_time, kr, ar, kb_linear)
 				set_launch(_apply_launch_protection(air_zv), "launch2")
 	
 	_immobilize_release_active = false
@@ -2200,6 +2839,8 @@ func _clean_global_magnetism(mag_name: String):
 		_active_global_mag_names.remove_at(idx)
 
 func _process_immobilize(delta):
+	# 跟随模式必须在时间判空之前更新：time == -1 表示常驻，同样要跟着施术者移动
+	_update_immobilize_follow()
 	if _immobilize_time == -1:
 		return
 	
@@ -2208,13 +2849,48 @@ func _process_immobilize(delta):
 	if _immobilize_time <= 0:
 		stop_immobilize()
 
+## 跟随位置模式：每帧按施术者的实时位置与朝向重算被抓者的位置与释放点。
+## 固定位置模式（参照实体为空）什么都不做，保持既有行为。
+##
+## 这里刻意不动被抓者的朝向。朝向是作者的事 —— madara_jie 这类抓取会用 turn_entity
+## 每帧把被抓者转向施术者，而 when_modifier_update 比 _process_immobilize 晚跑，
+## 本函数若也写朝向就会在"抓取结束的那一帧"抢到最后一次写入：那时施术者的
+## turn_entity 已经不再触发，被抓者就会带着施术者的朝向落地，看起来像"朝向变回去了"。
+func _update_immobilize_follow():
+	var caster := _immobilize_follow_caster
+	if not is_instance_valid(caster):
+		return
+	var f := caster.facing_direction
+	var c := caster.position_3d
+	set_position_3d(_immobilize_wall_fix(Vector3(
+		c.x + _immobilize_follow_pos.x * f,
+		c.y + _immobilize_follow_pos.y,
+		c.z + _immobilize_follow_pos.z)))
+	# 释放点跟着走：释放时按施术者当时的位置与朝向落地，而不是抓取瞬间那个点
+	_immobilize_release_position = _immobilize_wall_fix(Vector3(
+		c.x + _immobilize_follow_rpos.x * f,
+		c.y + _immobilize_follow_rpos.y,
+		c.z + _immobilize_follow_rpos.z))
+	# 释放速度的横向分量随朝向翻，竖直分量与朝向无关
+	_immobilize_knockback = Vector2(_immobilize_follow_kv.x * f, _immobilize_follow_kv.y)
+
+## 抓取点位的出墙修正。跟随模式下「被举的位置」与「释放点」都是拿施术者当前坐标加偏移算出来的，
+## 施术者贴墙时这两个点会落进墙体：被抓者当场被画进墙里，释放瞬间又会直接落在墙内，而且
+## _last_valid_wall_pos 会跟着被标成墙内坐标，连 out_wall() 的 RETURN 回退都失效（回退目标就是墙内那个点）。
+## 固定位置模式也可能因为作者给的坐标本身就贴墙，所以在赋值处再兜一次。
+## enable_wall_collision 为假的实体本就无视墙，原样返回。
+func _immobilize_wall_fix(pos: Vector3) -> Vector3:
+	return get_out_of_wall(pos) if enable_wall_collision else pos
+
 func set_immobilize(pos: Vector3, time: float = -1, rpos: Vector3 = pos,
 					ani: String = "",
 					kv: Vector2 = Vector2.ZERO, knockback_time: float = 0,
 					launch: float = 0, launch_g: float = 730,
 					state: BodyState = BodyState.SUPER_ARMOR,
 					can_substitute: bool = false,
-					visuals_rotation: float = 0.0):
+					visuals_rotation: float = 0.0,
+					release_ani: String = "",
+					follow_caster: EntityBase = null):
 	
 	if _immobilize_active: return
 	
@@ -2240,6 +2916,21 @@ func set_immobilize(pos: Vector3, time: float = -1, rpos: Vector3 = pos,
 	_immobilize_knockback = kv
 	_immobilize_knockback_time = knockback_time
 	_immobilize_can_substitute = can_substitute
+	_immobilize_release_ani = release_ani
+	
+	# ---- 抓取模式 ----
+	# 传了参照实体就是「跟随位置」：把世界坐标换算成相对施术者的偏移。
+	# 图形化脚本给的 pos 形如 now_pos3d()+Vector3(dx*now_dir(), dy, dz)，横向已经带了朝向符号，
+	# 这里乘一次朝向把符号消掉，之后每帧按施术者当前朝向乘回来 —— 施术者转身时被抓者跟着翻面。
+	_immobilize_follow_caster = follow_caster
+	if is_instance_valid(follow_caster):
+		var f: int = follow_caster.facing_direction
+		var c: Vector3 = follow_caster.position_3d
+		_immobilize_follow_pos = Vector3((pos.x - c.x) * f, pos.y - c.y, pos.z - c.z)
+		_immobilize_follow_rpos = Vector3((rpos.x - c.x) * f, rpos.y - c.y, rpos.z - c.z)
+		# 击退速度的 x 本来就是「面向前方为正」的口径，释放时再乘朝向
+		_immobilize_follow_kv = kv
+		_update_immobilize_follow()
 	
 	# visuals 旋转（弧度）
 	if visuals_node:
@@ -2252,21 +2943,23 @@ func set_immobilize(pos: Vector3, time: float = -1, rpos: Vector3 = pos,
 func stop_immobilize():
 	if have_modifiers("customBodyState"):
 		set_modifiers("customBodyState", BodyState.NORMAL, 0)
-	position_3d = _immobilize_release_position
+	position_3d = _immobilize_wall_fix(_immobilize_release_position)
 	if position_3d.z <= ground_level:
 		position_3d.z = ground_level
 	_last_valid_wall_pos = Vector2(position_3d.x, position_3d.y)
 	_immobilize_active = false
 	_immobilize_release_active = true
+	_immobilize_follow_caster = null   # 释放后不再跟随，免得残留引用被下一帧读到
 	
 	# 恢复 visuals 旋转
 	if visuals_node:
 		visuals_node.rotation = _saved_visuals_rotation
 	
 	var is_downed = (_launch_active and get_is_low_floating()) or _is_downed
-	var ani: String = "launch2"
-	if is_downed:
-		ani = "launch1"
+	# 释放动画：作者填了就用作者的，空则沿用原来的 launch1/launch2
+	var ani: String = _immobilize_release_ani
+	if ani == "":
+		ani = "launch1" if is_downed else "launch2"
 	set_launch(_immobilize_launch, ani, _immobilize_launch_gravity)
 	set_knockback(_immobilize_knockback, _immobilize_knockback_time)
 
@@ -2283,12 +2976,27 @@ func save_hit_stop():
 	_saved_launch_velocity_z = _launch_velocity_z
 	_saved_z_velocity_override = z_velocity_override
 
-func set_hit_stop(duration: float, freeze_frame: bool = true, prevent_physics: bool = true):
-	"""设置卡肉时间 - 冻结所有运动，结束后继续"""
+func set_hit_stop(duration: float, freeze_frame: bool = true, prevent_physics: bool = true, delay: float = 0.0):
+	"""设置卡肉时间 - 冻结所有运动，结束后继续
+	delay 大于 0 时不当场进卡肉，先登记一条待触发记录，等 delay 秒后再按同一套流程进。
+	待触发记录（以及已经触发的那一次延迟减帧）由 clear_temporary_status 清除。"""
+	if delay > 0.0:
+		_hit_stop_pending.append({
+			"duration": duration,
+			"freeze_frame": freeze_frame,
+			"prevent_physics": prevent_physics,
+			"delay": delay,
+		})
+		return
+	_begin_hit_stop(duration, freeze_frame, prevent_physics, false)
+
+## 真正进入卡肉。direct 路径与延迟减帧到期后都走这里，参数口径完全一致。
+func _begin_hit_stop(duration: float, freeze_frame: bool, prevent_physics: bool, from_delay: bool):
 	_hit_stop_active = true
 	_hit_stop_timer = duration
 	_hit_stop_freeze_frame = freeze_frame
 	_hit_stop_prevent_physics = prevent_physics
+	_hit_stop_from_delay = from_delay
 	
 	save_hit_stop()
 	
@@ -2307,10 +3015,6 @@ func set_hit_stop(duration: float, freeze_frame: bool = true, prevent_physics: b
 			_saved_launch_velocity_z
 		])
 
-func replay_buffered_input(action: String, pressed: bool):
-	if _can_perform_action(action):
-		_execute_action(action)
-
 func _process_hit_stop(delta: float):
 	"""处理卡肉状态 - 完全冻结，不更新任何物理"""
 	# 卡肉期间：所有速度归零（位置不变）
@@ -2328,10 +3032,32 @@ func _process_hit_stop(delta: float):
 	
 	# 不调用 move_and_slide，位置完全冻结
 
+## 推进延迟减帧。每条记录各自计时，delay 走完就按登记时的参数进卡肉。
+##
+## 调用点在 _physics_process 的卡肉早退分支之后，所以卡肉期间延迟不流逝：
+## 被别的攻击减帧冻住的这段时间里，本实体的延迟减帧也跟着一起停。
+## 多条记录到期时按登记顺序依次触发，后触发的那条覆盖前一条的参数（与连续调用 set_hit_stop 同义）。
+func _process_pending_hit_stops(delta: float) -> void:
+	if _hit_stop_pending.is_empty():
+		return
+	var fired: Array = []
+	var remaining: Array = []
+	for rec in _hit_stop_pending:
+		rec["delay"] = float(rec["delay"]) - delta
+		if rec["delay"] > 0.0:
+			remaining.append(rec)
+		else:
+			fired.append(rec)
+	# 先换掉队列再触发：触发路径本身不会再往队列里塞东西，但先把状态摆正更稳
+	_hit_stop_pending = remaining
+	for rec in fired:
+		_begin_hit_stop(rec["duration"], rec["freeze_frame"], rec["prevent_physics"], true)
+
 func _end_hit_stop():
 	"""结束卡肉 - 恢复所有运动状态"""
 	_hit_stop_active = false
-	_consume_buffer()
+	_hit_stop_from_delay = false
+	_consume_local_buffer()
 	_hit_stop_timer = 0.0
 	
 	# 恢复动画速度
@@ -2387,6 +3113,9 @@ func _process_launch(delta):
 	# 物理阶段：更新位置和速度
 	if _current_launch_phase != "getup":
 		position_3d.z += 2 * _launch_velocity_z * delta
+		# 记录"真的离过地"（倒地清零击退的判据，见 _start_downed）
+		if position_3d.z > ground_level + 1.0:
+			_launch_left_ground = true
 		if protection_effect == ProtectionEffect.FALL_SPEED:
 			# 旧模式：保护值加快下落（等效于原式 `重力*delta*1 + 0.38*保护值`）
 			_launch_velocity_z -= _launch_gravity * delta + 0.38 * calculate_protection_value(float(cumulative_launch_damage) / hp_max)
@@ -2418,6 +3147,13 @@ func _process_launch(delta):
 
 func _start_downed():
 	"""开始倒地状态"""
+	# 倒地清零水平击退（"倒地即停"，对齐唤境 躺 + 停止移动）。
+	# 只在本次击飞真的离过地时才清：零上抛的扫地（zv≈0）会在写入击退的同一帧
+	# 就走到这里，若在此清零就等于"扫地打不动人"。
+	if clear_knockback_on_downed and _launch_left_ground:
+		_stop_knockback()
+		knockback_active = false
+	
 	_is_downed = true
 	_downed_timer = _downed_duration
 	position_3d.z = ground_level
@@ -2523,8 +3259,17 @@ func clear_temporary_status():
 	_immobilize_release_active = false
 	calculate_protection_value(0)
 	_force_land_and_reset()
+	# 延迟减帧：还没到期的记录整体丢掉；已经触发的那一次也一并结束，
+	# 免得清完临时状态之后还残留一段延迟减帧把实体冻着。
+	# 直接调 set_hit_stop 进来的减帧不归这里管，_hit_stop_from_delay 为假时不碰。
+	_hit_stop_pending.clear()
+	if _hit_stop_active and _hit_stop_from_delay:
+		force_end_hit_stop()
 	if have_modifiers("customBodyState"):
 		set_modifiers("customBodyState", BodyState.NORMAL, 0)
+	# 可被清除的效果放最后结束：上面那行把 customBodyState 重置成待收尾状态，
+	# 若它自己也勾了可被清除，在这里一次收干净，不会先收尾、再被复活成第二次结束。
+	_clear_clearable_modifiers()
 
 func _force_land_and_reset():
 	# 位置重置
@@ -2539,6 +3284,7 @@ func _force_land_and_reset():
 	_launch_active = false
 	_launch_velocity_z = 0.0
 	_has_bounced = false
+	_launch_left_ground = false
 	_current_launch_phase = ""
 	_is_downed = false
 	_downed_timer = 0.0
@@ -2617,6 +3363,9 @@ func set_launch(velocity_z: float, launch_anim: String = "launch1", custom_gravi
 	
 	_launch_velocity_z = velocity_z
 	_has_bounced = false
+	# 每次击飞序列开始时重判"是否离过地"：从空中被打（z 已经很高）算离地，
+	# 地面上零上抛的扫地则不算 —— 见 _start_downed 的倒地清零判据。
+	_launch_left_ground = position_3d.z > ground_level + 1.0
 	
 	# 强制设置重力，确保生效
 	_launch_gravity = 730.0  # 默认值
@@ -2654,6 +3403,7 @@ func _stop_launch():
 	_current_launch_phase = ""
 	_is_downed = false  # 清除倒地状态
 	_downed_timer = 0.0
+	_launch_left_ground = false
 	position_3d.z = ground_level
 	is_grounded = true
 	
@@ -2710,6 +3460,21 @@ func _entity_input():
 		if _hit_stop_active: return
 		if entry_action != EntryAction.NONE: return
 		is_under_control = knockback_active or _launch_active
+		
+		# AI 按键上升沿 → 走与真实输入完全相同的门控（优先级判定 + 入队缓冲）
+		# 分两步：先整体采样本帧上升沿并同步 prev，再统一派发。
+		# 必须先同步 prev：handle_button_press 内部会回调 _entity_input() 造成重入，
+		# 若边采样边派发，重入会把本帧后续按键的上升沿提前吃掉（丢按键）。
+		var rising_slots: Array[int] = []
+		for i in range(9):
+			var want: bool = _virtual_inputs.buttons[i]
+			if want and not _ai_prev_buttons[i]:
+				rising_slots.append(i)
+			_ai_prev_buttons[i] = want
+		for i in rising_slots:
+			var act: String = _action_for_slot(i)
+			if act != "":
+				handle_button_press(i, act, _get_action_priority(act))
 		
 		# 模拟技能槽按键 (直接注入 inputs 数组)
 		for i in range(9):
@@ -2775,6 +3540,35 @@ func _entity_input():
 				move_intent = Vector2.ONE
 
 # 预输入处理
+
+## 键盘上升沿的截获表。_input 只认这一张表，表外的键一概不管。
+## 收全部动作名而不按 entity_type 分家：哪个消费者读哪个名字保持不变，
+## 这次只补"点按不丢"，不改"哪个键归哪个实体"的既有映射。
+const KEYBOARD_ACTIONS = [
+	"attack", "skill1", "skill2", "skill3", "substitution", "scroll", "summon", "subs1", "subs2",
+	"p2_a", "p2_s1", "p2_s2", "p2_s3", "p2_substitution", "p2_scroll", "p2_summon", "p2_subs1", "p2_subs2",
+]
+
+## 本帧收到的键盘上升沿（动作名 → true），由 _input 写入
+var _key_edges: Dictionary = {}
+## 本物理帧消费用的快照。在 _physics_process 开头换一次，
+## 保证同一帧里 _record_inputs 与 inputs[] 两条路径看到的是同一个点按，且不会被提前清掉。
+var _key_edges_tick: Dictionary = {}
+
+## 键盘上升沿在事件到达的当下截获，不靠物理帧轮询。
+## 为什么必须这样：_record_inputs 与 handle_input_solo 都在 _physics_process 里读
+## Input.is_action_pressed。30Hz 下一次轮询相隔 33 毫秒，短于一个间隔的点按整帧都看不见。
+## 触屏不受影响，它走 Control 的按下信号，本来就是事件驱动。
+func _input(event):
+	if not enable_keyboard_input:
+		return
+	if not (event is InputEventKey):
+		return
+	for action_name in KEYBOARD_ACTIONS:
+		# is_action_pressed 默认不认长按的系统重复，正是要的上升沿
+		if event.is_action_pressed(action_name):
+			_key_edges[action_name] = true
+
 func _record_inputs():
 	if not enable_keyboard_input:
 		return
@@ -2793,8 +3587,16 @@ func _record_inputs():
 	}
 	
 	for action_name in actions_to_check:
-		if Input.is_action_pressed(action_name):
-			_add_to_buffer(action_name, actions_to_check[action_name])
+		# 轮询负责「按住」，本帧快照负责「短点按」，两者取或
+		if not Input.is_action_pressed(action_name) and not _key_edges_tick.has(action_name):
+			continue
+		# 键盘有两条路径，这里是第二条：直接入队，不经过 inputs[]。
+		# 此前它一个闸门都不查，于是槽位在冷却、充能不足或被禁用时触屏按不了、
+		# 键盘却能把它塞进缓冲并触发。这里与 _entity_input() 查同一个槽位判据。
+		var slot_id := _slot_for_action(action_name)
+		if slot_id >= 0 and not button_can_press(slot_id):
+			continue
+		_add_to_buffer(action_name, actions_to_check[action_name])
 
 func handle_button_press(slot_id: int, action_name: String, priority: int) -> void:
 	if slot_id >= 0 and slot_id < inputs.size():
@@ -2824,13 +3626,8 @@ func _execute_action_by_slot(slot_id: int, action_name: String) -> void:
 	_entity_input()
 
 # 添加到本地缓冲（带优先级覆盖）
+# 唯一入队入口：真实输入（触屏/键盘）与 AI 输入都走这里，共用同一套优先级/缓冲策略。
 func _add_to_local_buffer(slot_id: int, action_name: String, priority: int) -> void:
-	# 复用全局缓冲队列（_input_buffer）
-	_add_to_buffer(action_name, priority)   # 你已有的 _add_to_buffer 只存 action，需要拓展
-	# 但 _add_to_buffer 只存 action 和 priority，丢掉了 slot_id
-	# 建议改造 _add_to_buffer 支持 slot_id，或者新建一个方法
-	# 简单处理：直接复用但记录 slot_id
-	# 为避免修改太多，重新实现一个 _add_to_local_buffer 方法：
 	var highest = -1
 	for cmd in _input_buffer:
 		if cmd.priority > highest:
@@ -2846,14 +3643,24 @@ func _add_to_local_buffer(slot_id: int, action_name: String, priority: int) -> v
 	_input_buffer.append({
 		"action": action_name,
 		"priority": priority,
-		"frame": Engine.get_frames_drawn(),
-		"slot_id": slot_id   # 新增 slot_id
+		"frame": _buffer_clock,
+		"time": _buffer_time,
+		"logic_frame": MatchConfig.logic_frame,
+		"slot_id": slot_id
 	})
 
-# 消费本地缓冲（每帧或适当时机调用）
+# 消费本地缓冲（每帧 / 卡肉结束 / 动作结束时调用）
+# 唯一消费者：真实输入与 AI 输入共用同一个缓冲队列与同一套消费策略。
 func _consume_local_buffer() -> void:
-	var now = Engine.get_frames_drawn()
-	_input_buffer = _input_buffer.filter(func(cmd): return now - cmd.frame <= buffer_valid_frames)
+	var now := _buffer_time
+	# 时间戳是 _buffer_time（停帧与卡肉期间不流逝），不是引擎物理帧号，也不是墙钟
+	_input_buffer = _input_buffer.filter(func(cmd): return now - float(cmd.get("time", now)) <= buffer_valid_seconds)
+	if _input_buffer.is_empty():
+		return
+	# 槽位闸门。入队路径不止一条（触屏、键盘轮询、键盘直连入队、AI），
+	# 可用性判据收在槽位自己的 _can_press() 上，消费端是最后一道，任何路径都绕不过。
+	# 按不了的指令直接丢掉而不是留着：留着它会一直占住最高优先级，把后面能用的指令饿死。
+	_input_buffer = _input_buffer.filter(func(cmd): return _command_slot_usable(cmd))
 	if _input_buffer.is_empty():
 		return
 	# 找最高优先级
@@ -2865,9 +3672,51 @@ func _consume_local_buffer() -> void:
 		# 中断当前动作
 		if _is_executing_action and best.priority > _current_action_priority:
 			_interrupt_current_action()
-		_execute_action_by_slot(best.get("slot_id", -1), best.action)
+		# 槽位解析：入队时带了 slot_id 就直接用；
+		# 键盘路径入队时没带 slot_id，这里按动作名补出槽位。
+		var slot: int = int(best.get("slot_id", -1))
+		if slot < 0:
+			slot = _slot_for_action(best.action)
+		_execute_action_by_slot(slot, best.action)
 		# 清除刚执行的指令
 		_input_buffer = _input_buffer.filter(func(c): return c.priority > best.priority)
+
+## 动作名 → 技能槽位（与 _entity_input() 里 PLAYER 的槽位映射保持一致）
+func _slot_for_action(action: String) -> int:
+	match action:
+		"attack": return 0
+		"skill1": return 1
+		"skill2": return 2
+		"skill3": return 3
+		"substitution": return 4
+		"scroll": return 5
+		"summon": return 6
+		"subs1": return 7
+		"subs2": return 8
+	return -1
+
+## 技能槽位 → 动作名（_slot_for_action 的逆映射，供 AI 按键接入统一门控时使用）
+func _action_for_slot(slot_id: int) -> String:
+	match slot_id:
+		0: return "attack"
+		1: return "skill1"
+		2: return "skill2"
+		3: return "skill3"
+		4: return "substitution"
+		5: return "scroll"
+		6: return "summon"
+		7: return "subs1"
+		8: return "subs2"
+	return ""
+
+## 队列里的这条指令，它对应的槽位现在是否允许按下。判不出槽位的按放行处理。
+func _command_slot_usable(cmd: Dictionary) -> bool:
+	var slot: int = int(cmd.get("slot_id", -1))
+	if slot < 0:
+		slot = _slot_for_action(cmd.action)
+	if slot < 0 or slot >= skill_slot.size():
+		return true
+	return button_can_press(slot)
 
 func _add_to_buffer(action: String, priority: int):
 	# 计算缓冲区中最高优先级
@@ -2892,35 +3741,10 @@ func _add_to_buffer(action: String, priority: int):
 	_input_buffer.append({
 		"action": action,
 		"priority": priority,
-		"frame": Engine.get_frames_drawn()
+		"frame": _buffer_clock,
+		"time": _buffer_time,
+		"logic_frame": MatchConfig.logic_frame
 	})
-
-# 消费缓冲
-func _consume_buffer():
-	var now = Engine.get_frames_drawn()
-	_input_buffer = _input_buffer.filter(func(cmd): return now - cmd.frame <= buffer_valid_frames)
-	
-	if _input_buffer.is_empty():
-		return
-	
-	# 选出最高优先级的指令（同优先级取最早）
-	var best_cmd = _input_buffer.reduce(func(best, current):
-		if current.priority > best.priority:
-			return current
-		elif current.priority == best.priority:
-			return current if current.frame < best.frame else best
-		return best
-	)
-	
-	if not _can_perform_action(best_cmd.action):
-		return
-	
-	# 优先级高于当前动作 ⇒ 中断当前动作
-	if _is_executing_action and best_cmd.priority > _current_action_priority:
-		_interrupt_current_action()
-	
-	_execute_action(best_cmd.action)
-	_input_buffer = _input_buffer.filter(func(cmd): return cmd.action != best_cmd.action)
 
 func _can_perform_action(action: String) -> bool:
 	if hp <= 0: 
@@ -2954,43 +3778,39 @@ func _interrupt_current_action():
 	if debug_slide:
 		print("[预输入] 中断当前动作")
 
-func _execute_action(action: String):
-	_is_executing_action = true
-	_current_action_priority = _get_action_priority(action)
-	
-	if is_player:
-		match action:
-			"attack":
-				inputs[0] = true
-			"skill1":
-				inputs[1] = true
-			"skill2":
-				inputs[2] = true
-			"skill3":
-				inputs[3] = true
-			"substitution":
-				inputs[4] = true
-			"scroll":
-				inputs[5] = true
-			"summon":
-				inputs[6] = true
-	_entity_input()
-
 func _on_action_finished():
 	_is_executing_action = false
 	_current_action_priority = ActionPriority.NORMAL_ATTACK
-	_consume_buffer()
+	_consume_local_buffer()
 
 func button_can_press(slot_id):
-	if entity_type == EntityType.PLAYER:
+	# 没有对应槽位的实体（子实体等）没有可用性可言，按可按下处理，顺带避免越界
+	if slot_id < 0 or slot_id >= skill_slot.size():
+		return true
+	# 只有真正绑定了 SkillPanel 的实体才拿面板当闸门。
+	# 非操控者的 skill_slot 是 NullSlot 存根，_can_press() 恒为 false，
+	# 一旦用它当闸门，该实体的 inputs[] 就再也置不起来，按键、连招与派生窗口全部失效。
+	# 判据用「绑定是不是真实面板」而不是「是不是当前操控者」，
+	# 这样 current_controller_name 与 skill_slot 绑定不会各说各话。
+	if entity_type == EntityType.PLAYER and _binds_real_skill_panel(slot_id):
 		return skill_slot[slot_id]._can_press()
 	else:
+		# 非真实面板的实体判不了面板状态，按同一套规则查实体自己的冷却表与槽位字段
 		var can_press = true
-		if cool_down_time[get_slot_cd(slot_id)]["time"] > 0:
+		if skill_slot[slot_id].disabled:
+			can_press = false
+		var cd_id = get_slot_cd(slot_id)
+		if cd_id >= 0 and cool_down_time[cd_id]["time"] > 0:
 			can_press = false
 		if skill_slot[slot_id].is_charging and skill_slot[slot_id].dot <= 0:
 			can_press = false
 		return can_press
+
+func _binds_real_skill_panel(slot_id) -> bool:
+	"""当前 skill_slot[slot_id] 是否就是真实 SkillPanel 槽位，而非 NullSlot 存根"""
+	if slot_id < 0: return false
+	if slot_id >= skill_slot.size() or slot_id >= _real_skill_slots.size(): return false
+	return skill_slot[slot_id] == _real_skill_slots[slot_id]
 
 func get_slot_cd(slot_id):
 	for i in cool_down_time.size():
@@ -3011,7 +3831,10 @@ func handle_input_solo(slot_id: int, action: String):
 	if not is_player:
 		return
 	var use_touch = self.name == MatchConfig.current_controller_name
-	inputs[slot_id] = compare_input_solo(handle_input_key_solo(Input.is_action_pressed(action), slot_id), use_touch and skill_slot[slot_id]._button_pressed and skill_slot[slot_id].is_finger_inside())
+	# 本帧的键盘上升沿等同「按住一次」：短点按在两次轮询之间松开时 inputs[] 也要置起来，
+	# 否则图形化脚本的 when_press_input 看不到这次按键
+	var key_pressed: bool = Input.is_action_pressed(action) or _key_edges_tick.has(action)
+	inputs[slot_id] = compare_input_solo(handle_input_key_solo(key_pressed, slot_id), use_touch and skill_slot[slot_id]._button_pressed and skill_slot[slot_id].is_finger_inside())
 
 func compare_input_solo(k: bool, b: bool) -> bool:
 	if self.name == MatchConfig.current_controller_name:
@@ -3031,17 +3854,22 @@ func _process_knockback(delta):
 	position_3d.x += _knockback_velocity.x * delta
 	position_3d.y += _knockback_velocity.y * delta
 	
-	# 旧版逻辑（已弃用）：地面阻力是空中的三倍，即空中阻力固定为地面的 1/3
-	# var current_resistance = _knockback_resistance
-	# if is_grounded:
-	# 	current_resistance = _knockback_resistance * 1.3
 	# 新版逻辑：地面使用击退阻力，空中使用独立的空中阻力（默认0=无阻力，速度不衰减）
 	var current_resistance = _knockback_resistance
 	if not is_grounded:
 		current_resistance = _knockback_air_resistance
 	
-	# 应用阻力（使用动态计算出的阻力值）
-	_knockback_velocity = _knockback_velocity.lerp(Vector2.ZERO, current_resistance * delta)
+	if _knockback_linear:
+		# 线性模型（新公式）：地面吃 kr、空中吃 ar，都是恒定减速度 a = v0·r/2。
+		#   停下用时 2/r、总滑行距离 v0²/(2a) = v0/r，与旧公式的指数衰减总距离完全一致
+		#   —— 只改减速曲线的形状，不改距离。
+		#   ar = 0 时空中不衰减（全程匀速滑到落地），用作"被一路推着走"的表达。
+		var decel: float = _knockback_initial_speed * current_resistance * 0.5
+		if decel > 0.0:
+			_knockback_velocity = _knockback_velocity.move_toward(Vector2.ZERO, decel * delta)
+	else:
+		# 旧版逻辑（指数衰减）
+		_knockback_velocity = _knockback_velocity.lerp(Vector2.ZERO, current_resistance * delta)
 	
 	# 减少击退时间
 	_knockback_timer -= delta
@@ -3051,7 +3879,7 @@ func _process_knockback(delta):
 		_stop_knockback()
 
 # 开始击退
-func set_knockback(velocity: Vector2, duration: float, resistance: float = -1.0, air_resistance: float = 0.0):
+func set_knockback(velocity: Vector2, duration: float, resistance: float = -1.0, air_resistance: float = 0.0, linear: bool = false):
 	if _immobilize_active: return
 	
 	"""开始击退，不影响控制状态
@@ -3061,9 +3889,12 @@ func set_knockback(velocity: Vector2, duration: float, resistance: float = -1.0,
 		duration: 击退持续时间（秒）
 		resistance: 地面阻力系数（默认10.0，越大停得越快）
 		air_resistance: 空中阻力系数（默认0，越大停得越快）
+		linear: true=线性匀减速模型（新，地面 kr / 空中 ar 都生效），false=指数衰减（旧，默认）
 	"""
 	_knockback_velocity = velocity
 	_knockback_timer = duration
+	_knockback_linear = linear
+	_knockback_initial_speed = velocity.length()
 	
 	if resistance > 0:
 		_knockback_resistance = resistance
@@ -3234,17 +4065,24 @@ func get_attack_box_manager() -> AttackBoxManager:
 
 # ---- 动态攻击框（脚本创建，不受动画帧驱动） ----
 
-## 创建动态攻击框，pos/size 为相对实体的偏移与3D大小；bind=是否跟随实体；duration<=0 表示常驻直到手动移除
-func create_attack_box(box_name: String, pos: Vector3, size: Vector3, bind: bool = true, duration: float = 0.0) -> String:
+## 创建动态攻击框，pos/size 为相对实体根的 3D 偏移与大小；bind=是否跟随实体；duration<=0 表示常驻直到手动移除
+## pos 口径：x 横向、y 前后深度、z 高度且正数向上，与图形化脚本其它 3D 坐标一致。
+## size 口径：x 宽、y 深度、z 高。
+## anims 非空时框的存活期绑在这些动画上：实体当前动画不在列表里时框立刻移除。
+## 两条判据同时给出时都要满足，谁先到谁先移除；anims 为空则只看 duration。
+func create_attack_box(box_name: String, pos: Vector3, size: Vector3, bind: bool = true, duration: float = 0.0,
+		anims: PackedStringArray = PackedStringArray()) -> String:
 	if not attack_box_manager:
 		return ""
-	return attack_box_manager.create_dynamic_box(box_name, pos, size, bind, duration)
+	return attack_box_manager.create_dynamic_box(box_name, pos, size, bind, duration, false, anims)
 
 ## 按框名再现已存在的攻击框（取首个匹配框的首帧配置）
-func replay_attack_box(box_name: String, bind: bool = true, duration: float = 0.0) -> String:
+## anims 与 create_attack_box 同一口径：非空时框只在这些动画播放期间存在。
+func replay_attack_box(box_name: String, bind: bool = true, duration: float = 0.0,
+		anims: PackedStringArray = PackedStringArray()) -> String:
 	if not attack_box_manager:
 		return ""
-	return attack_box_manager.replay_dynamic_box(box_name, bind, duration)
+	return attack_box_manager.replay_dynamic_box(box_name, bind, duration, anims)
 
 ## 按框名移除所有匹配的动态攻击框
 func remove_attack_box(box_name: String):
@@ -3632,37 +4470,15 @@ func _on_frame_changed():
 	# 卡肉期间：不处理帧变化事件
 	if _hit_stop_active:
 		return
-	
-	# 先应用帧数据（这会计算实际帧）
+
+	# 先应用帧数据
 	_apply_frame_data()
-	
-	# 保存上一帧索引，用于计算中间帧
-	var last_frame = _last_processed_frame
+
+	# 处理当前帧的帧事件（跳帧补偿由 _ensure_frame_sync 统一负责）
 	_process_frame_event()
-	
-	# 处理特效绑定（需要为每个中间帧触发）
-	var current_frame = get_current_frame()
-	
-	# 计算需要触发的帧列表
-	var frames_to_trigger: Array[int] = []
-	if last_frame == -1:
-		frames_to_trigger.append(current_frame)
-	else:
-		var total_frames = get_animation_frame_count(current_animation)
-		if total_frames > 0:
-			if current_frame > last_frame:
-				for f in range(last_frame + 1, current_frame + 1):
-					frames_to_trigger.append(f)
-			else:
-				for f in range(last_frame + 1, total_frames):
-					frames_to_trigger.append(f)
-				for f in range(0, current_frame + 1):
-					frames_to_trigger.append(f)
-		else:
-			frames_to_trigger.append(current_frame)
-	
-	for trigger_frame in frames_to_trigger:
-		_process_effect_bindings(current_animation, trigger_frame)
+
+	# 处理当前帧的特效绑定（dedup 靠 _processed_effect_frames）
+	_process_effect_bindings(current_animation, get_current_frame())
 
 func _on_animation_finished():
 	if entry_action != EntryAction.NONE:
@@ -3670,6 +4486,10 @@ func _on_animation_finished():
 	
 	if slide_sequences.has(current_animation):
 		_clear_slide_sequence()
+	
+	# 动画自然播完：把卡顿可能跨过的尾巴几帧上的攻击框补开一次（见 queue_tail_boxes）
+	if attack_box_manager:
+		attack_box_manager.queue_tail_boxes(current_animation)
 	
 	_on_animation_exit(current_animation)
 	
@@ -3708,52 +4528,56 @@ func _on_animation_exit(anim_name: String):
 func _on_entry_end():
 	pass
 
+## 计算"自 last_frame 之后、到 current_frame 为止"经过的所有帧（含动画循环回绕）。
+##
+## 为什么要这个：卡顿（生成特效等）会让动画在**一个 tick 内跨过好几帧**。
+## 所有逐帧逻辑（帧事件 / 位移序列 slide / 攻击框）都必须遍历这个区间，
+## 否则被跨过的那几帧就永久丢失 —— 表现为"滑动不生效""攻击框不生效"。
+## 三条链路共用本函数，保证判定口径一致。
+##
+## 边界：last_frame < 0 / 无可靠上一帧 / 拿不到总帧数 → 只返回当前帧（不猜）。
+## 已知限制：一个 tick 内动画循环**多圈**时无法还原（只有首尾两个帧号可用），
+## 单圈（last > current）已正确处理。
+func get_frames_passed(last_frame: int, current_frame: int, total_frames: int) -> Array[int]:
+	var out: Array[int] = []
+	if total_frames <= 0 or last_frame < 0 or last_frame >= total_frames:
+		out.append(current_frame)
+		return out
+	if current_frame >= last_frame:
+		for f in range(last_frame + 1, current_frame + 1):
+			out.append(f)
+	else:
+		# 回绕：last+1 .. total-1，再 0 .. current
+		for f in range(last_frame + 1, total_frames):
+			out.append(f)
+		for f in range(0, current_frame + 1):
+			out.append(f)
+	return out
+
 func _process_frame_event():
+	# 只处理当前帧。跳帧补偿由 _ensure_frame_sync 统一负责。
+	# 原实现在这里也做 get_frames_passed 跳帧补偿，但 frame_changed 信号
+	# 在卡顿恢复时会被 Godot 对每个中间帧逐一触发，导致：
+	#   第一次信号处理 [4,5,6,7] 并设 _last_processed_frame=7，
+	#   第二次信号（frame 5）看到 last=7, current=5 → 走回绕分支 → 生成错误帧。
+	# 修复方式：本函数只处理当前帧（dedup 靠 processed_frames），
+	# _ensure_frame_sync 在下一渲染帧补偿所有跳过的帧。
 	if not frame_events_enabled:
 		return
-	
+
 	var current_frame = get_current_frame()
-	var last_frame = _last_processed_frame
-	
-	# 检测帧索引是否变化
-	if current_frame == last_frame:
+	if current_frame == _last_processed_frame:
 		return
-	
-	# 计算需要触发的帧列表（处理跳帧）
-	var frames_to_trigger: Array[int] = []
-	if last_frame == -1:
-		# 首次进入动画，只触发当前帧
-		frames_to_trigger.append(current_frame)
-	else:
-		# 计算中间帧
-		var total_frames = get_animation_frame_count(current_animation)
-		if total_frames > 0:
-			if current_frame > last_frame:
-				# 正常前进：触发 last_frame+1 到 current_frame 的所有帧
-				for f in range(last_frame + 1, current_frame + 1):
-					frames_to_trigger.append(f)
-			else:
-				# 动画循环：触发 last_frame+1 到末尾，再触发 0 到 current_frame
-				for f in range(last_frame + 1, total_frames):
-					frames_to_trigger.append(f)
-				for f in range(0, current_frame + 1):
-					frames_to_trigger.append(f)
-		else:
-			# 无法获取总帧数，只触发当前帧
-			frames_to_trigger.append(current_frame)
-	
 	_last_processed_frame = current_frame
-	
-	# 为每个需要触发的帧执行事件
-	for trigger_frame in frames_to_trigger:
-		var frame_key = "%s_%d" % [current_animation, trigger_frame]
-		if processed_frames.has(frame_key):
-			continue
-		processed_frames[frame_key] = true
-		
-		_process_slide_sequence(current_animation, trigger_frame)
-		_on_frame_trigger(current_animation, trigger_frame)
-		_handle_frame_spe(current_animation, trigger_frame)
+
+	var frame_key = "%s_%d" % [current_animation, current_frame]
+	if processed_frames.has(frame_key):
+		return
+	processed_frames[frame_key] = true
+
+	_process_slide_sequence(current_animation, current_frame)
+	_on_frame_trigger(current_animation, current_frame)
+	_handle_frame_spe(current_animation, current_frame)
 
 func _on_frame_trigger(anim_name: String, frame_idx: int):
 	pass
@@ -3845,6 +4669,14 @@ func _process_effect_bindings(anim_name: String, frame_idx: int):
 				effect.rotation = deg_to_rad(rot_deg)
 				# 记录生成者实体引用（用于深度排序）
 				effect.set_meta("_spawn_entity", self)
+				# 逻辑特效名：绑定里写的 effect_name 才是作者认得的名字。
+				# 带 scene_path 的绑定运行期是用内部名 _efb_<绑定 id> 注册与生成的，
+				# 图形化脚本的「移除特效」按逻辑名匹配，所以要在这里单独记一份。
+				# 绑定没写 effect_name 时退回内部名，这样按内部名也还有办法定位。
+				var logical_name: String = str(effect_name)
+				if logical_name == "":
+					logical_name = "_efb_" + str(binding.get("id", "tmp"))
+				effect.set_meta("effect_name", logical_name)
 				# 如果跟随朝向且不跟随实体，需要翻转位置
 				if follow_facing and not follow_entity:
 					if facing_direction < 0:
@@ -3905,7 +4737,18 @@ func _handle_input_spe():
 	# 受击释放效果
 	var can_substitute = is_under_control or (_immobilize_active and _immobilize_can_substitute)
 	if can_substitute:
-		if inputs[4] and !current_animation == "substitution":
+		if inputs[4] and !(current_animation == "substitution"):
+			# 替身有 15 秒 CD（set_cd(4,4,15)），缓冲路径的 _can_perform_action
+			# 已经用 has_substitution() 把关，直通路径此前漏了，导致按住键可以
+			# 绕过 CD 连续触发、重复扣奥义点。
+			if not has_substitution():
+				return
+			# 缺 substitution 动画的角色直接不生效。此前动画缺失时
+			# play_animation 会写出一个幽灵 current_animation，替身无敌
+			# 等不到退出回调永久挂死，VS 还会误触发旧动画的结束事件。
+			if not has_animation("substitution"):
+				push_warning("[替身] %s 缺少 substitution 动画，替身未生效" % name)
+				return
 			# 必须能扣豆才行
 			if ultimate_point <= 0:
 				return
@@ -3988,6 +4831,7 @@ func handle_summon():
 		var sep = summon_entity_path[0]
 		summon_entity_path.pop_front()
 		_update_summon_dot()
+		_refresh_scroll_summon_icons()
 		if is_sliding: stop_slide()
 		if not is_grounded: _force_land_and_reset()
 		stop_free_move()
@@ -4029,7 +4873,9 @@ func _process_slide_physics(delta):
 
 func _apply_facing():
 	if visuals_node:
-		visuals_node.scale.x = facing_direction
+		# 只改符号、保留横向缩放的大小：图形化脚本的补间会把 Visuals 缩放到非 1 的值，
+		# 而本函数每物理帧都会跑一次，直接写 ±1 会把补间抹掉。
+		visuals_node.scale.x = absf(visuals_node.scale.x) * facing_direction
 
 func _handle_movement(delta):
 	if is_sliding:
@@ -4132,7 +4978,17 @@ func _ensure_frame_sync():
 					print("[帧同步] 动画变化: ", _last_processed_animation, " -> ", current_anim)
 
 		# 执行同步
-		_sync_frame_data(current_anim, visual_frame)
+		# 关键：必须遍历"经过的每一帧"，不能只同步当前帧。
+		# 卡顿会让动画一个 tick 跨过好几帧；而卡肉期间信号链路 _on_frame_changed() 会被
+		# 直接 return 掉（卡肉与特效同帧发生），此时这里是唯一的兜底 ——
+		# 只喂当前帧就会把中间帧的 slide 序列 / 帧触发永久丢掉。
+		var last_visual: int = -1 if anim_changed else _last_processed_visual_frame
+		var passed: Array[int] = get_frames_passed(
+			last_visual, visual_frame, get_animation_frame_count(current_anim))
+		if debug_frame_pipeline and passed.size() > 1:
+			print("[帧管线] 帧同步跳帧补偿: %s 跨 %d 帧 %s" % [current_anim, passed.size(), str(passed)])
+		for f in passed:
+			_sync_frame_data(current_anim, f)
 
 		# 更新记录
 		_last_processed_animation = current_anim
@@ -4152,7 +5008,9 @@ func _sync_frame_data(anim_name: String, frame_idx: int):
 		processed_frames[frame_key] = true
 		_process_slide_sequence(anim_name, frame_idx)
 		_on_frame_trigger(anim_name, frame_idx)
-		
+		_handle_frame_spe(anim_name, frame_idx)
+		_process_effect_bindings(anim_name, frame_idx)
+
 		if debug_anchor:
 			print("[帧同步] 触发事件: ", frame_key)
 
@@ -4266,7 +5124,13 @@ func _find_closest_frame(frame_dict: Dictionary, target_frame: int) -> int:
 	return closest if min_diff <= 2 else -1
 
 func _get_visual_frame_index() -> int:
-	"""获取当前实际显示的精灵帧索引（处理多帧动画）"""
+	"""获取当前实际显示的精灵帧索引（真实帧号）
+	
+	注意：**不要**改成"纹理相同即同一帧"的去重版本。动画里存在重复纹理（停顿帧很常见）
+	时，去重会把这些帧判成"帧没变"，从而：
+	  ① 把该帧的 slide 序列 / 帧触发稳定吞掉（与卡顿无关的独立丢帧途径）；
+	  ② 把**第一个**同纹理帧的锚点与帧数据套到当前帧上（帧数据用错）。
+	"""
 	if not get_animator_node() or not get_animator_node().sprite_frames:
 		return 0
 	
@@ -4282,16 +5146,7 @@ func _get_visual_frame_index() -> int:
 	
 	# 确保 frame 索引不越界
 	var frame_count = get_animation_frame_count(current_animation)
-	var safe_frame = clamp(get_current_frame(), 0, frame_count - 1)
-	
-	var current_tex = frames.get_frame_texture(current_animation, safe_frame)
-	
-	# 查找这个纹理对应的第一个帧索引
-	for i in range(frame_count):
-		if frames.get_frame_texture(current_animation, i) == current_tex:
-			return i
-	
-	return safe_frame
+	return clamp(get_current_frame(), 0, max(frame_count - 1, 0))
 
 func _log_anchor_info(anim_name: String, frame_idx: int, old_anchor: Vector2, new_anchor: Vector2, reason: String):
 	var change_text = ""
@@ -4312,9 +5167,13 @@ func _apply_anchor_constraint():
 	if facing_direction == -1:
 		adjusted_offset.x = -adjusted_offset.x
 	
+	# Visuals 自身的缩放要一起算进锚点补偿：补间把 Visuals 放大后，
+	# 偏移量不跟着放大的话锚点就不再落在实体原点，角色会整体漂移。
+	# get_visuals_extra_scale 返回 ±1 时结果与原来完全一致。
+	var visuals_extra = get_visuals_extra_scale()
 	visuals_node.position = Vector2(
-		-adjusted_offset.x * get_anim_sprite_scale().x,
-		-adjusted_offset.y * get_anim_sprite_scale().y
+		-adjusted_offset.x * get_anim_sprite_scale().x * visuals_extra.x,
+		-adjusted_offset.y * get_anim_sprite_scale().y * visuals_extra.y
 	)
 
 func _apply_hitbox_transforms():
@@ -4434,7 +5293,8 @@ func get_hitbox_area(index: int) -> Area2D:
 func set_facing(dir: int):
 	facing_direction = dir
 	if visuals_node:
-		visuals_node.scale.x = dir
+		# 与 _apply_facing 同一口径：只改朝向符号，保留补间出来的横向缩放大小
+		visuals_node.scale.x = absf(visuals_node.scale.x) * dir
 	
 	# 强制应用当前帧数据，使锚点和受击框与新朝向同步
 	if get_animator_node():
@@ -4472,6 +5332,9 @@ func set_debug_attack_boxes(enabled: bool):
 	debug_show_attack_boxes = enabled
 
 func set_debug_all(enabled: bool):
+	# 总开关关闭时，任何途径都不允许打开调试输出
+	if not MatchConfig.debug_enabled:
+		enabled = false
 	debug_show_hitboxes = enabled
 	debug_show_attack_boxes = enabled
 	debug_show_info_points = enabled # 新增
@@ -4921,7 +5784,10 @@ func _on_debug_draw_info_points():
 func get_2d_pos():
 	return Vector2(position_3d.x, position_3d.y)
 
-func get_out_of_wall(pos_3d: Vector3):
+## 把一个点推出墙体。抓取的释放点用它兜底，鲨鱼与三方封印的脚本也拿它算 set_immobilize 的落点。
+func get_out_of_wall(pos_3d: Vector3) -> Vector3:
+	if main == null or not main.has_method("point_walls"):
+		return pos_3d
 	var wall_pos = main.point_walls(Vector2(pos_3d.x, pos_3d.y))
 	var will_pos = pos_3d
 	if wall_pos:

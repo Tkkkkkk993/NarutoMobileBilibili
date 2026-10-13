@@ -15,29 +15,46 @@ enum EditorMode {
 }
 
 const SAVE_FILE_NAME = "visual_script.json"
-const SAVE_VERSION = 2
+const SAVE_VERSION = 3
 
 var _category_colors: Dictionary = {}
 var _undo_stack: Array = []
 var _undo_index: int = -1
 const MAX_UNDO = 50
 const INT_MAX = 2147483647
+## 本次载入补齐的老数据参数个数，画布积木与事件表两个入口都累加到它上面
+var _param_backfill_count: int = 0
+## 实体特效名缓存：实体场景路径 -> Array[String]，见 _get_entity_effect_names
+var _effect_names_cache: Dictionary = {}
 
 var _block_defs = [
 	{"type": BlockType.EVENT, "name": "on_game_start", "label": "当游戏开始", "category": "事件", "params": []},
 	{"type": BlockType.EVENT, "name": "on_animation_playing", "label": "当动画播放 {anim_name}", "category": "事件", "params": [{"name": "anim_name", "type": "string", "default": "idle", "label": "动画名"}]},
 	{"type": BlockType.EVENT, "name": "on_hit", "label": "当被攻击命中", "category": "事件", "params": [], "outputs": [{"name": "attacker", "type": "node", "label": "攻击者"}]},
 	{"type": BlockType.EVENT, "name": "on_victory", "label": "当胜利时", "category": "事件", "params": []},
-	{"type": BlockType.ACTION, "name": "play_animation", "label": "播放动画 {anim_name}", "category": "动作", "params": [{"name": "anim_name", "type": "string", "default": "idle", "label": "动画名"}]},
+	{"type": BlockType.ACTION, "name": "play_animation", "label": "播放动画 {anim_name} 从第 {start_frame} 帧开始", "category": "动作", "params": [{"name": "anim_name", "type": "string", "default": "idle", "label": "动画名"}, {"name": "start_frame", "type": "number", "default": 0, "label": "起始帧"}]},
 	{"type": BlockType.ACTION, "name": "move_by", "label": "移动 X:{dx} Y:{dy}", "category": "动作", "params": [{"name": "dx", "type": "number", "default": 0, "label": "X偏移"}, {"name": "dy", "type": "number", "default": 0, "label": "Y偏移"}]},
 	{"type": BlockType.ACTION, "name": "set_velocity", "label": "设置速度 VX:{vx} VY:{vy}", "category": "动作", "params": [{"name": "vx", "type": "number", "default": 0, "label": "X速度"}, {"name": "vy", "type": "number", "default": 0, "label": "Y速度"}]},
 	{"type": BlockType.ACTION, "name": "wait", "label": "等待 {duration} 秒", "category": "动作", "params": [{"name": "duration", "type": "number", "default": 1.0, "label": "秒数"}]},
 	{"type": BlockType.ACTION, "name": "set_variable", "label": "设置 {var_name} = {value}", "category": "动作", "params": [{"name": "var_name", "type": "string", "default": "my_var", "label": "变量名"}, {"name": "value", "type": "number", "default": 0, "label": "值"}]},
+	{"type": BlockType.ACTION, "name": "set_entity_var", "label": "将 {entity} 的变量 {var} 设为 {val}", "category": "变量", "params": [
+		{"name": "entity", "type": "node", "default": "", "label": "实体"},
+		{"name": "var", "type": "string", "default": "", "label": "变量名"},
+		{"name": "val", "type": "expr", "default": "0", "label": "值"}
+	]},
 	{"type": BlockType.ACTION, "name": "move_entity_pos3d_immd", "label": "3D传送实体 {target} 到 {pos}", "category": "动作", "params": [
 		{"name": "target", "type": "node", "default": "", "label": "目标"},
 		{"name": "pos", "type": "vector3", "default": Vector3.ZERO, "label": "位置"}
 	]},
 	{"type": BlockType.ACTION, "name": "tween_property", "label": "补间 {target} 属性 {prop} 到 {to} 耗时 {dur} 秒", "category": "动作", "params": [
+		{"name": "target", "type": "node", "default": "", "label": "目标"},
+		{"name": "prop", "type": "dropdown", "default": "scale", "label": "属性", "options": ["scale", "modulate", "modulate:a", "rotation", "position:x", "position:y"]},
+		{"name": "to", "type": "number", "default": 1.0, "label": "目标值"},
+		{"name": "dur", "type": "number", "default": 0.5, "label": "持续时间"},
+		{"name": "ease", "type": "curve", "default": "缓出", "label": "缓动", "options": ["线性", "缓入", "缓出", "缓入缓出", "linear", "sine", "quad", "cubic", "quart", "quint", "expo", "circ", "back", "bounce", "elastic", "spring", "正弦波", "三角波", "方波"]},
+		{"name": "delay", "type": "number", "default": 0.0, "label": "延迟"}
+	]},
+	{"type": BlockType.ACTION, "name": "tween_aura", "label": "光圈补间 {target} 属性 {prop} 到 {to} 耗时 {dur} 秒", "category": "动作", "params": [
 		{"name": "target", "type": "node", "default": "", "label": "目标"},
 		{"name": "prop", "type": "dropdown", "default": "scale", "label": "属性", "options": ["scale", "modulate", "modulate:a", "rotation", "position:x", "position:y"]},
 		{"name": "to", "type": "number", "default": 1.0, "label": "目标值"},
@@ -117,6 +134,20 @@ var _canvas_zoom: float = 1.0
 var _target_zoom: float = 1.0
 var _canvas_offset: Vector2 = Vector2.ZERO
 var _target_offset: Vector2 = Vector2.ZERO
+
+# ---- 积木栏宽度（右侧分隔条可拖）----
+# 积木名最长的那几条在 260 宽下会被截断，所以左边这一列给一条能拖的分隔条。
+const LEFT_PANEL_MIN_WIDTH: float = 150.0
+const LEFT_PANEL_MAX_WIDTH: float = 720.0
+const LEFT_PANEL_DEFAULT_WIDTH: float = 260.0
+const LEFT_PANEL_WIDTH_SETTING: String = "entityeditor/visual_script/left_panel_width"
+
+var _left_panel: PanelContainer = null
+var _left_splitter: Control = null
+var _left_splitter_bar: ColorRect = null
+var _left_splitter_dragging: bool = false
+## 本次编辑器进程里拖出来的宽度。编辑器窗口每次打开都是新建的，只存实例变量关掉就没了。
+static var _remembered_left_width: float = -1.0
 
 var _blocks: Array = []
 var _block_id_counter: int = 0
@@ -264,6 +295,72 @@ func _center_window():
 	var screen_size = DisplayServer.screen_get_size()
 	position = Vector2((screen_size.x - size.x) / 2, (screen_size.y - size.y) / 2)
 
+# ------------------------- 积木栏宽度（可拖） -------------------------
+
+## EditorSettings 动态取单例，不写类名。编辑器里拿得到，游戏与无头探针里是 null，
+## 于是这个脚本在那两种环境下照样能加载，只是宽度退化成只记在内存里。
+## 必须先问 has_singleton：直接 get_singleton 取不到时会打一条 ERROR，把探针日志弄脏。
+func _editor_settings() -> Object:
+	if not Engine.has_singleton("EditorSettings"):
+		return null
+	return Engine.get_singleton("EditorSettings")
+
+## 取值顺序：编辑器设置里记住的 → 本次会话拖出来的 → 缺省。
+func _resolve_left_panel_width() -> float:
+	var es = _editor_settings()
+	if es != null and es.has_setting(LEFT_PANEL_WIDTH_SETTING):
+		return clampf(float(es.get_setting(LEFT_PANEL_WIDTH_SETTING)), LEFT_PANEL_MIN_WIDTH, LEFT_PANEL_MAX_WIDTH)
+	if _remembered_left_width > 0.0:
+		return clampf(_remembered_left_width, LEFT_PANEL_MIN_WIDTH, LEFT_PANEL_MAX_WIDTH)
+	return LEFT_PANEL_DEFAULT_WIDTH
+
+func _apply_left_panel_width(width: float) -> void:
+	_remembered_left_width = clampf(width, LEFT_PANEL_MIN_WIDTH, LEFT_PANEL_MAX_WIDTH)
+	if _left_panel:
+		_left_panel.custom_minimum_size = Vector2(_remembered_left_width, 0)
+
+## 只在松手与双击复位时落盘。拖动过程中每移动一像素都写一次，编辑器设置会一路标脏。
+func _save_left_panel_width() -> void:
+	var es = _editor_settings()
+	if es == null: return
+	es.set_setting(LEFT_PANEL_WIDTH_SETTING, _remembered_left_width)
+
+## 积木栏右侧的分隔条：按住左右拖，改的是左边那一列的最小宽度。
+## 左列没有 EXPAND 标记，在 HBoxContainer 里就是自己的最小宽度，所以拖到哪就显示到哪。
+func _make_left_splitter(target: Control) -> Control:
+	var handle := Control.new()
+	handle.custom_minimum_size = Vector2(8, 0)
+	handle.mouse_filter = Control.MOUSE_FILTER_STOP
+	handle.mouse_default_cursor_shape = Control.CURSOR_HSIZE
+	handle.tooltip_text = "左右拖动调整积木栏宽度，双击复位"
+	var bar := ColorRect.new()
+	bar.color = Color(1, 1, 1, 0.06)
+	bar.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	bar.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	handle.add_child(bar)
+	handle.gui_input.connect(_on_left_splitter_input.bind(target))
+	handle.mouse_entered.connect(func(): bar.color = Color(1, 1, 1, 0.22))
+	handle.mouse_exited.connect(func(): bar.color = Color(1, 1, 1, 0.06))
+	_left_splitter = handle
+	_left_splitter_bar = bar
+	return handle
+
+func _on_left_splitter_input(event: InputEvent, target: Control) -> void:
+	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
+		if event.pressed and event.double_click:
+			_apply_left_panel_width(LEFT_PANEL_DEFAULT_WIDTH)
+			_save_left_panel_width()
+		else:
+			_left_splitter_dragging = event.pressed
+			if not event.pressed:
+				_save_left_panel_width()
+		if _left_splitter:
+			_left_splitter.accept_event()
+	elif event is InputEventMouseMotion and _left_splitter_dragging:
+		_apply_left_panel_width(target.size.x + event.relative.x)
+		if _left_splitter:
+			_left_splitter.accept_event()
+
 # ----------------------------------- UI 构建 ------------------------------------
 func _setup_ui():
 	var main_hbox = HBoxContainer.new()
@@ -272,8 +369,10 @@ func _setup_ui():
 	add_child(main_hbox)
 
 	var left_panel = PanelContainer.new()
-	left_panel.custom_minimum_size = Vector2(260, 0)
+	_left_panel = left_panel
+	_apply_left_panel_width(_resolve_left_panel_width())
 	main_hbox.add_child(left_panel)
+	main_hbox.add_child(_make_left_splitter(left_panel))
 
 	var left_vbox = VBoxContainer.new()
 	left_vbox.add_theme_constant_override("separation", 4)
@@ -734,7 +833,11 @@ func _refresh_block_list():
 			if search_text not in def_name and search_text not in def_label and search_text not in def_cat:
 				continue
 		var type_name = BlockType.keys()[def.type]
-		_block_list.add_item("[%s] %s" % [type_name, def.label])
+		var item_text = "[%s] %s" % [type_name, def.label]
+		_block_list.add_item(item_text)
+		# 有的积木名长到一千多像素（hit_entity 把每个参数都写进了标签），分隔条拖到头也放不下，
+		# 所以每条都挂上完整文本的悬浮提示，鼠标停上去能看全。
+		_block_list.set_item_tooltip(_block_list.item_count - 1, item_text)
 		_filtered_block_defs.append(def)
 
 # ----------------------------------- 事件处理 ------------------------------------
@@ -781,7 +884,9 @@ func _create_block_instance(def: Dictionary, pos: Vector2 = Vector2.ZERO):
 		pos = _screen_to_logical(_canvas.size / 2.0)
 	var params = {}
 	for p in def.params:
-		if p.default is Dictionary:
+		# 数组与字典都是引用类型，必须各自复制一份，否则同一块定义建出来的多个块
+		# 会共用同一个数组，改其中一个的合集参数会连带改掉全部（连块定义默认值一起被改）。
+		if p.default is Dictionary or p.default is Array:
 			params[p.name] = p.default.duplicate()
 		else:
 			params[p.name] = p.default
@@ -1164,6 +1269,10 @@ func _get_slot_width(block: Dictionary, param_def: Dictionary) -> float:
 		if not vblock.is_empty():
 			return max(SLOT_MIN_WIDTH, _get_block_width(vblock) + 4)
 	var val = str(block.params.get(param_name, param_def.default))
+	if param_def.type == "number":
+		val = _number_to_text(block.params.get(param_name, param_def.default))
+	if param_def.type == "collection":
+		val = _collection_to_text(block.params.get(param_name, param_def.default))
 	if param_def.type == "vector2":
 		var v = block.params.get(param_name, param_def.default)
 		if v is Dictionary:
@@ -1244,10 +1353,48 @@ func _get_inner_area_height(inner_ids: Array) -> float:
 	return max(MIN_INNER_HEIGHT, total)
 
 func _is_slot_type(param_type: String) -> bool:
-	return param_type in ["number", "bool", "dropdown", "node", "vector2", "vector3", "color", "string", "expr", "curve"]
+	return param_type in ["number", "bool", "dropdown", "node", "vector2", "vector3", "color", "string", "expr", "curve", "collection"]
 
 func _ensure_outputs(def: Dictionary) -> Array:
 	return def.get("outputs", [])
+
+# ---- 合集参数（collection）----
+# 值在 JSON 里是字符串数组，编辑器一律按「逗号分隔的文本」呈现与录入，
+# 与 dropdown / curve 的选项列表同一写法，作者不用记两种格式。
+# 中英文逗号都当分隔符，空项丢弃。
+const _COLLECTION_SEP := ","
+
+func _collection_to_text(value: Variant) -> String:
+	if value == null:
+		return ""
+	if value is Array or value is PackedStringArray:
+		var parts: Array = []
+		for v in value:
+			parts.append(str(v))
+		return _COLLECTION_SEP.join(parts)
+	return str(value)
+
+func _text_to_collection(text: String) -> Array:
+	var out: Array = []
+	for part in text.replace("，", _COLLECTION_SEP).split(_COLLECTION_SEP, false):
+		var s: String = part.strip_edges()
+		if s != "":
+			out.append(s)
+	return out
+
+func _is_collection_value(value: Variant) -> bool:
+	return value is Array or value is PackedStringArray
+
+## 数字参数的显示文本。JSON 里的数字一律解析成浮点，不收敛的话
+## 事件表与画布槽位会把 0 写成 0.0、把 1 写成 1.0，读起来像小数参数。
+## 只收敛整数值，0.5 这类仍然按小数显示。
+func _number_to_text(value: Variant) -> String:
+	if value is float:
+		var f: float = value
+		if is_finite(f) and f == floor(f) and absf(f) < 1e15:
+			return str(int(f))
+		return String.num(f, 4)
+	return str(value)
 
 func _get_output_color(type: String) -> Color:
 	match type:
@@ -1258,6 +1405,7 @@ func _get_output_color(type: String) -> Color:
 		"vector2": return Color(0.95, 0.55, 0.4)
 		"vector3": return Color(0.9, 0.4, 0.7)
 		"color": return Color(1.0, 0.4, 0.7)
+		"collection": return Color(0.4, 0.85, 0.85)
 		_: return Color.GRAY
 
 func _estimate_text_width(text: String) -> float:
@@ -2352,6 +2500,7 @@ func _update_slot_hover_style(slot_info: Dictionary, is_hover: bool):
 			"dropdown": Color(0.7, 0.65, 0.5, 0.6),
 			"number": Color(0.35, 0.78, 0.38, 0.6),
 			"bool": Color(0.8, 0.3, 0.3, 0.6),
+			"collection": Color(0.4, 0.85, 0.85, 0.6),
 		}
 		if default_colors.has(param_def.type):
 			new_style.border_color = default_colors[param_def.type]
@@ -2669,6 +2818,9 @@ func _create_embedded_value_visual(parent_block: Dictionary, value_block_id: int
 					elif param_def.type == "string":
 						pstyle.bg_color = Color(0.6, 0.9, 0.5, 0.4) if is_hover else Color(0.6, 0.9, 0.5, 0.25)
 						pstyle.border_color = Color.WHITE if is_hover else Color(0.5, 0.8, 0.4, 0.6)
+					elif param_def.type == "collection":
+						pstyle.bg_color = Color(0.4, 0.85, 0.85, 0.4) if is_hover else Color(0.4, 0.85, 0.85, 0.22)
+						pstyle.border_color = Color.WHITE if is_hover else Color(0.4, 0.85, 0.85, 0.55)
 					else:
 						pstyle.bg_color = Color(1, 1, 1, 0.3) if is_hover else Color(1, 1, 1, 0.2)
 						pstyle.border_color = Color.WHITE if is_hover else Color(1, 1, 1, 0.5)
@@ -2679,6 +2831,10 @@ func _create_embedded_value_visual(parent_block: Dictionary, value_block_id: int
 					var slot_val = str(vblock.params.get(vseg.name, "true" if param_def.type == "bool" else "0"))
 					if param_def.type == "node": slot_val = str(vblock.params.get(vseg.name, ""))
 					if param_def.type == "string": slot_val = str(vblock.params.get(vseg.name, ""))
+					if param_def.type == "number":
+						slot_val = _number_to_text(vblock.params.get(vseg.name, param_def.default))
+					if param_def.type == "collection":
+						slot_val = _collection_to_text(vblock.params.get(vseg.name, param_def.default))
 					if param_def.type == "dropdown" and param_def.has("options"):
 						slot_val = str(vblock.params.get(vseg.name, param_def.default))
 					if param_def.type == "vector2":
@@ -2859,6 +3015,7 @@ func _create_slot_visual(block: Dictionary, param_name: String, param_def: Dicti
 		"string": Color(0.6, 0.9, 0.5),
 		"expr": Color(0.5, 0.7, 0.9),
 		"dropdown": Color(0.7, 0.65, 0.5),
+		"collection": Color(0.4, 0.85, 0.85),
 	}
 	var tc = type_colors.get(param_def.type, Color.WHITE)
 	slot_style.bg_color = Color(tc.r, tc.g, tc.b, 0.4 if is_hover else 0.22)
@@ -2990,6 +3147,9 @@ func _commit_inline_edit(_text: String = ""):
 			if str(opt) == new_val:
 				block.params[info.param_name] = opt
 				break
+	elif param_def.type == "collection":
+		# 合集按逗号分隔录入，空文本存空数组
+		block.params[info.param_name] = _text_to_collection(new_val)
 	else:
 		block.params[info.param_name] = new_val
 	_refresh_block_node(info.block_id)
@@ -3003,6 +3163,12 @@ func _cancel_inline_edit():
 
 # ---- 槽位值格式化 ----
 func _format_slot_value(block: Dictionary, param_def: Dictionary, param_name: String) -> String:
+	if param_def.type == "collection":
+		# 没有内容时显示标签，与 string / node 槽位的 placeholder 口径一致
+		var cv = _collection_to_text(block.params.get(param_name, param_def.default))
+		return cv if cv != "" else param_def.label
+	if param_def.type == "number":
+		return _number_to_text(block.params.get(param_name, param_def.default))
 	if param_def.type == "vector2":
 		var v = block.params.get(param_name, param_def.default)
 		if v is Dictionary: return "(%.3f, %.3f)" % [v.get("x", 0.0), v.get("y", 0.0)]
@@ -3014,7 +3180,7 @@ func _format_slot_value(block: Dictionary, param_def: Dictionary, param_name: St
 	if param_def.type == "dropdown" and param_def.has("options"):
 		return str(block.params.get(param_name, param_def.default))
 	if param_def.type == "bool":
-		return str(block.params.get(param_name, true))
+		return str(block.params.get(param_name, _param_fallback(param_def)))
 	if param_def.type in ["node", "string"]:
 		var v = block.params.get(param_name, "")
 		return str(v) if str(v) != "" else param_def.label
@@ -3032,6 +3198,8 @@ func _is_slot_empty(block: Dictionary, param_def: Dictionary, param_name: String
 		return str(val) == ""
 	if param_def.type == "curve":
 		return str(val) == ""
+	if param_def.type == "collection":
+		return _text_to_collection(_collection_to_text(val)).is_empty()
 	if param_def.type in ["node", "string"]:
 		return str(val) == ""
 	return false
@@ -3317,11 +3485,26 @@ func _add_param_editor(container: HBoxContainer, block: Dictionary, p: Dictionar
 			)
 			container.add_child(code_edit)
 		else:
-			var line_edit = LineEdit.new()
-			line_edit.text = str(block.params.get(p.name, p.default))
-			line_edit.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-			line_edit.text_changed.connect(_on_param_string_changed.bind(block.id, p.name))
-			container.add_child(line_edit)
+			var opt_values := _param_options(p)
+			if opt_values.size() > 0:
+				# 有可选值来源的参数走「输入 + 下拉」组合，特效名这类就是走这条
+				container.add_child(_create_options_combo(opt_values, block.params.get(p.name, p.default),
+					func(txt: String): _on_param_string_changed(txt, block.id, p.name),
+					"可下拉选择；也可直接输入"))
+			else:
+				var line_edit = LineEdit.new()
+				line_edit.text = str(block.params.get(p.name, p.default))
+				line_edit.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+				line_edit.text_changed.connect(_on_param_string_changed.bind(block.id, p.name))
+				container.add_child(line_edit)
+	elif p.type == "collection":
+		# 合集：逗号分隔的文本，存成字符串数组
+		var coll_edit = LineEdit.new()
+		coll_edit.text = _collection_to_text(block.params.get(p.name, p.default))
+		coll_edit.placeholder_text = "逗号分隔，如 attack1,attack2"
+		coll_edit.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		coll_edit.text_changed.connect(_on_param_collection_changed.bind(block.id, p.name))
+		container.add_child(coll_edit)
 	elif p.type == "vector2":
 		var default_val = p.default if p.default is Dictionary else {"x": 0.0, "y": 0.0}
 		var current_val = block.params.get(p.name, default_val)
@@ -3412,14 +3595,19 @@ func _on_param_bool_changed(pressed: bool, block_id: int, param_name: String):
 		_reposition_all_chains.call_deferred()
 
 func _create_curve_combo(param_def: Dictionary, current_val: Variant, on_change: Callable) -> Control:
-	# 待办: Godot4.7 提货为 ComboBox
+	return _create_options_combo(param_def.get("options", []), current_val, on_change,
+		"可下拉选择；也可直接输入数值(0..13 或 7.1)或表达式(变量 t)")
+
+## 单行输入 + 可选项下拉的组合控件，待办: Godot4.7 提货为 ComboBox。
+## 下拉只负责填值，输入框始终可编辑，所以选项表不全时也能手填。
+func _create_options_combo(options: Array, current_val: Variant, on_change: Callable, tooltip: String = "") -> Control:
 	var box = HBoxContainer.new()
 	box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	var options = param_def.get("options", [])
 	var edit = LineEdit.new()
 	edit.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	edit.text = str(current_val)
-	edit.tooltip_text = "可下拉选择；也可直接输入数值(0..13 或 7.1)或表达式(变量 t)"
+	if tooltip != "":
+		edit.tooltip_text = tooltip
 	box.add_child(edit)
 	edit.text_changed.connect(func(txt: String):
 		on_change.call(txt.strip_edges())
@@ -3444,11 +3632,62 @@ func _create_curve_combo(param_def: Dictionary, current_val: Variant, on_change:
 		box.add_child(opt)
 	return box
 
+## 参数的可选值。块定义里写死 options 的走 options；写 options_from 的按来源动态取，
+## 目前只支持 effect_names，取自本实体的 effect_bindings.json。
+func _param_options(param_def: Dictionary) -> Array:
+	var static_options = param_def.get("options", [])
+	if static_options is Array and not static_options.is_empty():
+		return static_options
+	match str(param_def.get("options_from", "")):
+		"effect_names":
+			return _get_entity_effect_names()
+	return []
+
+## 本实体可用的特效名：读本实体目录下的 effect_bindings.json，取每条绑定的 effect_name。
+## 只认这一处来源：脚本里 register_effects 注册的名字是运行期的，编辑器看不到；
+## 那些名字请直接手填，输入框本来就可编辑。
+## 结果按实体路径缓存，避免每次刷参数面板都读一遍文件。
+func _get_entity_effect_names() -> Array:
+	if _effect_names_cache.has(_entity_scene_path):
+		return _effect_names_cache[_entity_scene_path]
+	var out: Array = []
+	if _entity_scene_path != "":
+		var path := _entity_scene_path.get_base_dir() + "/effect_bindings.json"
+		if FileAccess.file_exists(path):
+			var f = FileAccess.open(path, FileAccess.READ)
+			if f:
+				var data = JSON.parse_string(f.get_as_text())
+				f.close()
+				if data is Dictionary:
+					for b in data.get("bindings", []):
+						if not (b is Dictionary):
+							continue
+						var n := str(b.get("effect_name", "")).strip_edges()
+						if n != "" and not out.has(n):
+							out.append(n)
+	_effect_names_cache[_entity_scene_path] = out
+	return out
+
+## 生成特效 / 移除特效这类动作会让缓存过期，切实体或存盘后由调用方清掉
+func _clear_effect_names_cache() -> void:
+	_effect_names_cache.clear()
+
 func _on_param_string_changed(text: String, block_id: int, param_name: String):
 	var block = _get_block_by_id(block_id)
 	if block.is_empty(): return
 	_save_undo_state()
 	block.params[param_name] = text
+	_refresh_block_node_deferred(block_id)
+	_update_all_z_indices.call_deferred()
+	if _is_block_in_slot(block_id):
+		_reposition_all_chains.call_deferred()
+
+## 合集参数：文本按逗号拆成字符串数组存进 params
+func _on_param_collection_changed(text: String, block_id: int, param_name: String):
+	var block = _get_block_by_id(block_id)
+	if block.is_empty(): return
+	_save_undo_state()
+	block.params[param_name] = _text_to_collection(text)
 	_refresh_block_node_deferred(block_id)
 	_update_all_z_indices.call_deferred()
 	if _is_block_in_slot(block_id):
@@ -3648,7 +3887,10 @@ func _collect_chain_for_copy(block_id: int, result: Array, copy_stack: bool):
 func _deep_copy_params(src_params: Dictionary, def: Dictionary) -> Dictionary:
 	var result = {}
 	for p in def.params:
-		var val = src_params.get(p.name, p.default)
+		var val = src_params.get(p.name, null)
+		if val == null:
+			# 复制块时缺失参数按"老数据补齐值"处理，避免把新版本默认值烙进副本
+			val = _param_fallback(p)
 		if val is Dictionary:
 			result[p.name] = val.duplicate()
 		else:
@@ -3912,13 +4154,88 @@ func _backup_file(file_path: String) -> String:
 	return backup_path
 
 # 将 v1 数据迁移到 v2 结构。v1 顶层为 {"blocks":[...]}（无 version 字段）。
+# 非破坏式：只保证 version / blocks / events 存在，其余顶层字段原样保留。
 func _migrate_to_v2(old_data: Dictionary) -> Dictionary:
-	var blocks = old_data.get("blocks", [])
-	return {
-		"version": SAVE_VERSION,
-		"blocks": blocks,
-		"events": {"rows": []},
-	}
+	var out = old_data.duplicate(true)
+	out["version"] = 2
+	if not (out.get("blocks") is Array):
+		out["blocks"] = []
+	if not (out.get("events") is Dictionary):
+		out["events"] = {"rows": []}
+	return out
+
+# ============================================
+# v2 -> v3：参数补齐迁移
+# ============================================
+# 目的：块定义（block_defs.json）后来新增过参数，但老数据里没有这些键，
+#   导致「同一个参数，画布块被物化成 default、事件表行永远缺键」两种命运。
+# 规则：缺失参数补上 param 的 migrate 值；没有 migrate 的补 default。
+#   - default  = 新建块的初值（新版本行为）
+#   - migrate  = 老数据的补齐值（老版本行为），只在两者需要不同时才写
+# 作用范围：画布块（blocks，键名 name）+ 事件表行（events.rows，键名 block_name，递归 children/rows）。
+# 顶层其它字段（run_mode / editor_mode / ui_state 等）原样保留。
+func _migrate_to_v3(old_data: Dictionary) -> Dictionary:
+	var out = old_data.duplicate(true)
+	out["version"] = 3
+
+	var blocks = out.get("blocks", [])
+	if blocks is Array:
+		for entry in blocks:
+			if entry is Dictionary:
+				_backfill_node_params(entry, str(entry.get("name", "")))
+
+	var events = out.get("events", {})
+	if events is Dictionary:
+		_backfill_event_rows(events.get("rows", []))
+
+	return out
+
+## 取参数在"老数据补齐"语境下的缺省值：优先 migrate，其次 default
+func _param_fallback(p: Dictionary) -> Variant:
+	if p.has("migrate"):
+		return p["migrate"]
+	return p.get("default")
+
+## 给单个节点补齐缺失参数，返回补齐个数
+func _backfill_node_params(node: Dictionary, block_name: String) -> int:
+	if block_name == "":
+		return 0
+	var def = _find_block_def(block_name)
+	if def.is_empty():
+		return 0
+	if not node.has("params") or not (node.get("params") is Dictionary):
+		node["params"] = {}
+	var params: Dictionary = node["params"]
+	var pdefs = def.get("params", [])
+	if not (pdefs is Array):
+		return 0
+	var filled = 0
+	for p in pdefs:
+		if not (p is Dictionary):
+			continue
+		var pname = str(p.get("name", ""))
+		if pname == "" or params.has(pname):
+			continue
+		var v = _param_fallback(p)
+		# 数组与字典同样要各自复制一份，别让补齐出来的参数与块定义默认值共用引用
+		params[pname] = v.duplicate() if (v is Dictionary or v is Array) else v
+		filled += 1
+	return filled
+
+## 递归补齐事件表行（分组走 rows、动作/条件走 children）
+func _backfill_event_rows(rows) -> int:
+	if not (rows is Array):
+		return 0
+	var filled = 0
+	for row in rows:
+		if not (row is Dictionary):
+			continue
+		if str(row.get("type", "")) == "comment":
+			continue
+		filled += _backfill_node_params(row, str(row.get("block_name", "")))
+		filled += _backfill_event_rows(row.get("children", []))
+		filled += _backfill_event_rows(row.get("rows", []))
+	return filled
 
 # 弹出升级提示对话框
 func _show_upgrade_notice(old_version: int):
@@ -3988,6 +4305,11 @@ func _load_events_data(events_dict: Dictionary, ui_state: Dictionary = {}):
 			max_id = processed[1]
 		_events_data.rows.append(r)
 	_event_row_id_counter = max_id + 1
+	# 老数据参数补齐：直接复用 v2 到 v3 迁移用的 _backfill_event_rows，
+	# 它对整棵树递归，分组走 rows、动作与条件走 children，一次覆盖全部事件行与子节点。
+	# 挂在这里而不是只挂在版本迁移链上：版本链只在 version 小于 SAVE_VERSION 时跑，
+	# 而块定义新增参数不改版本号，老文件因此永远等不到补齐。
+	_param_backfill_count += _backfill_event_rows(_events_data.rows)
 	# 从 ui_state 恢复所有节点的折叠状态
 	_apply_ui_collapsed(_events_data.rows)
 
@@ -4122,11 +4444,33 @@ func _load_script_data():
 		return
 
 	# 版本检测与升级
-	var version = int(data.get("version", 1))
+	# 版本号容错：缺失 / null / 非法值一律当作 v1 走完整迁移链（v1 格式就是只有 blocks 没有 version）
+	var version_raw = data.get("version", 1)
+	var version: int = 1
+	if version_raw is int or version_raw is float:
+		version = int(version_raw)
+	elif version_raw is String and version_raw.is_valid_int():
+		version = int(version_raw)
+	if version < 1:
+		version = 1
 	if version < SAVE_VERSION:
 		await _update_progress(0.1, "数据迁移中...")
 		_backup_file(file_path)
-		data = _migrate_to_v2(data)
+		# 逐代迁移（v1→v2→v3…），每一代只负责自己那一步，
+		# 这样以后再加 v4 只需补一个 _migrate_to_v4 与一个分支。
+		var v = version
+		while v < SAVE_VERSION:
+			match v:
+				1:
+					data = _migrate_to_v2(data)
+					v = 2
+				2:
+					data = _migrate_to_v3(data)
+					v = 3
+				_:
+					break
+		if int(data.get("version", v)) < SAVE_VERSION:
+			data["version"] = SAVE_VERSION
 		_save_all_data(data)
 		print("[visual_script_editor] 数据已从 v%d 迁移到 v%d" % [version, SAVE_VERSION])
 		_show_upgrade_notice(version)
@@ -4138,6 +4482,9 @@ func _load_script_data():
 
 	await _update_progress(0.15, "清空旧数据...")
 	# 清空当前数据
+	_param_backfill_count = 0
+	# 特效名缓存按实体的 effect_bindings.json 算，重新载入脚本时一并作废
+	_clear_effect_names_cache()
 	_blocks.clear()
 	_block_id_counter = 0
 	_selected_block_id = -1
@@ -4205,10 +4552,13 @@ func _load_script_data():
 			if val != null:
 				params[p.name] = val
 			else:
-				if p.default is Dictionary:
-					params[p.name] = p.default.duplicate()
+				# 缺失参数按"老数据补齐值"（migrate，其次 default），与 _migrate_to_v3 保持同一规则
+				var dv = _param_fallback(p)
+				if dv is Dictionary or dv is Array:
+					params[p.name] = dv.duplicate()
 				else:
-					params[p.name] = p.default
+					params[p.name] = dv
+				_param_backfill_count += 1
 
 		# 构建 value_slots
 		var value_slots = {}
@@ -4320,6 +4670,8 @@ func _load_script_data():
 		_load_events_data(data.events, data.get("ui_state", {}))
 	else:
 		_clear_events_data()
+	if _param_backfill_count > 0:
+		print("[visual_script_editor] 老数据参数补齐 %d 个，画布积木与事件表都已补，保存后写回文件" % _param_backfill_count)
 	# 加载运行模式
 	_run_mode = data.get("run_mode", "both")
 	if _run_mode_opt:
@@ -4469,13 +4821,36 @@ func _format_event_node_text(node: Dictionary) -> String:
 		label = def.label
 	var params = node.get("params", {})
 	var exprs = node.get("exprs", {})
+	# 取值统一按字符串键做一次拷贝，数据里的键不保证是 String
+	var values := {}
 	for k in params:
-		var display_val = str(params[k])
-		if typeof(params[k]) == TYPE_FLOAT:
-			display_val = String.num(params[k], 4)
+		values[str(k)] = params[k]
+	var expr_values := {}
+	for k in exprs:
+		expr_values[str(k)] = exprs[k]
+	# 遍历名单 = 块定义的参数表 + 数据里多出来的参数。
+	# 以块定义为准是关键：老数据里没有的新参数按"老数据补齐值"显示（migrate 优先，其次 default），
+	# 否则标签里的 {参数名} 会原样留在事件表上，看起来像块坏了。
+	var names: Array = []
+	for p in def.get("params", []):
+		names.append(str(p.get("name", "")))
+	for k in values.keys():
+		if not names.has(k):
+			names.append(k)
+	for key in names:
+		var k := str(key)
+		if k == "":
+			continue
+		var raw = values[k] if values.has(k) else _param_fallback(_find_param_def(def, k))
+		var display_val = str(raw)
+		if _is_collection_value(raw):
+			# 合集显示成逗号分隔，避免把 ["a", "b"] 这种字面量直接摆到行上
+			display_val = _collection_to_text(raw)
+		if typeof(raw) == TYPE_FLOAT:
+			display_val = _number_to_text(raw)
 		# 有表达式时用括号包裹显示
-		if exprs.has(k):
-			display_val = "(%s)" % exprs[k]
+		if expr_values.has(k):
+			display_val = "(%s)" % expr_values[k]
 		label = label.replace("{%s}" % k, display_val)
 	# 分号换行（类似积木块分段显示）
 	label = label.replace(";", "\n")
@@ -4771,7 +5146,7 @@ func _create_event_root(def: Dictionary) -> Dictionary:
 	_event_row_id_counter += 1
 	var params = {}
 	for p in def.params:
-		if p.default is Dictionary:
+		if p.default is Dictionary or p.default is Array:
 			params[p.name] = p.default.duplicate()
 		else:
 			params[p.name] = p.default
@@ -4780,7 +5155,7 @@ func _create_event_root(def: Dictionary) -> Dictionary:
 func _create_event_child(def: Dictionary) -> Dictionary:
 	var params = {}
 	for p in def.params:
-		if p.default is Dictionary:
+		if p.default is Dictionary or p.default is Array:
 			params[p.name] = p.default.duplicate()
 		else:
 			params[p.name] = p.default
@@ -6261,6 +6636,47 @@ func _update_event_prop_panel():
 		_prop_panel.add_child(hbox)
 
 # 事件表参数控件工厂（和积木模式 _add_param_editor 保持一致的控件类型）
+## 特效节点参数的选择器。列出本实体 effect_bindings.json 里的特效名，选中就把该参数写成
+## find_effect_by_name("名字")，等价于手写表达式，但省掉 Expr → 插入函数块 那三层。
+## 首项是回显项：已经写过表达式的场合显示当前选的名字，没写过显示「选特效…」。
+func _create_effect_node_picker(node: Dictionary, p: Dictionary) -> OptionButton:
+	var pname = p.name
+	var opt = OptionButton.new()
+	var cur_name := _parse_effect_picker_expr(str(node.get("exprs", {}).get(pname, "")))
+	opt.add_item(cur_name if cur_name != "" else "选特效…")
+	var names: Array = _param_options({"options_from": "effect_names"})
+	var idx := 1
+	for n in names:
+		opt.add_item(str(n))
+		if str(n) == cur_name:
+			opt.select(idx)
+		idx += 1
+	opt.tooltip_text = "按特效名选择，写入 find_effect_by_name(\"名字\")；也可用右边的 Expr 手写"
+	opt.item_selected.connect(func(i: int):
+		if i <= 0:
+			return
+		_save_undo_state()
+		if not (node.get("exprs") is Dictionary):
+			node["exprs"] = {}
+		node.exprs[pname] = "find_effect_by_name(\"%s\")" % str(opt.get_item_text(i))
+		_mark_dirty()
+		_refresh_current_event_item()
+	)
+	return opt
+
+## 从 find_effect_by_name("X") 里取出 X 用于回显，认不出返回空串
+func _parse_effect_picker_expr(expr: String) -> String:
+	var e := expr.strip_edges()
+	var head := "find_effect_by_name("
+	if not e.begins_with(head):
+		return ""
+	var inner := e.substr(head.length()).strip_edges()
+	if inner.ends_with(")"):
+		inner = inner.substr(0, inner.length() - 1).strip_edges()
+	if inner.length() >= 2 and inner.begins_with("\"") and inner.ends_with("\""):
+		return inner.substr(1, inner.length() - 2)
+	return ""
+
 func _add_event_param_widget(container: HBoxContainer, node: Dictionary, p: Dictionary, is_dialog: bool):
 	var pname = p.name
 	var current_val = node.params.get(pname, p.default)
@@ -6321,6 +6737,10 @@ func _add_event_param_widget(container: HBoxContainer, node: Dictionary, p: Dict
 			_refresh_current_event_item()
 		)
 		container.add_child(le)
+		# 参数声明 picker=effect_node 时，这个节点参数认的是特效节点，旁边配一个按名字选的入口。
+		# 这类参数的核心用法是写表达式，光有一个「节点路径」输入框会让人以为该往里填特效名。
+		if str(p.get("picker", "")) == "effect_node":
+			container.add_child(_create_effect_node_picker(node, p))
 	elif p.type == "string":
 		if pname == "code":
 			# 代码参数用多行输入
@@ -6335,15 +6755,36 @@ func _add_event_param_widget(container: HBoxContainer, node: Dictionary, p: Dict
 			)
 			container.add_child(code_edit)
 		else:
-			var le = LineEdit.new()
-			le.text = str(current_val)
-			le.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-			le.text_changed.connect(func(t: String):
-				node.params[pname] = t
-				_mark_dirty()
-				_refresh_current_event_item()
-			)
-			container.add_child(le)
+			var opt_values := _param_options(p)
+			if opt_values.size() > 0:
+				# 有可选值来源的参数走「输入 + 下拉」组合，特效名这类就是走这条
+				container.add_child(_create_options_combo(opt_values, current_val, func(txt: String):
+					node.params[pname] = txt
+					_mark_dirty()
+					_refresh_current_event_item()
+				, "可下拉选择；也可直接输入"))
+			else:
+				var le = LineEdit.new()
+				le.text = str(current_val)
+				le.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+				le.text_changed.connect(func(t: String):
+					node.params[pname] = t
+					_mark_dirty()
+					_refresh_current_event_item()
+				)
+				container.add_child(le)
+	elif p.type == "collection":
+		# 合集：逗号分隔的文本，存成字符串数组
+		var cle = LineEdit.new()
+		cle.text = _collection_to_text(current_val)
+		cle.placeholder_text = "逗号分隔，如 attack1,attack2"
+		cle.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		cle.text_changed.connect(func(t: String):
+			node.params[pname] = _text_to_collection(t)
+			_mark_dirty()
+			_refresh_current_event_item()
+		)
+		container.add_child(cle)
 	elif p.type == "vector2":
 		var default_vec = p.default if p.default is Dictionary else {"x": 0.0, "y": 0.0}
 		var vec = current_val if current_val is Dictionary else default_vec
@@ -6677,6 +7118,9 @@ func _show_expr_editor_dialog(node: Dictionary, param_def: Dictionary):
 	dialog.title = "编辑表达式: %s" % param_def.get("label", param_name)
 	dialog.min_size = Vector2(500, 200)
 	dialog.dialog_text = ""
+	# 这个对话框常从参数对话框的 Expr 按钮开出来，父窗口已被那个对话框占着独占权，
+	# 自己也声明独占会报 Attempting to make child window exclusive，所以这里不独占。
+	dialog.exclusive = false
 	add_child(dialog)
 	# 隐藏 AcceptDialog 自带的"确定"按钮（使用自定义"应用"/"取消"替代）
 	dialog.get_ok_button().visible = false
@@ -6782,7 +7226,13 @@ func _format_value_block_as_func(def: Dictionary, param_overrides: Dictionary = 
 		var raw_val = param_overrides.get(pname, p.get("default", ""))
 		# 从 LineEdit 读取的值是字符串，需要根据类型判断是否加引号
 		var arg_str = ""
-		if p.type == "string" or p.type == "node":
+		if p.type == "collection":
+			# 合集在表达式里写成数组字面量，各项加引号
+			var quoted: Array = []
+			for item in _text_to_collection(_collection_to_text(raw_val)):
+				quoted.append("\"%s\"" % str(item))
+			arg_str = "[%s]" % ", ".join(quoted)
+		elif p.type == "string" or p.type == "node":
 			# 字符串/节点路径用双引号包裹（如果还没包裹的话）
 			var sv = str(raw_val).strip_edges()
 			if sv.begins_with("\"") and sv.ends_with("\""):
@@ -6790,13 +7240,20 @@ func _format_value_block_as_func(def: Dictionary, param_overrides: Dictionary = 
 			else:
 				arg_str = "\"%s\"" % sv
 		elif p.type == "bool":
-			arg_str = "true" if bool(raw_val) else "false"
+			# 控件的值可能是布尔，也可能是 CheckBox 读出来的 "true"/"false" 字符串。
+			# 不能直接 bool(raw_val)：Godot 里 String 没有 bool 构造，运行时报
+			# Invalid call. Nonexistent 'bool' constructor，参数就拼不出来。
+			var bv = raw_val
+			if bv is String:
+				bv = str(bv).strip_edges().to_lower() in ["true", "1", "yes"]
+			arg_str = "true" if bv else "false"
 		elif p.type == "color":
 			var d = raw_val if raw_val is Dictionary else {"r": 1.0, "g": 1.0, "b": 1.0, "a": 1.0}
 			arg_str = "Color(%s, %s, %s, %s)" % [str(d.get("r", 1.0)), str(d.get("g", 1.0)), str(d.get("b", 1.0)), str(d.get("a", 1.0))]
 		else:
-			# number / dropdown / 其它：直接使用字面值
-			arg_str = str(raw_val)
+			# number / dropdown / 其它：直接使用字面值。
+			# 数字走 _number_to_text：块定义里的缺省是 JSON 浮点，0 会写成 0.0。
+			arg_str = _number_to_text(raw_val) if raw_val is float else str(raw_val)
 		args.append(arg_str)
 	return "%s(%s)" % [def.name, ", ".join(args)]
 
@@ -6914,6 +7371,9 @@ func _show_expr_block_picker(line_edit: LineEdit, context_node: Dictionary = {})
 		var msg = AcceptDialog.new()
 		msg.title = "提示"
 		msg.dialog_text = "没有可用的 VALUE 类型积木块定义，也没有上文输出。"
+		# 这个选择器是从表达式编辑对话框里开出来的，父窗口已经被那个对话框占着独占权，
+		# 自己也声明独占会报 Attempting to make child window exclusive，所以这里一律不独占。
+		msg.exclusive = false
 		add_child(msg)
 		msg.confirmed.connect(func(): msg.queue_free())
 		msg.canceled.connect(func(): msg.queue_free())
@@ -6924,6 +7384,8 @@ func _show_expr_block_picker(line_edit: LineEdit, context_node: Dictionary = {})
 	picker.title = "插入函数块 / 上文输出"
 	picker.min_size = Vector2(720, 460)
 	picker.dialog_text = ""
+	# 同上：从表达式编辑对话框里开出来，不能声明独占
+	picker.exclusive = false
 	add_child(picker)
 	# 隐藏 AcceptDialog 自带的"确定"按钮（双击项目即可插入，无需确认按钮）
 	picker.get_ok_button().visible = false
@@ -7147,6 +7609,11 @@ func _show_expr_block_picker(line_edit: LineEdit, context_node: Dictionary = {})
 					cp.custom_minimum_size = Vector2(80, 0)
 					cp.get_popup().exclusive = true
 					widget = cp
+				elif ptype == "collection":
+					# 合集在值块里也按逗号分隔录入
+					var cle = LineEdit.new()
+					cle.placeholder_text = "逗号分隔"
+					widget = cle
 				else:
 					# string / node / 其它类型：使用 LineEdit
 					var le = LineEdit.new()
@@ -7155,6 +7622,19 @@ func _show_expr_block_picker(line_edit: LineEdit, context_node: Dictionary = {})
 				widget.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 				widget.add_theme_font_size_override("font_size", 12)
 				row.add_child(widget)
+				# 有可选值来源的参数，在旁边补一个下拉，选中即写进输入框。
+				# 下拉只负责填值，输入框仍可手写，所以读到不存在的名字也有办法。
+				var picker_options := _param_options(p)
+				if picker_options.size() > 0 and widget is LineEdit:
+					var opt_btn = OptionButton.new()
+					for o in picker_options:
+						opt_btn.add_item(str(o))
+					opt_btn.item_selected.connect(func(idx: int):
+						if idx >= 0 and idx < picker_options.size():
+							(widget as LineEdit).text = str(picker_options[idx])
+							_refresh_preview.call()
+					)
+					row.add_child(opt_btn)
 				# ★ 必须在设置初始值之前存入字典，否则初始值触发的信号中 _refresh_preview 会找不到控件
 				_current_picker_params_edits[pname] = {"widget": widget, "type": ptype, "options": poptions}
 				# 设置初始值并连接信号（放在字典写入之后）
@@ -7179,6 +7659,10 @@ func _show_expr_block_picker(line_edit: LineEdit, context_node: Dictionary = {})
 					var d = p.get("default", {"r": 1.0, "g": 1.0, "b": 1.0, "a": 1.0})
 					cp.color = Color(d.get("r", 1.0), d.get("g", 1.0), d.get("b", 1.0), d.get("a", 1.0))
 					cp.color_changed.connect(func(_c: Color): _refresh_preview.call())
+				elif ptype == "collection":
+					var cle = widget as LineEdit
+					cle.text = _collection_to_text(p.get("default", []))
+					cle.text_changed.connect(func(_t): _refresh_preview.call())
 				else:
 					var le = widget as LineEdit
 					le.text = str(p.get("default", ""))
@@ -7821,7 +8305,7 @@ func _refresh_editor_params():
 		p_type_label.custom_minimum_size = Vector2(40, 0)
 		row1.add_child(p_type_label)
 		var p_type_opt = OptionButton.new()
-		var param_types = ["number", "string", "bool", "dropdown", "curve", "node", "vector2", "vector3", "color"]
+		var param_types = ["number", "string", "bool", "dropdown", "curve", "node", "vector2", "vector3", "color", "collection"]
 		for pt in param_types:
 			p_type_opt.add_item(pt)
 		for pt_idx in range(param_types.size()):
@@ -7841,6 +8325,7 @@ func _refresh_editor_params():
 			elif p.type == "vector2": p.default = {"x": 0.0, "y": 0.0}
 			elif p.type == "vector3": p.default = {"x": 0.0, "y": 0.0, "z": 0.0}
 			elif p.type == "color": p.default = {"r": 1.0, "g": 1.0, "b": 1.0, "a": 1.0}
+			elif p.type == "collection": p.default = []
 			_refresh_editor_params()
 			_sync_main_panel()
 		)
@@ -7951,6 +8436,19 @@ func _refresh_editor_params():
 				_sync_main_panel()
 			)
 			row2.add_child(cp)
+		elif p.type == "collection":
+			# 合集默认值：逗号分隔文本，存回字符串数组
+			if not p.default is Array:
+				p.default = []
+			var coll_def_edit = LineEdit.new()
+			coll_def_edit.text = _collection_to_text(p.default)
+			coll_def_edit.placeholder_text = "逗号分隔，如 attack1,attack2"
+			coll_def_edit.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+			coll_def_edit.text_changed.connect(func(t):
+				p.default = _text_to_collection(t)
+				_sync_main_panel()
+			)
+			row2.add_child(coll_def_edit)
 		else:
 			var p_def_edit = LineEdit.new()
 			p_def_edit.text = str(p.default)
@@ -8318,11 +8816,21 @@ func _get_default_block_defs() -> Array:
 		{"type": BlockType.EVENT, "name": "when_modifier_start", "label": "当自定义效果 {mod_type} 启动时", "category": "事件", "params": [{"name": "mod_type", "type": "string", "default": "", "label": "效果类型"}], "outputs": [{"name": "target", "type": "node", "label": "目标"}, {"name": "mod_type", "type": "node", "label": "效果类型"}, {"name": "mod_power", "type": "node", "label": "强度"}]},
 		{"type": BlockType.EVENT, "name": "when_modifier_update", "label": "当自定义效果 {mod_type} 持续中", "category": "事件", "params": [{"name": "mod_type", "type": "string", "default": "", "label": "效果类型"}, {"name": "interval", "type": "number", "default": 0.0, "label": "间隔(秒)"}], "outputs": [{"name": "target", "type": "node", "label": "目标"}, {"name": "mod_type", "type": "node", "label": "效果类型"}, {"name": "mod_power", "type": "node", "label": "强度"}]},
 		{"type": BlockType.EVENT, "name": "when_modifier_end", "label": "当自定义效果 {mod_type} 结束时", "category": "事件", "params": [{"name": "mod_type", "type": "string", "default": "", "label": "效果类型"}], "outputs": [{"name": "target", "type": "node", "label": "目标"}, {"name": "mod_type", "type": "node", "label": "效果类型"}, {"name": "mod_power", "type": "node", "label": "强度"}]},
-		{"type": BlockType.ACTION, "name": "play_animation", "label": "播放动画 {anim_name}", "category": "动作", "params": [{"name": "anim_name", "type": "string", "default": "idle", "label": "动画名"}]},
+		{"type": BlockType.ACTION, "name": "play_animation", "label": "播放动画 {anim_name} 从第 {start_frame} 帧开始", "category": "动作", "params": [{"name": "anim_name", "type": "string", "default": "idle", "label": "动画名"}, {"name": "start_frame", "type": "number", "default": 0, "label": "起始帧"}]},
 		{"type": BlockType.ACTION, "name": "move_by", "label": "移动 X:{dx} Y:{dy}", "category": "动作", "params": [{"name": "dx", "type": "number", "default": 0, "label": "X偏移"}, {"name": "dy", "type": "number", "default": 0, "label": "Y偏移"}]},
 		{"type": BlockType.ACTION, "name": "set_velocity", "label": "设置速度 VX:{vx} VY:{vy}", "category": "动作", "params": [{"name": "vx", "type": "number", "default": 0, "label": "X速度"}, {"name": "vy", "type": "number", "default": 0, "label": "Y速度"}]},
 		{"type": BlockType.ACTION, "name": "wait", "label": "等待 {duration} 秒", "category": "动作", "params": [{"name": "duration", "type": "number", "default": 1.0, "label": "秒数"}]},
 		{"type": BlockType.ACTION, "name": "set_variable", "label": "设置 {var_name} = {value}", "category": "动作", "params": [{"name": "var_name", "type": "string", "default": "my_var", "label": "变量名"}, {"name": "value", "type": "number", "default": 0, "label": "值"}]},
+		{"type": BlockType.ACTION, "name": "set_entity_var", "label": "将 {entity} 的变量 {var} 设为 {val}", "category": "变量", "params": [
+			{"name": "entity", "type": "node", "default": "", "label": "实体"},
+			{"name": "var", "type": "string", "default": "", "label": "变量名"},
+			{"name": "val", "type": "expr", "default": "0", "label": "值"}
+		]},
+		{"type": BlockType.ACTION, "name": "set_entity_prop", "label": "将 {entity} 的原生变量 {var} 设为 {val}", "category": "变量", "params": [
+			{"name": "entity", "type": "node", "default": "", "label": "实体"},
+			{"name": "var", "type": "string", "default": "", "label": "变量名"},
+			{"name": "val", "type": "expr", "default": "0", "label": "值"}
+		]},
 		{"type": BlockType.CONDITION, "name": "if_condition", "label": "如果 {condition}", "category": "条件", "params": [{"name": "condition", "type": "bool", "default": true, "label": "条件"}]},
 		{"type": BlockType.CONDITION, "name": "if_else", "label": "如果 {condition}", "category": "条件", "hide_in_event": true, "params": [{"name": "condition", "type": "bool", "default": true, "label": "条件"}]},
 		{"type": BlockType.CONDITION, "name": "else_if", "label": "否则如果 {condition}", "category": "条件", "event_only": true, "params": [{"name": "condition", "type": "bool", "default": true, "label": "条件"}]},
@@ -8345,20 +8853,43 @@ func _get_default_block_defs() -> Array:
 		{"type": BlockType.VALUE, "name": "has_state", "label": "有状态 {state}", "category": "数据", "params": [{"name": "state", "type": "string", "default": "", "label": "状态名"}]},
 		{"type": BlockType.VALUE, "name": "get_state_count", "label": "状态 {state} 层数", "category": "数据", "params": [{"name": "state", "type": "string", "default": "", "label": "状态名"}]},
 		{"type": BlockType.VALUE, "name": "get_bonus_value", "label": "加成 {type} 数值", "category": "数据", "params": [{"name": "type", "type": "dropdown", "default": "atk", "label": "类型", "options": ["atk", "speed", "def"]}]},
-		{"type": BlockType.ACTION, "name": "create_attack_box", "label": "创建攻击框 {name};位置: {pos};大小: {size};绑定实体: {bind};持续: {duration}秒", "category": "动作", "params": [
+		{"type": BlockType.ACTION, "name": "create_attack_box", "label": "创建攻击框 {name};位置偏移: {pos};大小: {size};跟随实体: {bind};持续: {duration}秒;绑定动画: {anims}", "category": "动作", "params": [
 			{"name": "name", "type": "string", "default": "", "label": "框名"},
-			{"name": "pos", "type": "vector3", "default": Vector3.ZERO, "label": "位置偏移"},
-			{"name": "size", "type": "vector3", "default": Vector3(50, 50, 50), "label": "大小(3D)"},
-			{"name": "bind", "type": "bool", "default": true, "label": "绑定实体"},
-			{"name": "duration", "type": "number", "default": 0.0, "label": "持续秒数(0=永久)"}
+			{"name": "pos", "type": "vector3", "default": Vector3.ZERO, "label": "位置偏移(x横向 y深度 z高度·正数向上)"},
+			{"name": "size", "type": "vector3", "default": Vector3(50, 50, 50), "label": "大小(x宽 y深度 z高)"},
+			{"name": "bind", "type": "bool", "default": true, "label": "跟随实体"},
+			{"name": "duration", "type": "number", "default": 0.0, "label": "持续秒数(0=永久)"},
+			{"name": "anims", "type": "collection", "default": [], "label": "绑定动画(逗号分隔,空=不绑)"}
 		]},
-		{"type": BlockType.ACTION, "name": "replay_attack_box", "label": "再现攻击框 {name};绑定实体: {bind};持续: {duration}秒", "category": "动作", "params": [
+		{"type": BlockType.ACTION, "name": "replay_attack_box", "label": "再现攻击框 {name};绑定实体: {bind};持续: {duration}秒;绑定动画: {anims}", "category": "动作", "params": [
 			{"name": "name", "type": "string", "default": "", "label": "框名"},
 			{"name": "bind", "type": "bool", "default": true, "label": "绑定实体"},
-			{"name": "duration", "type": "number", "default": 0.0, "label": "持续秒数(0=永久)"}
+			{"name": "duration", "type": "number", "default": 0.0, "label": "持续秒数(0=永久)"},
+			{"name": "anims", "type": "collection", "default": [], "label": "绑定动画(逗号分隔,空=不绑)"}
 		]},
 		{"type": BlockType.ACTION, "name": "remove_attack_box", "label": "移除攻击框 {name}", "category": "动作", "params": [
 			{"name": "name", "type": "string", "default": "", "label": "框名"}
+		]},
+		{"type": BlockType.ACTION, "name": "remove_effect", "label": "移除特效 {target}", "category": "特效", "params": [
+			{"name": "target", "type": "node", "default": "", "label": "特效", "picker": "effect_node"}
+		]},
+		{"type": BlockType.VALUE, "name": "find_effect_by_name", "label": "选择特效 {name} 第 {index} 个;仅自己: {own}", "category": "数据", "params": [
+			{"name": "name", "type": "string", "default": "", "label": "特效名", "options_from": "effect_names"},
+			{"name": "index", "type": "number", "default": 0.0, "label": "第几个(从0)"},
+			{"name": "own", "type": "bool", "default": true, "label": "仅自己生成的"}
+		]},
+		{"type": BlockType.ACTION, "name": "tween_aura", "label": "光圈补间 {target} 属性 {prop} 到 {to} 耗时 {dur} 秒 缓动: {ease}", "category": "动作", "params": [
+			{"name": "target", "type": "node", "default": "", "label": "目标"},
+			{"name": "prop", "type": "dropdown", "default": "scale", "label": "属性", "options": ["scale", "modulate", "modulate:a", "rotation", "position:x", "position:y"]},
+			{"name": "to", "type": "number", "default": 1.0, "label": "目标值"},
+			{"name": "dur", "type": "number", "default": 0.5, "label": "持续时间"},
+			{"name": "ease", "type": "curve", "default": "缓出", "label": "缓动", "options": ["线性", "缓入", "缓出", "缓入缓出", "linear", "sine", "quad", "cubic", "quart", "quint", "expo", "circ", "back", "bounce", "elastic", "spring", "正弦波", "三角波", "方波"]},
+			{"name": "delay", "type": "number", "default": 0.0, "label": "延迟"}
+		]},
+		{"type": BlockType.ACTION, "name": "set_entry_state", "label": "设置入场状态 {mode};动画: {anim};额外位移: {offset}", "category": "动作", "params": [
+			{"name": "mode", "type": "dropdown", "default": "none", "label": "入场方式", "options": ["none", "default", "custom"]},
+			{"name": "anim", "type": "string", "default": "", "label": "自定义入场动画"},
+			{"name": "offset", "type": "vector3", "default": Vector3.ZERO, "label": "额外位移"}
 		]},
 	]
 

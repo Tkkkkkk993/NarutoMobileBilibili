@@ -1,6 +1,18 @@
 extends Node
 
-signal time_scale_changed(new_scale: float)
+# ============================================
+# 真实输入（触屏 / UI 按钮）的唯一入口
+# ============================================
+# 职责：把 UI 触发的按钮按下事件转发给它所属的玩家实体。
+#
+# 历史说明：本节点曾自带一套「时间停止期间缓冲输入」的逻辑
+# （is_time_stopped / _buffered_events / start_time_stop / _end_time_stop /
+#   _buffer_event / _flush_buffered）。但唯一能把它打开的 start_time_stop()
+# 在全仓库从未被调用过，因此那套缓冲一次都没有真正运行过，已整体移除。
+#
+# 输入缓冲现在由 EntityBase 的 _input_buffer + _consume_local_buffer() 统一承担；
+# 真实输入与 AI 输入共用同一个门控 handle_button_press()
+# （优先级判定 _can_execute_immediately + 入队 _add_to_local_buffer）。
 
 enum Priority {
 	SUBSTITUTION = 0,
@@ -11,67 +23,18 @@ enum Priority {
 	SUMMON = 4,
 }
 
-var is_time_stopped: bool = false
-var _buffered_events: Array[Dictionary] = []
-var _buffer_enabled: bool = false
-
+## UI 按钮按下 → 转发给玩家实体（与 AI 输入共用 handle_button_press 门控）
 func on_button_pressed(slot_id: int, action_name: String, priority: int) -> void:
 	var player = _get_player()
 	if not player:
 		return
-	if is_time_stopped:
-		_buffer_event(slot_id, action_name, priority)
-	else:
-		if player.has_method("handle_button_press"):
-			player.handle_button_press(slot_id, action_name, priority)
+	if player.has_method("handle_button_press"):
+		player.handle_button_press(slot_id, action_name, priority)
 
-func start_time_stop(duration: float = 0.5) -> void:
-	if is_time_stopped:
-		return
-	is_time_stopped = true
-	_buffer_enabled = true
-	Engine.time_scale = 0.0
-	time_scale_changed.emit(0.0)
-	get_tree().create_timer(duration, false).timeout.connect(_end_time_stop)
-
-func _end_time_stop() -> void:
-	Engine.time_scale = 1.0
-	is_time_stopped = false
-	_buffer_enabled = false
-	time_scale_changed.emit(1.0)
-	_flush_buffered()
-
-func _buffer_event(slot_id: int, action_name: String, priority: int) -> void:
-	var highest = -1
-	for ev in _buffered_events:
-		if ev.priority > highest:
-			highest = ev.priority
-	if priority > highest:
-		_buffered_events = _buffered_events.filter(func(e): return e.priority >= priority)
-	elif priority < highest:
-		return
-	# 移除同名按钮旧事件
-	_buffered_events = _buffered_events.filter(func(e): return not (e.slot_id == slot_id and e.action_name == action_name))
-	_buffered_events.append({
-		"slot_id": slot_id,
-		"action_name": action_name,
-		"priority": priority,
-		"frame": Engine.get_frames_drawn()
-	})
-
-func _flush_buffered() -> void:
-	if _buffered_events.is_empty():
-		return
-	_buffered_events.sort_custom(func(a,b): 
-		if a.priority != b.priority: return a.priority > b.priority
-		return a.frame < b.frame
-	)
-	var player = _get_player()
-	if player and player.has_method("handle_button_press"):
-		for ev in _buffered_events:
-			player.handle_button_press(ev.slot_id, ev.action_name, ev.priority)
-	_buffered_events.clear()
-
+## 取被控玩家实体
+## TODO(联机 / 本地 2P)：目前硬编码 players[0]。
+## P2 目前只用键盘所以未暴露；将来若 P2 要走触屏，
+## 需要让 SkillSlot 携带其所属实体引用，改为按来源实体路由。
 func _get_player() -> Node:
 	var players = get_tree().get_nodes_in_group("player_entities")
 	return players[0] if players.size() > 0 else null

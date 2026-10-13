@@ -6,6 +6,13 @@ extends Node
 var _attack_boxes: Dictionary = {}
 var _active_boxes: Dictionary = {}  # box_id -> {node, instance_key, config, box_data}
 var _entity: EntityBase = null
+# 上次检查时所在的动画与帧号 —— 用于计算"卡顿跨过的帧"，见 _update_active_boxes
+var _last_box_anim: String = ""
+var _last_box_frame: int = -1
+# 动画尾巴补偿的待处理项：动画自然播完时由 queue_tail_boxes 记下，
+# 下一个物理帧与当前帧的框一起开合并立即判定，见 _update_active_boxes 第 3 步
+var _tail_anim: String = ""
+var _tail_frames: Array[int] = []
 
 # Y轴深度碰撞检测配置（Y是前后深度）
 var _y_collision_enabled: bool = true
@@ -141,9 +148,17 @@ func _init(entity: EntityBase):
 	_entity = entity
 	name = "AttackBoxManager"
 
-func _process(delta):
+func _physics_process(delta):
+	# 判定框的开合、跟随与命中判定全部挂在物理帧上，不再挂渲染帧。
+	# 挂渲染帧在 30 tick 下会丢命中，两条途径：
+	#   一、框的存活期由渲染帧决定，只活一帧的框可能整个存活期落在两次物理步之间，
+	#       物理服务器一次都采样不到它。
+	#   二、命中靠 area_entered 信号，而该信号要到物理步之后的 flush 才派发；
+	#       框若在派发前被释放，_deactivate_box 会把连接一起断掉，命中被静默丢掉。
+	# 现在开合按物理帧采样、含 get_frames_passed 区间补偿，命中在本 tick 立即查询。
 	_update_active_boxes()
 	_update_dynamic_boxes(delta)
+	_check_immediate_hits()
 
 func _update_active_boxes():
 	if not _entity:
@@ -152,8 +167,35 @@ func _update_active_boxes():
 	var current_anim = _entity.current_animation
 	var current_frame = _entity.get_current_frame()
 	
+	# 计算"上次检查以来经过的所有帧"。
+	# 卡顿（生成特效等）会让动画一个 tick 跨过好几帧，而 is_active_at_frame() 是
+	# **严格单帧匹配**（frame_configs.has(frame)）—— 只问"当前帧"的话，
+	# 被跨过的那几帧绑定的攻击框永远不会激活。这里遍历整个区间补齐，
+	# 保证"最终效果和没卡一样"。
+	# 说明：区间末帧即 current_frame，所以下面的遍历结束时，
+	#       框的变换停在当前帧的配置上（不会停在中间帧）。
+	var passed: Array[int] = []
+	if current_anim != _last_box_anim or _last_box_frame < 0:
+		# 换了动画 / 首次检查：不猜上一个动画的历史，但新动画从第 0 帧到当前帧
+		# 确实播过了（切换最多晚一个物理帧才被观察到），必须补上。
+		# 只处理当前帧的话，挂第 0 帧的框在采样已经走到第 1、2 帧时会被整个跳过。
+		var total_frames := _entity.get_animation_frame_count(current_anim)
+		if total_frames > 0 and current_frame >= 0:
+			for f in range(0, mini(current_frame, total_frames - 1) + 1):
+				passed.append(f)
+		else:
+			passed.append(current_frame)
+	else:
+		passed = _entity.get_frames_passed(
+			_last_box_frame, current_frame, _entity.get_animation_frame_count(current_anim))
+	
+	if _entity.debug_frame_pipeline and passed.size() > 1:
+		print("[帧管线] 攻击框跳帧补偿: %s 跨 %d 帧 %s" % [current_anim, passed.size(), str(passed)])
+	
 	var to_deactivate: Array[String] = []
 	
+	# 1) 先按"当前帧"决定谁该关。关闭判据必须用当前帧，
+	#    否则被补偿激活的中间帧框会一直亮着不灭。
 	for box_id in _active_boxes.keys():
 		var active_data = _active_boxes[box_id]
 		var box_data = _attack_boxes.get(box_id)
@@ -175,12 +217,58 @@ func _update_active_boxes():
 	for box_id in to_deactivate:
 		_deactivate_box(box_id)
 	
+	# 2) 再为"经过的每一帧"补齐该亮的框（含被卡顿跨过的帧），
+	#    已激活的只更新变换，未激活的当场创建。
+	for f in passed:
+		_activate_boxes_for_frame(current_anim, f)
+	
+	# 3) 上一个动画的尾巴。动画自然播完时由 queue_tail_boxes 记下，
+	#    在这里与当前帧的框一起开合，紧随其后的 _check_immediate_hits 会立刻判定它们。
+	# 用 _tail_anim 而不是 current_anim：本帧之前退出链可能已经切到下一个动画了，
+	# 尾巴属于旧动画，与当前动画是否还是它无关。
+	if _tail_frames.size() > 0:
+		for f in _tail_frames:
+			_activate_boxes_for_frame(_tail_anim, f)
+		_tail_frames.clear()
+		_tail_anim = ""
+	
+	_last_box_anim = current_anim
+	_last_box_frame = current_frame
+
+## 把某个动画某一帧上绑定的攻击框补齐：已激活的只更新变换，未激活的当场创建。
+## 跳帧补偿与动画尾巴补偿共用，保证两条路径的开合判据一致。
+func _activate_boxes_for_frame(anim_name: String, frame: int) -> void:
 	for box_id in _attack_boxes.keys():
 		var box_data = _attack_boxes[box_id]
-		if box_data.bind_animation == current_anim:
-			if box_data.is_active_at_frame(current_frame):
-				if not _active_boxes.has(box_id):
-					_activate_box(box_data, current_frame)
+		if box_data.bind_animation != anim_name:
+			continue
+		if not box_data.is_active_at_frame(frame):
+			continue
+		if _active_boxes.has(box_id):
+			_update_box_transform(_active_boxes[box_id].node, box_data, frame)
+		else:
+			_activate_box(box_data, frame)
+
+## 非循环动画**自然播完**时由实体调用：记下"上次检查之后到末帧"这段尾巴。
+##
+## 卡顿可能让一次检查直接跨到动画末帧，尾巴上那几帧绑定的攻击框一次都没轮到，
+## 表现就是"这一下没判定"。
+## 不在信号里直接开框：direct_space_state 的查询只能在物理帧里做，
+## 所以这里只登记，交给下一个物理帧与当前帧的框一起开合并立即判定。
+## 只在自然播完时调用：被脚本打断的动画不走这条路，
+## 补出来的框一定是真播过的那几帧，不会凭空多一个判定。
+func queue_tail_boxes(anim_name: String) -> void:
+	if not _entity or anim_name == "":
+		return
+	if _last_box_anim != anim_name or _last_box_frame < 0:
+		return
+	var total_frames := _entity.get_animation_frame_count(anim_name)
+	if total_frames <= 0:
+		return
+	_tail_anim = anim_name
+	_tail_frames.clear()
+	for f in range(_last_box_frame + 1, total_frames):
+		_tail_frames.append(f)
 
 func _activate_box(box_data: AttackBoxData, frame: int):
 	var box_id = box_data.box_id
@@ -275,9 +363,13 @@ func _update_box_transform(box: Area2D, box_data: AttackBoxData, frame: int):
 	# 2D位置使用 X(左右)/Z(上下)，Y 是前后深度
 	# 减去 position_3d.y 抵消父节点前后移动带来的坐标污染
 	var anim_scale = _entity.get_anim_sprite_scale()
+	# 锚点补偿还要乘上 Visuals 自身的缩放（见 EntityBase.get_visuals_extra_scale）。
+	# 攻击框挂在实体根下，不随 Visuals 缩放，锚点项不跟着乘的话补间放大 Visuals 后框会偏。
+	# Visuals 缩放为 ±1 时该因子恒为 1，结果与加这一项之前一致。
+	var visuals_extra = _entity.get_visuals_extra_scale()
 	var final_position = Vector2(
-		x_pos - anchor_offset.x * anim_scale.x,
-		config.position.z + anchor_offset.y * anim_scale.y - _entity.position_3d.y
+		x_pos - anchor_offset.x * anim_scale.x * visuals_extra.x,
+		config.position.z + anchor_offset.y * anim_scale.y * visuals_extra.y - _entity.position_3d.y
 	)
 	box.position = final_position
 	
@@ -294,7 +386,20 @@ var _dynamic_boxes: Dictionary = {}  # box_id -> active_data
 var _dyn_seq: int = 0
 
 ## 创建动态攻击框，返回 box_id
-func create_dynamic_box(box_name: String, pos: Vector3, size: Vector3, bind: bool, duration: float) -> String:
+##
+## authored_space 决定 pos 的口径，两者不能混：
+##   false —— pos 是「相对实体根」的 3D 偏移，x 横向、y 前后深度、z 高度且正数向上，
+##            与图形化脚本里其它 3D 坐标同一口径（now_pos3d() 那一套）。
+##            图形化脚本的 create_attack_box 走这条，跟随与高度才符合作者的预期。
+##   true  —— pos 直接来自 attack_boxes.json 的帧配置，是「相对精灵锚点」的编辑器坐标，
+##            必须按帧驱动攻击框那套公式还原（锚点补偿 + 抵消深度）。replay_attack_box 走这条，
+##            这样再现出来的框和作者在编辑器里摆的完全一致。
+##
+## anims 非空时框的存活期绑在这些动画上：实体当前动画不在列表里时框立刻移除。
+## 列表为空时只按 duration 计，duration 为 0 即常驻，与本参数加入之前一致。
+## duration 与 anims 同时给出时两条判据都要满足，谁先到谁先移除。
+func create_dynamic_box(box_name: String, pos: Vector3, size: Vector3, bind: bool, duration: float,
+		authored_space: bool = false, anims: PackedStringArray = PackedStringArray()) -> String:
 	if not _entity:
 		return ""
 	_dyn_seq += 1
@@ -316,19 +421,26 @@ func create_dynamic_box(box_name: String, pos: Vector3, size: Vector3, bind: boo
 	box_area.add_child(collision)
 	_setup_collision_layers(box_area)
 
+	# 脱手框的绝对深度：不绑定实体时在创建瞬间冻结，NAN 表示"不是脱手框"
+	var detached_y: float = NAN
 	if bind:
 		_entity.add_child(box_area)
-		_update_box_transform(box_area, box, 0)
+		if authored_space:
+			_update_box_transform(box_area, box, 0)
+		else:
+			_apply_root_relative_offset(box_area, pos)
 	else:
-		# 不绑定：位置取创建瞬间实体锚点+偏移，之后固定
-		box_area.position = _compute_dynamic_world_pos(pos)
+		# 不绑定：位置与深度都取创建瞬间的值，之后固定在世界里
+		box_area.position = _compute_dynamic_world_pos(pos, authored_space)
 		var parent = _entity.get_parent()
 		if parent:
 			parent.add_child(box_area)
 		else:
 			_entity.add_child(box_area)
-		# 深度固定：Y轴碰撞检测改用创建时的绝对深度
-		config.position.y = _entity.position_3d.y + pos.y
+		# 脱手：Y 轴深度冻结成绝对值，判定直接读它。
+		# 不能写进 config.position.y —— 那里是「相对实体」的口径，判定还会再加一次实体当前深度，
+		# 于是深度范围被推到两倍人物深度之外永远打不到人，而且实体前后一走框就跟着走。
+		detached_y = _entity.position_3d.y + pos.y
 
 	var instance_key = "%s_%d" % [box_id, box_area.get_instance_id()]
 	var active_data = {
@@ -337,7 +449,10 @@ func create_dynamic_box(box_name: String, pos: Vector3, size: Vector3, bind: boo
 		"config": config,
 		"box_data": box,
 		"bind": bind,
+		"authored_space": authored_space,
+		"detached_y": detached_y,
 		"duration": duration,  # 剩余秒数；<=0 表示常驻
+		"anims": anims,        # 绑定的动画名；为空表示不按动画判存活
 	}
 	_dynamic_boxes[box_id] = active_data
 
@@ -346,7 +461,8 @@ func create_dynamic_box(box_name: String, pos: Vector3, size: Vector3, bind: boo
 	return box_id
 
 ## 按框名再现已存在的攻击框（取第一个匹配框的首帧配置），返回 box_id
-func replay_dynamic_box(box_name: String, bind: bool, duration: float) -> String:
+func replay_dynamic_box(box_name: String, bind: bool, duration: float,
+		anims: PackedStringArray = PackedStringArray()) -> String:
 	if not _entity:
 		return ""
 	for box in _attack_boxes.values():
@@ -354,7 +470,8 @@ func replay_dynamic_box(box_name: String, bind: bool, duration: float) -> String
 			var frame = box.bind_frames[0] if box.bind_frames.size() > 0 else 0
 			var config = box.get_frame_config(frame)
 			if config:
-				return create_dynamic_box(box_name, config.position, config.size, bind, duration)
+				# 帧配置是编辑器坐标口径，authored_space 必须为 true
+				return create_dynamic_box(box_name, config.position, config.size, bind, duration, true, anims)
 			return ""
 	return ""
 
@@ -377,15 +494,49 @@ func _update_dynamic_boxes(delta: float):
 	var to_remove: Array[String] = []
 	for box_id in _dynamic_boxes.keys():
 		var data = _dynamic_boxes[box_id]
+		# 动画存活期：绑了动画列表的框只在列表内任一动画播放期间存在，动画切走即移除。
+		# 建框时当前动画就不在列表里的话，下一个物理帧即移除 —— 判据只有一个，
+		# 「框存在 <=> 当前动画在列表内」，不做"先留着看下一帧"的特殊照顾。
+		var box_anims: PackedStringArray = data.get("anims", PackedStringArray())
+		if box_anims.size() > 0 and not box_anims.has(_entity.current_animation):
+			to_remove.append(box_id)
+			continue
 		if data.duration > 0.0:
 			data.duration -= delta  # delta 已受时间缩放影响，时停中不流逝
 			if data.duration <= 0.0:
 				to_remove.append(box_id)
 				continue
 		if data.bind:
-			_update_box_transform(data.node, data.box_data, 0)
+			if data.authored_space:
+				_update_box_transform(data.node, data.box_data, 0)
+			else:
+				# 相对实体根的口径：每帧重摆一次，位置、朝向、高度都跟着实体走
+				_apply_root_relative_offset(data.node, data.config.position)
 	for box_id in to_remove:
 		_remove_dynamic_box(box_id)
+
+## 实体开始播一段动画时由 EntityBase 调用，把开合游标对齐到本次播放的起点。
+##
+## 帧驱动攻击框的开合靠 _last_box_anim / _last_box_frame 推出「上次检查之后经过的帧」，
+## 而判据里把"换了动画"当成"新动画从第 0 帧一路播到当前帧"，于是带起始帧播放时，
+## 起始帧之前那几帧上绑的框会被当成跨过了补开一次。
+## 这里直接把游标落到「起始帧 - 1」，补偿区间就从起始帧开始。
+##
+## 起始帧为 0 且动画名没变（同名重播）时不写游标，沿用 _update_active_boxes 原判据，
+## 行为与加起始帧之前一致。
+func on_animation_play(anim_name: String, start_frame: int) -> void:
+	if start_frame <= 0 and anim_name == _last_box_anim:
+		return
+	_last_box_anim = anim_name
+	_last_box_frame = start_frame - 1
+
+## 把动态攻击框摆到「相对实体根」的 3D 偏移上。
+## 2D 判定平面不含深度：这里必须和帧驱动攻击框、受击框一样把父节点的深度抵消掉
+## （_update_box_transform 与 _apply_hitbox_transforms 都减 position_3d.y），
+## 深度只由 _check_y_overlap_detailed 那条 1D 判定负责。
+## 不减深度的话框会比受击框低整整一个 position_3d.y，2D 相交直接错位。
+func _apply_root_relative_offset(box: Area2D, offset: Vector3) -> void:
+	box.position = Vector2(offset.x * _entity.get_facing(), -offset.z - _entity.position_3d.y)
 
 func _remove_dynamic_box(box_id: String):
 	if not _dynamic_boxes.has(box_id):
@@ -400,23 +551,83 @@ func _remove_dynamic_box(box_id: String):
 		node.queue_free()
 	_dynamic_boxes.erase(box_id)
 
-## 计算不绑定攻击框的世界2D位置（实体锚点 + 偏移，朝向翻转）
-func _compute_dynamic_world_pos(offset: Vector3) -> Vector2:
+## 计算不绑定攻击框的世界2D位置。
+## authored_space=true 走帧驱动的锚点口径；false 走「相对实体根」的 3D 口径。
+func _compute_dynamic_world_pos(offset: Vector3, authored_space: bool = false) -> Vector2:
 	var facing = _entity.get_facing()
+	if not authored_space:
+		# 相对实体根：把框放进不含深度的 2D 判定平面，再叠加横向（随朝向）与高度（正数向上）。
+		# 深度同样要减掉，理由见 _apply_root_relative_offset。
+		return _entity.position + Vector2(offset.x * facing, -offset.z - _entity.position_3d.y)
 	var anchor_offset = _entity.current_anchor_offset
 	if facing == -1:
 		anchor_offset.x = -anchor_offset.x
 	anchor_offset.y = -anchor_offset.y
 	var anim_scale = _entity.get_anim_sprite_scale()
+	# 同 _update_box_transform：锚点项带上 Visuals 自身缩放，Visuals 为 ±1 时结果不变
+	var visuals_extra = _entity.get_visuals_extra_scale()
 	var local = Vector2(
-		offset.x * facing - anchor_offset.x * anim_scale.x,
-		offset.z + anchor_offset.y * anim_scale.y - _entity.position_3d.y
+		offset.x * facing - anchor_offset.x * anim_scale.x * visuals_extra.x,
+		offset.z + anchor_offset.y * anim_scale.y * visuals_extra.y - _entity.position_3d.y
 	)
 	return _entity.position + local
 
 # ============================================
 # 核心碰撞检测 - 检测受击框
 # ============================================
+
+# ============================================
+# 核心碰撞检测 - 每物理帧立即判定
+# ============================================
+
+## 对每个活着的框做一次显式形状查询，命中即走 _on_attack_box_area_entered。
+##
+## 为什么自己查而不等 area_entered：
+##   引擎的 area_entered 在物理步**之后**的 flush 才派发。框若在派发之前被释放，
+##   _deactivate_box 会把连接一并断掉，这一步的命中就被静默丢掉。只活一两个物理帧的框
+##   必然踩中这一条，表现为「框明明压在对方身上却打不到」。
+##   显式查询用的是本 tick 刚摆好的框变换，不依赖框活够久让物理服务器先发现它。
+##
+## 与信号路径并存不冲突：命中标记按 instance_key 去重，两条路径只有先到的那条算数。
+func _check_immediate_hits():
+	if not _entity:
+		return
+	var space := _entity.get_world_2d().direct_space_state
+	if space == null:
+		return
+	# keys() 返回快照：命中回调可能删框（例如命中行里移除攻击框），不能直接遍历字典
+	for table in [_active_boxes, _dynamic_boxes]:
+		for box_id in table.keys():
+			var active_data = table.get(box_id)
+			if not (active_data is Dictionary):
+				continue
+			var box_data = active_data.get("box_data") as AttackBoxData
+			if not box_data:
+				continue
+			var instance_key := str(active_data.get("instance_key", ""))
+			if box_data.has_triggered_instance(instance_key):
+				continue
+			var box := active_data.get("node") as Area2D
+			if not is_instance_valid(box):
+				continue
+			var shape_node := box.get_child(0) as CollisionShape2D
+			if not shape_node or not shape_node.shape:
+				continue
+			
+			var params := PhysicsShapeQueryParameters2D.new()
+			params.shape = shape_node.shape
+			params.transform = shape_node.global_transform
+			params.collide_with_areas = true
+			params.collide_with_bodies = false
+			params.collision_mask = 1 << 12  # 第 12 层 = 受击框
+			
+			for hit in space.intersect_shape(params, 16):
+				var area := hit.get("collider") as Area2D
+				if not area:
+					continue
+				_on_attack_box_area_entered(area, active_data)
+				if box_data.has_triggered_instance(instance_key):
+					break
 
 func _on_attack_box_area_entered(area: Area2D, active_data: Dictionary):
 	"""当攻击框检测到受击框进入时调用"""
@@ -441,7 +652,7 @@ func _on_attack_box_area_entered(area: Area2D, active_data: Dictionary):
 	
 	# Y轴深度碰撞检测（Y是前后深度）
 	if _y_collision_enabled:
-		if not _check_y_overlap_detailed(parent, config, hit_info):
+		if not _check_y_overlap_detailed(parent, config, hit_info, active_data):
 			return
 	
 	# 阵营检测
@@ -500,7 +711,7 @@ func _on_attack_box_body_entered(body: Node2D, active_data: Dictionary):
 	
 	# Y轴深度检测
 	if _y_collision_enabled:
-		if not _check_y_overlap_detailed(body, config, hit_info):
+		if not _check_y_overlap_detailed(body, config, hit_info, active_data):
 			return
 	
 	# 阵营检测
@@ -605,8 +816,6 @@ func _construct_default_hitbox_data(hitbox_area: Area2D) -> Dictionary:
 		"position": {"x": hitbox_area.position.x, "y": hitbox_area.position.y},
 		"rotation": hitbox_area.rotation,
 		"scale": {"x": hitbox_area.scale.x, "y": hitbox_area.scale.y},
-		"y_offset": 0.0,  # Y是前后深度
-		"y_depth": 50.0,
 		"shape_type": "unknown"
 	}
 	
@@ -690,17 +899,21 @@ func _find_animated_sprite(node: Node) -> Node:
 # Y轴深度碰撞检测（Y是前后深度）
 # ============================================
 
-func _check_y_overlap_detailed(target: Node2D, attack_config: AttackBoxData.FrameConfig, hit_info: Dictionary) -> bool:
+func _check_y_overlap_detailed(target: Node2D, attack_config: AttackBoxData.FrameConfig, hit_info: Dictionary,
+		active_data: Dictionary = {}) -> bool:
 	var target_y = 0.0
+	# 深度回退优先级：帧数据 > 实体属性(EntityData.hurtbox_y_depth) > 硬编码 50
 	var target_y_depth = 50.0
 	var target_y_offset = 0.0
+	if _entity and _entity.entity_data:
+		target_y_depth = _entity.entity_data.hurtbox_y_depth
 	
 	# 从受击框数据获取 Y 深度信息
 	if hit_info.has("data"):
 		var data = hit_info.data
 		# 优先使用新的y_offset/y_depth，兼容旧的z_offset/z_height
 		target_y_offset = data.get("y_offset", data.get("z_offset", 0.0))
-		target_y_depth = data.get("y_depth", data.get("z_height", 50.0))
+		target_y_depth = data.get("y_depth", data.get("z_height", target_y_depth))
 	
 	# 获取目标实体的基础Y深度（前后位置）
 	if target.has_method("get_position_3d"):
@@ -710,7 +923,14 @@ func _check_y_overlap_detailed(target: Node2D, attack_config: AttackBoxData.Fram
 		target_y = target.position.y + target_y_offset
 	
 	# 攻击框的Y（前后深度）范围
-	var self_y = _entity.position_3d.y + attack_config.position.y  # Y是前后深度
+	# 脱手框（不绑定实体）的深度在创建瞬间冻结，直接读绝对值；
+	# 其余框的 position.y 是「相对实体」的偏移，必须叠加实体当前深度。
+	var self_y: float
+	var detached_y: float = float(active_data.get("detached_y", NAN))
+	if not is_nan(detached_y):
+		self_y = detached_y
+	else:
+		self_y = _entity.position_3d.y + attack_config.position.y  # Y是前后深度
 	var self_y_min = self_y - attack_config.size.y / 2
 	var self_y_max = self_y + attack_config.size.y / 2
 	

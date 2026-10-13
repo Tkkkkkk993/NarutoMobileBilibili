@@ -45,8 +45,15 @@ var _vs_script_set_animation: bool = false
 var _vs_deferred_exit_anim: String = ""
 var _vs_pending_anim: String = ""
 var _vs_pending_frame_count: int = 0
+## 动画切换守卫时长（秒）。运行时按物理 tick 率折算成 tick 数：
+## 物理帧率降一半时守卫的墙钟长度不能跟着翻倍，否则 30Hz 下切换后头 100 毫秒的
+## 帧事件（精确单帧的 slide/语音/震屏）会被整个吞掉。
+const _VS_PENDING_GUARD_SEC: float = 0.05
+var _vs_pending_guard_ticks: int = 3
 var _vs_last_frame_idx: Dictionary = {}
 var _vs_last_visual_frame: int = -1
+## 已消费过的实体播放序号，见 _vs_sync_play_start。
+var _vs_seen_play_seq: int = -1
 var _vs_game_started_fired: bool = false
 var _vs_victory_fired: bool = false
 var _vs_initialized: bool = false
@@ -78,6 +85,9 @@ func _ready():
 
 func _vs_init():
 	_vs_birth_time_msec = Time.get_ticks_msec()
+	# 守卫时长按物理 tick 率折算：60Hz→3 tick（50ms），30Hz→2 tick（约 67ms）
+	var ticks_per_second: float = float(ProjectSettings.get_setting("physics/common/physics_ticks_per_second", 60))
+	_vs_pending_guard_ticks = maxi(1, int(round(_VS_PENDING_GUARD_SEC * ticks_per_second)))
 	_vs_load_script()
 	_vs_load_block_defs()
 	_vs_build_indexes()
@@ -256,7 +266,115 @@ func _vs_birth_protect_active(params: Dictionary) -> bool:
 	if not bool(params.get("birth_protect", false)): return false
 	return Time.get_ticks_msec() - _vs_birth_time_msec < _VS_BIRTH_PROTECT_MS
 
+## 为「某个动画的某一帧」派发三类帧事件。
+##
+## 抽成函数是为了让三处共用同一套判据：正常 tick 的当前帧走它自己那三条派发，
+## 跳帧补偿与动画尾巴补偿都走这里。参数是动画名而不是直接读 current_animation，
+## 尾巴补偿要对「上一个动画」派发，那时当前动画已经换了。
+##
+## 覆盖 动画帧 与 物理帧 两种类型，只排除 画面帧（它有自己的每画面帧路径）：
+##   物理帧类型是"每物理帧轮询一次当前帧"，靠轮询去命中 frame_idx == N。
+##   卡顿时动画在一个 idle 帧内连跳好几帧（AnimatedSprite2D 会为每个跨过的帧
+##   逐一发 frame_changed，但物理帧轮询完全看不到它们），于是 frame_idx == N
+##   永远不成立，挂在精确帧上的动作（突进位移、攻击、语音、震屏）被静默丢掉。
+##   把物理帧也纳入补偿，等于让"精确帧"重新可见。
+##   窗口类条件（a <= frame_idx <= b）会在同一 tick 内被多次求值，语义等价；
+##   若某分支有副作用且只想跑一次，作者自行加一个"只执行一次"的条件块。
+func _vs_fire_frame_events(anim_name: String, frame_idx: int) -> void:
+	if anim_name == "":
+		return
+	# when_animation_playing（动画帧 / 物理帧）
+	var playing_ids: Array = []
+	if _vs_event_chains.has("when_animation_playing"):
+		for eid in _vs_event_chains["when_animation_playing"]:
+			var eblock = _vs_blocks_by_id[eid]
+			if not bool(eblock.get("enabled", true)): continue
+			var target_anim = str(eblock.params.get("anim_name", ""))
+			if target_anim != anim_name: continue
+			var frame_type = str(eblock.params.get("frame_type", "动画帧"))
+			if frame_type == "画面帧": continue
+			playing_ids.append(eid)
+	var playing_rows: Array = []
+	if _vs_event_table_chains.has("when_animation_playing"):
+		for row in _vs_event_table_chains["when_animation_playing"]:
+			if not bool(row.get("enabled", true)): continue
+			var target_anim = str(row.get("params", {}).get("anim_name", ""))
+			if target_anim != anim_name: continue
+			var frame_type = str(row.get("params", {}).get("frame_type", "动画帧"))
+			if frame_type == "画面帧": continue
+			playing_rows.append(row)
+	if playing_ids.size() > 0 or playing_rows.size() > 0:
+		_vs_fire_event("when_animation_playing", {"anim_name": anim_name, "frame_idx": frame_idx}, playing_ids, playing_rows)
+	# when_frame_changed（动画帧 / 物理帧）
+	var fc_ids: Array = []
+	if _vs_run_mode != "events_only" and _vs_event_chains.has("when_frame_changed"):
+		for eid in _vs_event_chains["when_frame_changed"]:
+			var eblock = _vs_blocks_by_id[eid]
+			if not bool(eblock.get("enabled", true)): continue
+			var frame_type = str(eblock.params.get("frame_type", "物理帧"))
+			if frame_type == "画面帧": continue
+			if _vs_birth_protect_active(eblock.params): continue
+			fc_ids.append(eid)
+	var fc_rows: Array = []
+	if _vs_run_mode != "blocks_only" and _vs_event_table_chains.has("when_frame_changed"):
+		for row in _vs_event_table_chains["when_frame_changed"]:
+			if not bool(row.get("enabled", true)): continue
+			var frame_type = str(row.get("params", {}).get("frame_type", "物理帧"))
+			if frame_type == "画面帧": continue
+			if _vs_birth_protect_active(row.get("params", {})): continue
+			fc_rows.append(row)
+	if fc_ids.size() > 0 or fc_rows.size() > 0:
+		_vs_fire_event("when_frame_changed", {"anim_name": anim_name, "frame_idx": frame_idx}, fc_ids, fc_rows)
+	# when_any_animation_frame_changed（动画帧 / 物理帧）
+	var any_ids: Array = []
+	if _vs_event_chains.has("when_any_animation_frame_changed"):
+		for eid in _vs_event_chains["when_any_animation_frame_changed"]:
+			var eblock = _vs_blocks_by_id[eid]
+			if not bool(eblock.get("enabled", true)): continue
+			var frame_type = str(eblock.params.get("frame_type", "动画帧"))
+			if frame_type == "画面帧": continue
+			any_ids.append(eid)
+	var any_rows: Array = []
+	if _vs_event_table_chains.has("when_any_animation_frame_changed"):
+		for row in _vs_event_table_chains["when_any_animation_frame_changed"]:
+			if not bool(row.get("enabled", true)): continue
+			var frame_type = str(row.get("params", {}).get("frame_type", "动画帧"))
+			if frame_type == "画面帧": continue
+			any_rows.append(row)
+	if any_ids.size() > 0 or any_rows.size() > 0:
+		_vs_fire_event("when_any_animation_frame_changed", {"anim_name": anim_name, "frame_idx": frame_idx}, any_ids, any_rows)
+
+## 播放起点对齐：实体每真正播一次动画就把 play_seq 加一，这里每个检查周期对一次表。
+##
+## 带起始帧播放时（起始帧大于 0），起始帧之前那几帧并没有播过，而帧事件的判据是
+## 「游标为 -1 就把第 0 帧到当前帧全部补触发」，不动游标的话挂在第 0 帧上的动作会凭空触发一次。
+##
+## 同时要清掉动画切换守卫：守卫期间 anim_frame_changed 恒为假、游标不推进，
+## 守卫结束后游标还是 -1，起始帧之前那几帧照样会被补出来。
+##
+## 起始帧为 0 时只记账不动游标，与该参数加入之前的行为完全一致。
+## 游标按动画名分别存放，所以同名重播（从第 N 帧重播同一个动画）也走这里对齐。
+func _vs_sync_play_start(current_animation: String) -> void:
+	if _vs_seen_play_seq == _entity.play_seq:
+		return
+	_vs_seen_play_seq = _entity.play_seq
+	var start_frame: int = _entity.play_start_frame
+	if start_frame <= 0:
+		return
+	_vs_last_frame_idx[current_animation] = start_frame - 1
+	_vs_pending_anim = ""
+
 func _vs_check_events(delta):
+	# ---- 消费「脚本自己切了动画」标记 ----
+	# 该标记由 play_animation 动作置位，含义只有一个：下一次检查若观察到动画切换，
+	# 这次切换是脚本自己造成的，不要反过来再报一次退出事件。
+	# 它是**一次性**的，必须在这里消费掉：脚本重播「当前正在播放的那个动画」时
+	# 动画名不变，下面唯一清标记的切换分支永远不执行，标记会永久留在 true 上，
+	# 之后所有 when_animation_exit 与 when_any_animation_ended 都被静默吞掉
+	# （表现为画布/事件表里的「当动画结束时」再也不触发）。
+	# 本次检查内新置位的标记不受影响，它留给下一次检查用。
+	var script_set_animation := _vs_script_set_animation
+	_vs_script_set_animation = false
 	var current_animation = _entity.current_animation
 	var inputs = _entity.inputs
 
@@ -277,9 +395,11 @@ func _vs_check_events(delta):
 				_vs_exit_fired_for = exit_anim
 				_vs_fire_event("when_animation_exit", {"anim_name": exit_anim}, matched_deferred_ids, matched_deferred_rows)
 			# ---- when_any_animation_ended (deferred) ----
-			# 如果 when_animation_exit 同步切了动画（_vs_script_set_animation 变 true），
-			# 则不再触发 when_any_animation_ended，否则 now_animation() 读到的是新动画名，
-			# 可能导致条件误判（例如 attack_1a 结束 -> 1a2，但 now_animation() 返回 "attack_1a2"）
+			# 这里读的是**本次检查内**被置位的标记：如果 when_animation_exit 的脚本
+			# 刚刚同步换了动画名，就不再触发 when_any_animation_ended，否则
+			# now_animation() 读到的是新动画名，可能导致条件误判
+			# （例如 attack_1a 结束 -> 1a2，但 now_animation() 返回 "attack_1a2"）。
+			# 重播同名动画（A 播完又播 A）不算换动画，此时按名不变处理，照常触发。
 			if exit_anim != "" and not _vs_script_set_animation:
 				_vs_fire_event("when_any_animation_ended", {"anim_name": exit_anim})
 
@@ -288,6 +408,7 @@ func _vs_check_events(delta):
 		if _entity.arena and _entity.arena.battle_started:
 			_vs_game_started_fired = true
 			_vs_fire_event("when_game_start", {})
+
 
 	# ---- on_victory（当胜利时：敌人死亡 & 自己 idle，仅触发一次）----
 	if not _vs_victory_fired:
@@ -303,6 +424,14 @@ func _vs_check_events(delta):
 				_vs_fire_event("on_victory", {})
 
 	# ---- 动画切换检测 ----
+	# deferred exit 处理器内部可能刚通过 play_animation 切了动画（置位了 _vs_script_set_animation），
+	# 但下方切换判定用的是函数开头消费的局部快照，快照里没有这次置位，
+	# 导致「A 结束 -> 脚本播 B」被当成外部切换，ended(A) 二次触发，
+	# 此时 now_animation() 已是 B，条件误判（如 attack3 结束播 attack_air 后立刻回 idle）。
+	# 这里把活标记合并进快照并清掉，让本检查内的切换判定能看到最新标记。
+	if _vs_script_set_animation:
+		script_set_animation = true
+		_vs_script_set_animation = false
 	# 重新读取动画名：deferred exit 处理可能通过 VS 动作切了动画，
 	# 但局部变量 current_animation 仍是旧值，导致帧事件误判（如旧动画的 frame_idx==0 触发）
 	current_animation = _entity.current_animation
@@ -313,7 +442,7 @@ func _vs_check_events(delta):
 		_vs_pending_frame_count = 0
 		_vs_last_frame_idx[current_animation] = -1
 
-		if not _vs_script_set_animation and not _entity._immobilize_active:
+		if not script_set_animation and not _entity._immobilize_active:
 			if old_anim != _vs_exit_fired_for:
 				var matched_exit_ids: Array = []
 				if _vs_event_chains.has("when_animation_exit"):
@@ -326,16 +455,18 @@ func _vs_check_events(delta):
 				if matched_exit_ids.size() > 0 or matched_exit_rows.size() > 0:
 					_vs_fire_event("when_animation_exit", {"anim_name": old_anim}, matched_exit_ids, matched_exit_rows)
 		# ---- when_any_animation_ended ----
-		if not _vs_script_set_animation and old_anim != _vs_exit_fired_for and old_anim != "":
+		if not script_set_animation and old_anim != _vs_exit_fired_for and old_anim != "":
 			_vs_fire_event("when_any_animation_ended", {"anim_name": old_anim})
 		_vs_exit_fired_for = ""
-		_vs_script_set_animation = false
+		# _vs_script_set_animation 已在函数开头被消费，此处不再清（见函数顶部注释）
+
+	_vs_sync_play_start(current_animation)
 
 	# ---- when_animation_playing ----
 	var frame_val = _entity.get_current_frame()
 	if _vs_pending_anim != "" and _vs_pending_anim == current_animation:
 		_vs_pending_frame_count += 1
-		if frame_val == 0 or _vs_pending_frame_count > 2:
+		if frame_val == 0 or _vs_pending_frame_count >= _vs_pending_guard_ticks:
 			_vs_pending_anim = ""
 
 	var last_frame = _vs_last_frame_idx.get(current_animation, -1)
@@ -345,7 +476,11 @@ func _vs_check_events(delta):
 	var frames_to_trigger: Array[int] = []
 	if anim_frame_changed:
 		if last_frame == -1:
-			frames_to_trigger.append(frame_val)
+			# 首次采样到本动画：把 0..frame_val 全部纳入，交给下面的中间帧补偿逐帧补触发。
+			# 旧实现只放当前帧，于是"动画切换守卫期间跨过的帧"永远补不回来
+			# （30Hz 下 s1_0 第 2 帧的后退就是这么丢的）。
+			for f in range(0, frame_val + 1):
+				frames_to_trigger.append(f)
 		else:
 			var total_frames = _entity.get_animation_frame_count(current_animation)
 			if total_frames > 0:
@@ -360,6 +495,10 @@ func _vs_check_events(delta):
 			else:
 				frames_to_trigger.append(frame_val)
 		_vs_last_frame_idx[current_animation] = frame_val
+
+	# 本 tick 是否发生跨帧。跨帧时当前帧也交给下面的补偿循环按时间顺序派发，
+	# 上面三条"当前帧"派发全部让位，避免同一帧被派发两次。
+	var frame_catchup := frames_to_trigger.size() > 1
 
 	# ---- when_animation_playing ----
 	# 物理帧类型：每物理帧触发一次，用当前帧（持续轮询语义，如落地检测）
@@ -387,7 +526,7 @@ func _vs_check_events(delta):
 			var should_fire = (frame_type == "物理帧") or (frame_type == "动画帧" and anim_frame_changed)
 			if not should_fire: continue
 			matched_playing_rows.append(row)
-	if matched_playing_ids.size() > 0 or matched_playing_rows.size() > 0:
+	if not frame_catchup and (matched_playing_ids.size() > 0 or matched_playing_rows.size() > 0):
 		_vs_fire_event("when_animation_playing", {
 			"anim_name": current_animation,
 			"frame_idx": frame_val
@@ -413,7 +552,7 @@ func _vs_check_events(delta):
 			if frame_type == "画面帧": continue
 			if _vs_birth_protect_active(row.get("params", {})): continue
 			matched_fc_rows.append(row)
-	if matched_fc_ids.size() > 0 or matched_fc_rows.size() > 0:
+	if not frame_catchup and (matched_fc_ids.size() > 0 or matched_fc_rows.size() > 0):
 		_vs_fire_event("when_frame_changed", {"anim_name": current_animation, "frame_idx": frame_val}, matched_fc_ids, matched_fc_rows)
 
 	# ---- when_any_animation_frame_changed ----
@@ -438,84 +577,34 @@ func _vs_check_events(delta):
 			var should_fire = (frame_type == "物理帧") or (frame_type == "动画帧" and anim_frame_changed)
 			if not should_fire: continue
 			matched_any_fc_rows.append(row)
-	if matched_any_fc_ids.size() > 0 or matched_any_fc_rows.size() > 0:
+	if not frame_catchup and (matched_any_fc_ids.size() > 0 or matched_any_fc_rows.size() > 0):
 		_vs_fire_event("when_any_animation_frame_changed", {
 			"anim_name": current_animation,
 			"frame_idx": frame_val
 		}, matched_any_fc_ids, matched_any_fc_rows)
 
-	# ---- 动画帧类型事件的中间帧补偿 ----
-	# 当帧索引跳变时，为跳过的每个中间帧触发"动画帧"类型的事件
-	if frames_to_trigger.size() > 1:
-		for trigger_frame in frames_to_trigger:
-			if trigger_frame == frame_val:
-				continue  # 当前帧已在上面处理过
-			# when_animation_playing (动画帧)
-			var mid_playing_ids: Array = []
-			if _vs_event_chains.has("when_animation_playing"):
-				for eid in _vs_event_chains["when_animation_playing"]:
-					var eblock = _vs_blocks_by_id[eid]
-					if not bool(eblock.get("enabled", true)): continue
-					var target_anim = str(eblock.params.get("anim_name", ""))
-					if target_anim != current_animation: continue
-					var frame_type = str(eblock.params.get("frame_type", "动画帧"))
-					if frame_type != "动画帧": continue
-					mid_playing_ids.append(eid)
-			var mid_playing_rows: Array = []
-			if _vs_event_table_chains.has("when_animation_playing"):
-				for row in _vs_event_table_chains["when_animation_playing"]:
-					if not bool(row.get("enabled", true)): continue
-					var target_anim = str(row.get("params", {}).get("anim_name", ""))
-					if target_anim != current_animation: continue
-					var frame_type = str(row.get("params", {}).get("frame_type", "动画帧"))
-					if frame_type != "动画帧": continue
-					mid_playing_rows.append(row)
-			if mid_playing_ids.size() > 0 or mid_playing_rows.size() > 0:
-				_vs_fire_event("when_animation_playing", {
-					"anim_name": current_animation,
-					"frame_idx": trigger_frame
-				}, mid_playing_ids, mid_playing_rows)
-			# when_frame_changed (动画帧)
-			var mid_fc_ids: Array = []
-			if _vs_run_mode != "events_only" and _vs_event_chains.has("when_frame_changed"):
-				for eid in _vs_event_chains["when_frame_changed"]:
-					var eblock = _vs_blocks_by_id[eid]
-					if not bool(eblock.get("enabled", true)): continue
-					var frame_type = str(eblock.params.get("frame_type", "物理帧"))
-					if frame_type != "动画帧": continue
-					if _vs_birth_protect_active(eblock.params): continue
-					mid_fc_ids.append(eid)
-			var mid_fc_rows: Array = []
-			if _vs_run_mode != "blocks_only" and _vs_event_table_chains.has("when_frame_changed"):
-				for row in _vs_event_table_chains["when_frame_changed"]:
-					if not bool(row.get("enabled", true)): continue
-					var frame_type = str(row.get("params", {}).get("frame_type", "物理帧"))
-					if frame_type != "动画帧": continue
-					if _vs_birth_protect_active(row.get("params", {})): continue
-					mid_fc_rows.append(row)
-			if mid_fc_ids.size() > 0 or mid_fc_rows.size() > 0:
-				_vs_fire_event("when_frame_changed", {"anim_name": current_animation, "frame_idx": trigger_frame}, mid_fc_ids, mid_fc_rows)
-			# when_any_animation_frame_changed (动画帧)
-			var mid_any_ids: Array = []
-			if _vs_event_chains.has("when_any_animation_frame_changed"):
-				for eid in _vs_event_chains["when_any_animation_frame_changed"]:
-					var eblock = _vs_blocks_by_id[eid]
-					if not bool(eblock.get("enabled", true)): continue
-					var frame_type = str(eblock.params.get("frame_type", "动画帧"))
-					if frame_type != "动画帧": continue
-					mid_any_ids.append(eid)
-			var mid_any_rows: Array = []
-			if _vs_event_table_chains.has("when_any_animation_frame_changed"):
-				for row in _vs_event_table_chains["when_any_animation_frame_changed"]:
-					if not bool(row.get("enabled", true)): continue
-					var frame_type = str(row.get("params", {}).get("frame_type", "动画帧"))
-					if frame_type != "动画帧": continue
-					mid_any_rows.append(row)
-			if mid_any_ids.size() > 0 or mid_any_rows.size() > 0:
-				_vs_fire_event("when_any_animation_frame_changed", {
-					"anim_name": current_animation,
-					"frame_idx": trigger_frame
-				}, mid_any_ids, mid_any_rows)
+	# ---- 帧事件的跳帧补偿 ----
+	# 当帧索引跳变时（卡顿恢复、掉帧），把这一跳跨过的**每一帧**都按时间顺序补触发一次，
+	# 当前帧也在其中（上面三条"当前帧"派发在跨帧时已让位，不会重复派发）。
+	#
+	# 覆盖 动画帧 与 物理帧 两种类型 —— 这一点很关键：
+	#   物理帧类型是"每物理帧轮询一次当前帧"，靠轮询去命中 frame_idx == N。
+	#   卡顿时动画在一个 idle 帧内连跳好几帧（AnimatedSprite2D 会为每个跨过的帧
+	#   逐一发 frame_changed，但物理帧轮询完全看不到它们），于是 frame_idx == N
+	#   永远不成立，挂在精确帧上的动作（突进位移、攻击、语音、震屏）被静默丢掉。
+	#   把物理帧也纳入补偿，等于让"精确帧"重新可见。
+	#   窗口类条件（a <= frame_idx <= b）会在同一 tick 内被多次求值，语义等价；
+	#   若某分支有副作用且只想跑一次，作者自行加一个"只执行一次"条件块。
+	# 画面帧类型不在这里处理，它有自己的每画面帧路径（_vs_check_visual_events）。
+	# 跨帧时动画若直接播完，尾巴那几帧走 _vs_replay_anim_tail，不在这里补。
+	# 三类派发的判据收在 _vs_fire_frame_events 一处，三处调用共用。
+	if frame_catchup:
+		# 按时间顺序逐帧补触发，当前帧也在其中（上面三条"当前帧"派发已让位）。
+		# 顺序很关键：先发生的先做，后发生的才能覆盖它。
+		# 反过来——当前帧先、被跨过的帧后——会让"滑动前允许转向、滑动后禁止"这类设计失效，
+		# 也会让"突进接刹车"里的刹车被前面那几帧的突进覆盖。
+		for f in frames_to_trigger:
+			_vs_fire_frame_events(current_animation, f)
 
 	# ---- when_press_input ----
 	var matched_input_ids: Array = []
@@ -754,7 +843,27 @@ func _on_vs_anim_finished():
 	if not _vs_initialized: return
 	# 抓取/定身状态下，不让动画退出事件触发（防止 VS 脚本切回 idle）
 	if _entity._immobilize_active: return
-	_vs_deferred_exit_anim = _entity.current_animation
+	var finished_anim := _entity.current_animation
+	# 卡顿可能让一次采样直接跨到动画末帧，中间那几帧的帧事件一次都没轮到。
+	# 此刻动画名与总帧数都还是这个旧动画的，正好把尾巴补上。
+	_vs_replay_anim_tail(finished_anim)
+	_vs_deferred_exit_anim = finished_anim
+
+## 非循环动画**自然播完**时，把"上次采样之后到末帧"之间被卡顿吞掉的帧补触发。
+##
+## 挂在 animation_finished 信号上是有意的：只有自然播完才走这里，
+## 被脚本或退出链打断的动画不会触发这个信号，所以补出来的一定是真播过的那几帧，
+## 不会凭空造出没发生的突进或攻击。补完把游标推到末帧，避免下一 tick 再补一次。
+func _vs_replay_anim_tail(anim_name: String) -> void:
+	if anim_name == "":
+		return
+	var last_sampled: int = int(_vs_last_frame_idx.get(anim_name, -1))
+	var total := _entity.get_animation_frame_count(anim_name)
+	if last_sampled < 0 or total <= 0:
+		return
+	for f in range(last_sampled + 1, total):
+		_vs_fire_frame_events(anim_name, f)
+	_vs_last_frame_idx[anim_name] = total - 1
 
 # ---- 监听其他实体创建事件 ----
 
@@ -875,6 +984,7 @@ func _vs_execute_if_chain(children: Array, start_idx: int, source_row: Dictionar
 	while i < children.size():
 		var sibling = children[i]
 		var sib_name = str(sibling.get("block_name", ""))
+
 		if not bool(sibling.get("enabled", true)):
 			i += 1
 			if sib_name == "else_block":
@@ -930,6 +1040,7 @@ func _vs_execute_event_node(node: Dictionary, source_row: Dictionary, context: D
 
 func _vs_execute_event_condition(node: Dictionary, block_name: String, params: Dictionary, source_row: Dictionary, context: Dictionary):
 	var children = node.get("children", [])
+
 	match block_name:
 		"if_condition":
 			if _vs_to_bool(params.get("condition", false)):
@@ -1480,6 +1591,7 @@ func _vs_dispatch_value(block_name: String, params: Dictionary) -> Variant:
 		"get_entity_by_id": return _value_get_entity_by_id(params)
 		"find_entity_by_regex": return _value_find_entity_by_regex(params)
 		"find_effect_by_regex": return _value_find_effect_by_regex(params)
+		"find_effect_by_name": return _value_find_effect_by_name(params)
 		"has_state": return _value_has_state(params)
 		"get_state_count": return _value_get_state_count(params)
 		"get_bonus_value": return _value_get_bonus_value(params)
@@ -1639,6 +1751,10 @@ func _vs_dispatch_action(block_name: String, params: Dictionary):
 			_action_remove_state(params)
 		"clear_state":
 			_action_clear_state(params)
+		"set_entry_state":
+			_action_set_entry_state(params)
+		"set_entity_prop":
+			_action_set_entity_prop(params)
 		"die":
 			_action_die(params)
 		"die_entity":
@@ -1695,6 +1811,8 @@ func _vs_dispatch_action(block_name: String, params: Dictionary):
 			_action_create_effect(params)
 		"create_effect_copy":
 			_action_create_effect_copy(params)
+		"remove_effect":
+			_action_remove_effect(params)
 		"make_zoom_shock":
 			_action_make_zoom_shock(params)
 		"camera_shake":
@@ -1729,6 +1847,8 @@ func _vs_dispatch_action(block_name: String, params: Dictionary):
 			_action_camera_rotate(params)
 		"tween_property":
 			await _action_tween_property(params)
+		"tween_aura":
+			await _action_tween_aura(params)
 		"play_voice":
 			_action_play_voice(params)
 		"play_sound":
@@ -1842,6 +1962,29 @@ func _vs_resolve_params(block: Dictionary, event_block_id) -> Dictionary:
 # 类型转换工具
 # ============================================
 
+## 收集某块所有参数的"老数据缺省值"：优先 migrate，其次 default。
+## 这是运行时侧的缺省来源，必须与编辑器 _migrate_to_v3 的补齐规则保持一致，
+## 否则"被编辑器打开过的文件"和"没打开过的文件"会拿到不同的值。
+func _vs_block_defaults(block_name: String) -> Dictionary:
+	var out: Dictionary = {}
+	var def = _vs_block_defs.get(block_name, null)
+	if not (def is Dictionary):
+		return out
+	var params = def.get("params", [])
+	if not (params is Array):
+		return out
+	for pd in params:
+		if not (pd is Dictionary):
+			continue
+		var pname = str(pd.get("name", ""))
+		if pname == "":
+			continue
+		if pd.has("migrate"):
+			out[pname] = pd["migrate"]
+		elif pd.has("default"):
+			out[pname] = pd["default"]
+	return out
+
 func _vs_to_bool(value: Variant) -> bool:
 	if value == null: return false
 	if value is bool: return value
@@ -1876,6 +2019,35 @@ func _vs_to_vector3(value: Variant) -> Vector3:
 	if value is Dictionary:
 		return Vector3(value.get("x", 0.0), value.get("y", 0.0), value.get("z", 0.0))
 	return Vector3.ZERO
+
+## 合集参数取字符串数组。三种来源都认，作者怎么写都能跑：
+##   数组 / PackedStringArray —— 编辑器里存下来的形态；
+##   字符串                  —— 表达式或手写 JSON 里用逗号分隔的形态，中英文逗号都行；
+##   其它                    —— 当成单项。
+## 空项与纯空白项丢弃，免得空字符串被当成一个合法动画名去比对。
+func _vs_to_string_array(value: Variant) -> PackedStringArray:
+	var out := PackedStringArray()
+	if value == null:
+		return out
+	if value is PackedStringArray:
+		for v in value:
+			_vs_append_string_item(out, str(v))
+		return out
+	if value is Array:
+		for v in value:
+			_vs_append_string_item(out, str(v))
+		return out
+	if value is String:
+		for part in str(value).replace("，", ",").split(",", false):
+			_vs_append_string_item(out, part)
+		return out
+	_vs_append_string_item(out, str(value))
+	return out
+
+func _vs_append_string_item(out: PackedStringArray, raw: String) -> void:
+	var s := raw.strip_edges()
+	if s != "":
+		out.append(s)
 
 const _VS_TRANS_IDS := {
 	"linear": 0, "sine": 1, "quint": 2, "quart": 3, "quad": 4,
@@ -1948,8 +2120,23 @@ func _vs_to_color(value: Variant) -> Color:
 
 func _action_play_animation(p: Dictionary):
 	var anim_name = str(p.get("anim_name", ""))
-	_vs_script_set_animation = true
-	_entity.play_animation(anim_name)
+	# 动画不存在时 play_animation 会整体拒绝（不写 current_animation），
+	# 这里也不能置标记，否则标记会活到下一次真实切换，
+	# 吞掉本该触发的 when_animation_exit 与 when_any_animation_ended。
+	if not _entity.has_animation(anim_name):
+		return
+	# 标记的含义是「下一次检查会观察到一次动画切换，而这次切换是脚本自己造成的」。
+	# 只有动画名真的会变才置位：重播当前正在播放的那个动画（A 播放中又播 A、
+	# 现在会从头重播）时动画名不变，没有需要抑制的退出事件；置位反而会让标记
+	# 活过一个检查周期去吞掉本该触发的 when_animation_exit 与 when_any_animation_ended。
+	if anim_name != _entity.current_animation:
+		_vs_script_set_animation = true
+	# 起始帧之前那几帧视为没播过：游标靠 _entity.play_seq 对齐，见 _vs_sync_play_start
+	# 缺省值取自 block_defs.json，与编辑器补齐的值同源，没被编辑器打开过的文件也不会跑偏
+	var dft: Dictionary = _vs_block_defaults("play_animation")
+	# 速度传 -1：各动画实现的默认口径不一致，负值表示"不覆盖当前播放速度"，
+	# 与加起始帧参数之前调 _entity.play_animation(anim_name) 完全同义。
+	_entity.play_animation(anim_name, -1.0, _vs_to_int(p.get("start_frame", dft.get("start_frame", 0))))
 
 # ---- 转向 ----
 
@@ -1966,7 +2153,15 @@ func _action_turn_to(p: Dictionary):
 			_:
 				pass
 
+## 按输入转向。滑动期间不改朝向。
+##
+## 与 _handle_input 里写 facing 的口径一致：那边也是 not is_sliding 才写朝向。
+## 滑动方向在触发那一刻就锁进 slide_locked_facing 了，滑到一半再翻面只会让画面翻，
+## 方向却不变，看起来就是"滑着滑着突然转身"。
+## 想无条件强制转身用 turn_to，那是显式动作，不受这条限制。
 func _action_turn_by_input(_p: Dictionary):
+	if _entity.is_sliding:
+		return
 	if _entity.input_left:
 		_entity.set_facing(-1)
 	elif _entity.input_right:
@@ -1992,6 +2187,7 @@ func _action_set_var_val(p: Dictionary):
 	if var_name != "":
 		_vs_variables[var_name] = val
 
+
 func _action_set_long_var(p: Dictionary):
 	var var_name = str(p.get("var", ""))
 	var val = str(p.get("val", ""))
@@ -2012,6 +2208,175 @@ func _action_set_entity_var_val(p: Dictionary):
 	var val = _vs_to_entity(p.get("val", null))
 	if var_name != "":
 		_vs_variables[var_name] = val
+
+## 把值写进目标实体的视觉脚本变量，值的类型跟着值本身走。
+## 值块与表达式给的是原生类型，直接存；字面量文本按内容推断成整数、浮点或布尔，都不是当字符串存。
+## 一块即可覆盖数值、字符串、布尔、2D、3D、实体各类型，不需要按类型分成多个块。
+func _action_set_entity_var(p: Dictionary):
+	var target = _vs_to_entity(p.get("entity", null))
+	var var_name = str(p.get("var", ""))
+	if not target or var_name == "":
+		return
+	if not target.has_method("_vs_set_variable"):
+		return
+	target._vs_set_variable(var_name, _vs_typed_value(p.get("val", null)))
+
+## 字面量文本自动定型，非字符串原样返回
+func _vs_typed_value(val: Variant) -> Variant:
+	if not (val is String):
+		return val
+	var text := str(val).strip_edges()
+	if text.is_valid_int():
+		return text.to_int()
+	if text.is_valid_float():
+		return text.to_float()
+	if text == "true":
+		return true
+	if text == "false":
+		return false
+	return val
+
+# ---- 原生变量（Godot 属性） ----
+
+## 把值写进目标实体的原生变量，与 set_entity_var 写的图形化脚本变量区分开。
+## 不需要作者选类型：先查这个属性在它所属对象上的声明类型，再把值转成该类型。
+## 变量名支持用 : 写嵌套路径，例如 aura_node:visible，类型按叶子的声明类型判。
+## 属性不存在时报错并跳过，不静默失败。
+func _action_set_entity_prop(p: Dictionary):
+	var target := _vs_to_entity(p.get("entity", null))
+	var prop_name := str(p.get("var", "")).strip_edges()
+	if not target:
+		push_warning("[VS] set_entity_prop: 目标实体为空")
+		return
+	if prop_name == "":
+		push_warning("[VS] set_entity_prop: 原生变量名为空")
+		return
+	var raw = p.get("val", null)
+
+	var host: Object = target
+	var leaf := prop_name
+	if prop_name.contains(":") or prop_name.contains("/"):
+		var walk := _vs_walk_prop_host(target, prop_name)
+		if walk.is_empty():
+			# 中间段不是对象（字典、数组、落在标量上），类型判不出来，交给引擎的 set_indexed
+			target.set_indexed(NodePath(prop_name), _vs_typed_value(raw))
+			return
+		host = walk["host"]
+		leaf = walk["leaf"]
+
+	_vs_write_native_prop(host, leaf, raw, prop_name)
+
+## 逐段走 a:b:c 路径，返回叶子属性所在的对象与叶子名。
+## 中间段不是对象时返回 {}，不做类型判断。
+func _vs_walk_prop_host(target: Object, prop_name: String) -> Dictionary:
+	var parts := prop_name.replace("/", ":").split(":")
+	if parts.size() < 2:
+		return {}
+	var host: Object = target
+	for i in range(parts.size() - 1):
+		var seg := parts[i].strip_edges()
+		if seg == "":
+			return {}
+		var next = host.get(seg)
+		if not (next is Object):
+			return {}
+		host = next
+	return {"host": host, "leaf": parts[parts.size() - 1].strip_edges()}
+
+## 按 host 上 leaf 的声明类型把 raw 写进去。label 只用于告警，显示作者填的完整变量名。
+func _vs_write_native_prop(host: Object, leaf: String, raw: Variant, label: String) -> void:
+	var prop := _vs_find_native_prop(host, leaf)
+	if prop.is_empty():
+		push_warning("[VS] set_entity_prop: %s 上没有原生变量 '%s'" % [host, label])
+		return
+	var prop_type := int(prop.get("type", TYPE_NIL))
+
+	# 对象类型的属性只接受真对象，或相对所属对象解析得通的节点路径。
+	# 解析不到就跳过，不能写 null：无类型提示的 var 允许被写成 null，等于把成员抹掉。
+	if prop_type == TYPE_OBJECT:
+		var obj := _vs_resolve_object_ref(host, raw)
+		if obj == null:
+			push_warning("[VS] set_entity_prop: '%s' 需要一个对象，拿到的值解析不成对象" % label)
+			return
+		host.set(leaf, obj)
+		return
+
+	# 无类型提示的 var 报的是 Variant。若它当前装的是节点而给的是字符串，按节点路径解析，
+	# 这样 aura_node 这类没有类型标注的成员也能直接用路径写。
+	if prop_type == TYPE_NIL and raw is String and host.get(leaf) is Object:
+		var obj := _vs_resolve_object_ref(host, raw)
+		if obj == null:
+			push_warning("[VS] set_entity_prop: '%s' 是节点成员，字符串解析不成节点" % label)
+			return
+		host.set(leaf, obj)
+		return
+
+	host.set(leaf, _vs_coerce_to_prop_type(raw, prop_type))
+
+## 在 host 上查原生属性定义。group / category 这类占位项跳过，查不到返回 {}。
+func _vs_find_native_prop(host: Object, prop_name: String) -> Dictionary:
+	for prop in host.get_property_list():
+		if str(prop.get("name", "")) != prop_name:
+			continue
+		var usage := int(prop.get("usage", 0))
+		if usage & (PROPERTY_USAGE_GROUP | PROPERTY_USAGE_CATEGORY | PROPERTY_USAGE_SUBGROUP):
+			continue
+		return prop
+	return {}
+
+## 按属性的声明类型把值转过去。这就是「自动检测变量类型」的落点：
+## 值块给的原生类型能用就直接用，字面量文本先按内容定型，最后统一按属性类型收口。
+func _vs_coerce_to_prop_type(value: Variant, prop_type: int) -> Variant:
+	match prop_type:
+		TYPE_INT:
+			return _vs_to_int(value)
+		TYPE_FLOAT:
+			return _vs_to_float(value)
+		TYPE_BOOL:
+			return _vs_to_bool(value)
+		TYPE_STRING, TYPE_STRING_NAME, TYPE_NODE_PATH:
+			return str(value)
+		TYPE_VECTOR2:
+			return _vs_to_vector2(value)
+		TYPE_VECTOR2I:
+			return Vector2i(_vs_to_vector2(value))
+		TYPE_VECTOR3:
+			return _vs_to_vector3(value)
+		TYPE_VECTOR3I:
+			return Vector3i(_vs_to_vector3(value))
+		TYPE_COLOR:
+			return _vs_to_color_literal(value)
+		_:
+			# Variant、数组、字典等从属性表判不出目标类型的，值本身是什么就是什么
+			return _vs_typed_value(value)
+
+## 颜色属性的放宽解析：在 _vs_to_color 之外额外认 "#rrggbb" 这类十六进制文本。
+func _vs_to_color_literal(value: Variant) -> Color:
+	if value is String:
+		var text := str(value).strip_edges()
+		if text != "" and text.is_valid_html_color():
+			return Color.from_string(text, Color.WHITE)
+	return _vs_to_color(value)
+
+## 把值解析成对象引用。已经是对象就直接用，字符串按节点路径相对 host 查。
+func _vs_resolve_object_ref(host: Object, value: Variant) -> Object:
+	if value is Object:
+		return value
+	if not (value is String):
+		return null
+	var path := str(value).strip_edges()
+	if path == "":
+		return null
+	if path == "self":
+		return host
+	if not (host is Node):
+		return null
+	var node := host as Node
+	if path.begins_with("$"):
+		path = path.substr(1)
+	if node.has_node(NodePath(path)):
+		return node.get_node(NodePath(path))
+	return null
 
 # ---- 实体操作 ----
 
@@ -2064,17 +2429,26 @@ func _action_hit_entity(p: Dictionary):
 	var target = _vs_to_entity(p.get("target", null))
 	if not target: return
 
-	var hit_type_str = str(p.get("type", "push"))
-	var v = _vs_to_vector3(p.get("v", Vector3.ZERO))
-	var hst = _vs_to_float(p.get("hst", 0.0))
-	var cotg = _vs_to_bool(p.get("cotg", false))
-	var ish = _vs_to_bool(p.get("ish", false))
-	var bs = _vs_to_float(p.get("bs", 0.0))
-	var isgd = _vs_to_bool(p.get("isgd", false))
-	var hurt = _vs_to_float(p.get("hurt", 0.0))
-	var kr = _vs_to_float(p.get("kr", 10.0))
-	var ar = _vs_to_float(p.get("ar", 0.0))
-	var va = _vs_to_vector3(p.get("va", Vector3.ZERO))
+	# 让 block_defs.json 成为缺省值的唯一真值源：
+	# 数据里缺键时，这里取到的和编辑器加载时补齐的值是同一个数，
+	# 不会因为"文件有没有被编辑器打开过"而行为分裂。
+	# 取值的优先级与编辑器 _migrate_to_v3 一致：migrate（老数据语义）→ default（新块初值）。
+	var dft: Dictionary = _vs_block_defaults("hit_entity")
+
+	var hit_type_str = str(p.get("type", dft.get("type", "push")))
+	var v = _vs_to_vector3(p.get("v", dft.get("v", Vector3.ZERO)))
+	var hst = _vs_to_float(p.get("hst", dft.get("hst", 0.0)))
+	var cotg = _vs_to_bool(p.get("cotg", dft.get("cotg", false)))
+	var ish = _vs_to_bool(p.get("ish", dft.get("ish", false)))
+	var bs = _vs_to_float(p.get("bs", dft.get("bs", 0.0)))
+	var isgd = _vs_to_bool(p.get("isgd", dft.get("isgd", false)))
+	var hurt = _vs_to_float(p.get("hurt", dft.get("hurt", 0.0)))
+	var kr = _vs_to_float(p.get("kr", dft.get("kr", 10.0)))
+	var ar = _vs_to_float(p.get("ar", dft.get("ar", 0.0)))
+	var va = _vs_to_vector3(p.get("va", dft.get("va", Vector3.ZERO)))
+	# 击退模型：默认（缺键）= 指数阻力（老公式），显式选中"线性阻力"才走新公式
+	var kb_model = str(p.get("knockback_model", dft.get("knockback_model", "指数阻力")))
+	var kb_linear: bool = (kb_model == "线性阻力")
 
 	var hit_type = _entity.HitStateType.PUSH if hit_type_str == "push" else _entity.HitStateType.LAUNCH
 	var kv = Vector2(v.x, v.y)
@@ -2084,7 +2458,7 @@ func _action_hit_entity(p: Dictionary):
 
 	# 在 hit() 前设置攻击者，让 change_hp 能访问到
 	target._last_attacker = _entity
-	target.hit(hit_type, kv, hst, v.z, cotg, ish, bs, hurt, kr, ar, Vector2(va.x, va.y), va.z)
+	target.hit(hit_type, kv, hst, v.z, cotg, ish, bs, hurt, kr, ar, Vector2(va.x, va.y), va.z, kb_linear)
 	if target.has_method("_on_deal_hit"):
 		target._on_deal_hit(_entity)
 
@@ -2094,13 +2468,18 @@ func _action_create_attack_box(p: Dictionary):
 	var size = _vs_to_vector3(p.get("size", Vector3(50, 50, 50)))
 	var bind = _vs_to_bool(p.get("bind", true))
 	var duration = _vs_to_float(p.get("duration", 0.0))
-	_entity.create_attack_box(box_name, pos, size, bind, duration)
+	# 缺省值取自 block_defs.json，与编辑器补齐的值同源
+	var dft: Dictionary = _vs_block_defaults("create_attack_box")
+	var anims = _vs_to_string_array(p.get("anims", dft.get("anims", [])))
+	_entity.create_attack_box(box_name, pos, size, bind, duration, anims)
 
 func _action_replay_attack_box(p: Dictionary):
 	var box_name = str(p.get("name", ""))
 	var bind = _vs_to_bool(p.get("bind", true))
 	var duration = _vs_to_float(p.get("duration", 0.0))
-	_entity.replay_attack_box(box_name, bind, duration)
+	var dft: Dictionary = _vs_block_defaults("replay_attack_box")
+	var anims = _vs_to_string_array(p.get("anims", dft.get("anims", [])))
+	_entity.replay_attack_box(box_name, bind, duration, anims)
 
 func _action_remove_attack_box(p: Dictionary):
 	var box_name = str(p.get("name", ""))
@@ -2176,7 +2555,10 @@ func _action_hit_stop_entity(p: Dictionary):
 	var target = _vs_to_entity(p.get("target", null))
 	if not target: return
 	var d = _vs_to_float(p.get("d", -1))
-	target.set_hit_stop(d)
+	# 缺省值取自 block_defs.json，与编辑器补齐的值同源
+	var dft: Dictionary = _vs_block_defaults("hit_stop_entity")
+	var delay = _vs_to_float(p.get("delay", dft.get("delay", 0.0)))
+	target.set_hit_stop(d, true, true, delay)
 
 func _action_create_entity_by_path(p: Dictionary):
 	var path = str(p.get("path", ""))
@@ -2321,7 +2703,11 @@ func _action_set_entity_modifiers(p: Dictionary):
 	var caster = _vs_to_entity(p.get("caster", null))
 	if not caster:
 		caster = _entity
-	target.set_modifiers(type, pow, d, "", "", "", caster)
+	# 两个开关的缺省与 block_defs.json 同源，没被编辑器打开过的老数据行为一致
+	var dft = _vs_block_defaults("set_entity_modifiers")
+	var clearable = _vs_to_bool(p.get("clearable", dft.get("clearable", false)))
+	var hit_stop_inv = _vs_to_bool(p.get("hit_stop_inv", dft.get("hit_stop_inv", true)))
+	target.set_modifiers(type, pow, d, "", "", "", caster, clearable, hit_stop_inv)
 
 func _action_set_parent_entity(p: Dictionary):
 	var target = _vs_to_entity(p.get("target", null))
@@ -2365,8 +2751,13 @@ func _action_set_entity_immobilize(p: Dictionary):
 	var var_name = str(p.get("var", ""))
 	var cs = _vs_to_bool(p.get("cs", false))
 	var vr = _vs_to_float(p.get("vr", 0.0))
+	var rani = str(p.get("rani", ""))
+	# 抓取模式。fixed = 固定位置：pos / rpos / 速度都用调用瞬间算好的世界坐标，抓取期间不再变。
+	# follow = 跟随位置：把它们换算成相对自己实体的偏移，抓取期间每帧按施术者实时位置与朝向重算。
+	var follow: bool = str(p.get("mode", "fixed")) == "follow"
 
-	target.set_immobilize(pos, time, rpos, ani, Vector2(v.x, v.y), kt, v.z, g, bs, cs, vr)
+	target.set_immobilize(pos, time, rpos, ani, Vector2(v.x, v.y), kt, v.z, g, bs, cs, vr,
+		rani, _entity if follow else null)
 	if target._immobilize_active:
 		_vs_variables[var_name] = target
 
@@ -2392,6 +2783,9 @@ func _action_create_effect(p: Dictionary):
 	if _entity.effects_container:
 		var eff = _entity.effects_container.spawn_effect(eff_name, pos, not dir, data)
 		if eff:
+			# 逻辑特效名与生成者：前者供「选择特效」按名字找，后者供它判断归属
+			eff.set_meta("effect_name", eff_name)
+			eff.set_meta("_spawn_entity", _entity)
 			if scale_vec != Vector2.ONE:
 				eff.scale = scale_vec
 			if rot_deg != 0.0:
@@ -2414,12 +2808,95 @@ func _action_create_effect_copy(p: Dictionary):
 	if _entity.effects_container and target:
 		var eff = _entity.effects_container.spawn_follow_effect(eff_name, target, pos, true, not dir, data)
 		if eff:
+			# 逻辑特效名与生成者：前者供「选择特效」按名字找，后者供它判断归属
+			eff.set_meta("effect_name", eff_name)
+			eff.set_meta("_spawn_entity", _entity)
 			if scale_vec != Vector2.ONE:
 				eff.scale = scale_vec
 			if rot_deg != 0.0:
 				eff.rotation = deg_to_rad(rot_deg)
 			if auto_flip and _entity.facing_direction < 0:
 				eff.scale.x = -abs(eff.scale.x)
+
+## 取特效实例：接受特效节点本身，也接受能解析到它的节点路径。
+## 值块「选择特效」返回的就是节点，所以常规路径是第一种；第二种留给手写路径的兜底。
+func _vs_to_effect_node(value: Variant) -> Node2D:
+	if value == null:
+		return null
+	if value is Node2D:
+		return value
+	if value is Node or value is NodePath or value is String:
+		var path_text := str(value).strip_edges()
+		if path_text == "":
+			return null
+		var ec = _entity.effects_container
+		if not ec:
+			return null
+		return ec.get_node_or_null(NodePath(path_text)) as Node2D
+	return null
+
+## 移除特效。输入是特效节点，不是特效名：
+## 名字只用于「选择特效」那一步把节点找出来，找到之后这里只认节点，
+## 于是同一个动作既能删本实体生成的，也能删别的实体交给它的那一份，语义只有一个「删掉这个实例」。
+##
+## 归属判断在选择那一步做，见 _value_find_effect_by_name 的 own 参数。
+## 这里只做防呆：拿到的必须是本场特效容器下的实例，避免误传实体或别的节点把场面搞乱。
+func _action_remove_effect(p: Dictionary):
+	var eff := _vs_to_effect_node(p.get("target", null))
+	if eff == null:
+		if _vs_debug_print:
+			print("[特效] 移除特效：没拿到特效节点，跳过")
+		return
+	if not is_instance_valid(eff) or eff.is_queued_for_deletion():
+		return
+	var ec = _entity.effects_container
+	if ec == null or not ec.is_ancestor_of(eff):
+		push_warning("[特效] 移除特效：%s 不是本场特效容器下的实例，跳过" % str(eff))
+		return
+	var eff_desc := str(eff.name)
+	var owner_desc := "无"
+	if eff.has_meta("_spawn_entity"):
+		var owner = eff.get_meta("_spawn_entity")
+		owner_desc = str(owner.name) if is_instance_valid(owner) else "已失效"
+	if ec.has_method("finish_effect"):
+		ec.finish_effect(eff)  # 池化的归还池子，非池化的 queue_free
+	else:
+		eff.queue_free()
+	if _vs_debug_print:
+		print("[特效] 移除 %s，生成者 %s" % [eff_desc, owner_desc])
+
+## 特效选择器：按逻辑特效名找特效实例，返回节点。
+##
+## 归属判断在这里，不在移除那一步：特效容器是全场的，同名特效可能同时存在对手或父实体的一份，
+## own 为真时只认 _spawn_entity 是自己的那些。元数据由生成侧写入：
+##   帧绑定特效 —— EntityBase._process_effect_bindings
+##   脚本生成特效 —— 本文件的 create_effect、create_effect_copy、spawn_afterimage、spawn_cancel_white
+## 没有写生成者的实例按自己的处理，免得早期数据选不中。
+func _value_find_effect_by_name(p: Dictionary) -> Node2D:
+	var eff_name = str(p.get("name", "")).strip_edges()
+	if eff_name == "":
+		return null
+	var index = _vs_to_int(p.get("index", 0))
+	var own = _vs_to_bool(p.get("own", true))
+	var ec = _entity.effects_container
+	if not ec:
+		return null
+	var matched := 0
+	for eff in ec.get_children():
+		if not is_instance_valid(eff) or not (eff is Node2D) or eff.is_queued_for_deletion():
+			continue
+		var logical := str(eff.get_meta("effect_name", "")) if eff.has_meta("effect_name") else ""
+		var pool_name := str(eff.get_meta("pool_name", "")) if eff.has_meta("pool_name") else ""
+		if logical != eff_name and pool_name != eff_name:
+			continue
+		if own and eff.has_meta("_spawn_entity"):
+			var owner = eff.get_meta("_spawn_entity")
+			if is_instance_valid(owner) and owner != _entity:
+				continue
+		if matched == index:
+			return eff
+		matched += 1
+	return null
 
 func _action_spawn_afterimage(p: Dictionary):
 	var fade = _vs_to_float(p.get("fade", 0.5))
@@ -2428,13 +2905,18 @@ func _action_spawn_afterimage(p: Dictionary):
 	if _entity.effects_container:
 		var eff = _entity.effects_container.spawn_effect("Afterimage", _entity.position_3d, false, {"target": _entity})
 		if eff:
+			eff.set_meta("effect_name", "Afterimage")
+			eff.set_meta("_spawn_entity", _entity)
 			eff.fade_time = fade
 			eff.hold_time = hold
 			eff.custom_modulate = color
 
 func _action_spawn_cancel_white(p: Dictionary):
 	if _entity.effects_container:
-		_entity.effects_container.spawn_effect("CancelWhite", _entity.position_3d, false, {"target": _entity})
+		var eff = _entity.effects_container.spawn_effect("CancelWhite", _entity.position_3d, false, {"target": _entity})
+		if eff:
+			eff.set_meta("effect_name", "CancelWhite")
+			eff.set_meta("_spawn_entity", _entity)
 
 func _action_print(p: Dictionary):
 	var text = str(p.get("text", ""))
@@ -2515,6 +2997,22 @@ func _action_remove_state(p: Dictionary):
 
 func _action_clear_state(p: Dictionary):
 	_entity.clear_state(str(p.get("state", "")))
+
+## 修改入场状态。none 取消入场并落到地面，default 重新走默认从天而降，
+## custom 走自定义入场（anim 为空时沿用 EntityData.custom_entry）。
+func _action_set_entry_state(p: Dictionary):
+	var mode = str(p.get("mode", "none"))
+	var anim = str(p.get("anim", ""))
+	var offset = _vs_to_vector3(p.get("offset", Vector3.ZERO))
+	match mode:
+		"none":
+			_entity.set_entry_state(EntityBase.EntryAction.NONE)
+		"default":
+			_entity.set_entry_state(EntityBase.EntryAction.DEFAULT)
+		"custom":
+			_entity.set_entry_state(EntityBase.EntryAction.CUSTOM, anim, offset)
+		_:
+			push_warning("[VS] set_entry_state: 未知入场方式 '%s'" % mode)
 
 func _value_has_state(p: Dictionary) -> bool:
 	return _entity.has_state(str(p.get("state", "")))
@@ -2621,6 +3119,7 @@ func _action_set_charging_max(p: Dictionary):
 	var slot_id = _vs_to_int(p.get("slot_id", 0))
 	var n = _vs_to_int(p.get("n", 0))
 	_entity.skill_slot[slot_id].dot_max = n
+
 
 func _action_set_skill_slot_disabled(p: Dictionary):
 	var slot_id = _vs_to_int(p.get("slot_id", 0))
@@ -2748,8 +3247,26 @@ func _action_camera_rotate(p: Dictionary):
 
 # ---- 补间动画 ----
 
+## 补间 scale 的写入端。
+## Visuals.scale.x 同时承载朝向符号：EntityBase 每物理帧都会按朝向写一次，
+## 所以这里只改缩放大小，符号跟着实体当前朝向走，避免与朝向应用互相覆盖。
+func _tween_apply_visual_scale(value: float, host: Node2D, face_source):
+	var face := 1.0
+	if face_source != null and face_source.facing_direction < 0:
+		face = -1.0
+	host.scale = Vector2(value * face, value)
+
 func _action_tween_property(p: Dictionary):
-	var target = _vs_to_entity(p.get("target", null))
+	await _tween_entity_property(_vs_to_entity(p.get("target", null)), p, false)
+
+## 光圈补间：参数与缓动跟 tween_property 完全一致，只是宿主换成 Aura 节点。
+## Aura 挂在 Shadow 下，与 Visuals 是兄弟关系，所以 tween_property 那种
+## 「视觉补间一律打 Visuals」的规则覆盖不到它，必须单独给一个入口。
+func _action_tween_aura(p: Dictionary):
+	await _tween_entity_property(_vs_to_entity(p.get("target", null)), p, true)
+
+## tween_property 与 tween_aura 的共用实现。use_aura 决定宿主取 Aura 还是 Visuals/实体根。
+func _tween_entity_property(target, p: Dictionary, use_aura: bool):
 	if not target:
 		if _vs_debug_print:
 			push_warning("[VS-tween] 目标实体为空")
@@ -2766,32 +3283,52 @@ func _action_tween_property(p: Dictionary):
 		ease_type = int(curve.get("ease", Tween.EASE_IN_OUT))
 	elif _vs_debug_print:
 		push_warning("[VS-tween] 自定义表达式缓动不支持 Tween，已用线性替代")
+	var host: Node2D = target
+	var host_is_visuals := false
+	if use_aura:
+		host = target.aura_node
+		if not host:
+			push_warning("[VS-tween] %s 没有 Aura 节点，本次光圈补间被忽略" % target.name)
+			return
+		if prop.begins_with("position_3d"):
+			# position_3d 是逻辑坐标，光圈是纯视觉节点，没有这一说
+			push_warning("[VS-tween] 光圈不支持 position_3d 补间，本次被忽略")
+			return
+	else:
+		# 视觉补间一律打在 Visuals 节点上。Visuals 与 Shadow 是兄弟节点，Aura 挂在 Shadow 下，
+		# 补间打在实体根上会把 Aura 与 Shadow 一起缩放、淡出、旋转。
+		# position_3d 是逻辑坐标，碰撞、深度与受击框都读它，补间必须留在实体根上。
+		if not prop.begins_with("position_3d") and target.visuals_node:
+			host = target.visuals_node
+			host_is_visuals = true
 	match prop:
 		"scale":
+			# 光圈不随朝向镜像，face_src 只给 Visuals 那条路
+			var face_src = target if host_is_visuals else null
 			var tween = target.create_tween()
-			tween.tween_property(target, "scale", Vector2(to_val, to_val), dur).set_delay(delay).set_trans(trans_type).set_ease(ease_type)
+			tween.tween_method(_tween_apply_visual_scale.bind(host, face_src), host.scale.y, to_val, dur).set_delay(delay).set_trans(trans_type).set_ease(ease_type)
 			await tween.finished
 		"modulate":
 			var tween = target.create_tween()
-			tween.tween_property(target, "modulate", Color(to_val, to_val, to_val, 1.0), dur).set_delay(delay).set_trans(trans_type).set_ease(ease_type)
+			tween.tween_property(host, "modulate", Color(to_val, to_val, to_val, 1.0), dur).set_delay(delay).set_trans(trans_type).set_ease(ease_type)
 			await tween.finished
 		"modulate:a":
-			var src = target.modulate
+			var src = host.modulate
 			var dst = Color(src.r, src.g, src.b, to_val)
 			var tween = target.create_tween()
-			tween.tween_property(target, "modulate", dst, dur).set_delay(delay).set_trans(trans_type).set_ease(ease_type)
+			tween.tween_property(host, "modulate", dst, dur).set_delay(delay).set_trans(trans_type).set_ease(ease_type)
 			await tween.finished
 		"rotation":
 			var tween = target.create_tween()
-			tween.tween_property(target, "rotation", deg_to_rad(to_val), dur).set_delay(delay).set_trans(trans_type).set_ease(ease_type)
+			tween.tween_property(host, "rotation", deg_to_rad(to_val), dur).set_delay(delay).set_trans(trans_type).set_ease(ease_type)
 			await tween.finished
 		"position:x":
 			var tween = target.create_tween()
-			tween.tween_property(target, "position:x", to_val, dur).set_delay(delay).set_trans(trans_type).set_ease(ease_type)
+			tween.tween_property(host, "position:x", to_val, dur).set_delay(delay).set_trans(trans_type).set_ease(ease_type)
 			await tween.finished
 		"position:y":
 			var tween = target.create_tween()
-			tween.tween_property(target, "position:y", to_val, dur).set_delay(delay).set_trans(trans_type).set_ease(ease_type)
+			tween.tween_property(host, "position:y", to_val, dur).set_delay(delay).set_trans(trans_type).set_ease(ease_type)
 			await tween.finished
 		"position_3d:x":
 			var tween = target.create_tween()
@@ -2806,6 +3343,7 @@ func _action_tween_property(p: Dictionary):
 			tween.tween_property(target, "position_3d:z", to_val, dur).set_delay(delay).set_trans(trans_type).set_ease(ease_type)
 			await tween.finished
 		_:
+			# 属性下拉之外的自定义属性维持原行为：打在实体根上
 			var tween = target.create_tween()
 			tween.tween_property(target, prop, to_val, dur).set_delay(delay).set_trans(trans_type).set_ease(ease_type)
 			await tween.finished
@@ -3283,6 +3821,7 @@ func _vs_set_variable(var_name: String, value: Variant):
 
 func _vs_get_variable(var_name: String) -> Variant:
 	return _vs_variables.get(var_name, null)
+
 
 # ============================================
 # 辅助工具

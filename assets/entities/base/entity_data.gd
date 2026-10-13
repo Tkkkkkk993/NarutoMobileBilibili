@@ -19,5 +19,8 @@ class_name EntityData
 # 在这些动画播放时也视为待机状态（结算时可跳过等待）
 @export var extra_idle_anims: Array[String] = []
 
+# 前后深度（Y轴），小体型角色可缩小此值。默认与攻击框深度一致
+@export var hurtbox_y_depth: float = 50.0
+
 # 该资源保存在floder_path下的main.tres
 # FrameData数据保存在floder_path下的entity_frame_data.json

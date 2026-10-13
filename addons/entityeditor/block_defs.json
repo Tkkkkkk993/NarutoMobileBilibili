@@ -41,7 +41,7 @@
 		},
 		{
 			"category": "动作",
-			"label": "播放动画 {anim_name}",
+			"label": "播放动画 {anim_name} 从第 {start_frame} 帧开始",
 			"name": "play_animation",
 			"params": [
 				{
@@ -49,6 +49,12 @@
 					"label": "动画名",
 					"name": "anim_name",
 					"type": "string"
+				},
+				{
+					"default": 0,
+					"label": "起始帧",
+					"name": "start_frame",
+					"type": "number"
 				}
 			],
 			"type": 1.0
@@ -333,6 +339,61 @@
 			"type": 1.0
 		},
 		{
+			"category": "变量",
+			"label": "将 {entity} 的变量 {var} 设为 {val}",
+			"name": "set_entity_var",
+			"params": [
+				{
+					"default": "",
+					"label": "实体",
+					"name": "entity",
+					"type": "node"
+				},
+				{
+					"default": "",
+					"label": "变量名",
+					"name": "var",
+					"options": [],
+					"type": "string"
+				},
+				{
+					"default": "0",
+					"label": "值",
+					"name": "val",
+					"type": "expr"
+				}
+			],
+			"type": 1.0
+		},
+		{
+			"category": "变量",
+			"label": "将 {entity} 的原生变量 {var} 设为 {val}",
+			"name": "set_entity_prop",
+			"outputs": [],
+			"params": [
+				{
+					"default": "",
+					"label": "实体",
+					"name": "entity",
+					"type": "node"
+				},
+				{
+					"default": "",
+					"label": "变量名",
+					"name": "var",
+					"options": [],
+					"type": "string"
+				},
+				{
+					"default": "0",
+					"label": "值",
+					"name": "val",
+					"type": "expr"
+				}
+			],
+			"type": 1.0
+		},
+		{
 			"category": "侦测",
 			"label": "获取 {entity} 的数值变量 {var} 的值",
 			"name": "get_entity_num_var",
@@ -551,7 +612,7 @@
 		},
 		{
 			"category": "实体",
-			"label": "对实体 {target} 进行 {type} 攻击;速度: {v};空中速度: {va};受击时间: {hst};扫地: {cotg};重攻击: {ish};攻击强度: {bs};是否根据当前朝向攻击: {isgd};伤害 {hurt};击退阻力: {kr};空中阻力: {ar}",
+			"label": "对实体 {target} 进行 {type} 攻击;速度: {v};空中速度: {va};受击时间: {hst};扫地: {cotg};重攻击: {ish};攻击强度: {bs};是否根据当前朝向攻击: {isgd};伤害 {hurt};击退阻力: {kr};空中阻力: {ar};击退模型: {knockback_model}",
 			"name": "hit_entity",
 			"outputs": [],
 			"params": [
@@ -618,6 +679,7 @@
 				{
 					"default": true,
 					"label": "是否根据当前朝向攻击",
+					"migrate": false,
 					"name": "isgd",
 					"type": "bool"
 				},
@@ -636,15 +698,27 @@
 				{
 					"default": 1.0,
 					"label": "空中阻力",
+					"migrate": 3.0,
 					"name": "ar",
 					"type": "number"
+				},
+				{
+					"default": "线性阻力",
+					"label": "击退模型",
+					"migrate": "指数阻力",
+					"name": "knockback_model",
+					"options": [
+						"指数阻力",
+						"线性阻力"
+					],
+					"type": "dropdown"
 				}
 			],
 			"type": 1.0
 		},
 		{
 			"category": "动作",
-			"label": "创建攻击框 {name};位置: {pos};大小: {size};绑定实体: {bind};持续: {duration}秒",
+			"label": "创建攻击框 {name};位置偏移: {pos};大小: {size};跟随实体: {bind};持续: {duration}秒;绑定动画: {anims}",
 			"name": "create_attack_box",
 			"outputs": [],
 			"params": [
@@ -660,7 +734,7 @@
 						"y": 0.0,
 						"z": 0.0
 					},
-					"label": "位置偏移",
+					"label": "位置偏移(x横向 y深度 z高度·正数向上)",
 					"name": "pos",
 					"type": "vector3"
 				},
@@ -670,13 +744,13 @@
 						"y": 50.0,
 						"z": 50.0
 					},
-					"label": "大小(3D)",
+					"label": "大小(x宽 y深度 z高)",
 					"name": "size",
 					"type": "vector3"
 				},
 				{
 					"default": true,
-					"label": "绑定实体",
+					"label": "跟随实体",
 					"name": "bind",
 					"type": "bool"
 				},
@@ -685,13 +759,19 @@
 					"label": "持续秒数",
 					"name": "duration",
 					"type": "number"
+				},
+				{
+					"default": [],
+					"label": "绑定动画(逗号分隔,空=不绑)",
+					"name": "anims",
+					"type": "collection"
 				}
 			],
 			"type": 1.0
 		},
 		{
 			"category": "动作",
-			"label": "再现攻击框 {name};绑定实体: {bind};持续: {duration}秒",
+			"label": "再现攻击框 {name};绑定实体: {bind};持续: {duration}秒;绑定动画: {anims}",
 			"name": "replay_attack_box",
 			"outputs": [],
 			"params": [
@@ -712,6 +792,12 @@
 					"label": "持续秒数",
 					"name": "duration",
 					"type": "number"
+				},
+				{
+					"default": [],
+					"label": "绑定动画(逗号分隔,空=不绑)",
+					"name": "anims",
+					"type": "collection"
 				}
 			],
 			"type": 1.0
@@ -833,8 +919,8 @@
 				},
 				{
 					"default": {
-						"x": 0.0,
-						"y": 0.0
+						"x": 3000.0,
+						"y": 3000.0
 					},
 					"label": "速度",
 					"name": "spe",
@@ -932,7 +1018,7 @@
 		},
 		{
 			"category": "实体",
-			"label": "减帧实体 {target} 持续时间: {d}",
+			"label": "减帧实体 {target} 持续时间: {d};延迟: {delay}秒",
 			"name": "hit_stop_entity",
 			"outputs": [],
 			"params": [
@@ -946,6 +1032,12 @@
 					"default": 0.0,
 					"label": "持续时间",
 					"name": "d",
+					"type": "number"
+				},
+				{
+					"default": 0.0,
+					"label": "延迟秒数",
+					"name": "delay",
 					"type": "number"
 				}
 			],
@@ -1011,6 +1103,22 @@
 					"label": "数据(JSON)",
 					"name": "data",
 					"type": "string"
+				}
+			],
+			"type": 1.0
+		},
+		{
+			"category": "特效",
+			"label": "移除特效 {target}",
+			"name": "remove_effect",
+			"outputs": [],
+			"params": [
+				{
+					"default": "",
+					"label": "特效",
+					"name": "target",
+					"picker": "effect_node",
+					"type": "node"
 				}
 			],
 			"type": 1.0
@@ -1230,6 +1338,34 @@
 					"label": "匹配属性(逗号分隔)",
 					"name": "props",
 					"type": "string"
+				}
+			],
+			"type": 3.0
+		},
+		{
+			"category": "数据",
+			"label": "选择特效 {name} 第 {index} 个;仅自己: {own}",
+			"name": "find_effect_by_name",
+			"outputs": [],
+			"params": [
+				{
+					"default": "",
+					"label": "特效名",
+					"name": "name",
+					"options_from": "effect_names",
+					"type": "string"
+				},
+				{
+					"default": 0.0,
+					"label": "第几个(从0)",
+					"name": "index",
+					"type": "number"
+				},
+				{
+					"default": true,
+					"label": "仅自己生成的",
+					"name": "own",
+					"type": "bool"
 				}
 			],
 			"type": 3.0
@@ -1628,7 +1764,7 @@
 		},
 		{
 			"category": "实体",
-			"label": "设置实体 {target} 效果: {type} 程度: {pow} 持续时间: {d}",
+			"label": "设置实体 {target} 效果: {type} 程度: {pow} 持续时间: {d};可被清除: {clearable};不受减帧: {hit_stop_inv}",
 			"name": "set_entity_modifiers",
 			"outputs": [],
 			"params": [
@@ -1661,6 +1797,18 @@
 					"label": "效果事件触发者",
 					"name": "caster",
 					"type": "node"
+				},
+				{
+					"default": false,
+					"label": "可被清除",
+					"name": "clearable",
+					"type": "bool"
+				},
+				{
+					"default": true,
+					"label": "不受减帧",
+					"name": "hit_stop_inv",
+					"type": "bool"
 				}
 			],
 			"type": 1.0
@@ -2025,7 +2173,7 @@
 		},
 		{
 			"category": "实体",
-			"label": "抓取实体 {target};位置: {pos};时间: {time};释放位置: {rpos};动画: {ani};释放速度: {v};控制时间: {kt};重力: {g};抓取强度: {bs};可替身: {cs};旋转角度: {vr};记录实体到变量: {var}",
+			"label": "抓取实体 {target};模式: {mode};位置: {pos};时间: {time};释放位置: {rpos};动画: {ani};释放动画: {rani};释放速度: {v};控制时间: {kt};重力: {g};抓取强度: {bs};可替身: {cs};旋转角度: {vr};记录实体到变量: {var}",
 			"name": "set_entity_immobilize",
 			"outputs": [],
 			"params": [
@@ -2034,6 +2182,16 @@
 					"label": "目标",
 					"name": "target",
 					"type": "node"
+				},
+				{
+					"default": "fixed",
+					"label": "抓取模式",
+					"name": "mode",
+					"options": [
+						"fixed",
+						"follow"
+					],
+					"type": "dropdown"
 				},
 				{
 					"default": {
@@ -2065,6 +2223,12 @@
 					"default": "immobilize",
 					"label": "动画",
 					"name": "ani",
+					"type": "string"
+				},
+				{
+					"default": "",
+					"label": "释放动画(留空用默认)",
+					"name": "rani",
 					"type": "string"
 				},
 				{
@@ -3850,6 +4014,80 @@
 			"type": 1.0
 		},
 		{
+			"category": "实体",
+			"label": "光圈补间 {target} 属性 {prop} 到 {to} 耗时 {dur} 秒 缓动: {ease}",
+			"name": "tween_aura",
+			"outputs": [],
+			"params": [
+				{
+					"default": "",
+					"label": "目标",
+					"name": "target",
+					"type": "node"
+				},
+				{
+					"default": "scale",
+					"label": "属性",
+					"name": "prop",
+					"options": [
+						"scale",
+						"modulate",
+						"modulate:a",
+						"rotation",
+						"position:x",
+						"position:y"
+					],
+					"type": "dropdown"
+				},
+				{
+					"default": 1.0,
+					"label": "目标值",
+					"name": "to",
+					"type": "number"
+				},
+				{
+					"default": 0.5,
+					"label": "持续时间",
+					"name": "dur",
+					"type": "number"
+				},
+				{
+					"default": "缓出",
+					"label": "缓动",
+					"name": "ease",
+					"options": [
+						"线性",
+						"缓入",
+						"缓出",
+						"缓入缓出",
+						"linear",
+						"sine",
+						"quad",
+						"cubic",
+						"quart",
+						"quint",
+						"expo",
+						"circ",
+						"back",
+						"bounce",
+						"elastic",
+						"spring",
+						"正弦波",
+						"三角波",
+						"方波"
+					],
+					"type": "curve"
+				},
+				{
+					"default": null,
+					"label": "延迟(秒)",
+					"name": "delay",
+					"type": "number"
+				}
+			],
+			"type": 1.0
+		},
+		{
 			"category": "数据",
 			"label": "获取信息点: {name}",
 			"name": "get_info_point",
@@ -3873,7 +4111,7 @@
 				{
 					"default": true,
 					"label": "是否允许",
-					"name": "v",
+					"name": "b",
 					"type": "bool"
 				}
 			],
@@ -4406,6 +4644,42 @@
 				}
 			],
 			"type": 3.0
+		},
+		{
+			"category": "动作",
+			"label": "设置入场状态 {mode};动画: {anim};额外位移: {offset}",
+			"name": "set_entry_state",
+			"outputs": [],
+			"params": [
+				{
+					"default": "none",
+					"label": "入场方式",
+					"name": "mode",
+					"options": [
+						"none",
+						"default",
+						"custom"
+					],
+					"type": "dropdown"
+				},
+				{
+					"default": "",
+					"label": "自定义入场动画",
+					"name": "anim",
+					"type": "string"
+				},
+				{
+					"default": {
+						"x": 0.0,
+						"y": 0.0,
+						"z": 0.0
+					},
+					"label": "额外位移",
+					"name": "offset",
+					"type": "vector3"
+				}
+			],
+			"type": 1.0
 		}
 	],
 	"categories": [

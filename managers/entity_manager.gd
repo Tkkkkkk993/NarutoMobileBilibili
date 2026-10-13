@@ -153,8 +153,12 @@ func _spawn_entity(def: Dictionary, container: Node2D) -> EntityBase:
 		instance.entity_type = def.get("entity_type", EntityBase.EntityType.ENEMY)
 		instance.parent_entity = def.get("parent_entity", null)
 		instance.entry_action = def.get("entry_action", EntityBase.EntryAction.NONE)
-		instance.scroll_entity_path = "res://assets/entities/%s/entity.tscn" % def.get("scroll", "")
-		instance.summon_entity_path = def.get("summon", [])
+		# 密卷：定义里没写就不携带，别拼一个空目录的路径出来
+		var scroll_id: String = str(def.get("scroll", ""))
+		instance.scroll_entity_path = "" if scroll_id == "" else "res://assets/entities/%s/entity.tscn" % scroll_id
+		# 通灵：每个实体自己一份队列。直接引用队伍数据那个数组的话，
+		# 实体消耗时 pop_front 会连带改掉 MatchConfig，同一份定义再生成实体就少一个。
+		instance.summon_entity_path = def.get("summon", []).duplicate()
 		
 		# 训练教官
 		#var script_path = def.get("controller", [])

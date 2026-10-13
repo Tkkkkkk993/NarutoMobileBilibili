@@ -259,8 +259,14 @@ func _release_animation():
 		visual_sprite.texture = texture_normal
 
 # ========== 技能逻辑 ==========
+## 槽位当前是否允许按下。这是槽位可用性的唯一判据：
+## 触屏、键盘轮询、键盘入队、预输入消费四条路径都读它，
+## 不要在各自的输入路径里另写一套禁用判定，否则禁用方法不一致。
+## disabled 由作者或图形化脚本设置，cool_down_time_now 与充能由技能系统维护。
 func _can_press() -> bool:
 	can_press = true
+	if disabled:
+		can_press = false
 	if cool_down_time_now > 0:
 		can_press = false
 	if is_charging and dot <= 0:

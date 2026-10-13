@@ -2,10 +2,6 @@ extends Node
 
 signal time_scale_changed(new_scale: float)
 
-var is_time_stopped: bool = false
-var _buffered_inputs: Array[Dictionary] = []
-var _buffer_enabled: bool = false
-
 var _tween: Tween = null
 
 # 统一的时间缩放控制函数
@@ -76,51 +72,14 @@ func _restore_scale(original: float, out_time: float, instant_if_zero: bool = tr
 		Engine.time_scale = original
 		time_scale_changed.emit(original)
 
-func start_time_stop_legacy(duration: float = 0.5):
-	if is_time_stopped:
-		return
-	is_time_stopped = true
-	_buffer_enabled = true
-	Engine.time_scale = 0.0
-	time_scale_changed.emit(0.0)
-	get_tree().create_timer(duration, false).timeout.connect(_end_time_stop_legacy)
-
-func _end_time_stop_legacy():
-	Engine.time_scale = 1.0
-	is_time_stopped = false
-	_buffer_enabled = false
-	time_scale_changed.emit(1.0)
-	_flush_inputs()
-
-func _flush_inputs():
-	var player = _get_current_player()
-	if player and player.has_method("replay_buffered_input"):
-		_buffered_inputs.sort_custom(func(a, b): return a.priority > b.priority)
-		for cmd in _buffered_inputs:
-			player.replay_buffered_input(cmd["action"], cmd["pressed"])
-	_buffered_inputs.clear()
-
-func _get_current_player():
-	var players = get_tree().get_nodes_in_group("player_entities")
-	return players[0] if players.size() > 0 else null
-
-func register_input(action: String, pressed: bool, priority: int):
-	if not _buffer_enabled:
-		return
-	var highest = -1
-	for cmd in _buffered_inputs:
-		if cmd.priority > highest:
-			highest = cmd.priority
-	if priority > highest:
-		_buffered_inputs = _buffered_inputs.filter(func(cmd): return cmd.priority >= priority)
-	elif priority < highest:
-		return
-	_buffered_inputs.append({
-		"action": action,
-		"pressed": pressed,
-		"priority": priority,
-		"frame": Engine.get_frames_drawn()
-	})
+# 说明：本节点曾自带一套「时间停止期间缓冲输入」的逻辑
+# （start_time_stop_legacy / _end_time_stop_legacy / _flush_inputs /
+#   register_input / is_time_stopped / _buffered_inputs / _buffer_enabled）。
+# 其中 register_input() 在全仓库没有任何调用者，start_time_stop_legacy()
+# 同样无人调用，因此整套缓冲从未运行过，已整体移除。
+# 输入缓冲现由 EntityBase 的 _input_buffer 统一承担。
+# 注意：本节点真正在用的是下面的 start_freeze_frame() 与 start_time_stop()
+# （后者只停倒计时，不做输入缓冲），二者均保留不变。
 
 # ============================================
 # 停帧：冻结场景树，只保留己方实体运行
@@ -135,11 +94,17 @@ func start_freeze_frame(duration: float):
 
 	get_tree().paused = true
 	# 将所有玩家实体设为 PROCESS_MODE_ALWAYS，使其在暂停下继续运行
+	# 注：全工程目前没有 add_to_group("player_entities") 的调用者，这一组恒为空，
+	# 所以停帧实际冻的是包括双方在内的所有节点。要恢复"只保留己方实体运行"的意图，
+	# 得先在实体生成时把它们加进这个组。
 	var players = get_tree().get_nodes_in_group("player_entities")
 	for p in players:
 		_set_node_always(p)
 
-	get_tree().create_timer(duration, false, true, true).timeout.connect(
+	# process_always 必须为 true：本函数刚把场景树暂停，为 false 时这个计时器会跟着暂停
+	# （见 SceneTree.create_timer 文档与 process_timers 的跳过判据），停帧就永远不会结束，
+	# 而 _end_freeze_frame 是唯一会把 paused 放回 false 的地方。
+	get_tree().create_timer(duration, true, true, true).timeout.connect(
 		func(): _end_freeze_frame(players), CONNECT_ONE_SHOT
 	)
 
