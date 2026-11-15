@@ -1,0 +1,2990 @@
+{
+	"animation_data": {
+		"a1": {
+			"0": {
+				"anchor_point": {
+					"x": 0.5,
+					"y": 165.5
+				},
+				"frame_index": 0,
+				"hitboxes_data": [
+					{
+						"area_name": "HitboxArea1",
+						"position": {
+							"x": 8.39713287353516,
+							"y": 22.6256141662598
+						},
+						"rotation": 0.0,
+						"scale": {
+							"x": 1.0,
+							"y": 1.0
+						},
+						"shape_type": "rectangle",
+						"size": {
+							"height": 46.5909194946289,
+							"width": 68.5167694091797
+						},
+						"visible": true
+					},
+					{
+						"area_name": "HitboxArea2",
+						"position": {
+							"x": 4.66507720947266,
+							"y": 101.465362548828
+						},
+						"rotation": 0.0,
+						"scale": {
+							"x": 1.0,
+							"y": 1.0
+						},
+						"shape_type": "rectangle",
+						"size": {
+							"height": 118.433059692383,
+							"width": 127.29670715332
+						},
+						"visible": true
+					}
+				]
+			},
+			"1": {
+				"anchor_point": {
+					"x": 0.5,
+					"y": 165.5
+				},
+				"frame_index": 1,
+				"hitboxes_data": [
+					{
+						"area_name": "HitboxArea1",
+						"position": {
+							"x": 8.39713287353516,
+							"y": 22.6256141662598
+						},
+						"rotation": 0.0,
+						"scale": {
+							"x": 1.0,
+							"y": 1.0
+						},
+						"shape_type": "rectangle",
+						"size": {
+							"height": 46.5909194946289,
+							"width": 68.5167694091797
+						},
+						"visible": true
+					},
+					{
+						"area_name": "HitboxArea2",
+						"position": {
+							"x": 4.66507720947266,
+							"y": 101.465362548828
+						},
+						"rotation": 0.0,
+						"scale": {
+							"x": 1.0,
+							"y": 1.0
+						},
+						"shape_type": "rectangle",
+						"size": {
+							"height": 118.433059692383,
+							"width": 127.29670715332
+						},
+						"visible": true
+					}
+				]
+			},
+			"2": {
+				"anchor_point": {
+					"x": 0.5,
+					"y": 165.5
+				},
+				"frame_index": 2,
+				"hitboxes_data": [
+					{
+						"area_name": "HitboxArea1",
+						"position": {
+							"x": 44.5514450073242,
+							"y": 62.9784889221191
+						},
+						"rotation": 0.0,
+						"scale": {
+							"x": 1.0,
+							"y": 1.0
+						},
+						"shape_type": "rectangle",
+						"size": {
+							"height": 51.7225036621094,
+							"width": 90.4426116943359
+						},
+						"visible": true
+					},
+					{
+						"area_name": "HitboxArea2",
+						"position": {
+							"x": 26.5909271240234,
+							"y": 125.490493774414
+						},
+						"rotation": 0.0,
+						"scale": {
+							"x": 1.0,
+							"y": 1.0
+						},
+						"shape_type": "rectangle",
+						"size": {
+							"height": 68.5167694091797,
+							"width": 117.033538818359
+						},
+						"visible": true
+					}
+				]
+			},
+			"3": {
+				"anchor_point": {
+					"x": 0.5,
+					"y": 165.5
+				},
+				"frame_index": 3,
+				"hitboxes_data": [
+					{
+						"area_name": "HitboxArea1",
+						"position": {
+							"x": 80.0060043334961,
+							"y": 64.3780212402344
+						},
+						"rotation": 0.0,
+						"scale": {
+							"x": 1.0,
+							"y": 1.0
+						},
+						"shape_type": "rectangle",
+						"size": {
+							"height": 51.7225036621094,
+							"width": 90.4426116943359
+						},
+						"visible": true
+					},
+					{
+						"area_name": "HitboxArea2",
+						"position": {
+							"x": 26.5909271240234,
+							"y": 125.490493774414
+						},
+						"rotation": 0.0,
+						"scale": {
+							"x": 1.0,
+							"y": 1.0
+						},
+						"shape_type": "rectangle",
+						"size": {
+							"height": 68.5167694091797,
+							"width": 117.033538818359
+						},
+						"visible": true
+					}
+				]
+			},
+			"4": {
+				"anchor_point": {
+					"x": 0.5,
+					"y": 165.5
+				},
+				"frame_index": 4,
+				"hitboxes_data": [
+					{
+						"area_name": "HitboxArea1",
+						"position": {
+							"x": 80.0060043334961,
+							"y": 64.3780212402344
+						},
+						"rotation": 0.0,
+						"scale": {
+							"x": 1.0,
+							"y": 1.0
+						},
+						"shape_type": "rectangle",
+						"size": {
+							"height": 51.7225036621094,
+							"width": 90.4426116943359
+						},
+						"visible": true
+					},
+					{
+						"area_name": "HitboxArea2",
+						"position": {
+							"x": 26.5909271240234,
+							"y": 125.490493774414
+						},
+						"rotation": 0.0,
+						"scale": {
+							"x": 1.0,
+							"y": 1.0
+						},
+						"shape_type": "rectangle",
+						"size": {
+							"height": 68.5167694091797,
+							"width": 117.033538818359
+						},
+						"visible": true
+					}
+				]
+			},
+			"5": {
+				"anchor_point": {
+					"x": 0.5,
+					"y": 165.5
+				},
+				"frame_index": 5,
+				"hitboxes_data": [
+					{
+						"area_name": "HitboxArea1",
+						"position": {
+							"x": 52.0155715942383,
+							"y": 62.5119781494141
+						},
+						"rotation": 0.0,
+						"scale": {
+							"x": 1.0,
+							"y": 1.0
+						},
+						"shape_type": "rectangle",
+						"size": {
+							"height": 51.7225036621094,
+							"width": 82.9785003662109
+						},
+						"visible": true
+					},
+					{
+						"area_name": "HitboxArea2",
+						"position": {
+							"x": 26.5909271240234,
+							"y": 125.490493774414
+						},
+						"rotation": 0.0,
+						"scale": {
+							"x": 1.0,
+							"y": 1.0
+						},
+						"shape_type": "rectangle",
+						"size": {
+							"height": 68.5167694091797,
+							"width": 117.033538818359
+						},
+						"visible": true
+					}
+				]
+			},
+			"6": {
+				"anchor_point": {
+					"x": 0.5,
+					"y": 165.5
+				},
+				"frame_index": 6,
+				"hitboxes_data": [
+					{
+						"area_name": "HitboxArea1",
+						"position": {
+							"x": 33.82177734375,
+							"y": 49.2165031433105
+						},
+						"rotation": 0.0,
+						"scale": {
+							"x": 1.0,
+							"y": 1.0
+						},
+						"shape_type": "rectangle",
+						"size": {
+							"height": 77.3804092407227,
+							"width": 62.4521789550781
+						},
+						"visible": true
+					},
+					{
+						"area_name": "HitboxArea2",
+						"position": {
+							"x": 26.5909271240234,
+							"y": 125.490493774414
+						},
+						"rotation": 0.0,
+						"scale": {
+							"x": 1.0,
+							"y": 1.0
+						},
+						"shape_type": "rectangle",
+						"size": {
+							"height": 68.5167694091797,
+							"width": 117.033538818359
+						},
+						"visible": true
+					}
+				]
+			},
+			"7": {
+				"anchor_point": {
+					"x": 0.5,
+					"y": 165.5
+				},
+				"frame_index": 7,
+				"hitboxes_data": [
+					{
+						"area_name": "HitboxArea1",
+						"position": {
+							"x": 17.4940185546875,
+							"y": 50.1495170593262
+						},
+						"rotation": 0.0,
+						"scale": {
+							"x": 1.0,
+							"y": 1.0
+						},
+						"shape_type": "rectangle",
+						"size": {
+							"height": 77.3804092407227,
+							"width": 62.4521789550781
+						},
+						"visible": true
+					},
+					{
+						"area_name": "HitboxArea2",
+						"position": {
+							"x": 26.5909271240234,
+							"y": 125.490493774414
+						},
+						"rotation": 0.0,
+						"scale": {
+							"x": 1.0,
+							"y": 1.0
+						},
+						"shape_type": "rectangle",
+						"size": {
+							"height": 68.5167694091797,
+							"width": 117.033538818359
+						},
+						"visible": true
+					}
+				]
+			}
+		},
+		"a2": {
+			"0": {
+				"anchor_point": {
+					"x": 0.5,
+					"y": 165.5
+				},
+				"frame_index": 0,
+				"hitboxes_data": [
+					{
+						"area_name": "HitboxArea1",
+						"position": {
+							"x": 51.5490493774414,
+							"y": 50.1495170593262
+						},
+						"rotation": 0.0,
+						"scale": {
+							"x": 1.0,
+							"y": 1.0
+						},
+						"shape_type": "rectangle",
+						"size": {
+							"height": 77.3804092407227,
+							"width": 130.562240600586
+						},
+						"visible": true
+					},
+					{
+						"area_name": "HitboxArea2",
+						"position": {
+							"x": 18.8935546875,
+							"y": 125.490493774414
+						},
+						"rotation": 0.0,
+						"scale": {
+							"x": 1.0,
+							"y": 1.0
+						},
+						"shape_type": "rectangle",
+						"size": {
+							"height": 68.5167694091797,
+							"width": 132.428283691406
+						},
+						"visible": true
+					}
+				]
+			},
+			"1": {
+				"anchor_point": {
+					"x": 0.5,
+					"y": 165.5
+				},
+				"frame_index": 1,
+				"hitboxes_data": [
+					{
+						"area_name": "HitboxArea1",
+						"position": {
+							"x": 31.9557495117188,
+							"y": 34.9880294799805
+						},
+						"rotation": 0.0,
+						"scale": {
+							"x": 1.0,
+							"y": 1.0
+						},
+						"shape_type": "rectangle",
+						"size": {
+							"height": 104.904342651367,
+							"width": 74.5813598632813
+						},
+						"visible": true
+					},
+					{
+						"area_name": "HitboxArea2",
+						"position": {
+							"x": 18.8935546875,
+							"y": 125.490493774414
+						},
+						"rotation": 0.0,
+						"scale": {
+							"x": 1.0,
+							"y": 1.0
+						},
+						"shape_type": "rectangle",
+						"size": {
+							"height": 68.5167694091797,
+							"width": 132.428283691406
+						},
+						"visible": true
+					}
+				]
+			},
+			"2": {
+				"anchor_point": {
+					"x": 0.5,
+					"y": 165.5
+				},
+				"frame_index": 2,
+				"hitboxes_data": [
+					{
+						"area_name": "HitboxArea1",
+						"position": {
+							"x": 17.4940185546875,
+							"y": 37.7870712280273
+						},
+						"rotation": 0.0,
+						"scale": {
+							"x": 1.0,
+							"y": 1.0
+						},
+						"shape_type": "rectangle",
+						"size": {
+							"height": 104.904342651367,
+							"width": 105.370849609375
+						},
+						"visible": true
+					},
+					{
+						"area_name": "HitboxArea2",
+						"position": {
+							"x": 14.6949806213379,
+							"y": 125.490493774414
+						},
+						"rotation": 0.0,
+						"scale": {
+							"x": 1.0,
+							"y": 1.0
+						},
+						"shape_type": "rectangle",
+						"size": {
+							"height": 68.5167694091797,
+							"width": 97.9067306518555
+						},
+						"visible": true
+					}
+				]
+			},
+			"3": {
+				"anchor_point": {
+					"x": 0.5,
+					"y": 165.5
+				},
+				"frame_index": 3,
+				"hitboxes_data": [
+					{
+						"area_name": "HitboxArea1",
+						"position": {
+							"x": 17.4940185546875,
+							"y": 37.7870712280273
+						},
+						"rotation": 0.0,
+						"scale": {
+							"x": 1.0,
+							"y": 1.0
+						},
+						"shape_type": "rectangle",
+						"size": {
+							"height": 104.904342651367,
+							"width": 105.370849609375
+						},
+						"visible": true
+					},
+					{
+						"area_name": "HitboxArea2",
+						"position": {
+							"x": 14.6949806213379,
+							"y": 125.490493774414
+						},
+						"rotation": 0.0,
+						"scale": {
+							"x": 1.0,
+							"y": 1.0
+						},
+						"shape_type": "rectangle",
+						"size": {
+							"height": 68.5167694091797,
+							"width": 97.9067306518555
+						},
+						"visible": true
+					}
+				]
+			},
+			"4": {
+				"anchor_point": {
+					"x": 0.5,
+					"y": 165.5
+				},
+				"frame_index": 4,
+				"hitboxes_data": [
+					{
+						"area_name": "HitboxArea1",
+						"position": {
+							"x": 17.4940185546875,
+							"y": 37.7870712280273
+						},
+						"rotation": 0.0,
+						"scale": {
+							"x": 1.0,
+							"y": 1.0
+						},
+						"shape_type": "rectangle",
+						"size": {
+							"height": 104.904342651367,
+							"width": 105.370849609375
+						},
+						"visible": true
+					},
+					{
+						"area_name": "HitboxArea2",
+						"position": {
+							"x": 14.6949806213379,
+							"y": 125.490493774414
+						},
+						"rotation": 0.0,
+						"scale": {
+							"x": 1.0,
+							"y": 1.0
+						},
+						"shape_type": "rectangle",
+						"size": {
+							"height": 68.5167694091797,
+							"width": 97.9067306518555
+						},
+						"visible": true
+					}
+				]
+			},
+			"5": {
+				"anchor_point": {
+					"x": 0.5,
+					"y": 165.5
+				},
+				"frame_index": 5,
+				"hitboxes_data": [
+					{
+						"area_name": "HitboxArea1",
+						"position": {
+							"x": 17.4940185546875,
+							"y": 37.7870712280273
+						},
+						"rotation": 0.0,
+						"scale": {
+							"x": 1.0,
+							"y": 1.0
+						},
+						"shape_type": "rectangle",
+						"size": {
+							"height": 104.904342651367,
+							"width": 105.370849609375
+						},
+						"visible": true
+					},
+					{
+						"area_name": "HitboxArea2",
+						"position": {
+							"x": 14.6949806213379,
+							"y": 125.490493774414
+						},
+						"rotation": 0.0,
+						"scale": {
+							"x": 1.0,
+							"y": 1.0
+						},
+						"shape_type": "rectangle",
+						"size": {
+							"height": 68.5167694091797,
+							"width": 97.9067306518555
+						},
+						"visible": true
+					}
+				]
+			},
+			"6": {
+				"anchor_point": {
+					"x": 0.5,
+					"y": 165.5
+				},
+				"frame_index": 6,
+				"hitboxes_data": [
+					{
+						"area_name": "HitboxArea1",
+						"position": {
+							"x": 17.4940185546875,
+							"y": 37.7870712280273
+						},
+						"rotation": 0.0,
+						"scale": {
+							"x": 1.0,
+							"y": 1.0
+						},
+						"shape_type": "rectangle",
+						"size": {
+							"height": 104.904342651367,
+							"width": 105.370849609375
+						},
+						"visible": true
+					},
+					{
+						"area_name": "HitboxArea2",
+						"position": {
+							"x": 14.6949806213379,
+							"y": 125.490493774414
+						},
+						"rotation": 0.0,
+						"scale": {
+							"x": 1.0,
+							"y": 1.0
+						},
+						"shape_type": "rectangle",
+						"size": {
+							"height": 68.5167694091797,
+							"width": 97.9067306518555
+						},
+						"visible": true
+					}
+				]
+			},
+			"7": {
+				"anchor_point": {
+					"x": 0.5,
+					"y": 165.5
+				},
+				"frame_index": 7,
+				"hitboxes_data": [
+					{
+						"area_name": "HitboxArea1",
+						"position": {
+							"x": 17.4940185546875,
+							"y": 37.7870712280273
+						},
+						"rotation": 0.0,
+						"scale": {
+							"x": 1.0,
+							"y": 1.0
+						},
+						"shape_type": "rectangle",
+						"size": {
+							"height": 104.904342651367,
+							"width": 105.370849609375
+						},
+						"visible": true
+					},
+					{
+						"area_name": "HitboxArea2",
+						"position": {
+							"x": 14.6949806213379,
+							"y": 125.490493774414
+						},
+						"rotation": 0.0,
+						"scale": {
+							"x": 1.0,
+							"y": 1.0
+						},
+						"shape_type": "rectangle",
+						"size": {
+							"height": 68.5167694091797,
+							"width": 97.9067306518555
+						},
+						"visible": true
+					}
+				]
+			}
+		},
+		"a3": {
+			"0": {
+				"anchor_point": {
+					"x": 0.5,
+					"y": 165.5
+				},
+				"frame_index": 0,
+				"hitboxes_data": [
+					{
+						"area_name": "HitboxArea1",
+						"position": {
+							"x": 17.960521697998,
+							"y": 51.3157844543457
+						},
+						"rotation": 0.0,
+						"scale": {
+							"x": 1.0,
+							"y": 1.0
+						},
+						"shape_type": "rectangle",
+						"size": {
+							"height": 77.8469161987305,
+							"width": 49.3899612426758
+						},
+						"visible": true
+					},
+					{
+						"area_name": "HitboxArea2",
+						"position": {
+							"x": 14.6949806213379,
+							"y": 125.490493774414
+						},
+						"rotation": 0.0,
+						"scale": {
+							"x": 1.0,
+							"y": 1.0
+						},
+						"shape_type": "rectangle",
+						"size": {
+							"height": 68.5167694091797,
+							"width": 97.9067306518555
+						},
+						"visible": true
+					}
+				]
+			},
+			"1": {
+				"anchor_point": {
+					"x": 0.5,
+					"y": 165.5
+				},
+				"frame_index": 1,
+				"hitboxes_data": [
+					{
+						"area_name": "HitboxArea1",
+						"position": {
+							"x": 10.9629096984863,
+							"y": 30.5562057495117
+						},
+						"rotation": 0.0,
+						"scale": {
+							"x": 1.0,
+							"y": 1.0
+						},
+						"shape_type": "rectangle",
+						"size": {
+							"height": 107.236877441406,
+							"width": 68.0502548217773
+						},
+						"visible": true
+					},
+					{
+						"area_name": "HitboxArea2",
+						"position": {
+							"x": 9.09689712524414,
+							"y": 100.299087524414
+						},
+						"rotation": 0.0,
+						"scale": {
+							"x": 1.0,
+							"y": 1.0
+						},
+						"shape_type": "rectangle",
+						"size": {
+							"height": 31.1961822509766,
+							"width": 97.9067306518555
+						},
+						"visible": true
+					}
+				]
+			},
+			"10": {
+				"anchor_point": {
+					"x": 0.5,
+					"y": 165.5
+				},
+				"frame_index": 10,
+				"hitboxes_data": [
+					{
+						"area_name": "HitboxArea1",
+						"position": {
+							"x": 8.63038635253906,
+							"y": 25.4246063232422
+						},
+						"rotation": 0.0,
+						"scale": {
+							"x": 1.0,
+							"y": 1.0
+						},
+						"shape_type": "rectangle",
+						"size": {
+							"height": 56.8541107177734,
+							"width": 126.830184936523
+						},
+						"visible": true
+					},
+					{
+						"area_name": "HitboxArea2",
+						"position": {
+							"x": 1.63278579711914,
+							"y": 106.130424499512
+						},
+						"rotation": 0.0,
+						"scale": {
+							"x": 1.0,
+							"y": 1.0
+						},
+						"shape_type": "rectangle",
+						"size": {
+							"height": 94.1746826171875,
+							"width": 97.9067306518555
+						},
+						"visible": true
+					}
+				]
+			},
+			"11": {
+				"anchor_point": {
+					"x": 0.5,
+					"y": 165.5
+				},
+				"frame_index": 11,
+				"hitboxes_data": [
+					{
+						"area_name": "HitboxArea1",
+						"position": {
+							"x": 8.63038635253906,
+							"y": 48.2834701538086
+						},
+						"rotation": 0.0,
+						"scale": {
+							"x": 1.0,
+							"y": 1.0
+						},
+						"shape_type": "rectangle",
+						"size": {
+							"height": 11.1363830566406,
+							"width": 126.830184936523
+						},
+						"visible": true
+					},
+					{
+						"area_name": "HitboxArea2",
+						"position": {
+							"x": 1.63278579711914,
+							"y": 106.130424499512
+						},
+						"rotation": 0.0,
+						"scale": {
+							"x": 1.0,
+							"y": 1.0
+						},
+						"shape_type": "rectangle",
+						"size": {
+							"height": 94.1746826171875,
+							"width": 97.9067306518555
+						},
+						"visible": true
+					}
+				]
+			},
+			"12": {
+				"anchor_point": {
+					"x": 0.5,
+					"y": 165.5
+				},
+				"frame_index": 12,
+				"hitboxes_data": [
+					{
+						"area_name": "HitboxArea1",
+						"position": {
+							"x": 8.63038635253906,
+							"y": 48.2834701538086
+						},
+						"rotation": 0.0,
+						"scale": {
+							"x": 1.0,
+							"y": 1.0
+						},
+						"shape_type": "rectangle",
+						"size": {
+							"height": 11.1363830566406,
+							"width": 126.830184936523
+						},
+						"visible": true
+					},
+					{
+						"area_name": "HitboxArea2",
+						"position": {
+							"x": 1.63278579711914,
+							"y": 106.130424499512
+						},
+						"rotation": 0.0,
+						"scale": {
+							"x": 1.0,
+							"y": 1.0
+						},
+						"shape_type": "rectangle",
+						"size": {
+							"height": 94.1746826171875,
+							"width": 97.9067306518555
+						},
+						"visible": true
+					}
+				]
+			},
+			"13": {
+				"anchor_point": {
+					"x": 0.5,
+					"y": 165.5
+				},
+				"frame_index": 13,
+				"hitboxes_data": [
+					{
+						"area_name": "HitboxArea1",
+						"position": {
+							"x": 8.63038635253906,
+							"y": 48.2834701538086
+						},
+						"rotation": 0.0,
+						"scale": {
+							"x": 1.0,
+							"y": 1.0
+						},
+						"shape_type": "rectangle",
+						"size": {
+							"height": 11.1363830566406,
+							"width": 126.830184936523
+						},
+						"visible": true
+					},
+					{
+						"area_name": "HitboxArea2",
+						"position": {
+							"x": 1.63278579711914,
+							"y": 106.130424499512
+						},
+						"rotation": 0.0,
+						"scale": {
+							"x": 1.0,
+							"y": 1.0
+						},
+						"shape_type": "rectangle",
+						"size": {
+							"height": 94.1746826171875,
+							"width": 97.9067306518555
+						},
+						"visible": true
+					}
+				]
+			},
+			"14": {
+				"anchor_point": {
+					"x": 0.5,
+					"y": 165.5
+				},
+				"frame_index": 14,
+				"hitboxes_data": [
+					{
+						"area_name": "HitboxArea1",
+						"position": {
+							"x": 13.4616241455078,
+							"y": 34.6291427612305
+						},
+						"rotation": 0.0,
+						"scale": {
+							"x": 1.0,
+							"y": 1.0
+						},
+						"shape_type": "rectangle",
+						"size": {
+							"height": 50.7895126342773,
+							"width": 54.9880447387695
+						},
+						"visible": true
+					},
+					{
+						"area_name": "HitboxArea2",
+						"position": {
+							"x": 1.63278579711914,
+							"y": 106.130424499512
+						},
+						"rotation": 0.0,
+						"scale": {
+							"x": 1.0,
+							"y": 1.0
+						},
+						"shape_type": "rectangle",
+						"size": {
+							"height": 94.1746826171875,
+							"width": 97.9067306518555
+						},
+						"visible": true
+					}
+				]
+			},
+			"2": {
+				"anchor_point": {
+					"x": 0.5,
+					"y": 165.5
+				},
+				"frame_index": 2,
+				"hitboxes_data": [
+					{
+						"area_name": "HitboxArea1",
+						"position": {
+							"x": 10.9629096984863,
+							"y": 30.5562057495117
+						},
+						"rotation": 0.0,
+						"scale": {
+							"x": 1.0,
+							"y": 1.0
+						},
+						"shape_type": "rectangle",
+						"size": {
+							"height": 107.236877441406,
+							"width": 68.0502548217773
+						},
+						"visible": true
+					},
+					{
+						"area_name": "HitboxArea2",
+						"position": {
+							"x": 9.09689712524414,
+							"y": 100.299087524414
+						},
+						"rotation": 0.0,
+						"scale": {
+							"x": 1.0,
+							"y": 1.0
+						},
+						"shape_type": "rectangle",
+						"size": {
+							"height": 31.1961822509766,
+							"width": 97.9067306518555
+						},
+						"visible": true
+					}
+				]
+			},
+			"3": {
+				"anchor_point": {
+					"x": 0.5,
+					"y": 165.5
+				},
+				"frame_index": 3,
+				"hitboxes_data": [
+					{
+						"area_name": "HitboxArea1",
+						"position": {
+							"x": -8.16389083862305,
+							"y": 6.29782104492188
+						},
+						"rotation": 0.0,
+						"scale": {
+							"x": 1.0,
+							"y": 1.0
+						},
+						"shape_type": "rectangle",
+						"size": {
+							"height": 107.236877441406,
+							"width": 68.0502548217773
+						},
+						"visible": true
+					},
+					{
+						"area_name": "HitboxArea2",
+						"position": {
+							"x": -10.0299034118652,
+							"y": 74.1746673583984
+						},
+						"rotation": 0.0,
+						"scale": {
+							"x": 1.0,
+							"y": 1.0
+						},
+						"shape_type": "rectangle",
+						"size": {
+							"height": 31.1961822509766,
+							"width": 97.9067306518555
+						},
+						"visible": true
+					}
+				]
+			},
+			"4": {
+				"anchor_point": {
+					"x": 0.5,
+					"y": 165.5
+				},
+				"frame_index": 4,
+				"hitboxes_data": [
+					{
+						"area_name": "HitboxArea1",
+						"position": {
+							"x": 27.2906723022461,
+							"y": 6.29782104492188
+						},
+						"rotation": 0.0,
+						"scale": {
+							"x": 1.0,
+							"y": 1.0
+						},
+						"shape_type": "rectangle",
+						"size": {
+							"height": 107.236877441406,
+							"width": 137.093353271484
+						},
+						"visible": true
+					},
+					{
+						"area_name": "HitboxArea2",
+						"position": {
+							"x": 37.087345123291,
+							"y": 74.1746673583984
+						},
+						"rotation": 0.0,
+						"scale": {
+							"x": 1.0,
+							"y": 1.0
+						},
+						"shape_type": "rectangle",
+						"size": {
+							"height": 31.1961822509766,
+							"width": 97.9067306518555
+						},
+						"visible": true
+					}
+				]
+			},
+			"5": {
+				"anchor_point": {
+					"x": 0.5,
+					"y": 165.5
+				},
+				"frame_index": 5,
+				"hitboxes_data": [
+					{
+						"area_name": "HitboxArea1",
+						"position": {
+							"x": -18.8935470581055,
+							"y": 3.49877166748047
+						},
+						"rotation": 0.0,
+						"scale": {
+							"x": 1.0,
+							"y": 1.0
+						},
+						"shape_type": "rectangle",
+						"size": {
+							"height": 107.236877441406,
+							"width": 137.093353271484
+						},
+						"visible": true
+					},
+					{
+						"area_name": "HitboxArea2",
+						"position": {
+							"x": -25.8911552429199,
+							"y": 74.6411743164063
+						},
+						"rotation": 0.0,
+						"scale": {
+							"x": 1.0,
+							"y": 1.0
+						},
+						"shape_type": "rectangle",
+						"size": {
+							"height": 31.1961822509766,
+							"width": 97.9067306518555
+						},
+						"visible": true
+					}
+				]
+			},
+			"6": {
+				"anchor_point": {
+					"x": 0.5,
+					"y": 165.5
+				},
+				"frame_index": 6,
+				"hitboxes_data": [
+					{
+						"area_name": "HitboxArea1",
+						"position": {
+							"x": 13.7619705200195,
+							"y": 0.233222961425781
+						},
+						"rotation": 0.0,
+						"scale": {
+							"x": 1.0,
+							"y": 1.0
+						},
+						"shape_type": "rectangle",
+						"size": {
+							"height": 107.236877441406,
+							"width": 137.093353271484
+						},
+						"visible": true
+					},
+					{
+						"area_name": "HitboxArea2",
+						"position": {
+							"x": 4.43182754516602,
+							"y": 72.775146484375
+						},
+						"rotation": 0.0,
+						"scale": {
+							"x": 1.0,
+							"y": 1.0
+						},
+						"shape_type": "rectangle",
+						"size": {
+							"height": 31.1961822509766,
+							"width": 97.9067306518555
+						},
+						"visible": true
+					}
+				]
+			},
+			"7": {
+				"anchor_point": {
+					"x": 0.5,
+					"y": 165.5
+				},
+				"frame_index": 7,
+				"hitboxes_data": [
+					{
+						"area_name": "HitboxArea1",
+						"position": {
+							"x": 13.7619705200195,
+							"y": 0.233222961425781
+						},
+						"rotation": 0.0,
+						"scale": {
+							"x": 1.0,
+							"y": 1.0
+						},
+						"shape_type": "rectangle",
+						"size": {
+							"height": 107.236877441406,
+							"width": 137.093353271484
+						},
+						"visible": true
+					},
+					{
+						"area_name": "HitboxArea2",
+						"position": {
+							"x": 4.43182754516602,
+							"y": 72.775146484375
+						},
+						"rotation": 0.0,
+						"scale": {
+							"x": 1.0,
+							"y": 1.0
+						},
+						"shape_type": "rectangle",
+						"size": {
+							"height": 31.1961822509766,
+							"width": 97.9067306518555
+						},
+						"visible": true
+					}
+				]
+			},
+			"8": {
+				"anchor_point": {
+					"x": 0.5,
+					"y": 165.5
+				},
+				"frame_index": 8,
+				"hitboxes_data": [
+					{
+						"area_name": "HitboxArea1",
+						"position": {
+							"x": 13.7619705200195,
+							"y": 0.233222961425781
+						},
+						"rotation": 0.0,
+						"scale": {
+							"x": 1.0,
+							"y": 1.0
+						},
+						"shape_type": "rectangle",
+						"size": {
+							"height": 107.236877441406,
+							"width": 137.093353271484
+						},
+						"visible": true
+					},
+					{
+						"area_name": "HitboxArea2",
+						"position": {
+							"x": 4.43182754516602,
+							"y": 72.775146484375
+						},
+						"rotation": 0.0,
+						"scale": {
+							"x": 1.0,
+							"y": 1.0
+						},
+						"shape_type": "rectangle",
+						"size": {
+							"height": 31.1961822509766,
+							"width": 97.9067306518555
+						},
+						"visible": true
+					}
+				]
+			},
+			"9": {
+				"anchor_point": {
+					"x": 0.5,
+					"y": 165.5
+				},
+				"frame_index": 9,
+				"hitboxes_data": [
+					{
+						"area_name": "HitboxArea1",
+						"position": {
+							"x": 13.7619705200195,
+							"y": 0.233222961425781
+						},
+						"rotation": 0.0,
+						"scale": {
+							"x": 1.0,
+							"y": 1.0
+						},
+						"shape_type": "rectangle",
+						"size": {
+							"height": 107.236877441406,
+							"width": 137.093353271484
+						},
+						"visible": true
+					},
+					{
+						"area_name": "HitboxArea2",
+						"position": {
+							"x": 1.63278579711914,
+							"y": 90.269172668457
+						},
+						"rotation": 0.0,
+						"scale": {
+							"x": 1.0,
+							"y": 1.0
+						},
+						"shape_type": "rectangle",
+						"size": {
+							"height": 62.4521789550781,
+							"width": 97.9067306518555
+						},
+						"visible": true
+					}
+				]
+			}
+		},
+		"a4": {
+			"0": {
+				"anchor_point": {
+					"x": 0.5,
+					"y": 165.5
+				},
+				"frame_index": 0,
+				"hitboxes_data": [
+					{
+						"area_name": "HitboxArea1",
+						"position": {
+							"x": 19.7594757080078,
+							"y": 34.6291427612305
+						},
+						"rotation": 0.0,
+						"scale": {
+							"x": 1.0,
+							"y": 1.0
+						},
+						"shape_type": "rectangle",
+						"size": {
+							"height": 50.7895126342773,
+							"width": 67.5837478637695
+						},
+						"visible": true
+					},
+					{
+						"area_name": "HitboxArea2",
+						"position": {
+							"x": 19.8265686035156,
+							"y": 109.862480163574
+						},
+						"rotation": 0.0,
+						"scale": {
+							"x": 1.0,
+							"y": 1.0
+						},
+						"shape_type": "rectangle",
+						"size": {
+							"height": 94.1746826171875,
+							"width": 142.691452026367
+						},
+						"visible": true
+					}
+				]
+			},
+			"1": {
+				"anchor_point": {
+					"x": 0.5,
+					"y": 165.5
+				},
+				"frame_index": 1,
+				"hitboxes_data": [
+					{
+						"area_name": "HitboxArea1",
+						"position": {
+							"x": 19.7594757080078,
+							"y": 34.6291427612305
+						},
+						"rotation": 0.0,
+						"scale": {
+							"x": 1.0,
+							"y": 1.0
+						},
+						"shape_type": "rectangle",
+						"size": {
+							"height": 50.7895126342773,
+							"width": 67.5837478637695
+						},
+						"visible": true
+					},
+					{
+						"area_name": "HitboxArea2",
+						"position": {
+							"x": 19.8265686035156,
+							"y": 109.862480163574
+						},
+						"rotation": 0.0,
+						"scale": {
+							"x": 1.0,
+							"y": 1.0
+						},
+						"shape_type": "rectangle",
+						"size": {
+							"height": 94.1746826171875,
+							"width": 142.691452026367
+						},
+						"visible": true
+					}
+				]
+			},
+			"10": {
+				"anchor_point": {
+					"x": 0.5,
+					"y": 165.5
+				},
+				"frame_index": 10,
+				"hitboxes_data": [
+					{
+						"area_name": "HitboxArea1",
+						"position": {
+							"x": 59.8791198730469,
+							"y": 37.4281845092773
+						},
+						"rotation": 0.0,
+						"scale": {
+							"x": 1.0,
+							"y": 1.0
+						},
+						"shape_type": "rectangle",
+						"size": {
+							"height": 50.7895126342773,
+							"width": 67.5837478637695
+						},
+						"visible": true
+					},
+					{
+						"area_name": "HitboxArea2",
+						"position": {
+							"x": 52.0155792236328,
+							"y": 110.79549407959
+						},
+						"rotation": 0.0,
+						"scale": {
+							"x": 1.0,
+							"y": 1.0
+						},
+						"shape_type": "rectangle",
+						"size": {
+							"height": 94.1746826171875,
+							"width": 142.691452026367
+						},
+						"visible": true
+					}
+				]
+			},
+			"11": {
+				"anchor_point": {
+					"x": 0.5,
+					"y": 165.5
+				},
+				"frame_index": 11,
+				"hitboxes_data": [
+					{
+						"area_name": "HitboxArea1",
+						"position": {
+							"x": 59.8791198730469,
+							"y": 37.4281845092773
+						},
+						"rotation": 0.0,
+						"scale": {
+							"x": 1.0,
+							"y": 1.0
+						},
+						"shape_type": "rectangle",
+						"size": {
+							"height": 50.7895126342773,
+							"width": 67.5837478637695
+						},
+						"visible": true
+					},
+					{
+						"area_name": "HitboxArea2",
+						"position": {
+							"x": 52.0155792236328,
+							"y": 110.79549407959
+						},
+						"rotation": 0.0,
+						"scale": {
+							"x": 1.0,
+							"y": 1.0
+						},
+						"shape_type": "rectangle",
+						"size": {
+							"height": 94.1746826171875,
+							"width": 142.691452026367
+						},
+						"visible": true
+					}
+				]
+			},
+			"12": {
+				"anchor_point": {
+					"x": 0.5,
+					"y": 165.5
+				},
+				"frame_index": 12,
+				"hitboxes_data": [
+					{
+						"area_name": "HitboxArea1",
+						"position": {
+							"x": 59.8791198730469,
+							"y": 37.4281845092773
+						},
+						"rotation": 0.0,
+						"scale": {
+							"x": 1.0,
+							"y": 1.0
+						},
+						"shape_type": "rectangle",
+						"size": {
+							"height": 50.7895126342773,
+							"width": 67.5837478637695
+						},
+						"visible": true
+					},
+					{
+						"area_name": "HitboxArea2",
+						"position": {
+							"x": 52.0155792236328,
+							"y": 110.79549407959
+						},
+						"rotation": 0.0,
+						"scale": {
+							"x": 1.0,
+							"y": 1.0
+						},
+						"shape_type": "rectangle",
+						"size": {
+							"height": 94.1746826171875,
+							"width": 142.691452026367
+						},
+						"visible": true
+					}
+				]
+			},
+			"13": {
+				"anchor_point": {
+					"x": 0.5,
+					"y": 165.5
+				},
+				"frame_index": 13,
+				"hitboxes_data": [
+					{
+						"area_name": "HitboxArea1",
+						"position": {
+							"x": 59.8791198730469,
+							"y": 37.4281845092773
+						},
+						"rotation": 0.0,
+						"scale": {
+							"x": 1.0,
+							"y": 1.0
+						},
+						"shape_type": "rectangle",
+						"size": {
+							"height": 50.7895126342773,
+							"width": 67.5837478637695
+						},
+						"visible": true
+					},
+					{
+						"area_name": "HitboxArea2",
+						"position": {
+							"x": 52.0155792236328,
+							"y": 110.79549407959
+						},
+						"rotation": 0.0,
+						"scale": {
+							"x": 1.0,
+							"y": 1.0
+						},
+						"shape_type": "rectangle",
+						"size": {
+							"height": 94.1746826171875,
+							"width": 142.691452026367
+						},
+						"visible": true
+					}
+				]
+			},
+			"14": {
+				"anchor_point": {
+					"x": 0.5,
+					"y": 165.5
+				},
+				"frame_index": 14,
+				"hitboxes_data": [
+					{
+						"area_name": "HitboxArea1",
+						"position": {
+							"x": 42.1518402099609,
+							"y": 38.361198425293
+						},
+						"rotation": 0.0,
+						"scale": {
+							"x": 1.0,
+							"y": 1.0
+						},
+						"shape_type": "rectangle",
+						"size": {
+							"height": 50.7895126342773,
+							"width": 67.5837478637695
+						},
+						"visible": true
+					},
+					{
+						"area_name": "HitboxArea2",
+						"position": {
+							"x": 52.0155792236328,
+							"y": 110.79549407959
+						},
+						"rotation": 0.0,
+						"scale": {
+							"x": 1.0,
+							"y": 1.0
+						},
+						"shape_type": "rectangle",
+						"size": {
+							"height": 94.1746826171875,
+							"width": 142.691452026367
+						},
+						"visible": true
+					}
+				]
+			},
+			"15": {
+				"anchor_point": {
+					"x": 0.5,
+					"y": 165.5
+				},
+				"frame_index": 15,
+				"hitboxes_data": [
+					{
+						"area_name": "HitboxArea1",
+						"position": {
+							"x": 59.8791198730469,
+							"y": 37.4281845092773
+						},
+						"rotation": 0.0,
+						"scale": {
+							"x": 1.0,
+							"y": 1.0
+						},
+						"shape_type": "rectangle",
+						"size": {
+							"height": 50.7895126342773,
+							"width": 67.5837478637695
+						},
+						"visible": true
+					},
+					{
+						"area_name": "HitboxArea2",
+						"position": {
+							"x": 52.0155792236328,
+							"y": 110.79549407959
+						},
+						"rotation": 0.0,
+						"scale": {
+							"x": 1.0,
+							"y": 1.0
+						},
+						"shape_type": "rectangle",
+						"size": {
+							"height": 94.1746826171875,
+							"width": 142.691452026367
+						},
+						"visible": true
+					}
+				]
+			},
+			"16": {
+				"anchor_point": {
+					"x": 0.5,
+					"y": 165.5
+				},
+				"frame_index": 16,
+				"hitboxes_data": [
+					{
+						"area_name": "HitboxArea1",
+						"position": {
+							"x": 30.9556579589844,
+							"y": 36.9616775512695
+						},
+						"rotation": 0.0,
+						"scale": {
+							"x": 1.0,
+							"y": 1.0
+						},
+						"shape_type": "rectangle",
+						"size": {
+							"height": 50.7895126342773,
+							"width": 67.5837478637695
+						},
+						"visible": true
+					},
+					{
+						"area_name": "HitboxArea2",
+						"position": {
+							"x": 52.0155792236328,
+							"y": 110.79549407959
+						},
+						"rotation": 0.0,
+						"scale": {
+							"x": 1.0,
+							"y": 1.0
+						},
+						"shape_type": "rectangle",
+						"size": {
+							"height": 94.1746826171875,
+							"width": 142.691452026367
+						},
+						"visible": true
+					}
+				]
+			},
+			"17": {
+				"anchor_point": {
+					"x": 0.5,
+					"y": 165.5
+				},
+				"frame_index": 17,
+				"hitboxes_data": [
+					{
+						"area_name": "HitboxArea1",
+						"position": {
+							"x": 17.1936950683594,
+							"y": 37.8946914672852
+						},
+						"rotation": 0.0,
+						"scale": {
+							"x": 1.0,
+							"y": 1.0
+						},
+						"shape_type": "rectangle",
+						"size": {
+							"height": 50.7895126342773,
+							"width": 67.5837478637695
+						},
+						"visible": true
+					},
+					{
+						"area_name": "HitboxArea2",
+						"position": {
+							"x": 52.0155792236328,
+							"y": 110.79549407959
+						},
+						"rotation": 0.0,
+						"scale": {
+							"x": 1.0,
+							"y": 1.0
+						},
+						"shape_type": "rectangle",
+						"size": {
+							"height": 94.1746826171875,
+							"width": 142.691452026367
+						},
+						"visible": true
+					}
+				]
+			},
+			"2": {
+				"anchor_point": {
+					"x": 0.5,
+					"y": 165.5
+				},
+				"frame_index": 2,
+				"hitboxes_data": [
+					{
+						"area_name": "HitboxArea1",
+						"position": {
+							"x": 19.7594757080078,
+							"y": 34.6291427612305
+						},
+						"rotation": 0.0,
+						"scale": {
+							"x": 1.0,
+							"y": 1.0
+						},
+						"shape_type": "rectangle",
+						"size": {
+							"height": 50.7895126342773,
+							"width": 67.5837478637695
+						},
+						"visible": true
+					},
+					{
+						"area_name": "HitboxArea2",
+						"position": {
+							"x": 19.8265686035156,
+							"y": 109.862480163574
+						},
+						"rotation": 0.0,
+						"scale": {
+							"x": 1.0,
+							"y": 1.0
+						},
+						"shape_type": "rectangle",
+						"size": {
+							"height": 94.1746826171875,
+							"width": 142.691452026367
+						},
+						"visible": true
+					}
+				]
+			},
+			"3": {
+				"anchor_point": {
+					"x": 0.5,
+					"y": 165.5
+				},
+				"frame_index": 3,
+				"hitboxes_data": [
+					{
+						"area_name": "HitboxArea1",
+						"position": {
+							"x": 59.8791198730469,
+							"y": 37.4281845092773
+						},
+						"rotation": 0.0,
+						"scale": {
+							"x": 1.0,
+							"y": 1.0
+						},
+						"shape_type": "rectangle",
+						"size": {
+							"height": 50.7895126342773,
+							"width": 67.5837478637695
+						},
+						"visible": true
+					},
+					{
+						"area_name": "HitboxArea2",
+						"position": {
+							"x": 52.0155792236328,
+							"y": 110.79549407959
+						},
+						"rotation": 0.0,
+						"scale": {
+							"x": 1.0,
+							"y": 1.0
+						},
+						"shape_type": "rectangle",
+						"size": {
+							"height": 94.1746826171875,
+							"width": 142.691452026367
+						},
+						"visible": true
+					}
+				]
+			},
+			"4": {
+				"anchor_point": {
+					"x": 0.5,
+					"y": 165.5
+				},
+				"frame_index": 4,
+				"hitboxes_data": [
+					{
+						"area_name": "HitboxArea1",
+						"position": {
+							"x": 59.8791198730469,
+							"y": 37.4281845092773
+						},
+						"rotation": 0.0,
+						"scale": {
+							"x": 1.0,
+							"y": 1.0
+						},
+						"shape_type": "rectangle",
+						"size": {
+							"height": 50.7895126342773,
+							"width": 67.5837478637695
+						},
+						"visible": true
+					},
+					{
+						"area_name": "HitboxArea2",
+						"position": {
+							"x": 52.0155792236328,
+							"y": 110.79549407959
+						},
+						"rotation": 0.0,
+						"scale": {
+							"x": 1.0,
+							"y": 1.0
+						},
+						"shape_type": "rectangle",
+						"size": {
+							"height": 94.1746826171875,
+							"width": 142.691452026367
+						},
+						"visible": true
+					}
+				]
+			},
+			"5": {
+				"anchor_point": {
+					"x": 0.5,
+					"y": 165.5
+				},
+				"frame_index": 5,
+				"hitboxes_data": [
+					{
+						"area_name": "HitboxArea1",
+						"position": {
+							"x": 59.8791198730469,
+							"y": 37.4281845092773
+						},
+						"rotation": 0.0,
+						"scale": {
+							"x": 1.0,
+							"y": 1.0
+						},
+						"shape_type": "rectangle",
+						"size": {
+							"height": 50.7895126342773,
+							"width": 67.5837478637695
+						},
+						"visible": true
+					},
+					{
+						"area_name": "HitboxArea2",
+						"position": {
+							"x": 52.0155792236328,
+							"y": 110.79549407959
+						},
+						"rotation": 0.0,
+						"scale": {
+							"x": 1.0,
+							"y": 1.0
+						},
+						"shape_type": "rectangle",
+						"size": {
+							"height": 94.1746826171875,
+							"width": 142.691452026367
+						},
+						"visible": true
+					}
+				]
+			},
+			"6": {
+				"anchor_point": {
+					"x": 0.5,
+					"y": 165.5
+				},
+				"frame_index": 6,
+				"hitboxes_data": [
+					{
+						"area_name": "HitboxArea1",
+						"position": {
+							"x": 59.8791198730469,
+							"y": 37.4281845092773
+						},
+						"rotation": 0.0,
+						"scale": {
+							"x": 1.0,
+							"y": 1.0
+						},
+						"shape_type": "rectangle",
+						"size": {
+							"height": 50.7895126342773,
+							"width": 67.5837478637695
+						},
+						"visible": true
+					},
+					{
+						"area_name": "HitboxArea2",
+						"position": {
+							"x": 52.0155792236328,
+							"y": 110.79549407959
+						},
+						"rotation": 0.0,
+						"scale": {
+							"x": 1.0,
+							"y": 1.0
+						},
+						"shape_type": "rectangle",
+						"size": {
+							"height": 94.1746826171875,
+							"width": 142.691452026367
+						},
+						"visible": true
+					}
+				]
+			},
+			"7": {
+				"anchor_point": {
+					"x": 0.5,
+					"y": 165.5
+				},
+				"frame_index": 7,
+				"hitboxes_data": [
+					{
+						"area_name": "HitboxArea1",
+						"position": {
+							"x": 59.8791198730469,
+							"y": 37.4281845092773
+						},
+						"rotation": 0.0,
+						"scale": {
+							"x": 1.0,
+							"y": 1.0
+						},
+						"shape_type": "rectangle",
+						"size": {
+							"height": 50.7895126342773,
+							"width": 67.5837478637695
+						},
+						"visible": true
+					},
+					{
+						"area_name": "HitboxArea2",
+						"position": {
+							"x": 52.0155792236328,
+							"y": 110.79549407959
+						},
+						"rotation": 0.0,
+						"scale": {
+							"x": 1.0,
+							"y": 1.0
+						},
+						"shape_type": "rectangle",
+						"size": {
+							"height": 94.1746826171875,
+							"width": 142.691452026367
+						},
+						"visible": true
+					}
+				]
+			},
+			"8": {
+				"anchor_point": {
+					"x": 0.5,
+					"y": 165.5
+				},
+				"frame_index": 8,
+				"hitboxes_data": [
+					{
+						"area_name": "HitboxArea1",
+						"position": {
+							"x": 59.8791198730469,
+							"y": 37.4281845092773
+						},
+						"rotation": 0.0,
+						"scale": {
+							"x": 1.0,
+							"y": 1.0
+						},
+						"shape_type": "rectangle",
+						"size": {
+							"height": 50.7895126342773,
+							"width": 67.5837478637695
+						},
+						"visible": true
+					},
+					{
+						"area_name": "HitboxArea2",
+						"position": {
+							"x": 52.0155792236328,
+							"y": 110.79549407959
+						},
+						"rotation": 0.0,
+						"scale": {
+							"x": 1.0,
+							"y": 1.0
+						},
+						"shape_type": "rectangle",
+						"size": {
+							"height": 94.1746826171875,
+							"width": 142.691452026367
+						},
+						"visible": true
+					}
+				]
+			},
+			"9": {
+				"anchor_point": {
+					"x": 0.5,
+					"y": 165.5
+				},
+				"frame_index": 9,
+				"hitboxes_data": [
+					{
+						"area_name": "HitboxArea1",
+						"position": {
+							"x": 59.8791198730469,
+							"y": 37.4281845092773
+						},
+						"rotation": 0.0,
+						"scale": {
+							"x": 1.0,
+							"y": 1.0
+						},
+						"shape_type": "rectangle",
+						"size": {
+							"height": 50.7895126342773,
+							"width": 67.5837478637695
+						},
+						"visible": true
+					},
+					{
+						"area_name": "HitboxArea2",
+						"position": {
+							"x": 52.0155792236328,
+							"y": 110.79549407959
+						},
+						"rotation": 0.0,
+						"scale": {
+							"x": 1.0,
+							"y": 1.0
+						},
+						"shape_type": "rectangle",
+						"size": {
+							"height": 94.1746826171875,
+							"width": 142.691452026367
+						},
+						"visible": true
+					}
+				]
+			}
+		},
+		"idle": {
+			"0": {
+				"anchor_point": {
+					"x": 0.5,
+					"y": 165.5
+				},
+				"frame_index": 0,
+				"hitboxes_data": [
+					{
+						"area_name": "HitboxArea1",
+						"position": {
+							"x": 10.6625823974609,
+							"y": 11.0705299377441
+						},
+						"rotation": 0.0,
+						"scale": {
+							"x": 1.0,
+							"y": 1.0
+						},
+						"shape_type": "rectangle",
+						"size": {
+							"height": 112.834976196289,
+							"width": 105.837348937988
+						},
+						"visible": true
+					},
+					{
+						"area_name": "HitboxArea2",
+						"position": {
+							"x": 12.3624572753906,
+							"y": 114.061042785645
+						},
+						"rotation": 0.0,
+						"scale": {
+							"x": 1.0,
+							"y": 1.0
+						},
+						"shape_type": "rectangle",
+						"size": {
+							"height": 94.1746826171875,
+							"width": 142.691452026367
+						},
+						"visible": true
+					}
+				]
+			},
+			"1": {
+				"anchor_point": {
+					"x": 0.5,
+					"y": 165.5
+				},
+				"frame_index": 1,
+				"hitboxes_data": [
+					{
+						"area_name": "HitboxArea1",
+						"position": {
+							"x": 10.6625823974609,
+							"y": 11.0705299377441
+						},
+						"rotation": 0.0,
+						"scale": {
+							"x": 1.0,
+							"y": 1.0
+						},
+						"shape_type": "rectangle",
+						"size": {
+							"height": 112.834976196289,
+							"width": 105.837348937988
+						},
+						"visible": true
+					},
+					{
+						"area_name": "HitboxArea2",
+						"position": {
+							"x": 12.3624572753906,
+							"y": 114.061042785645
+						},
+						"rotation": 0.0,
+						"scale": {
+							"x": 1.0,
+							"y": 1.0
+						},
+						"shape_type": "rectangle",
+						"size": {
+							"height": 94.1746826171875,
+							"width": 142.691452026367
+						},
+						"visible": true
+					}
+				]
+			},
+			"2": {
+				"anchor_point": {
+					"x": 0.5,
+					"y": 165.5
+				},
+				"frame_index": 2,
+				"hitboxes_data": [
+					{
+						"area_name": "HitboxArea1",
+						"position": {
+							"x": 10.6625823974609,
+							"y": 11.0705299377441
+						},
+						"rotation": 0.0,
+						"scale": {
+							"x": 1.0,
+							"y": 1.0
+						},
+						"shape_type": "rectangle",
+						"size": {
+							"height": 112.834976196289,
+							"width": 105.837348937988
+						},
+						"visible": true
+					},
+					{
+						"area_name": "HitboxArea2",
+						"position": {
+							"x": 12.3624572753906,
+							"y": 114.061042785645
+						},
+						"rotation": 0.0,
+						"scale": {
+							"x": 1.0,
+							"y": 1.0
+						},
+						"shape_type": "rectangle",
+						"size": {
+							"height": 94.1746826171875,
+							"width": 142.691452026367
+						},
+						"visible": true
+					}
+				]
+			},
+			"3": {
+				"anchor_point": {
+					"x": 0.5,
+					"y": 165.5
+				},
+				"frame_index": 3,
+				"hitboxes_data": [
+					{
+						"area_name": "HitboxArea1",
+						"position": {
+							"x": 10.6625823974609,
+							"y": 11.0705299377441
+						},
+						"rotation": 0.0,
+						"scale": {
+							"x": 1.0,
+							"y": 1.0
+						},
+						"shape_type": "rectangle",
+						"size": {
+							"height": 112.834976196289,
+							"width": 105.837348937988
+						},
+						"visible": true
+					},
+					{
+						"area_name": "HitboxArea2",
+						"position": {
+							"x": 12.3624572753906,
+							"y": 114.061042785645
+						},
+						"rotation": 0.0,
+						"scale": {
+							"x": 1.0,
+							"y": 1.0
+						},
+						"shape_type": "rectangle",
+						"size": {
+							"height": 94.1746826171875,
+							"width": 142.691452026367
+						},
+						"visible": true
+					}
+				]
+			},
+			"4": {
+				"anchor_point": {
+					"x": 0.5,
+					"y": 165.5
+				},
+				"frame_index": 4,
+				"hitboxes_data": [
+					{
+						"area_name": "HitboxArea1",
+						"position": {
+							"x": 10.6625823974609,
+							"y": 11.0705299377441
+						},
+						"rotation": 0.0,
+						"scale": {
+							"x": 1.0,
+							"y": 1.0
+						},
+						"shape_type": "rectangle",
+						"size": {
+							"height": 112.834976196289,
+							"width": 105.837348937988
+						},
+						"visible": true
+					},
+					{
+						"area_name": "HitboxArea2",
+						"position": {
+							"x": 12.3624572753906,
+							"y": 114.061042785645
+						},
+						"rotation": 0.0,
+						"scale": {
+							"x": 1.0,
+							"y": 1.0
+						},
+						"shape_type": "rectangle",
+						"size": {
+							"height": 94.1746826171875,
+							"width": 142.691452026367
+						},
+						"visible": true
+					}
+				]
+			}
+		},
+		"run": {
+			"0": {
+				"anchor_point": {
+					"x": 0.5,
+					"y": 165.5
+				},
+				"frame_index": 0,
+				"hitboxes_data": [
+					{
+						"area_name": "HitboxArea1",
+						"position": {
+							"x": 16.9604415893555,
+							"y": 23.1997146606445
+						},
+						"rotation": 0.0,
+						"scale": {
+							"x": 1.0,
+							"y": 1.0
+						},
+						"shape_type": "rectangle",
+						"size": {
+							"height": 79.2464599609375,
+							"width": 110.035903930664
+						},
+						"visible": true
+					},
+					{
+						"area_name": "HitboxArea2",
+						"position": {
+							"x": 10.4964294433594,
+							"y": 108.462959289551
+						},
+						"rotation": 0.0,
+						"scale": {
+							"x": 1.0,
+							"y": 1.0
+						},
+						"shape_type": "rectangle",
+						"size": {
+							"height": 94.1746826171875,
+							"width": 142.691452026367
+						},
+						"visible": true
+					}
+				]
+			},
+			"1": {
+				"anchor_point": {
+					"x": 0.5,
+					"y": 165.5
+				},
+				"frame_index": 1,
+				"hitboxes_data": [
+					{
+						"area_name": "HitboxArea1",
+						"position": {
+							"x": 16.9604415893555,
+							"y": 23.1997146606445
+						},
+						"rotation": 0.0,
+						"scale": {
+							"x": 1.0,
+							"y": 1.0
+						},
+						"shape_type": "rectangle",
+						"size": {
+							"height": 79.2464599609375,
+							"width": 110.035903930664
+						},
+						"visible": true
+					},
+					{
+						"area_name": "HitboxArea2",
+						"position": {
+							"x": 10.4964294433594,
+							"y": 108.462959289551
+						},
+						"rotation": 0.0,
+						"scale": {
+							"x": 1.0,
+							"y": 1.0
+						},
+						"shape_type": "rectangle",
+						"size": {
+							"height": 94.1746826171875,
+							"width": 142.691452026367
+						},
+						"visible": true
+					}
+				]
+			},
+			"2": {
+				"anchor_point": {
+					"x": 0.5,
+					"y": 165.5
+				},
+				"frame_index": 2,
+				"hitboxes_data": [
+					{
+						"area_name": "HitboxArea1",
+						"position": {
+							"x": 16.9604415893555,
+							"y": 23.1997146606445
+						},
+						"rotation": 0.0,
+						"scale": {
+							"x": 1.0,
+							"y": 1.0
+						},
+						"shape_type": "rectangle",
+						"size": {
+							"height": 79.2464599609375,
+							"width": 110.035903930664
+						},
+						"visible": true
+					},
+					{
+						"area_name": "HitboxArea2",
+						"position": {
+							"x": 10.4964294433594,
+							"y": 108.462959289551
+						},
+						"rotation": 0.0,
+						"scale": {
+							"x": 1.0,
+							"y": 1.0
+						},
+						"shape_type": "rectangle",
+						"size": {
+							"height": 94.1746826171875,
+							"width": 142.691452026367
+						},
+						"visible": true
+					}
+				]
+			},
+			"3": {
+				"anchor_point": {
+					"x": 0.5,
+					"y": 165.5
+				},
+				"frame_index": 3,
+				"hitboxes_data": [
+					{
+						"area_name": "HitboxArea1",
+						"position": {
+							"x": 16.9604415893555,
+							"y": 23.1997146606445
+						},
+						"rotation": 0.0,
+						"scale": {
+							"x": 1.0,
+							"y": 1.0
+						},
+						"shape_type": "rectangle",
+						"size": {
+							"height": 79.2464599609375,
+							"width": 110.035903930664
+						},
+						"visible": true
+					},
+					{
+						"area_name": "HitboxArea2",
+						"position": {
+							"x": 10.4964294433594,
+							"y": 108.462959289551
+						},
+						"rotation": 0.0,
+						"scale": {
+							"x": 1.0,
+							"y": 1.0
+						},
+						"shape_type": "rectangle",
+						"size": {
+							"height": 94.1746826171875,
+							"width": 142.691452026367
+						},
+						"visible": true
+					}
+				]
+			},
+			"4": {
+				"anchor_point": {
+					"x": 0.5,
+					"y": 165.5
+				},
+				"frame_index": 4,
+				"hitboxes_data": [
+					{
+						"area_name": "HitboxArea1",
+						"position": {
+							"x": 16.9604415893555,
+							"y": 23.1997146606445
+						},
+						"rotation": 0.0,
+						"scale": {
+							"x": 1.0,
+							"y": 1.0
+						},
+						"shape_type": "rectangle",
+						"size": {
+							"height": 79.2464599609375,
+							"width": 110.035903930664
+						},
+						"visible": true
+					},
+					{
+						"area_name": "HitboxArea2",
+						"position": {
+							"x": 10.4964294433594,
+							"y": 108.462959289551
+						},
+						"rotation": 0.0,
+						"scale": {
+							"x": 1.0,
+							"y": 1.0
+						},
+						"shape_type": "rectangle",
+						"size": {
+							"height": 94.1746826171875,
+							"width": 142.691452026367
+						},
+						"visible": true
+					}
+				]
+			},
+			"5": {
+				"anchor_point": {
+					"x": 0.5,
+					"y": 165.5
+				},
+				"frame_index": 5,
+				"hitboxes_data": [
+					{
+						"area_name": "HitboxArea1",
+						"position": {
+							"x": 16.9604415893555,
+							"y": 23.1997146606445
+						},
+						"rotation": 0.0,
+						"scale": {
+							"x": 1.0,
+							"y": 1.0
+						},
+						"shape_type": "rectangle",
+						"size": {
+							"height": 79.2464599609375,
+							"width": 110.035903930664
+						},
+						"visible": true
+					},
+					{
+						"area_name": "HitboxArea2",
+						"position": {
+							"x": 10.4964294433594,
+							"y": 108.462959289551
+						},
+						"rotation": 0.0,
+						"scale": {
+							"x": 1.0,
+							"y": 1.0
+						},
+						"shape_type": "rectangle",
+						"size": {
+							"height": 94.1746826171875,
+							"width": 142.691452026367
+						},
+						"visible": true
+					}
+				]
+			},
+			"6": {
+				"anchor_point": {
+					"x": 0.5,
+					"y": 165.5
+				},
+				"frame_index": 6,
+				"hitboxes_data": []
+			}
+		},
+		"scroll": {
+			"0": {
+				"anchor_point": {
+					"x": 0.5,
+					"y": 165.5
+				},
+				"frame_index": 0,
+				"hitboxes_data": [
+					{
+						"area_name": "HitboxArea1",
+						"position": {
+							"x": 16.9604415893555,
+							"y": 23.1997146606445
+						},
+						"rotation": 0.0,
+						"scale": {
+							"x": 1.0,
+							"y": 1.0
+						},
+						"shape_type": "rectangle",
+						"size": {
+							"height": 79.2464599609375,
+							"width": 110.035903930664
+						},
+						"visible": true
+					},
+					{
+						"area_name": "HitboxArea2",
+						"position": {
+							"x": 10.4964294433594,
+							"y": 108.462959289551
+						},
+						"rotation": 0.0,
+						"scale": {
+							"x": 1.0,
+							"y": 1.0
+						},
+						"shape_type": "rectangle",
+						"size": {
+							"height": 94.1746826171875,
+							"width": 142.691452026367
+						},
+						"visible": true
+					}
+				]
+			},
+			"1": {
+				"anchor_point": {
+					"x": 0.5,
+					"y": 165.5
+				},
+				"frame_index": 1,
+				"hitboxes_data": [
+					{
+						"area_name": "HitboxArea1",
+						"position": {
+							"x": 19.2929763793945,
+							"y": 84.0789260864258
+						},
+						"rotation": 0.0,
+						"scale": {
+							"x": 1.0,
+							"y": 1.0
+						},
+						"shape_type": "rectangle",
+						"size": {
+							"height": 45.1914215087891,
+							"width": 110.035903930664
+						},
+						"visible": true
+					},
+					{
+						"area_name": "HitboxArea2",
+						"position": {
+							"x": 10.4964294433594,
+							"y": 130.855316162109
+						},
+						"rotation": 0.0,
+						"scale": {
+							"x": 1.0,
+							"y": 1.0
+						},
+						"shape_type": "rectangle",
+						"size": {
+							"height": 60.5861511230469,
+							"width": 142.691452026367
+						},
+						"visible": true
+					}
+				]
+			},
+			"2": {
+				"anchor_point": {
+					"x": 0.5,
+					"y": 165.5
+				},
+				"frame_index": 2,
+				"hitboxes_data": [
+					{
+						"area_name": "HitboxArea1",
+						"position": {
+							"x": 16.9604415893555,
+							"y": 23.1997146606445
+						},
+						"rotation": 0.0,
+						"scale": {
+							"x": 1.0,
+							"y": 1.0
+						},
+						"shape_type": "rectangle",
+						"size": {
+							"height": 79.2464599609375,
+							"width": 110.035903930664
+						},
+						"visible": true
+					},
+					{
+						"area_name": "HitboxArea2",
+						"position": {
+							"x": 10.4964294433594,
+							"y": 108.462959289551
+						},
+						"rotation": 0.0,
+						"scale": {
+							"x": 1.0,
+							"y": 1.0
+						},
+						"shape_type": "rectangle",
+						"size": {
+							"height": 94.1746826171875,
+							"width": 142.691452026367
+						},
+						"visible": true
+					}
+				]
+			}
+		},
+		"summon": {
+			"0": {
+				"anchor_point": {
+					"x": 0.5,
+					"y": 165.5
+				},
+				"frame_index": 0,
+				"hitboxes_data": [
+					{
+						"area_name": "HitboxArea1",
+						"position": {
+							"x": 16.9604415893555,
+							"y": 23.1997146606445
+						},
+						"rotation": 0.0,
+						"scale": {
+							"x": 1.0,
+							"y": 1.0
+						},
+						"shape_type": "rectangle",
+						"size": {
+							"height": 79.2464599609375,
+							"width": 110.035903930664
+						},
+						"visible": true
+					},
+					{
+						"area_name": "HitboxArea2",
+						"position": {
+							"x": 10.4964294433594,
+							"y": 108.462959289551
+						},
+						"rotation": 0.0,
+						"scale": {
+							"x": 1.0,
+							"y": 1.0
+						},
+						"shape_type": "rectangle",
+						"size": {
+							"height": 94.1746826171875,
+							"width": 142.691452026367
+						},
+						"visible": true
+					}
+				]
+			},
+			"1": {
+				"anchor_point": {
+					"x": 0.5,
+					"y": 165.5
+				},
+				"frame_index": 1,
+				"hitboxes_data": [
+					{
+						"area_name": "HitboxArea1",
+						"position": {
+							"x": 17.4269485473633,
+							"y": 91.7763061523438
+						},
+						"rotation": 0.0,
+						"scale": {
+							"x": 1.0,
+							"y": 1.0
+						},
+						"shape_type": "rectangle",
+						"size": {
+							"height": 63.3852081298828,
+							"width": 110.035903930664
+						},
+						"visible": true
+					},
+					{
+						"area_name": "HitboxArea2",
+						"position": {
+							"x": 10.4964294433594,
+							"y": 144.384002685547
+						},
+						"rotation": 0.0,
+						"scale": {
+							"x": 1.0,
+							"y": 1.0
+						},
+						"shape_type": "rectangle",
+						"size": {
+							"height": 52.1890106201172,
+							"width": 142.691452026367
+						},
+						"visible": true
+					}
+				]
+			}
+		}
+	},
+	"animation_global_anchors": {
+		"a1": {
+			"x": 0.5,
+			"y": 165.5
+		},
+		"a2": {
+			"x": 0.5,
+			"y": 165.5
+		},
+		"a3": {
+			"x": 0.5,
+			"y": 165.5
+		},
+		"a4": {
+			"x": 0.5,
+			"y": 165.5
+		},
+		"idle": {
+			"x": 0.5,
+			"y": 165.5
+		},
+		"run": {
+			"x": 0.5,
+			"y": 165.5
+		},
+		"scroll": {
+			"x": 0.5,
+			"y": 165.5
+		},
+		"summon": {
+			"x": 0.5,
+			"y": 165.5
+		}
+	},
+	"entity_scene_path": "res://assets/entities/暴怒带土/entity.tscn",
+	"handle_size": 10.0,
+	"save_time": "2026-11-15T21:15:18"
+}

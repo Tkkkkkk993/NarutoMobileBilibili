@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="EntityData" format=3]
+
+[ext_resource type="Script" path="res://assets/entities/base/entity_data.gd" id="1_data"]
+
+[resource]
+script = ExtResource("1_data")
+entity_name = "暴怒带土"
+move_speed_x = 350.0
+move_speed_y = 175.0
+floder_path = "res://assets/entities/暴怒带土/"

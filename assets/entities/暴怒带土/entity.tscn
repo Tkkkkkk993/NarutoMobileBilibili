@@ -1,0 +1,326 @@
+[gd_scene format=3 uid="uid://j73ohrb756dc"]
+
+[ext_resource type="PackedScene" uid="uid://gkn20f0aex3q" path="res://assets/entities/base/animated_sprite_2d_entity.tscn" id="1_base"]
+[ext_resource type="Script" uid="uid://mtim3dxh4o12" path="res://assets/entities/暴怒带土/entity.gd" id="2_script"]
+[ext_resource type="Texture2D" uid="uid://t47mg4bgwxqf" path="res://assets/entities/暴怒带土/idle/2obvbod1_idle_2obvbod1_idle_0001_A.png" id="3_texture"]
+[ext_resource type="Texture2D" uid="uid://i5on6f1778og" path="res://assets/entities/暴怒带土/idle/2obvbod1_idle_2obvbod1_idle_0006_A.png" id="4_texture"]
+[ext_resource type="Texture2D" uid="uid://b3lgrrtyuicat" path="res://assets/entities/暴怒带土/idle/2obvbod1_idle_2obvbod1_idle_0011_A.png" id="5_texture"]
+[ext_resource type="Texture2D" uid="uid://bsqaoeppwieqh" path="res://assets/entities/暴怒带土/idle/2obvbod1_idle_2obvbod1_idle_0016_A.png" id="6_texture"]
+[ext_resource type="Texture2D" uid="uid://d0ab4ldkacxp0" path="res://assets/entities/暴怒带土/idle/2obvbod1_idle_2obvbod1_idle_0021_A.png" id="7_texture"]
+[ext_resource type="Texture2D" uid="uid://b4y7y8fxjht54" path="res://assets/entities/暴怒带土/run/2obvbod1_run_2obvbod1_run_0000_A.png" id="8_texture"]
+[ext_resource type="Texture2D" uid="uid://grudowasbfd7" path="res://assets/entities/暴怒带土/run/2obvbod1_run_2obvbod1_run_0002_A.png" id="9_texture"]
+[ext_resource type="Texture2D" uid="uid://m2bkfvjwqqqc" path="res://assets/entities/暴怒带土/run/2obvbod1_run_2obvbod1_run_0008_A.png" id="11_texture"]
+[ext_resource type="Texture2D" uid="uid://bhbxsw1nf6cmp" path="res://assets/entities/暴怒带土/run/2obvbod1_run_2obvbod1_run_0010_A.png" id="12_texture"]
+[ext_resource type="Texture2D" uid="uid://cymvlnbwxc10u" path="res://assets/entities/暴怒带土/run/2obvbod1_run_2obvbod1_run_0012_A.png" id="13_texture"]
+[ext_resource type="Texture2D" uid="uid://cp0vleff0uhsv" path="res://assets/entities/暴怒带土/run/2obvbod1_run_2obvbod1_run_0015_A.png" id="14_texture"]
+[ext_resource type="Texture2D" uid="uid://bbwn51uba2438" path="res://assets/entities/暴怒带土/attackA01/2obvbod1_attackA01_2obvbod1_attackA01_0001@80_A.png" id="15_texture"]
+[ext_resource type="Texture2D" uid="uid://dfxhpyiib58c5" path="res://assets/entities/暴怒带土/attackA01/2obvbod1_attackA01_2obvbod1_attackA01_0002@80_A.png" id="16_texture"]
+[ext_resource type="Texture2D" uid="uid://cisf27ycujalt" path="res://assets/entities/暴怒带土/attackA01/2obvbod1_attackA01_2obvbod1_attackA01_0003@80_A.png" id="17_texture"]
+[ext_resource type="Texture2D" uid="uid://bewi5bk533asx" path="res://assets/entities/暴怒带土/attackA01/2obvbod1_attackA01_2obvbod1_attackA01_0006@80_A.png" id="18_texture"]
+[ext_resource type="Texture2D" uid="uid://ddwh0x3fky6m1" path="res://assets/entities/暴怒带土/attackA01/2obvbod1_attackA01_2obvbod1_attackA01_0007@80_A.png" id="19_texture"]
+[ext_resource type="Texture2D" uid="uid://bwweoibasudy" path="res://assets/entities/暴怒带土/attackA01/2obvbod1_attackA01_2obvbod1_attackA01_0018@80_A.png" id="20_texture"]
+[ext_resource type="Texture2D" uid="uid://xmbbixpr0syc" path="res://assets/entities/暴怒带土/attackA01/2obvbod1_attackA01_2obvbod1_attackA01_0021@80_A.png" id="21_texture"]
+[ext_resource type="Texture2D" uid="uid://c6vbacqp7khr1" path="res://assets/entities/暴怒带土/attackA01/2obvbod1_attackA01_2obvbod1_attackA01_0025@80_A.png" id="22_texture"]
+[ext_resource type="Texture2D" uid="uid://d37w3ww53nm4" path="res://assets/entities/暴怒带土/attackA02/2obvbod1_attackA02_2obvbod1_attackA02_0004@80_A.png" id="23_texture"]
+[ext_resource type="Texture2D" uid="uid://dohbe64vaqcih" path="res://assets/entities/暴怒带土/attackA02/2obvbod1_attackA02_2obvbod1_attackA02_0007@80_A.png" id="24_texture"]
+[ext_resource type="Texture2D" uid="uid://bgi4ghg7yhvfv" path="res://assets/entities/暴怒带土/attackA02/2obvbod1_attackA02_2obvbod1_attackA02_0009@80_A.png" id="25_texture"]
+[ext_resource type="Texture2D" uid="uid://xhbpreykdlre" path="res://assets/entities/暴怒带土/attackA02/2obvbod1_attackA02_2obvbod1_attackA02_0010@80_A.png" id="26_texture"]
+[ext_resource type="Texture2D" uid="uid://5optke6am28j" path="res://assets/entities/暴怒带土/attackA02/2obvbod1_attackA02_2obvbod1_attackA02_0018@80_A.png" id="27_texture"]
+[ext_resource type="Texture2D" uid="uid://xv0aeee6db3n" path="res://assets/entities/暴怒带土/attackA02/2obvbod1_attackA02_2obvbod1_attackA02_0021@80_A.png" id="28_texture"]
+[ext_resource type="Texture2D" uid="uid://kxtnls20nu3p" path="res://assets/entities/暴怒带土/attackA02/2obvbod1_attackA02_2obvbod1_attackA02_0022@80_A.png" id="29_texture"]
+[ext_resource type="Texture2D" uid="uid://c8jh03caewgbk" path="res://assets/entities/暴怒带土/attackA02/2obvbod1_attackA02_2obvbod1_attackA02_0024@80_A.png" id="30_texture"]
+[ext_resource type="Texture2D" uid="uid://djt336d0qjjhx" path="res://assets/entities/暴怒带土/attackA03/2obvbod1_attackA03_2obvbod1_attackA03_0002@80_A.png" id="31_texture"]
+[ext_resource type="Texture2D" uid="uid://c7hckqg3ehkpu" path="res://assets/entities/暴怒带土/attackA03/2obvbod1_attackA03_2obvbod1_attackA03_0004@80_A.png" id="32_texture"]
+[ext_resource type="Texture2D" uid="uid://pt5vhwm84gf3" path="res://assets/entities/暴怒带土/attackA03/2obvbod1_attackA03_2obvbod1_attackA03_0006@80_A.png" id="33_texture"]
+[ext_resource type="Texture2D" uid="uid://cqgj7erq44e4h" path="res://assets/entities/暴怒带土/attackA03/2obvbod1_attackA03_2obvbod1_attackA03_0008@80_A.png" id="34_texture"]
+[ext_resource type="Texture2D" uid="uid://b0cpawe7sy6t3" path="res://assets/entities/暴怒带土/attackA03/2obvbod1_attackA03_2obvbod1_attackA03_0011@80_A.png" id="35_texture"]
+[ext_resource type="Texture2D" uid="uid://rl78geew1at7" path="res://assets/entities/暴怒带土/attackA03/2obvbod1_attackA03_2obvbod1_attackA03_0014@80_A.png" id="36_texture"]
+[ext_resource type="Texture2D" uid="uid://tsw46gvft4nd" path="res://assets/entities/暴怒带土/attackA03/2obvbod1_attackA03_2obvbod1_attackA03_0015@80_A.png" id="37_texture"]
+[ext_resource type="Texture2D" uid="uid://c7gsdqgfwkmbs" path="res://assets/entities/暴怒带土/attackA03/2obvbod1_attackA03_2obvbod1_attackA03_0016@80_A.png" id="38_texture"]
+[ext_resource type="Texture2D" uid="uid://biwy0sq5kbimf" path="res://assets/entities/暴怒带土/attackA03/2obvbod1_attackA03_2obvbod1_attackA03_0018@80_A.png" id="39_texture"]
+[ext_resource type="Texture2D" uid="uid://rxjnvvm15auy" path="res://assets/entities/暴怒带土/attackA03/2obvbod1_attackA03_2obvbod1_attackA03_0023@80_A.png" id="40_texture"]
+[ext_resource type="Texture2D" uid="uid://bmgapiin8kc1c" path="res://assets/entities/暴怒带土/attackA03/2obvbod1_attackA03_2obvbod1_attackA03_0026@80_A.png" id="41_texture"]
+[ext_resource type="Texture2D" uid="uid://to2jrxc6jqov" path="res://assets/entities/暴怒带土/attackA03/2obvbod1_attackA03_2obvbod1_attackA03_0028@80_A.png" id="42_texture"]
+[ext_resource type="Texture2D" uid="uid://b0g8bfhm0fbhf" path="res://assets/entities/暴怒带土/attackA03/2obvbod1_attackA03_2obvbod1_attackA03_0036@80_A.png" id="43_texture"]
+[ext_resource type="Texture2D" uid="uid://dwfp6i7olxdgn" path="res://assets/entities/暴怒带土/attackA03/2obvbod1_attackA03_2obvbod1_attackA03_0040@80_A.png" id="44_texture"]
+[ext_resource type="Texture2D" uid="uid://vah0d3i10j8m" path="res://assets/entities/暴怒带土/attackA03/2obvbod1_attackA03_2obvbod1_attackA03_0042@80_A.png" id="45_texture"]
+[ext_resource type="Texture2D" uid="uid://m7kex5s1bfvw" path="res://assets/entities/暴怒带土/attackA04/2obvbod1_attackA04_2obvbod1_attackA04_0003@80_A.png" id="46_texture"]
+[ext_resource type="Texture2D" uid="uid://bp807jx0mulwo" path="res://assets/entities/暴怒带土/attackA04/2obvbod1_attackA04_2obvbod1_attackA04_0005@80_A.png" id="47_texture"]
+[ext_resource type="Texture2D" uid="uid://cuygrbu2b7br6" path="res://assets/entities/暴怒带土/attackA04/2obvbod1_attackA04_2obvbod1_attackA04_0006@80_A.png" id="48_texture"]
+[ext_resource type="Texture2D" uid="uid://2714sfivv4co" path="res://assets/entities/暴怒带土/attackA04/2obvbod1_attackA04_2obvbod1_attackA04_0019@80_A.png" id="49_texture"]
+[ext_resource type="Texture2D" uid="uid://wvlxa8rdmcao" path="res://assets/entities/暴怒带土/attackA04/2obvbod1_attackA04_2obvbod1_attackA04_0029@80_A.png" id="50_texture"]
+[ext_resource type="Texture2D" uid="uid://dv1mx687aqx88" path="res://assets/entities/暴怒带土/attackA04/2obvbod1_attackA04_2obvbod1_attackA04_0033@80_A.png" id="51_texture"]
+[ext_resource type="Texture2D" uid="uid://d3de4xssotjgh" path="res://assets/entities/暴怒带土/attackA04/2obvbod1_attackA04_2obvbod1_attackA04_0035@80_A.png" id="52_texture"]
+[ext_resource type="Texture2D" uid="uid://do11m4rc4s5lh" path="res://assets/entities/暴怒带土/attackA04/2obvbod1_attackA04_2obvbod1_attackA04_0042@80_A.png" id="53_texture"]
+[ext_resource type="Texture2D" uid="uid://cv41vexmm5mn8" path="res://assets/entities/暴怒带土/attackA04/2obvbod1_attackA04_2obvbod1_attackA04_0047@80_A.png" id="54_texture"]
+[ext_resource type="Texture2D" uid="uid://ijne3fn3clxc" path="res://assets/entities/暴怒带土/attackA04/2obvbod1_attackA04_2obvbod1_attackA04_0049@80_A.png" id="55_texture"]
+[ext_resource type="Texture2D" uid="uid://bad5rue6qubou" path="res://assets/entities/暴怒带土/attackA04/2obvbod1_attackA04_2obvbod1_attackA04_0052@80_A.png" id="56_texture"]
+[ext_resource type="Texture2D" uid="uid://bjquqvr3kmekw" path="res://assets/entities/暴怒带土/attackA04/2obvbod1_attackA04_2obvbod1_attackA04_0056@80_A.png" id="57_texture"]
+[ext_resource type="Texture2D" uid="uid://dioj5r5wolias" path="res://assets/entities/暴怒带土/attackA04/2obvbod1_attackA04_2obvbod1_attackA04_0064@80_A.png" id="58_texture"]
+[ext_resource type="Texture2D" uid="uid://cuf0pjka0jd4r" path="res://assets/entities/暴怒带土/attackA04/2obvbod1_attackA04_2obvbod1_attackA04_0066@80_A.png" id="59_texture"]
+[ext_resource type="Texture2D" uid="uid://rw2r603h8sv6" path="res://assets/entities/暴怒带土/attackA04/2obvbod1_attackA04_2obvbod1_attackA04_0068@80_A.png" id="60_texture"]
+[ext_resource type="Texture2D" uid="uid://cncoxoukdhcf4" path="res://assets/entities/暴怒带土/attackA04/2obvbod1_attackA04_2obvbod1_attackA04_0070@80_A.png" id="61_texture"]
+[ext_resource type="Texture2D" uid="uid://djrpdh4v8qkir" path="res://assets/entities/暴怒带土/attackA04/2obvbod1_attackA04_2obvbod1_attackA04_0071@80_A.png" id="62_texture"]
+[ext_resource type="Texture2D" uid="uid://bems8233thros" path="res://assets/entities/暴怒带土/attackA04/2obvbod1_attackA04_2obvbod1_attackA04_0074@80_A.png" id="63_texture"]
+[ext_resource type="Texture2D" uid="uid://dqqmy68xlfo80" path="res://assets/entities/暴怒带土/scroll/2obvbod1_tongyong_2obvbod1_tongyong_0025@80_A.png" id="64_texture"]
+[ext_resource type="Texture2D" uid="uid://03etity58x48" path="res://assets/entities/暴怒带土/scroll/2obvbod1_tongyong_2obvbod1_tongyong_0026@80_A.png" id="65_texture"]
+[ext_resource type="Texture2D" uid="uid://cbmc1yeplwxt7" path="res://assets/entities/暴怒带土/summon/2obvbod1_tongyong_2obvbod1_tongyong_0025@80_A.png" id="66_texture"]
+[ext_resource type="Texture2D" uid="uid://tc2dbri248o" path="res://assets/entities/暴怒带土/summon/2obvbod1_tongyong_2obvbod1_tongyong_0026@80_A.png" id="67_texture"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_obito"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("15_texture")
+}, {
+"duration": 1.0,
+"texture": ExtResource("16_texture")
+}, {
+"duration": 1.0,
+"texture": ExtResource("17_texture")
+}, {
+"duration": 1.0,
+"texture": ExtResource("18_texture")
+}, {
+"duration": 1.0,
+"texture": ExtResource("19_texture")
+}, {
+"duration": 1.0,
+"texture": ExtResource("20_texture")
+}, {
+"duration": 1.0,
+"texture": ExtResource("21_texture")
+}, {
+"duration": 1.0,
+"texture": ExtResource("22_texture")
+}],
+"loop": false,
+"name": &"a1",
+"speed": 18.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("23_texture")
+}, {
+"duration": 1.0,
+"texture": ExtResource("24_texture")
+}, {
+"duration": 1.0,
+"texture": ExtResource("25_texture")
+}, {
+"duration": 1.0,
+"texture": ExtResource("26_texture")
+}, {
+"duration": 1.0,
+"texture": ExtResource("27_texture")
+}, {
+"duration": 1.0,
+"texture": ExtResource("28_texture")
+}, {
+"duration": 1.0,
+"texture": ExtResource("29_texture")
+}, {
+"duration": 1.0,
+"texture": ExtResource("30_texture")
+}],
+"loop": false,
+"name": &"a2",
+"speed": 18.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("31_texture")
+}, {
+"duration": 1.0,
+"texture": ExtResource("32_texture")
+}, {
+"duration": 1.0,
+"texture": ExtResource("33_texture")
+}, {
+"duration": 1.0,
+"texture": ExtResource("34_texture")
+}, {
+"duration": 1.0,
+"texture": ExtResource("35_texture")
+}, {
+"duration": 1.0,
+"texture": ExtResource("36_texture")
+}, {
+"duration": 1.0,
+"texture": ExtResource("37_texture")
+}, {
+"duration": 1.0,
+"texture": ExtResource("38_texture")
+}, {
+"duration": 1.0,
+"texture": ExtResource("39_texture")
+}, {
+"duration": 1.0,
+"texture": ExtResource("40_texture")
+}, {
+"duration": 1.0,
+"texture": ExtResource("41_texture")
+}, {
+"duration": 1.0,
+"texture": ExtResource("42_texture")
+}, {
+"duration": 1.0,
+"texture": ExtResource("43_texture")
+}, {
+"duration": 1.0,
+"texture": ExtResource("44_texture")
+}, {
+"duration": 1.0,
+"texture": ExtResource("45_texture")
+}],
+"loop": false,
+"name": &"a3",
+"speed": 18.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("46_texture")
+}, {
+"duration": 1.0,
+"texture": ExtResource("47_texture")
+}, {
+"duration": 1.0,
+"texture": ExtResource("48_texture")
+}, {
+"duration": 1.0,
+"texture": ExtResource("49_texture")
+}, {
+"duration": 1.0,
+"texture": ExtResource("50_texture")
+}, {
+"duration": 1.0,
+"texture": ExtResource("51_texture")
+}, {
+"duration": 1.0,
+"texture": ExtResource("52_texture")
+}, {
+"duration": 1.0,
+"texture": ExtResource("53_texture")
+}, {
+"duration": 1.0,
+"texture": ExtResource("54_texture")
+}, {
+"duration": 1.0,
+"texture": ExtResource("55_texture")
+}, {
+"duration": 1.0,
+"texture": ExtResource("56_texture")
+}, {
+"duration": 1.0,
+"texture": ExtResource("57_texture")
+}, {
+"duration": 1.0,
+"texture": ExtResource("58_texture")
+}, {
+"duration": 1.0,
+"texture": ExtResource("59_texture")
+}, {
+"duration": 1.0,
+"texture": ExtResource("60_texture")
+}, {
+"duration": 1.0,
+"texture": ExtResource("61_texture")
+}, {
+"duration": 1.0,
+"texture": ExtResource("62_texture")
+}, {
+"duration": 1.0,
+"texture": ExtResource("63_texture")
+}],
+"loop": false,
+"name": &"a4",
+"speed": 12.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_texture")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_texture")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_texture")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_texture")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_texture")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 8.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("8_texture")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_texture")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_texture")
+}, {
+"duration": 1.0,
+"texture": ExtResource("12_texture")
+}, {
+"duration": 1.0,
+"texture": ExtResource("13_texture")
+}, {
+"duration": 1.0,
+"texture": ExtResource("14_texture")
+}],
+"loop": true,
+"name": &"run",
+"speed": 12.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("64_texture")
+}, {
+"duration": 2.0,
+"texture": ExtResource("65_texture")
+}, {
+"duration": 1.0,
+"texture": ExtResource("64_texture")
+}],
+"loop": false,
+"name": &"scroll",
+"speed": 12.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("66_texture")
+}, {
+"duration": 2.0,
+"texture": ExtResource("67_texture")
+}, {
+"duration": 1.0,
+"texture": ExtResource("66_texture")
+}],
+"loop": false,
+"name": &"summon",
+"speed": 12.0
+}]
+
+[node name="Entity" unique_id=902838388 instance=ExtResource("1_base")]
+script = ExtResource("2_script")
+
+[node name="AnimatedSprite2D" parent="Visuals" parent_id_path=PackedInt32Array(599763896) index="0" unique_id=318864051]
+scale = Vector2(1.2, 1.2)
+sprite_frames = SubResource("SpriteFrames_obito")
+animation = &"a4"
+autoplay = "idle"
+frame = 17
+frame_progress = 1.0
+
+[node name="HitboxArea1" parent="Visuals/AnimatedSprite2D" index="0" unique_id=265941509]
+visible = false
+
+[node name="CollisionShape2D" parent="Visuals/AnimatedSprite2D/HitboxArea1" index="0" unique_id=1434267263]
+disabled = true

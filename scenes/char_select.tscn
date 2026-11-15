@@ -281,6 +281,7 @@ offset_bottom = 40.0
 script = ExtResource("5_pe1b5")
 json_data_path = "res://data/characters.json"
 icon_scene = ExtResource("5_wv62h")
+char_ids = Array[int]([1, 2, 3, 4])
 
 [node name="SummonIconManager" type="Control" parent="Main" unique_id=1944629711]
 anchors_preset = 0

@@ -1,0 +1,5252 @@
+{
+	"blocks": [],
+	"editor_mode": 1,
+	"events": {
+		"rows": [
+			{
+				"_uid": "_1",
+				"color": "(0.9, 0.85, 0.6, 1.0)",
+				"name": "初始化",
+				"rows": [
+					{
+						"_uid": "_2",
+						"block_name": "when_game_start",
+						"children": [
+							{
+								"_uid": "_3",
+								"block_name": "set_var_val",
+								"children": [],
+								"exprs": {
+
+								},
+								"params": {
+									"val": "0",
+									"var": "4a"
+								}
+							}
+						],
+						"enabled": true,
+						"exprs": {
+
+						},
+						"id": 1012.0,
+						"params": {
+
+						}
+					},
+					{
+						"_uid": "_4",
+						"block_name": "when_setup_icon",
+						"children": [
+							{
+								"_uid": "_5",
+								"block_name": "set_icon",
+								"children": [],
+								"exprs": {
+
+								},
+								"params": {
+									"path": "res://assets/entities/神秘面具男/hhqzs.png",
+									"slot_id": 1.0
+								}
+							},
+							{
+								"_uid": "_6",
+								"block_name": "set_icon",
+								"children": [],
+								"exprs": {
+
+								},
+								"params": {
+									"path": "res://assets/entities/神秘面具男/tsbz.png",
+									"slot_id": 2.0
+								}
+							},
+							{
+								"_uid": "_7",
+								"block_name": "set_icon",
+								"children": [],
+								"exprs": {
+
+								},
+								"params": {
+									"path": "res://assets/entities/神秘面具男/jw.png",
+									"slot_id": 3.0
+								}
+							},
+							{
+								"_uid": "_8",
+								"block_name": "set_icon",
+								"children": [],
+								"exprs": {
+
+								},
+								"params": {
+									"path": "res://assets/entities/解术_散/portraits/icon_idle.png",
+									"slot_id": 5.0
+								}
+							},
+							{
+								"_uid": "_9",
+								"block_name": "set_icon",
+								"children": [],
+								"exprs": {
+
+								},
+								"params": {
+									"path": "res://assets/entities/解术_散/portraits/icon_idle.png",
+									"slot_id": 8.0
+								}
+							}
+						],
+						"enabled": true,
+						"exprs": {
+
+						},
+						"id": 1036.0,
+						"params": {
+
+						}
+					}
+				],
+				"type": "group"
+			},
+			{
+				"_uid": "_10",
+				"color": "(0.9, 0.85, 0.6, 1.0)",
+				"name": "普攻",
+				"rows": [
+					{
+						"_uid": "_11",
+						"color": "(0.9, 0.85, 0.6, 1.0)",
+						"name": "a1",
+						"rows": [
+							{
+								"_uid": "_12",
+								"block_name": "when_press_input",
+								"children": [
+									{
+										"_uid": "_13",
+										"block_name": "if_condition",
+										"children": [
+											{
+												"_uid": "_14",
+												"block_name": "if_condition",
+												"children": [
+													{
+														"_uid": "_15",
+														"block_name": "play_animation",
+														"children": [],
+														"exprs": {
+
+														},
+														"params": {
+															"anim_name": "a4"
+														}
+													},
+													{
+														"_uid": "_16",
+														"block_name": "set_timer",
+														"children": [],
+														"exprs": {
+
+														},
+														"params": {
+															"cd": 0.0,
+															"cd_id": 0.0,
+															"cd_max": 0.0,
+															"slot_id": 0.0
+														}
+													},
+													{
+														"_uid": "_17",
+														"block_name": "set_var_val",
+														"children": [],
+														"exprs": {
+
+														},
+														"params": {
+															"val": "0",
+															"var": "4a"
+														}
+													}
+												],
+												"exprs": {
+													"condition": "now_animation() in \"idle,run\""
+												},
+												"params": {
+													"condition": true
+												}
+											}
+										],
+										"exprs": {
+											"condition": "get_var(\"4a\") == 1"
+										},
+										"params": {
+											"condition": true
+										}
+									},
+									{
+										"_uid": "_18",
+										"block_name": "else_block",
+										"children": [
+											{
+												"_uid": "_19",
+												"block_name": "if_condition",
+												"children": [
+													{
+														"_uid": "_20",
+														"block_name": "play_animation",
+														"children": [],
+														"exprs": {
+
+														},
+														"params": {
+															"anim_name": "a1"
+														}
+													}
+												],
+												"exprs": {
+													"condition": "now_animation() in \"idle,run\""
+												},
+												"params": {
+													"condition": true
+												}
+											}
+										],
+										"exprs": {
+
+										},
+										"params": {
+
+										}
+									}
+								],
+								"enabled": true,
+								"exprs": {
+
+								},
+								"id": 1000.0,
+								"params": {
+									"key": 0.0
+								}
+							},
+							{
+								"_uid": "_21",
+								"block_name": "when_animation_playing",
+								"children": [
+									{
+										"_uid": "_22",
+										"block_name": "if_condition",
+										"children": [
+											{
+												"_uid": "_23",
+												"block_name": "turn_by_input",
+												"children": [],
+												"exprs": {
+
+												},
+												"params": {
+
+												}
+											},
+											{
+												"_uid": "_24",
+												"block_name": "play_voice",
+												"children": [],
+												"exprs": {
+
+												},
+												"params": {
+													"isz": false,
+													"path": "res://assets/entities/神秘面具男/audio/1a.MP3",
+													"tag": "",
+													"volume": 1.0
+												}
+											}
+										],
+										"exprs": {
+											"condition": "frame_idx == 0"
+										},
+										"params": {
+											"condition": true
+										}
+									},
+									{
+										"_uid": "_25",
+										"block_name": "if_condition",
+										"children": [
+											{
+												"_uid": "_26",
+												"block_name": "slide",
+												"children": [],
+												"exprs": {
+
+												},
+												"params": {
+													"g": 0.0,
+													"m": "facing",
+													"r": {
+														"x": 1.0,
+														"y": 0.0,
+														"z": 0.0
+													},
+													"v": {
+														"x": 800.0,
+														"y": 0.0,
+														"z": 0.0
+													}
+												}
+											},
+											{
+												"_uid": "_27",
+												"block_name": "if_condition",
+												"children": [
+													{
+														"_uid": "_28",
+														"block_name": "spawn_cancel_white",
+														"children": [],
+														"exprs": {
+
+														},
+														"params": {
+
+														}
+													},
+													{
+														"_uid": "_29",
+														"block_name": "play_animation",
+														"children": [],
+														"exprs": {
+
+														},
+														"params": {
+															"anim_name": "scroll"
+														}
+													}
+												],
+												"exprs": {
+													"condition": "is_press_key(5)"
+												},
+												"params": {
+													"condition": true
+												}
+											}
+										],
+										"exprs": {
+											"condition": "frame_idx == 1"
+										},
+										"params": {
+											"condition": true
+										}
+									},
+									{
+										"_uid": "_30",
+										"block_name": "if_condition",
+										"children": [
+											{
+												"_uid": "_31",
+												"block_name": "stop_slide",
+												"children": [],
+												"exprs": {
+
+												},
+												"params": {
+
+												}
+											}
+										],
+										"exprs": {
+											"condition": "frame_idx == 2"
+										},
+										"params": {
+											"condition": true
+										}
+									},
+									{
+										"_uid": "_32",
+										"block_name": "if_condition",
+										"children": [
+											{
+												"_uid": "_33",
+												"block_name": "if_condition",
+												"children": [
+													{
+														"_uid": "_34",
+														"block_name": "play_animation",
+														"children": [],
+														"exprs": {
+
+														},
+														"params": {
+															"anim_name": "a2"
+														}
+													}
+												],
+												"exprs": {
+													"condition": "is_press_key(0)"
+												},
+												"params": {
+													"condition": true
+												}
+											}
+										],
+										"exprs": {
+											"condition": "5 <= frame_idx <= 7"
+										},
+										"params": {
+											"condition": true
+										}
+									}
+								],
+								"enabled": true,
+								"exprs": {
+
+								},
+								"id": 1001.0,
+								"params": {
+									"anim_name": "a1",
+									"frame_type": "动画帧"
+								}
+							},
+							{
+								"_uid": "_35",
+								"block_name": "when_animation_exit",
+								"children": [
+									{
+										"_uid": "_36",
+										"block_name": "play_animation",
+										"children": [],
+										"exprs": {
+
+										},
+										"params": {
+											"anim_name": "idle"
+										}
+									}
+								],
+								"enabled": true,
+								"exprs": {
+
+								},
+								"id": 1002.0,
+								"params": {
+									"anim_name": "a1"
+								}
+							},
+							{
+								"_uid": "_37",
+								"block_name": "when_attack_box_hit",
+								"children": [
+									{
+										"_uid": "_38",
+										"block_name": "hit_entity",
+										"children": [],
+										"exprs": {
+											"target": "target"
+										},
+										"params": {
+											"bs": 0.0,
+											"cotg": false,
+											"hst": 0.5,
+											"hurt": 55000.0,
+											"isgd": true,
+											"ish": false,
+											"kr": 10.0,
+											"target": "",
+											"type": "push",
+											"v": {
+												"x": 820.0,
+												"y": 0.0,
+												"z": 100.0
+											}
+										}
+									}
+								],
+								"enabled": true,
+								"exprs": {
+
+								},
+								"id": 1007.0,
+								"params": {
+									"abox_name": "a1"
+								}
+							},
+							{
+								"_uid": "_39",
+								"block_name": "when_attack_box_hit",
+								"children": [
+									{
+										"_uid": "_40",
+										"block_name": "hit_entity",
+										"children": [],
+										"exprs": {
+											"target": "target"
+										},
+										"params": {
+											"bs": 0.0,
+											"cotg": false,
+											"hst": 0.5,
+											"hurt": 20000.0,
+											"isgd": true,
+											"ish": false,
+											"kr": 10.0,
+											"target": "",
+											"type": "push",
+											"v": {
+												"x": 0.0,
+												"y": 0.0,
+												"z": 100.0
+											}
+										}
+									}
+								],
+								"enabled": true,
+								"exprs": {
+
+								},
+								"id": 1016.0,
+								"params": {
+									"abox_name": "a1_2"
+								}
+							}
+						],
+						"type": "group"
+					},
+					{
+						"_uid": "_41",
+						"color": "(0.9, 0.85, 0.6, 1.0)",
+						"name": "a2",
+						"rows": [
+							{
+								"_uid": "_42",
+								"block_name": "when_animation_playing",
+								"children": [
+									{
+										"_uid": "_43",
+										"block_name": "if_condition",
+										"children": [
+											{
+												"_uid": "_44",
+												"block_name": "turn_by_input",
+												"children": [],
+												"exprs": {
+
+												},
+												"params": {
+
+												}
+											},
+											{
+												"_uid": "_45",
+												"block_name": "play_voice",
+												"children": [],
+												"exprs": {
+
+												},
+												"params": {
+													"isz": false,
+													"path": "res://assets/entities/神秘面具男/audio/2a.MP3",
+													"tag": "",
+													"volume": 1.0
+												}
+											}
+										],
+										"exprs": {
+											"condition": "frame_idx == 0"
+										},
+										"params": {
+											"condition": true
+										}
+									},
+									{
+										"_uid": "_46",
+										"block_name": "if_condition",
+										"children": [
+											{
+												"_uid": "_47",
+												"block_name": "slide",
+												"children": [],
+												"exprs": {
+
+												},
+												"params": {
+													"g": 0.0,
+													"m": "facing",
+													"r": {
+														"x": 1.0,
+														"y": 0.0,
+														"z": 0.0
+													},
+													"v": {
+														"x": 800.0,
+														"y": 0.0,
+														"z": 0.0
+													}
+												}
+											}
+										],
+										"exprs": {
+											"condition": "frame_idx == 1"
+										},
+										"params": {
+											"condition": true
+										}
+									},
+									{
+										"_uid": "_48",
+										"block_name": "if_condition",
+										"children": [
+											{
+												"_uid": "_49",
+												"block_name": "stop_slide",
+												"children": [],
+												"exprs": {
+
+												},
+												"params": {
+
+												}
+											}
+										],
+										"exprs": {
+											"condition": "frame_idx == 2"
+										},
+										"params": {
+											"condition": true
+										}
+									},
+									{
+										"_uid": "_50",
+										"block_name": "if_condition",
+										"children": [
+											{
+												"_uid": "_51",
+												"block_name": "slide",
+												"children": [],
+												"exprs": {
+
+												},
+												"params": {
+													"g": 0.0,
+													"m": "-facing",
+													"r": {
+														"x": 1.0,
+														"y": 0.0,
+														"z": 0.0
+													},
+													"v": {
+														"x": 750.0,
+														"y": 0.0,
+														"z": 0.0
+													}
+												}
+											}
+										],
+										"exprs": {
+											"condition": "frame_idx == 6"
+										},
+										"params": {
+											"condition": true
+										}
+									},
+									{
+										"_uid": "_52",
+										"block_name": "if_condition",
+										"children": [
+											{
+												"_uid": "_53",
+												"block_name": "stop_slide",
+												"children": [],
+												"exprs": {
+
+												},
+												"params": {
+
+												}
+											}
+										],
+										"exprs": {
+											"condition": "frame_idx == 7"
+										},
+										"params": {
+											"condition": true
+										}
+									},
+									{
+										"_uid": "_54",
+										"block_name": "if_condition",
+										"children": [
+											{
+												"_uid": "_55",
+												"block_name": "if_condition",
+												"children": [
+													{
+														"_uid": "_56",
+														"block_name": "play_animation",
+														"children": [],
+														"enabled": true,
+														"exprs": {
+
+														},
+														"params": {
+															"anim_name": "a3"
+														}
+													}
+												],
+												"exprs": {
+													"condition": "is_press_key(0)"
+												},
+												"params": {
+													"condition": true
+												}
+											}
+										],
+										"exprs": {
+											"condition": "9 <= frame_idx <= 10"
+										},
+										"params": {
+											"condition": true
+										}
+									}
+								],
+								"enabled": true,
+								"exprs": {
+
+								},
+								"id": 1004.0,
+								"params": {
+									"anim_name": "a2",
+									"frame_type": "动画帧"
+								}
+							},
+							{
+								"_uid": "_57",
+								"block_name": "when_animation_exit",
+								"children": [
+									{
+										"_uid": "_58",
+										"block_name": "play_animation",
+										"children": [],
+										"exprs": {
+
+										},
+										"params": {
+											"anim_name": "idle"
+										}
+									}
+								],
+								"enabled": true,
+								"exprs": {
+
+								},
+								"id": 1005.0,
+								"params": {
+									"anim_name": "a2"
+								}
+							},
+							{
+								"_uid": "_59",
+								"block_name": "when_attack_box_hit",
+								"children": [
+									{
+										"_uid": "_60",
+										"block_name": "hit_entity",
+										"children": [],
+										"exprs": {
+											"target": "target"
+										},
+										"params": {
+											"bs": 0.0,
+											"cotg": true,
+											"hst": 0.5,
+											"hurt": 65000.0,
+											"isgd": true,
+											"ish": false,
+											"kr": 10.0,
+											"target": "",
+											"type": "push",
+											"v": {
+												"x": 820.0,
+												"y": 0.0,
+												"z": 160.0
+											}
+										}
+									},
+									{
+										"_uid": "_61",
+										"block_name": "camera_shake",
+										"children": [],
+										"exprs": {
+
+										},
+										"params": {
+											"duration": 0.0999999046325684,
+											"frequency": 20.0,
+											"intensity": 13.0
+										}
+									}
+								],
+								"enabled": true,
+								"exprs": {
+
+								},
+								"id": 1008.0,
+								"params": {
+									"abox_name": "a2"
+								}
+							},
+							{
+								"_uid": "_62",
+								"block_name": "when_attack_box_hit",
+								"children": [
+									{
+										"_uid": "_63",
+										"block_name": "hit_entity",
+										"children": [],
+										"exprs": {
+											"target": "target"
+										},
+										"params": {
+											"bs": 0.0,
+											"cotg": true,
+											"hst": 0.450000047683716,
+											"hurt": 65000.0,
+											"isgd": true,
+											"ish": false,
+											"kr": 10.0,
+											"target": "",
+											"type": "push",
+											"v": {
+												"x": -950.0,
+												"y": 0.0,
+												"z": 160.0
+											}
+										}
+									},
+									{
+										"_uid": "_64",
+										"block_name": "camera_shake",
+										"children": [],
+										"enabled": true,
+										"exprs": {
+
+										},
+										"id": 1000.0,
+										"params": {
+											"duration": 0.0999999046325684,
+											"frequency": 20.0,
+											"intensity": 20.0
+										}
+									}
+								],
+								"enabled": true,
+								"exprs": {
+
+								},
+								"id": 1009.0,
+								"params": {
+									"abox_name": "a2_2"
+								}
+							}
+						],
+						"type": "group"
+					},
+					{
+						"_uid": "_65",
+						"color": "(0.9, 0.85, 0.6, 1.0)",
+						"id": 1006.0,
+						"name": "a3",
+						"rows": [
+							{
+								"_uid": "_66",
+								"block_name": "when_animation_playing",
+								"children": [
+									{
+										"_uid": "_67",
+										"block_name": "if_condition",
+										"children": [
+											{
+												"_uid": "_68",
+												"block_name": "turn_by_input",
+												"children": [],
+												"exprs": {
+
+												},
+												"params": {
+
+												}
+											},
+											{
+												"_uid": "_69",
+												"block_name": "play_voice",
+												"children": [],
+												"exprs": {
+
+												},
+												"params": {
+													"isz": false,
+													"path": "res://assets/entities/神秘面具男/audio/3a吸收命中.MP3",
+													"tag": "",
+													"volume": 1.0
+												}
+											}
+										],
+										"exprs": {
+											"condition": "frame_idx == 0"
+										},
+										"params": {
+											"condition": true
+										}
+									},
+									{
+										"_uid": "_70",
+										"block_name": "if_condition",
+										"children": [
+											{
+												"_uid": "_71",
+												"block_name": "slide",
+												"children": [],
+												"exprs": {
+
+												},
+												"params": {
+													"g": 0.0,
+													"m": "facing",
+													"r": {
+														"x": 1.5,
+														"y": 0.0,
+														"z": 0.0
+													},
+													"v": {
+														"x": 1800.0,
+														"y": 0.0,
+														"z": 0.0
+													}
+												}
+											}
+										],
+										"exprs": {
+											"condition": "frame_idx == 2"
+										},
+										"params": {
+											"condition": true
+										}
+									},
+									{
+										"_uid": "_72",
+										"block_name": "if_condition",
+										"children": [
+											{
+												"_uid": "_73",
+												"block_name": "stop_slide",
+												"children": [],
+												"exprs": {
+
+												},
+												"params": {
+
+												}
+											}
+										],
+										"exprs": {
+											"condition": "frame_idx == 3"
+										},
+										"params": {
+											"condition": true
+										}
+									},
+									{
+										"_uid": "_74",
+										"block_name": "if_condition",
+										"children": [
+											{
+												"_uid": "_75",
+												"block_name": "slide",
+												"children": [],
+												"exprs": {
+
+												},
+												"params": {
+													"g": 0.0,
+													"m": "-facing",
+													"r": {
+														"x": 1.0,
+														"y": 0.0,
+														"z": 0.0
+													},
+													"v": {
+														"x": 750.0,
+														"y": 0.0,
+														"z": 0.0
+													}
+												}
+											}
+										],
+										"enabled": false,
+										"exprs": {
+											"condition": "frame_idx == 6"
+										},
+										"params": {
+											"condition": true
+										}
+									},
+									{
+										"_uid": "_76",
+										"block_name": "if_condition",
+										"children": [
+											{
+												"_uid": "_77",
+												"block_name": "stop_slide",
+												"children": [],
+												"exprs": {
+
+												},
+												"params": {
+
+												}
+											}
+										],
+										"enabled": false,
+										"exprs": {
+											"condition": "frame_idx == 7"
+										},
+										"params": {
+											"condition": true
+										}
+									},
+									{
+										"_uid": "_78",
+										"block_name": "if_condition",
+										"children": [
+											{
+												"_uid": "_79",
+												"block_name": "if_condition",
+												"children": [
+													{
+														"_uid": "_80",
+														"block_name": "play_animation",
+														"children": [],
+														"enabled": true,
+														"exprs": {
+
+														},
+														"params": {
+															"anim_name": "a4"
+														}
+													}
+												],
+												"exprs": {
+													"condition": "is_press_key(0)"
+												},
+												"params": {
+													"condition": true
+												}
+											}
+										],
+										"enabled": false,
+										"exprs": {
+											"condition": "8 <= frame_idx <= 10"
+										},
+										"params": {
+											"condition": true
+										}
+									}
+								],
+								"enabled": true,
+								"exprs": {
+
+								},
+								"id": 1004.0,
+								"params": {
+									"anim_name": "a3",
+									"frame_type": "动画帧"
+								}
+							},
+							{
+								"_uid": "_81",
+								"block_name": "when_animation_exit",
+								"children": [
+									{
+										"_uid": "_82",
+										"block_name": "play_animation",
+										"children": [],
+										"exprs": {
+
+										},
+										"params": {
+											"anim_name": "idle"
+										}
+									}
+								],
+								"enabled": true,
+								"exprs": {
+
+								},
+								"id": 1005.0,
+								"params": {
+									"anim_name": "a3"
+								}
+							},
+							{
+								"_uid": "_83",
+								"block_name": "when_attack_box_hit",
+								"children": [
+									{
+										"_uid": "_84",
+										"block_name": "show_info_text",
+										"children": [],
+										"exprs": {
+
+										},
+										"params": {
+											"text": "抓到你了......"
+										}
+									},
+									{
+										"_uid": "_85",
+										"block_name": "set_timer",
+										"children": [],
+										"exprs": {
+
+										},
+										"params": {
+											"cd": 2.0,
+											"cd_id": 0.0,
+											"cd_max": 2.0,
+											"slot_id": 0.0
+										}
+									},
+									{
+										"_uid": "_86",
+										"block_name": "set_timer",
+										"children": [],
+										"exprs": {
+
+										},
+										"params": {
+											"cd": 2.0,
+											"cd_id": 1.0,
+											"cd_max": 2.0,
+											"slot_id": 1.0
+										}
+									},
+									{
+										"_uid": "_87",
+										"block_name": "set_timer",
+										"children": [],
+										"exprs": {
+
+										},
+										"params": {
+											"cd": 2.0,
+											"cd_id": 2.0,
+											"cd_max": 2.0,
+											"slot_id": 2.0
+										}
+									},
+									{
+										"_uid": "_88",
+										"block_name": "set_entity_immobilize",
+										"children": [],
+										"exprs": {
+											"target": "target"
+										},
+										"params": {
+											"ani": "immobilize",
+											"bs": 2.0,
+											"cs": false,
+											"g": 700.0,
+											"kt": 0.0,
+											"pos": {
+												"x": 0.0,
+												"y": 1000.0,
+												"z": 0.0
+											},
+											"rpos": {
+												"x": 0.0,
+												"y": 0.0,
+												"z": 0.0
+											},
+											"target": "",
+											"time": -1.0,
+											"v": {
+												"x": 0.0,
+												"y": 0.0,
+												"z": 0.0
+											},
+											"var": "",
+											"vr": 0.0
+										}
+									},
+									{
+										"_uid": "_89",
+										"block_name": "set_var_val",
+										"children": [],
+										"exprs": {
+
+										},
+										"params": {
+											"val": "1",
+											"var": "4a"
+										}
+									},
+									{
+										"_uid": "_90",
+										"block_name": "set_var_val",
+										"children": [],
+										"exprs": {
+											"val": "target"
+										},
+										"params": {
+											"val": "",
+											"var": "dr"
+										}
+									},
+									{
+										"_uid": "_91",
+										"block_name": "wait",
+										"children": [],
+										"exprs": {
+
+										},
+										"params": {
+											"duration": 1.59999990463257
+										}
+									},
+									{
+										"_uid": "_92",
+										"block_name": "if_condition",
+										"children": [
+											{
+												"_uid": "_93",
+												"block_name": "if_condition",
+												"children": [
+													{
+														"_uid": "_94",
+														"block_name": "stop_entity_immobilize",
+														"children": [],
+														"exprs": {
+															"target": "target"
+														},
+														"params": {
+															"target": ""
+														}
+													},
+													{
+														"_uid": "_95",
+														"block_name": "create_effect",
+														"children": [],
+														"exprs": {
+															"pos": "add_pos3d_to_hpos2d(get_info_point(\"out\"))"
+														},
+														"params": {
+															"data": "",
+															"dir": true,
+															"name": "out",
+															"pos": {
+																"x": 0.0,
+																"y": 0.0,
+																"z": 0.0
+															}
+														}
+													},
+													{
+														"_uid": "_96",
+														"block_name": "if_condition",
+														"children": [
+															{
+																"_uid": "_97",
+																"block_name": "create_effect",
+																"children": [],
+																"exprs": {
+																	"pos": "now_pos3d() + Vector3(90,0,-210)"
+																},
+																"params": {
+																	"data": "",
+																	"dir": true,
+																	"name": "out",
+																	"pos": {
+																		"x": 0.0,
+																		"y": 0.0,
+																		"z": 0.0
+																	}
+																}
+															}
+														],
+														"enabled": false,
+														"exprs": {
+															"condition": "now_dir() > 0"
+														},
+														"params": {
+															"condition": true
+														}
+													},
+													{
+														"_uid": "_98",
+														"block_name": "if_condition",
+														"children": [
+															{
+																"_uid": "_99",
+																"block_name": "create_effect",
+																"children": [],
+																"exprs": {
+																	"pos": "now_pos3d() + Vector3(-190,0,-210)"
+																},
+																"params": {
+																	"data": "",
+																	"dir": true,
+																	"name": "out",
+																	"pos": {
+																		"x": 0.0,
+																		"y": 0.0,
+																		"z": 0.0
+																	}
+																}
+															}
+														],
+														"enabled": false,
+														"exprs": {
+															"condition": "now_dir() < 0"
+														},
+														"params": {
+															"condition": true
+														}
+													},
+													{
+														"_uid": "_100",
+														"block_name": "move_entity_pos3d_immd",
+														"children": [],
+														"exprs": {
+															"pos": "add_pos3d_to_spos2d(get_info_point(\"a3\"))",
+															"target": "target"
+														},
+														"params": {
+															"pos": {
+																"x": 0.0,
+																"y": 0.0,
+																"z": 0.0
+															},
+															"target": ""
+														}
+													},
+													{
+														"_uid": "_101",
+														"block_name": "set_var_val",
+														"children": [],
+														"exprs": {
+
+														},
+														"params": {
+															"val": "0",
+															"var": "4a"
+														}
+													}
+												],
+												"exprs": {
+													"condition": "get_var(\"4a\") == 1"
+												},
+												"params": {
+													"condition": true
+												}
+											}
+										],
+										"exprs": {
+											"condition": "now_animation() in \"idle,run\""
+										},
+										"params": {
+											"condition": true
+										}
+									},
+									{
+										"_uid": "_102",
+										"block_name": "if_condition",
+										"children": [
+											{
+												"_uid": "_103",
+												"block_name": "stop_entity_immobilize",
+												"children": [],
+												"exprs": {
+													"target": "target"
+												},
+												"params": {
+													"target": ""
+												}
+											},
+											{
+												"_uid": "_104",
+												"block_name": "move_entity_pos3d_immd",
+												"children": [],
+												"exprs": {
+													"pos": "add_pos3d_to_spos2d(get_info_point(\"a3\"))",
+													"target": "target"
+												},
+												"params": {
+													"pos": {
+														"x": 0.0,
+														"y": 0.0,
+														"z": 0.0
+													},
+													"target": ""
+												}
+											},
+											{
+												"_uid": "_105",
+												"block_name": "set_var_val",
+												"children": [],
+												"exprs": {
+
+												},
+												"params": {
+													"val": "0",
+													"var": "4a"
+												}
+											}
+										],
+										"enabled": false,
+										"exprs": {
+											"condition": "is_press_key(3)"
+										},
+										"params": {
+											"condition": true
+										}
+									}
+								],
+								"enabled": true,
+								"exprs": {
+
+								},
+								"id": 1010.0,
+								"params": {
+									"abox_name": "a3"
+								}
+							}
+						],
+						"type": "group"
+					},
+					{
+						"_uid": "_106",
+						"color": "(0.9, 0.85, 0.6, 1.0)",
+						"name": "a4",
+						"rows": [
+							{
+								"_uid": "_107",
+								"block_name": "when_animation_playing",
+								"children": [
+									{
+										"_uid": "_108",
+										"block_name": "if_condition",
+										"children": [
+											{
+												"_uid": "_109",
+												"block_name": "turn_by_input",
+												"children": [],
+												"exprs": {
+
+												},
+												"params": {
+
+												}
+											},
+											{
+												"_uid": "_110",
+												"block_name": "slide",
+												"children": [],
+												"enabled": true,
+												"exprs": {
+
+												},
+												"params": {
+													"g": 300.0,
+													"m": "facing",
+													"r": {
+														"x": 0.0,
+														"y": 0.0,
+														"z": 50.0
+													},
+													"v": {
+														"x": 0.0,
+														"y": 0.0,
+														"z": 200.0
+													}
+												}
+											},
+											{
+												"_uid": "_111",
+												"block_name": "play_voice",
+												"children": [],
+												"exprs": {
+
+												},
+												"params": {
+													"isz": false,
+													"path": "res://assets/entities/神秘面具男/audio/4a.MP3",
+													"tag": "",
+													"volume": 1.0
+												}
+											}
+										],
+										"exprs": {
+											"condition": "frame_idx == 0"
+										},
+										"params": {
+											"condition": true
+										}
+									},
+									{
+										"_uid": "_112",
+										"block_name": "if_condition",
+										"children": [],
+										"exprs": {
+											"condition": "frame_idx == 1"
+										},
+										"params": {
+											"condition": true
+										}
+									},
+									{
+										"_uid": "_113",
+										"block_name": "if_condition",
+										"children": [
+											{
+												"_uid": "_114",
+												"block_name": "slide",
+												"children": [],
+												"enabled": false,
+												"exprs": {
+
+												},
+												"params": {
+													"g": 0.0,
+													"m": "facing",
+													"r": {
+														"x": 0.299999952316284,
+														"y": 0.0,
+														"z": 0.0
+													},
+													"v": {
+														"x": 70.0,
+														"y": 0.0,
+														"z": 0.0
+													}
+												}
+											}
+										],
+										"exprs": {
+											"condition": "frame_idx == 2"
+										},
+										"params": {
+											"condition": true
+										}
+									},
+									{
+										"_uid": "_115",
+										"block_name": "if_condition",
+										"children": [
+											{
+												"_uid": "_116",
+												"block_name": "stop_entity_immobilize",
+												"children": [],
+												"exprs": {
+													"target": "get_var(\"dr\")"
+												},
+												"params": {
+													"target": ""
+												}
+											},
+											{
+												"_uid": "_117",
+												"block_name": "move_entity_pos3d_immd",
+												"children": [],
+												"exprs": {
+													"pos": "add_pos3d_to_spos2d(get_info_point(\"a4\"))",
+													"target": "get_var(\"dr\")"
+												},
+												"params": {
+													"pos": {
+														"x": 0.0,
+														"y": 0.0,
+														"z": 0.0
+													},
+													"target": ""
+												}
+											}
+										],
+										"exprs": {
+											"condition": "frame_idx == 6"
+										},
+										"params": {
+											"condition": true
+										}
+									},
+									{
+										"_uid": "_118",
+										"block_name": "if_condition",
+										"children": [
+											{
+												"_uid": "_119",
+												"block_name": "if_condition",
+												"children": [
+													{
+														"_uid": "_120",
+														"block_name": "spawn_cancel_white",
+														"children": [],
+														"exprs": {
+
+														},
+														"params": {
+
+														}
+													},
+													{
+														"_uid": "_121",
+														"block_name": "play_animation",
+														"children": [],
+														"exprs": {
+
+														},
+														"params": {
+															"anim_name": "idle"
+														}
+													}
+												],
+												"exprs": {
+													"condition": "is_moving()"
+												},
+												"params": {
+													"condition": true
+												}
+											},
+											{
+												"_uid": "_122",
+												"block_name": "stop_slide",
+												"children": [],
+												"enabled": false,
+												"exprs": {
+
+												},
+												"params": {
+
+												}
+											}
+										],
+										"enabled": false,
+										"exprs": {
+											"condition": "frame_idx == 5"
+										},
+										"params": {
+											"condition": true
+										}
+									}
+								],
+								"enabled": true,
+								"exprs": {
+
+								},
+								"id": 1013.0,
+								"params": {
+									"anim_name": "a4",
+									"frame_type": "动画帧"
+								}
+							},
+							{
+								"_uid": "_123",
+								"block_name": "when_animation_exit",
+								"children": [
+									{
+										"_uid": "_124",
+										"block_name": "play_animation",
+										"children": [],
+										"exprs": {
+
+										},
+										"params": {
+											"anim_name": "idle"
+										}
+									}
+								],
+								"enabled": true,
+								"exprs": {
+
+								},
+								"id": 1014.0,
+								"params": {
+									"anim_name": "a4d"
+								}
+							},
+							{
+								"_uid": "_125",
+								"block_name": "when_attack_box_hit",
+								"children": [
+									{
+										"_uid": "_126",
+										"block_name": "hit_stop_entity",
+										"children": [],
+										"enabled": true,
+										"exprs": {
+											"target": "target"
+										},
+										"params": {
+											"d": 0.200000047683716,
+											"target": ""
+										}
+									},
+									{
+										"_uid": "_127",
+										"block_name": "hit_entity",
+										"children": [],
+										"exprs": {
+											"target": "target"
+										},
+										"params": {
+											"bs": 0.0,
+											"cotg": false,
+											"hst": 0.0,
+											"hurt": 65000.0,
+											"isgd": true,
+											"ish": true,
+											"kr": 10.0,
+											"target": "",
+											"type": "launch",
+											"v": {
+												"x": 800.0,
+												"y": 0.0,
+												"z": 180.0
+											}
+										}
+									},
+									{
+										"_uid": "_128",
+										"block_name": "time_stop",
+										"children": [],
+										"enabled": false,
+										"exprs": {
+
+										},
+										"params": {
+											"duration": 2.0
+										}
+									},
+									{
+										"_uid": "_129",
+										"block_name": "wait",
+										"children": [],
+										"exprs": {
+
+										},
+										"params": {
+											"duration": 0.0499999523162842
+										}
+									},
+									{
+										"_uid": "_130",
+										"block_name": "camera_shake",
+										"children": [],
+										"exprs": {
+
+										},
+										"params": {
+											"duration": 0.180000066757202,
+											"frequency": 30.0,
+											"intensity": 23.0
+										}
+									}
+								],
+								"enabled": true,
+								"exprs": {
+
+								},
+								"id": 1015.0,
+								"params": {
+									"abox_name": "a4"
+								}
+							}
+						],
+						"type": "group"
+					}
+				],
+				"type": "group"
+			},
+			{
+				"_uid": "_131",
+				"color": "(0.9, 0.85, 0.6, 1.0)",
+				"name": "豪火球之术",
+				"rows": [
+					{
+						"_uid": "_132",
+						"block_name": "when_press_input",
+						"children": [
+							{
+								"_uid": "_133",
+								"block_name": "if_condition",
+								"children": [
+									{
+										"_uid": "_134",
+										"block_name": "if_condition",
+										"children": [
+											{
+												"_uid": "_135",
+												"block_name": "play_animation",
+												"children": [],
+												"exprs": {
+
+												},
+												"params": {
+													"anim_name": "s1_2"
+												}
+											},
+											{
+												"_uid": "_136",
+												"block_name": "set_timer",
+												"children": [],
+												"exprs": {
+
+												},
+												"params": {
+													"cd": 0.0,
+													"cd_id": 0.0,
+													"cd_max": 0.0,
+													"slot_id": 0.0
+												}
+											},
+											{
+												"_uid": "_137",
+												"block_name": "set_timer",
+												"children": [],
+												"exprs": {
+
+												},
+												"params": {
+													"cd": 0.0,
+													"cd_id": 1.0,
+													"cd_max": 0.0,
+													"slot_id": 1.0
+												}
+											},
+											{
+												"_uid": "_138",
+												"block_name": "set_timer",
+												"children": [],
+												"exprs": {
+
+												},
+												"params": {
+													"cd": 0.0,
+													"cd_id": 2.0,
+													"cd_max": 0.0,
+													"slot_id": 2.0
+												}
+											},
+											{
+												"_uid": "_139",
+												"block_name": "set_cd",
+												"children": [],
+												"exprs": {
+
+												},
+												"params": {
+													"cd": 0.5,
+													"cd_id": 1.0,
+													"slot_id": 1.0
+												}
+											}
+										],
+										"exprs": {
+											"condition": "now_animation() in \"idle,run,a1,a2,a3,a4\""
+										},
+										"params": {
+											"condition": true
+										}
+									}
+								],
+								"exprs": {
+									"condition": "get_var(\"4a\") == 1"
+								},
+								"params": {
+									"condition": true
+								}
+							},
+							{
+								"_uid": "_140",
+								"block_name": "else_block",
+								"children": [
+									{
+										"_uid": "_141",
+										"block_name": "if_condition",
+										"children": [
+											{
+												"_uid": "_142",
+												"block_name": "play_animation",
+												"children": [],
+												"exprs": {
+
+												},
+												"params": {
+													"anim_name": "s1"
+												}
+											},
+											{
+												"_uid": "_143",
+												"block_name": "turn_by_input",
+												"children": [],
+												"exprs": {
+
+												},
+												"params": {
+
+												}
+											},
+											{
+												"_uid": "_144",
+												"block_name": "set_cd",
+												"children": [],
+												"exprs": {
+
+												},
+												"params": {
+													"cd": 0.0,
+													"cd_id": 0.0,
+													"slot_id": 1.0
+												}
+											}
+										],
+										"exprs": {
+											"condition": "now_animation() in \"idle,run\""
+										},
+										"params": {
+											"condition": true
+										}
+									},
+									{
+										"_uid": "_145",
+										"block_name": "if_condition",
+										"children": [
+											{
+												"_uid": "_146",
+												"block_name": "spawn_cancel_white",
+												"children": [],
+												"exprs": {
+
+												},
+												"params": {
+
+												}
+											},
+											{
+												"_uid": "_147",
+												"block_name": "play_animation",
+												"children": [],
+												"exprs": {
+
+												},
+												"params": {
+													"anim_name": "s1"
+												}
+											},
+											{
+												"_uid": "_148",
+												"block_name": "turn_by_input",
+												"children": [],
+												"exprs": {
+
+												},
+												"params": {
+
+												}
+											},
+											{
+												"_uid": "_149",
+												"block_name": "set_cd",
+												"children": [],
+												"exprs": {
+
+												},
+												"params": {
+													"cd": 0.0,
+													"cd_id": 0.0,
+													"slot_id": 1.0
+												}
+											}
+										],
+										"exprs": {
+											"condition": "now_animation() in \"a1,a2,a3\""
+										},
+										"params": {
+											"condition": true
+										}
+									}
+								],
+								"exprs": {
+
+								},
+								"params": {
+
+								}
+							}
+						],
+						"enabled": true,
+						"exprs": {
+
+						},
+						"id": 1017.0,
+						"params": {
+							"key": 1.0
+						}
+					},
+					{
+						"_uid": "_150",
+						"block_name": "when_animation_exit",
+						"children": [
+							{
+								"_uid": "_151",
+								"block_name": "play_animation",
+								"children": [],
+								"exprs": {
+
+								},
+								"params": {
+									"anim_name": "idle"
+								}
+							}
+						],
+						"enabled": true,
+						"exprs": {
+
+						},
+						"id": 1019.0,
+						"params": {
+							"anim_name": "s1"
+						}
+					},
+					{
+						"_uid": "_152",
+						"block_name": "when_animation_playing",
+						"children": [
+							{
+								"_uid": "_153",
+								"block_name": "if_condition",
+								"children": [
+									{
+										"_uid": "_154",
+										"block_name": "play_voice",
+										"children": [],
+										"exprs": {
+
+										},
+										"params": {
+											"isz": false,
+											"path": "res://assets/entities/神秘面具男/audio/s1.MP3",
+											"tag": "",
+											"volume": 1.0
+										}
+									}
+								],
+								"exprs": {
+									"condition": "frame_idx == 0"
+								},
+								"params": {
+									"condition": true
+								}
+							},
+							{
+								"_uid": "_155",
+								"block_name": "if_condition",
+								"children": [
+									{
+										"_uid": "_156",
+										"block_name": "create_entity_by_path",
+										"children": [],
+										"exprs": {
+
+										},
+										"params": {
+											"name": "火球",
+											"path": "res://assets/entities/神秘面具男/火球/entity.tscn"
+										}
+									}
+								],
+								"exprs": {
+									"condition": "frame_idx == 3"
+								},
+								"params": {
+									"condition": true
+								}
+							},
+							{
+								"_uid": "_157",
+								"block_name": "if_condition",
+								"children": [
+									{
+										"_uid": "_158",
+										"block_name": "if_condition",
+										"children": [
+											{
+												"_uid": "_159",
+												"block_name": "spawn_cancel_white",
+												"children": [],
+												"exprs": {
+
+												},
+												"params": {
+
+												}
+											},
+											{
+												"_uid": "_160",
+												"block_name": "play_animation",
+												"children": [],
+												"exprs": {
+
+												},
+												"params": {
+													"anim_name": "idle"
+												}
+											}
+										],
+										"exprs": {
+											"condition": "is_moving()"
+										},
+										"params": {
+											"condition": true
+										}
+									}
+								],
+								"exprs": {
+									"condition": "frame_idx == 7"
+								},
+								"params": {
+									"condition": true
+								}
+							}
+						],
+						"enabled": true,
+						"exprs": {
+
+						},
+						"id": 1020.0,
+						"params": {
+							"anim_name": "s1",
+							"frame_type": "动画帧"
+						}
+					},
+					{
+						"_uid": "_161",
+						"block_name": "when_animation_playing",
+						"children": [
+							{
+								"_uid": "_162",
+								"block_name": "if_condition",
+								"children": [
+									{
+										"_uid": "_163",
+										"block_name": "if_condition",
+										"children": [
+											{
+												"_uid": "_164",
+												"block_name": "play_animation",
+												"children": [],
+												"exprs": {
+
+												},
+												"params": {
+													"anim_name": "s1a"
+												}
+											}
+										],
+										"exprs": {
+											"condition": "is_press_key(0)"
+										},
+										"params": {
+											"condition": true
+										}
+									}
+								],
+								"exprs": {
+									"condition": "5<= frame_idx <= 7"
+								},
+								"params": {
+									"condition": true
+								}
+							}
+						],
+						"enabled": true,
+						"exprs": {
+
+						},
+						"id": 1023.0,
+						"params": {
+							"anim_name": "s1",
+							"frame_type": "动画帧"
+						}
+					},
+					{
+						"_uid": "_165",
+						"block_name": "when_animation_playing",
+						"children": [
+							{
+								"_uid": "_166",
+								"block_name": "if_condition",
+								"children": [
+									{
+										"_uid": "_167",
+										"block_name": "turn_by_input",
+										"children": [],
+										"exprs": {
+
+										},
+										"params": {
+
+										}
+									}
+								],
+								"exprs": {
+									"condition": "frame_idx == 0"
+								},
+								"params": {
+									"condition": true
+								}
+							},
+							{
+								"_uid": "_168",
+								"block_name": "if_condition",
+								"children": [
+									{
+										"_uid": "_169",
+										"block_name": "slide",
+										"children": [],
+										"exprs": {
+
+										},
+										"params": {
+											"g": 0.0,
+											"m": "facing",
+											"r": {
+												"x": 10.0,
+												"y": 0.0,
+												"z": 0.0
+											},
+											"v": {
+												"x": 10000.0,
+												"y": 0.0,
+												"z": 0.0
+											}
+										}
+									},
+									{
+										"_uid": "_170",
+										"block_name": "die_entity",
+										"children": [],
+										"exprs": {
+											"target": "get_var(\"豪火球\")"
+										},
+										"params": {
+											"target": ""
+										}
+									},
+									{
+										"_uid": "_171",
+										"block_name": "repeat_in_range",
+										"children": [
+											{
+												"_uid": "_172",
+												"block_name": "spawn_afterimage",
+												"children": [],
+												"exprs": {
+
+												},
+												"params": {
+													"color": {
+														"a": 1.0,
+														"b": 1.0,
+														"g": 1.0,
+														"r": 1.0
+													},
+													"fade": 0.5,
+													"hold": 0.0
+												}
+											},
+											{
+												"_uid": "_173",
+												"block_name": "wait",
+												"children": [],
+												"exprs": {
+
+												},
+												"params": {
+													"duration": 0.0299999713897705
+												}
+											}
+										],
+										"exprs": {
+
+										},
+										"params": {
+											"n": 5.0
+										}
+									}
+								],
+								"exprs": {
+									"condition": "frame_idx == 2"
+								},
+								"params": {
+									"condition": true
+								}
+							},
+							{
+								"_uid": "_174",
+								"block_name": "if_condition",
+								"children": [
+									{
+										"_uid": "_175",
+										"block_name": "stop_slide",
+										"children": [],
+										"exprs": {
+
+										},
+										"params": {
+
+										}
+									},
+									{
+										"_uid": "_176",
+										"block_name": "play_sound",
+										"children": [],
+										"exprs": {
+
+										},
+										"params": {
+											"isz": false,
+											"path": "res://assets/entities/神秘面具男/audio/3a吸收.MP3",
+											"tag": "",
+											"volume": 1.0
+										}
+									}
+								],
+								"exprs": {
+									"condition": "frame_idx == 3"
+								},
+								"params": {
+									"condition": true
+								}
+							}
+						],
+						"enabled": true,
+						"exprs": {
+
+						},
+						"id": 1026.0,
+						"params": {
+							"anim_name": "s1a",
+							"frame_type": "动画帧"
+						}
+					},
+					{
+						"_uid": "_177",
+						"block_name": "when_animation_exit",
+						"children": [
+							{
+								"_uid": "_178",
+								"block_name": "play_animation",
+								"children": [],
+								"exprs": {
+
+								},
+								"params": {
+									"anim_name": "idle"
+								}
+							}
+						],
+						"enabled": true,
+						"exprs": {
+
+						},
+						"id": 1025.0,
+						"params": {
+							"anim_name": "s1a"
+						}
+					},
+					{
+						"_uid": "_179",
+						"block_name": "when_attack_box_hit",
+						"children": [
+							{
+								"_uid": "_180",
+								"block_name": "show_info_text",
+								"children": [],
+								"exprs": {
+
+								},
+								"params": {
+									"text": "抓到你了......"
+								}
+							},
+							{
+								"_uid": "_181",
+								"block_name": "set_timer",
+								"children": [],
+								"exprs": {
+
+								},
+								"params": {
+									"cd": 2.0,
+									"cd_id": 0.0,
+									"cd_max": 2.0,
+									"slot_id": 0.0
+								}
+							},
+							{
+								"_uid": "_182",
+								"block_name": "set_timer",
+								"children": [],
+								"exprs": {
+
+								},
+								"params": {
+									"cd": 2.0,
+									"cd_id": 1.0,
+									"cd_max": 2.0,
+									"slot_id": 1.0
+								}
+							},
+							{
+								"_uid": "_183",
+								"block_name": "set_timer",
+								"children": [],
+								"exprs": {
+
+								},
+								"params": {
+									"cd": 2.0,
+									"cd_id": 2.0,
+									"cd_max": 2.0,
+									"slot_id": 2.0
+								}
+							},
+							{
+								"_uid": "_184",
+								"block_name": "set_entity_immobilize",
+								"children": [],
+								"exprs": {
+									"target": "target"
+								},
+								"params": {
+									"ani": "immobilize",
+									"bs": 2.0,
+									"cs": false,
+									"g": 700.0,
+									"kt": 0.0,
+									"pos": {
+										"x": 0.0,
+										"y": 1000.0,
+										"z": 0.0
+									},
+									"rpos": {
+										"x": 0.0,
+										"y": 0.0,
+										"z": 0.0
+									},
+									"target": "",
+									"time": -1.0,
+									"v": {
+										"x": 0.0,
+										"y": 0.0,
+										"z": 0.0
+									},
+									"var": "",
+									"vr": 0.0
+								}
+							},
+							{
+								"_uid": "_185",
+								"block_name": "set_var_val",
+								"children": [],
+								"exprs": {
+
+								},
+								"params": {
+									"val": "1",
+									"var": "4a"
+								}
+							},
+							{
+								"_uid": "_186",
+								"block_name": "set_var_val",
+								"children": [],
+								"exprs": {
+									"val": "target"
+								},
+								"params": {
+									"val": "",
+									"var": "dr"
+								}
+							},
+							{
+								"_uid": "_187",
+								"block_name": "wait",
+								"children": [],
+								"exprs": {
+
+								},
+								"params": {
+									"duration": 1.69999980926514
+								}
+							},
+							{
+								"_uid": "_188",
+								"block_name": "if_condition",
+								"children": [
+									{
+										"_uid": "_189",
+										"block_name": "stop_entity_immobilize",
+										"children": [],
+										"exprs": {
+											"target": "target"
+										},
+										"params": {
+											"target": ""
+										}
+									},
+									{
+										"_uid": "_190",
+										"block_name": "if_condition",
+										"children": [
+											{
+												"_uid": "_191",
+												"block_name": "create_effect",
+												"children": [],
+												"exprs": {
+													"pos": "now_pos3d() + Vector3(90,0,-210)"
+												},
+												"params": {
+													"data": "",
+													"dir": true,
+													"name": "out",
+													"pos": {
+														"x": 0.0,
+														"y": 0.0,
+														"z": 0.0
+													}
+												}
+											}
+										],
+										"exprs": {
+											"condition": "now_dir() > 0"
+										},
+										"params": {
+											"condition": true
+										}
+									},
+									{
+										"_uid": "_192",
+										"block_name": "if_condition",
+										"children": [
+											{
+												"_uid": "_193",
+												"block_name": "create_effect",
+												"children": [],
+												"exprs": {
+													"pos": "now_pos3d() + Vector3(-190,0,-210)"
+												},
+												"params": {
+													"data": "",
+													"dir": true,
+													"name": "out",
+													"pos": {
+														"x": 0.0,
+														"y": 0.0,
+														"z": 0.0
+													}
+												}
+											}
+										],
+										"exprs": {
+											"condition": "now_dir() < 0"
+										},
+										"params": {
+											"condition": true
+										}
+									},
+									{
+										"_uid": "_194",
+										"block_name": "move_entity_pos3d_immd",
+										"children": [],
+										"exprs": {
+											"pos": "add_pos3d_to_spos2d(get_info_point(\"a3\"))",
+											"target": "target"
+										},
+										"params": {
+											"pos": {
+												"x": 0.0,
+												"y": 0.0,
+												"z": 0.0
+											},
+											"target": ""
+										}
+									},
+									{
+										"_uid": "_195",
+										"block_name": "set_var_val",
+										"children": [],
+										"exprs": {
+
+										},
+										"params": {
+											"val": "0",
+											"var": "4a"
+										}
+									}
+								],
+								"exprs": {
+									"condition": "get_var(\"4a\") == 1"
+								},
+								"params": {
+									"condition": true
+								}
+							}
+						],
+						"enabled": true,
+						"exprs": {
+
+						},
+						"id": 1028.0,
+						"params": {
+							"abox_name": "s1a"
+						}
+					},
+					{
+						"_uid": "_196",
+						"block_name": "when_animation_playing",
+						"children": [
+							{
+								"_uid": "_197",
+								"block_name": "if_condition",
+								"children": [],
+								"exprs": {
+									"condition": "2<= frame_idx <=3"
+								},
+								"params": {
+									"condition": true
+								}
+							}
+						],
+						"enabled": false,
+						"exprs": {
+
+						},
+						"id": 1061.0,
+						"params": {
+							"anim_name": "s1a",
+							"frame_type": "物理帧"
+						}
+					},
+					{
+						"_uid": "_198",
+						"block_name": "when_animation_playing",
+						"children": [
+							{
+								"_uid": "_199",
+								"block_name": "if_condition",
+								"children": [
+									{
+										"_uid": "_200",
+										"block_name": "turn_by_input",
+										"children": [],
+										"exprs": {
+
+										},
+										"params": {
+
+										}
+									},
+									{
+										"_uid": "_201",
+										"block_name": "play_voice",
+										"children": [],
+										"enabled": true,
+										"exprs": {
+
+										},
+										"params": {
+											"isz": false,
+											"path": "res://assets/entities/神秘面具男/audio/s1_2.MP3",
+											"tag": "",
+											"volume": 1.0
+										}
+									}
+								],
+								"exprs": {
+									"condition": "frame_idx == 0"
+								},
+								"params": {
+									"condition": true
+								}
+							},
+							{
+								"_uid": "_202",
+								"block_name": "if_condition",
+								"children": [
+									{
+										"_uid": "_203",
+										"block_name": "stop_entity_immobilize",
+										"children": [],
+										"exprs": {
+											"target": "get_var(\"dr\")"
+										},
+										"params": {
+											"target": ""
+										}
+									},
+									{
+										"_uid": "_204",
+										"block_name": "move_entity_pos3d_immd",
+										"children": [],
+										"exprs": {
+											"pos": "add_pos3d_to_spos2d(get_info_point(\"a4\"))",
+											"target": "get_var(\"dr\")"
+										},
+										"params": {
+											"pos": {
+												"x": 0.0,
+												"y": 0.0,
+												"z": 0.0
+											},
+											"target": ""
+										}
+									},
+									{
+										"_uid": "_205",
+										"block_name": "set_var_val",
+										"children": [],
+										"exprs": {
+
+										},
+										"params": {
+											"val": "0",
+											"var": "4a"
+										}
+									}
+								],
+								"exprs": {
+									"condition": "frame_idx == 5"
+								},
+								"params": {
+									"condition": true
+								}
+							}
+						],
+						"enabled": true,
+						"exprs": {
+
+						},
+						"id": 1062.0,
+						"params": {
+							"anim_name": "s1_2",
+							"frame_type": "动画帧"
+						}
+					},
+					{
+						"_uid": "_206",
+						"block_name": "when_animation_exit",
+						"children": [
+							{
+								"_uid": "_207",
+								"block_name": "play_animation",
+								"children": [],
+								"exprs": {
+
+								},
+								"params": {
+									"anim_name": "idle"
+								}
+							}
+						],
+						"enabled": true,
+						"exprs": {
+
+						},
+						"id": 1063.0,
+						"params": {
+							"anim_name": "s1_2"
+						}
+					},
+					{
+						"_uid": "_208",
+						"block_name": "when_attack_box_hit",
+						"children": [
+							{
+								"_uid": "_209",
+								"block_name": "change_ultimate_point_for",
+								"children": [],
+								"exprs": {
+									"entity": "self_entity()"
+								},
+								"params": {
+									"d": 1.0,
+									"entity": ""
+								}
+							},
+							{
+								"_uid": "_210",
+								"block_name": "repeat_in_range",
+								"children": [
+									{
+										"_uid": "_211",
+										"block_name": "hit_entity",
+										"children": [],
+										"exprs": {
+											"target": "target"
+										},
+										"params": {
+											"bs": 0.0,
+											"cotg": true,
+											"hst": 0.0,
+											"hurt": 10000.0,
+											"isgd": true,
+											"ish": false,
+											"kr": 10.0,
+											"target": "",
+											"type": "push",
+											"v": {
+												"x": 0.0,
+												"y": 0.0,
+												"z": 150.0
+											},
+											"va": {
+												"x": 0.0,
+												"y": 0.0,
+												"z": 0.0
+											}
+										}
+									},
+									{
+										"_uid": "_212",
+										"block_name": "wait",
+										"children": [],
+										"exprs": {
+
+										},
+										"params": {
+											"duration": 0.0999999046325684
+										}
+									}
+								],
+								"exprs": {
+
+								},
+								"params": {
+									"n": 10.0
+								}
+							}
+						],
+						"enabled": true,
+						"exprs": {
+
+						},
+						"id": 1064.0,
+						"params": {
+							"abox_name": "s1_2"
+						}
+					}
+				],
+				"type": "group"
+			},
+			{
+				"_uid": "_213",
+				"block_name": "when_a_entity_create",
+				"children": [
+					{
+						"_uid": "_214",
+						"block_name": "if_condition",
+						"children": [
+							{
+								"_uid": "_215",
+								"block_name": "set_parent_entity",
+								"children": [],
+								"exprs": {
+									"parent": "self_entity()",
+									"target": "entity"
+								},
+								"params": {
+									"parent": "",
+									"target": ""
+								}
+							},
+							{
+								"_uid": "_216",
+								"block_name": "set_var_val",
+								"children": [],
+								"exprs": {
+									"val": "entity"
+								},
+								"params": {
+									"val": "",
+									"var": "豪火球"
+								}
+							}
+						],
+						"exprs": {
+							"condition": "entity.title == \"火球\""
+						},
+						"params": {
+							"condition": true
+						}
+					}
+				],
+				"enabled": true,
+				"exprs": {
+
+				},
+				"id": 1022.0,
+				"params": {
+
+				}
+			},
+			{
+				"_uid": "_217",
+				"color": "(0.9, 0.85, 0.6, 1.0)",
+				"name": "天锁爆葬",
+				"rows": [
+					{
+						"_uid": "_218",
+						"block_name": "when_press_input",
+						"children": [
+							{
+								"_uid": "_219",
+								"block_name": "if_condition",
+								"children": [
+									{
+										"_uid": "_220",
+										"block_name": "if_condition",
+										"children": [
+											{
+												"_uid": "_221",
+												"block_name": "play_animation",
+												"children": [],
+												"exprs": {
+
+												},
+												"params": {
+													"anim_name": "s2_2"
+												}
+											},
+											{
+												"_uid": "_222",
+												"block_name": "set_timer",
+												"children": [],
+												"exprs": {
+
+												},
+												"params": {
+													"cd": 0.0,
+													"cd_id": 0.0,
+													"cd_max": 0.0,
+													"slot_id": 0.0
+												}
+											},
+											{
+												"_uid": "_223",
+												"block_name": "set_timer",
+												"children": [],
+												"exprs": {
+
+												},
+												"params": {
+													"cd": 0.0,
+													"cd_id": 1.0,
+													"cd_max": 0.0,
+													"slot_id": 1.0
+												}
+											},
+											{
+												"_uid": "_224",
+												"block_name": "set_timer",
+												"children": [],
+												"exprs": {
+
+												},
+												"params": {
+													"cd": 0.0,
+													"cd_id": 2.0,
+													"cd_max": 0.0,
+													"slot_id": 2.0
+												}
+											},
+											{
+												"_uid": "_225",
+												"block_name": "set_cd",
+												"children": [],
+												"exprs": {
+
+												},
+												"params": {
+													"cd": 1.0,
+													"cd_id": 2.0,
+													"slot_id": 2.0
+												}
+											}
+										],
+										"exprs": {
+											"condition": "now_animation() in \"idle,run,a1,a2,a3,a4\""
+										},
+										"params": {
+											"condition": true
+										}
+									}
+								],
+								"exprs": {
+									"condition": "get_var(\"4a\") == 1"
+								},
+								"params": {
+									"condition": true
+								}
+							},
+							{
+								"_uid": "_226",
+								"block_name": "else_block",
+								"children": [
+									{
+										"_uid": "_227",
+										"block_name": "if_condition",
+										"children": [
+											{
+												"_uid": "_228",
+												"block_name": "play_animation",
+												"children": [],
+												"exprs": {
+
+												},
+												"params": {
+													"anim_name": "s2"
+												}
+											},
+											{
+												"_uid": "_229",
+												"block_name": "set_cd",
+												"children": [],
+												"exprs": {
+
+												},
+												"params": {
+													"cd": 0.0,
+													"cd_id": 2.0,
+													"slot_id": 2.0
+												}
+											}
+										],
+										"exprs": {
+											"condition": "now_animation() in \"idle,run\""
+										},
+										"params": {
+											"condition": true
+										}
+									},
+									{
+										"_uid": "_230",
+										"block_name": "if_condition",
+										"children": [
+											{
+												"_uid": "_231",
+												"block_name": "spawn_cancel_white",
+												"children": [],
+												"exprs": {
+
+												},
+												"params": {
+
+												}
+											},
+											{
+												"_uid": "_232",
+												"block_name": "play_animation",
+												"children": [],
+												"exprs": {
+
+												},
+												"params": {
+													"anim_name": "s2"
+												}
+											},
+											{
+												"_uid": "_233",
+												"block_name": "set_cd",
+												"children": [],
+												"exprs": {
+
+												},
+												"params": {
+													"cd": 0.0,
+													"cd_id": 0.0,
+													"slot_id": 1.0
+												}
+											}
+										],
+										"exprs": {
+											"condition": "now_animation() in \"a1,a2,a3,a4\""
+										},
+										"params": {
+											"condition": true
+										}
+									}
+								],
+								"exprs": {
+
+								},
+								"params": {
+
+								}
+							}
+						],
+						"enabled": true,
+						"exprs": {
+
+						},
+						"id": 1030.0,
+						"params": {
+							"key": 2.0
+						}
+					},
+					{
+						"_uid": "_234",
+						"block_name": "when_animation_playing",
+						"children": [
+							{
+								"_uid": "_235",
+								"block_name": "if_condition",
+								"children": [
+									{
+										"_uid": "_236",
+										"block_name": "play_voice",
+										"children": [],
+										"exprs": {
+
+										},
+										"params": {
+											"isz": false,
+											"path": "res://assets/entities/神秘面具男/audio/s2.MP3",
+											"tag": "",
+											"volume": 1.0
+										}
+									}
+								],
+								"exprs": {
+									"condition": "frame_idx == 0"
+								},
+								"params": {
+									"condition": true
+								}
+							},
+							{
+								"_uid": "_237",
+								"block_name": "if_condition",
+								"children": [
+									{
+										"_uid": "_238",
+										"block_name": "turn_by_input",
+										"children": [],
+										"exprs": {
+
+										},
+										"params": {
+
+										}
+									},
+									{
+										"_uid": "_239",
+										"block_name": "start_freemove",
+										"children": [],
+										"exprs": {
+
+										},
+										"params": {
+											"v": {
+												"x": 8000.0,
+												"y": 1500.0
+											}
+										}
+									},
+									{
+										"_uid": "_240",
+										"block_name": "slide",
+										"children": [],
+										"enabled": true,
+										"exprs": {
+
+										},
+										"params": {
+											"g": 1800.0,
+											"m": "facing",
+											"r": {
+												"x": 0.0,
+												"y": 0.0,
+												"z": 50.0
+											},
+											"v": {
+												"x": 0.0,
+												"y": 0.0,
+												"z": 200.0
+											}
+										}
+									}
+								],
+								"exprs": {
+									"condition": "frame_idx == 1"
+								},
+								"params": {
+									"condition": true
+								}
+							},
+							{
+								"_uid": "_241",
+								"block_name": "if_condition",
+								"children": [
+									{
+										"_uid": "_242",
+										"block_name": "stop_freemove",
+										"children": [],
+										"exprs": {
+
+										},
+										"params": {
+
+										}
+									}
+								],
+								"exprs": {
+									"condition": "frame_idx == 2"
+								},
+								"params": {
+									"condition": true
+								}
+							},
+							{
+								"_uid": "_243",
+								"block_name": "if_condition",
+								"children": [
+									{
+										"_uid": "_244",
+										"block_name": "if_condition",
+										"children": [
+											{
+												"_uid": "_245",
+												"block_name": "stop_slide",
+												"children": [],
+												"exprs": {
+
+												},
+												"params": {
+
+												}
+											},
+											{
+												"_uid": "_246",
+												"block_name": "play_animation",
+												"children": [],
+												"exprs": {
+
+												},
+												"params": {
+													"anim_name": "s2a"
+												}
+											}
+										],
+										"exprs": {
+											"condition": "is_press_key(0)"
+										},
+										"params": {
+											"condition": true
+										}
+									}
+								],
+								"exprs": {
+									"condition": "frame_idx == 5"
+								},
+								"params": {
+									"condition": true
+								}
+							}
+						],
+						"enabled": true,
+						"exprs": {
+
+						},
+						"id": 1031.0,
+						"params": {
+							"anim_name": "s2",
+							"frame_type": "动画帧"
+						}
+					},
+					{
+						"_uid": "_247",
+						"block_name": "when_animation_exit",
+						"children": [
+							{
+								"_uid": "_248",
+								"block_name": "play_animation",
+								"children": [],
+								"exprs": {
+
+								},
+								"params": {
+									"anim_name": "idle"
+								}
+							}
+						],
+						"enabled": true,
+						"exprs": {
+
+						},
+						"id": 1032.0,
+						"params": {
+							"anim_name": "s2d"
+						}
+					},
+					{
+						"_uid": "_249",
+						"block_name": "when_attack_box_hit",
+						"children": [
+							{
+								"_uid": "_250",
+								"block_name": "repeat_in_range",
+								"children": [
+									{
+										"_uid": "_251",
+										"block_name": "hit_entity",
+										"children": [],
+										"exprs": {
+											"target": "target"
+										},
+										"params": {
+											"bs": 0.0,
+											"cotg": false,
+											"hst": 0.599999904632568,
+											"hurt": 150000.0,
+											"isgd": true,
+											"ish": false,
+											"kr": 10.0,
+											"target": "",
+											"type": "push",
+											"v": {
+												"x": 400.0,
+												"y": 0.0,
+												"z": 180.0
+											}
+										}
+									},
+									{
+										"_uid": "_252",
+										"block_name": "camera_shake_explosion",
+										"children": [],
+										"exprs": {
+
+										},
+										"params": {
+											"duration": 0.200000047683716,
+											"intensity": 20.0
+										}
+									},
+									{
+										"_uid": "_253",
+										"block_name": "wait",
+										"children": [],
+										"exprs": {
+
+										},
+										"params": {
+											"duration": 0.0999999046325684
+										}
+									}
+								],
+								"exprs": {
+
+								},
+								"params": {
+									"n": 3.0
+								}
+							},
+							{
+								"_uid": "_254",
+								"block_name": "change_ultimate_point_for",
+								"children": [],
+								"exprs": {
+									"entity": "self_entity()"
+								},
+								"params": {
+									"d": 1.0,
+									"entity": ""
+								}
+							}
+						],
+						"enabled": true,
+						"exprs": {
+
+						},
+						"id": 1033.0,
+						"params": {
+							"abox_name": "s2"
+						}
+					},
+					{
+						"_uid": "_255",
+						"block_name": "when_attack_box_hit",
+						"children": [
+							{
+								"_uid": "_256",
+								"block_name": "repeat_in_range",
+								"children": [
+									{
+										"_uid": "_257",
+										"block_name": "hit_entity",
+										"children": [],
+										"exprs": {
+											"target": "target"
+										},
+										"params": {
+											"bs": 0.0,
+											"cotg": true,
+											"hst": 0.400000095367432,
+											"hurt": 50000.0,
+											"isgd": true,
+											"ish": false,
+											"kr": 10.0,
+											"target": "",
+											"type": "launch",
+											"v": {
+												"x": 0.0,
+												"y": 0.0,
+												"z": 350.0
+											}
+										}
+									},
+									{
+										"_uid": "_258",
+										"block_name": "wait",
+										"children": [],
+										"exprs": {
+
+										},
+										"params": {
+											"duration": 0.00999999046325684
+										}
+									}
+								],
+								"exprs": {
+
+								},
+								"params": {
+									"n": 2.0
+								}
+							}
+						],
+						"enabled": true,
+						"exprs": {
+
+						},
+						"id": 1034.0,
+						"params": {
+							"abox_name": "s2d"
+						}
+					},
+					{
+						"_uid": "_259",
+						"block_name": "when_animation_playing",
+						"children": [
+							{
+								"_uid": "_260",
+								"block_name": "if_condition",
+								"children": [
+									{
+										"_uid": "_261",
+										"block_name": "turn_by_input",
+										"children": [],
+										"exprs": {
+
+										},
+										"params": {
+
+										}
+									},
+									{
+										"_uid": "_262",
+										"block_name": "repeat_in_range",
+										"children": [
+											{
+												"_uid": "_263",
+												"block_name": "spawn_afterimage",
+												"children": [],
+												"exprs": {
+
+												},
+												"params": {
+													"color": {
+														"a": 1.0,
+														"b": 1.0,
+														"g": 1.0,
+														"r": 1.0
+													},
+													"fade": 0.5,
+													"hold": 0.0
+												}
+											}
+										],
+										"exprs": {
+
+										},
+										"params": {
+											"n": 1.0
+										}
+									}
+								],
+								"exprs": {
+									"condition": "frame_idx == 1"
+								},
+								"params": {
+									"condition": true
+								}
+							},
+							{
+								"_uid": "_264",
+								"block_name": "if_condition",
+								"children": [
+									{
+										"_uid": "_265",
+										"block_name": "slide",
+										"children": [],
+										"enabled": true,
+										"exprs": {
+
+										},
+										"params": {
+											"g": 4000.0,
+											"m": "facing",
+											"r": {
+												"x": 6.0,
+												"y": 0.0,
+												"z": 14.0
+											},
+											"v": {
+												"x": 1800.0,
+												"y": 0.0,
+												"z": 700.0
+											}
+										}
+									}
+								],
+								"exprs": {
+									"condition": "frame_idx == 2"
+								},
+								"params": {
+									"condition": true
+								}
+							},
+							{
+								"_uid": "_266",
+								"block_name": "if_condition",
+								"children": [
+									{
+										"_uid": "_267",
+										"block_name": "wait",
+										"children": [],
+										"enabled": true,
+										"exprs": {
+
+										},
+										"params": {
+											"duration": 0.0299999713897705
+										}
+									},
+									{
+										"_uid": "_268",
+										"block_name": "stop_slide",
+										"children": [],
+										"enabled": true,
+										"exprs": {
+
+										},
+										"params": {
+
+										}
+									}
+								],
+								"enabled": true,
+								"exprs": {
+									"condition": "frame_idx == 4"
+								},
+								"params": {
+									"condition": true
+								}
+							}
+						],
+						"enabled": true,
+						"exprs": {
+
+						},
+						"id": 1038.0,
+						"params": {
+							"anim_name": "s2a",
+							"frame_type": "动画帧"
+						}
+					},
+					{
+						"_uid": "_269",
+						"block_name": "when_attack_box_hit",
+						"children": [
+							{
+								"_uid": "_270",
+								"block_name": "show_info_text",
+								"children": [],
+								"exprs": {
+
+								},
+								"params": {
+									"text": "你已无处可逃...."
+								}
+							},
+							{
+								"_uid": "_271",
+								"block_name": "set_timer",
+								"children": [],
+								"exprs": {
+
+								},
+								"params": {
+									"cd": 2.0,
+									"cd_id": 0.0,
+									"cd_max": 2.0,
+									"slot_id": 0.0
+								}
+							},
+							{
+								"_uid": "_272",
+								"block_name": "set_timer",
+								"children": [],
+								"exprs": {
+
+								},
+								"params": {
+									"cd": 2.0,
+									"cd_id": 1.0,
+									"cd_max": 2.0,
+									"slot_id": 1.0
+								}
+							},
+							{
+								"_uid": "_273",
+								"block_name": "set_timer",
+								"children": [],
+								"exprs": {
+
+								},
+								"params": {
+									"cd": 2.0,
+									"cd_id": 2.0,
+									"cd_max": 2.0,
+									"slot_id": 2.0
+								}
+							},
+							{
+								"_uid": "_274",
+								"block_name": "set_entity_immobilize",
+								"children": [],
+								"exprs": {
+									"target": "target"
+								},
+								"params": {
+									"ani": "immobilize",
+									"bs": 2.0,
+									"cs": false,
+									"g": 700.0,
+									"kt": 0.0,
+									"pos": {
+										"x": 0.0,
+										"y": 1000.0,
+										"z": 0.0
+									},
+									"rpos": {
+										"x": 0.0,
+										"y": 0.0,
+										"z": 0.0
+									},
+									"target": "",
+									"time": -1.0,
+									"v": {
+										"x": 0.0,
+										"y": 0.0,
+										"z": 0.0
+									},
+									"var": "",
+									"vr": 0.0
+								}
+							},
+							{
+								"_uid": "_275",
+								"block_name": "set_var_val",
+								"children": [],
+								"exprs": {
+
+								},
+								"params": {
+									"val": "1",
+									"var": "4a"
+								}
+							},
+							{
+								"_uid": "_276",
+								"block_name": "set_var_val",
+								"children": [],
+								"exprs": {
+									"val": "target"
+								},
+								"params": {
+									"val": "",
+									"var": "dr"
+								}
+							},
+							{
+								"_uid": "_277",
+								"block_name": "wait",
+								"children": [],
+								"exprs": {
+
+								},
+								"params": {
+									"duration": 1.69999980926514
+								}
+							},
+							{
+								"_uid": "_278",
+								"block_name": "if_condition",
+								"children": [
+									{
+										"_uid": "_279",
+										"block_name": "stop_entity_immobilize",
+										"children": [],
+										"exprs": {
+											"target": "target"
+										},
+										"params": {
+											"target": ""
+										}
+									},
+									{
+										"_uid": "_280",
+										"block_name": "if_condition",
+										"children": [
+											{
+												"_uid": "_281",
+												"block_name": "create_effect",
+												"children": [],
+												"exprs": {
+													"pos": "now_pos3d() + Vector3(90,0,-210)"
+												},
+												"params": {
+													"data": "",
+													"dir": true,
+													"name": "out",
+													"pos": {
+														"x": 0.0,
+														"y": 0.0,
+														"z": 0.0
+													}
+												}
+											}
+										],
+										"exprs": {
+											"condition": "now_dir() > 0"
+										},
+										"params": {
+											"condition": true
+										}
+									},
+									{
+										"_uid": "_282",
+										"block_name": "if_condition",
+										"children": [
+											{
+												"_uid": "_283",
+												"block_name": "create_effect",
+												"children": [],
+												"exprs": {
+													"pos": "now_pos3d() + Vector3(-190,0,-210)"
+												},
+												"params": {
+													"data": "",
+													"dir": true,
+													"name": "out",
+													"pos": {
+														"x": 0.0,
+														"y": 0.0,
+														"z": 0.0
+													}
+												}
+											}
+										],
+										"exprs": {
+											"condition": "now_dir() < 0"
+										},
+										"params": {
+											"condition": true
+										}
+									},
+									{
+										"_uid": "_284",
+										"block_name": "move_entity_pos3d_immd",
+										"children": [],
+										"exprs": {
+											"pos": "add_pos3d_to_spos2d(get_info_point(\"a3\"))",
+											"target": "target"
+										},
+										"params": {
+											"pos": {
+												"x": 0.0,
+												"y": 0.0,
+												"z": 0.0
+											},
+											"target": ""
+										}
+									},
+									{
+										"_uid": "_285",
+										"block_name": "set_var_val",
+										"children": [],
+										"exprs": {
+
+										},
+										"params": {
+											"val": "0",
+											"var": "4a"
+										}
+									}
+								],
+								"exprs": {
+									"condition": "get_var(\"4a\") == 1"
+								},
+								"params": {
+									"condition": true
+								}
+							}
+						],
+						"enabled": true,
+						"exprs": {
+
+						},
+						"id": 1040.0,
+						"params": {
+							"abox_name": "s2a"
+						}
+					},
+					{
+						"_uid": "_286",
+						"block_name": "when_animation_exit",
+						"children": [
+							{
+								"_uid": "_287",
+								"block_name": "play_animation",
+								"children": [],
+								"exprs": {
+
+								},
+								"params": {
+									"anim_name": "idle"
+								}
+							}
+						],
+						"enabled": true,
+						"exprs": {
+
+						},
+						"id": 1047.0,
+						"params": {
+							"anim_name": "s2_2"
+						}
+					},
+					{
+						"_uid": "_288",
+						"block_name": "when_animation_playing",
+						"children": [
+							{
+								"_uid": "_289",
+								"block_name": "if_condition",
+								"children": [
+									{
+										"_uid": "_290",
+										"block_name": "play_voice",
+										"children": [],
+										"exprs": {
+
+										},
+										"params": {
+											"isz": false,
+											"path": "res://assets/entities/神秘面具男/audio/s2_2.MP3",
+											"tag": "",
+											"volume": 1.0
+										}
+									}
+								],
+								"exprs": {
+									"condition": "frame_idx == 0"
+								},
+								"params": {
+									"condition": true
+								}
+							},
+							{
+								"_uid": "_291",
+								"block_name": "if_condition",
+								"children": [
+									{
+										"_uid": "_292",
+										"block_name": "stop_entity_immobilize",
+										"children": [],
+										"exprs": {
+											"target": "get_var(\"dr\")"
+										},
+										"params": {
+											"target": ""
+										}
+									},
+									{
+										"_uid": "_293",
+										"block_name": "move_entity_pos3d_immd",
+										"children": [],
+										"exprs": {
+											"pos": "add_pos3d_to_spos2d(get_info_point(\"a4\"))",
+											"target": "get_var(\"dr\")"
+										},
+										"params": {
+											"pos": {
+												"x": 0.0,
+												"y": 0.0,
+												"z": 0.0
+											},
+											"target": ""
+										}
+									},
+									{
+										"_uid": "_294",
+										"block_name": "set_var_val",
+										"children": [],
+										"exprs": {
+
+										},
+										"params": {
+											"val": "0",
+											"var": "4a"
+										}
+									}
+								],
+								"exprs": {
+									"condition": "frame_idx == 5"
+								},
+								"params": {
+									"condition": true
+								}
+							}
+						],
+						"enabled": true,
+						"exprs": {
+
+						},
+						"id": 1051.0,
+						"params": {
+							"anim_name": "s2_2",
+							"frame_type": "动画帧"
+						}
+					},
+					{
+						"_uid": "_295",
+						"block_name": "when_attack_box_hit",
+						"children": [
+							{
+								"_uid": "_296",
+								"block_name": "show_info_text",
+								"children": [],
+								"exprs": {
+
+								},
+								"params": {
+									"text": "消失吧..."
+								}
+							},
+							{
+								"_uid": "_297",
+								"block_name": "hit_entity",
+								"children": [],
+								"exprs": {
+									"target": "target"
+								},
+								"params": {
+									"bs": 0.0,
+									"cotg": true,
+									"hst": 0.0,
+									"hurt": 10000.0,
+									"isgd": true,
+									"ish": false,
+									"kr": 10.0,
+									"target": "",
+									"type": "push",
+									"v": {
+										"x": 0.0,
+										"y": 0.0,
+										"z": 150.0
+									}
+								}
+							},
+							{
+								"_uid": "_298",
+								"block_name": "change_ultimate_point_for",
+								"children": [],
+								"exprs": {
+									"entity": "self_entity()"
+								},
+								"params": {
+									"d": 1.0,
+									"entity": ""
+								}
+							}
+						],
+						"enabled": true,
+						"exprs": {
+
+						},
+						"id": 1052.0,
+						"params": {
+							"abox_name": "s2_2-1"
+						}
+					},
+					{
+						"_uid": "_299",
+						"block_name": "when_attack_box_hit",
+						"children": [
+							{
+								"_uid": "_300",
+								"block_name": "hit_entity",
+								"children": [],
+								"exprs": {
+									"target": "target"
+								},
+								"params": {
+									"bs": 0.0,
+									"cotg": true,
+									"hst": 0.0,
+									"hurt": 10000.0,
+									"isgd": true,
+									"ish": false,
+									"kr": 10.0,
+									"target": "",
+									"type": "push",
+									"v": {
+										"x": 0.0,
+										"y": 0.0,
+										"z": 150.0
+									}
+								}
+							}
+						],
+						"enabled": true,
+						"exprs": {
+
+						},
+						"id": 1055.0,
+						"params": {
+							"abox_name": "s2_2-2"
+						}
+					},
+					{
+						"_uid": "_301",
+						"block_name": "when_attack_box_hit",
+						"children": [
+							{
+								"_uid": "_302",
+								"block_name": "hit_entity",
+								"children": [],
+								"exprs": {
+									"target": "target"
+								},
+								"params": {
+									"bs": 0.0,
+									"cotg": true,
+									"hst": 0.0,
+									"hurt": 100000.0,
+									"isgd": true,
+									"ish": false,
+									"kr": 10.0,
+									"target": "",
+									"type": "push",
+									"v": {
+										"x": 0.0,
+										"y": 0.0,
+										"z": 150.0
+									}
+								}
+							}
+						],
+						"enabled": true,
+						"exprs": {
+
+						},
+						"id": 1056.0,
+						"params": {
+							"abox_name": "s2_2-3"
+						}
+					},
+					{
+						"_uid": "_303",
+						"block_name": "when_attack_box_hit",
+						"children": [
+							{
+								"_uid": "_304",
+								"block_name": "hit_entity",
+								"children": [],
+								"exprs": {
+									"target": "target"
+								},
+								"params": {
+									"bs": 0.0,
+									"cotg": true,
+									"hst": 0.0,
+									"hurt": 100000.0,
+									"isgd": true,
+									"ish": false,
+									"kr": 10.0,
+									"target": "",
+									"type": "push",
+									"v": {
+										"x": 0.0,
+										"y": 0.0,
+										"z": 150.0
+									}
+								}
+							}
+						],
+						"enabled": true,
+						"exprs": {
+
+						},
+						"id": 1058.0,
+						"params": {
+							"abox_name": "s2_2-4"
+						}
+					},
+					{
+						"_uid": "_305",
+						"block_name": "when_attack_box_hit",
+						"children": [
+							{
+								"_uid": "_306",
+								"block_name": "repeat_in_range",
+								"children": [
+									{
+										"_uid": "_307",
+										"block_name": "hit_entity",
+										"children": [],
+										"exprs": {
+											"target": "target"
+										},
+										"params": {
+											"bs": 0.0,
+											"cotg": true,
+											"hst": 0.0,
+											"hurt": 8000.0,
+											"isgd": true,
+											"ish": false,
+											"kr": 10.0,
+											"target": "",
+											"type": "push",
+											"v": {
+												"x": 0.0,
+												"y": 0.0,
+												"z": 100.0
+											}
+										}
+									},
+									{
+										"_uid": "_308",
+										"block_name": "wait",
+										"children": [],
+										"exprs": {
+
+										},
+										"params": {
+											"duration": 0.00999999046325684
+										}
+									}
+								],
+								"exprs": {
+
+								},
+								"params": {
+									"n": 10.0
+								}
+							}
+						],
+						"enabled": true,
+						"exprs": {
+
+						},
+						"id": 1059.0,
+						"params": {
+							"abox_name": "s2_2-5"
+						}
+					}
+				],
+				"type": "group"
+			},
+			{
+				"_uid": "_309",
+				"color": "(0.9, 0.85, 0.6, 1.0)",
+				"enabled": false,
+				"name": "九尾",
+				"rows": [
+					{
+						"_uid": "_310",
+						"block_name": "when_press_input",
+						"children": [
+							{
+								"_uid": "_311",
+								"block_name": "if_condition",
+								"children": [
+									{
+										"_uid": "_312",
+										"block_name": "play_animation",
+										"children": [],
+										"exprs": {
+
+										},
+										"params": {
+											"anim_name": "s3"
+										}
+									},
+									{
+										"_uid": "_313",
+										"block_name": "set_ultimate_active",
+										"children": [],
+										"exprs": {
+
+										},
+										"params": {
+											"active": true
+										}
+									},
+									{
+										"_uid": "_314",
+										"block_name": "if_condition",
+										"children": [],
+										"exprs": {
+
+										},
+										"params": {
+											"condition": true
+										}
+									}
+								],
+								"enabled": false,
+								"exprs": {
+									"condition": "now_animation() in \"idle,run,a1,a2,a3,a4,a4d,s1,s1a,s2,s2a,s2d\""
+								},
+								"params": {
+									"condition": true
+								}
+							}
+						],
+						"enabled": true,
+						"exprs": {
+
+						},
+						"id": 1041.0,
+						"params": {
+							"key": 3.0
+						}
+					},
+					{
+						"_uid": "_315",
+						"block_name": "when_animation_exit",
+						"children": [
+							{
+								"_uid": "_316",
+								"block_name": "set_ultimate_active",
+								"children": [],
+								"exprs": {
+
+								},
+								"params": {
+									"active": false
+								}
+							}
+						],
+						"enabled": false,
+						"exprs": {
+
+						},
+						"id": 1042.0,
+						"params": {
+							"anim_name": "s3"
+						}
+					},
+					{
+						"_uid": "_317",
+						"block_name": "when_attack_box_hit",
+						"children": [
+							{
+								"_uid": "_318",
+								"block_name": "repeat_in_range",
+								"children": [
+									{
+										"_uid": "_319",
+										"block_name": "hit_entity",
+										"children": [],
+										"exprs": {
+											"target": "target"
+										},
+										"params": {
+											"bs": 0.0,
+											"cotg": true,
+											"hst": 0.0,
+											"hurt": 50000.0,
+											"isgd": true,
+											"ish": true,
+											"kr": 10.0,
+											"target": "",
+											"type": "launch",
+											"v": {
+												"x": 0.0,
+												"y": 0.0,
+												"z": 100.0
+											}
+										}
+									},
+									{
+										"_uid": "_320",
+										"block_name": "wait",
+										"children": [],
+										"exprs": {
+
+										},
+										"params": {
+											"duration": 0.0999999046325684
+										}
+									}
+								],
+								"exprs": {
+
+								},
+								"params": {
+									"n": 18.0
+								}
+							}
+						],
+						"enabled": false,
+						"exprs": {
+
+						},
+						"id": 1045.0,
+						"params": {
+							"abox_name": "s3"
+						}
+					},
+					{
+						"_uid": "_321",
+						"block_name": "when_animation_exit",
+						"children": [
+							{
+								"_uid": "_322",
+								"block_name": "play_animation",
+								"children": [],
+								"exprs": {
+
+								},
+								"params": {
+									"anim_name": "idle"
+								}
+							}
+						],
+						"enabled": false,
+						"exprs": {
+
+						},
+						"id": 1046.0,
+						"params": {
+							"anim_name": "s3"
+						}
+					}
+				],
+				"type": "group"
+			},
+			{
+				"_uid": "_323",
+				"color": "(0.9, 0.85, 0.6, 1.0)",
+				"name": "落地",
+				"rows": [
+					{
+						"_uid": "_324",
+						"block_name": "when_any_animation_frame_changed",
+						"children": [
+							{
+								"_uid": "_325",
+								"block_name": "if_condition",
+								"children": [
+									{
+										"_uid": "_326",
+										"block_name": "if_condition",
+										"children": [
+											{
+												"_uid": "_327",
+												"block_name": "play_animation",
+												"children": [],
+												"exprs": {
+
+												},
+												"params": {
+													"anim_name": "s2d"
+												}
+											}
+										],
+										"exprs": {
+											"condition": "anim_name == \"s2\" and frame_idx == 7"
+										},
+										"params": {
+											"condition": true
+										}
+									},
+									{
+										"_uid": "_328",
+										"block_name": "else_if",
+										"children": [
+											{
+												"_uid": "_329",
+												"block_name": "play_animation",
+												"children": [],
+												"exprs": {
+
+												},
+												"params": {
+													"anim_name": "a4d"
+												}
+											}
+										],
+										"exprs": {
+											"condition": "anim_name == \"a4\" and frame_idx == 8"
+										},
+										"params": {
+											"condition": true
+										}
+									},
+									{
+										"_uid": "_330",
+										"block_name": "else_if",
+										"children": [
+											{
+												"_uid": "_331",
+												"block_name": "play_animation",
+												"children": [],
+												"exprs": {
+
+												},
+												"params": {
+													"anim_name": "s2d"
+												}
+											}
+										],
+										"exprs": {
+											"condition": "anim_name == \"s2a\" and frame_idx == 4"
+										},
+										"params": {
+											"condition": true
+										}
+									}
+								],
+								"exprs": {
+									"condition": "self_entity().position_3d.z <= 0"
+								},
+								"params": {
+									"condition": true
+								}
+							}
+						],
+						"enabled": true,
+						"exprs": {
+
+						},
+						"id": 1035.0,
+						"params": {
+							"frame_type": "物理帧"
+						}
+					}
+				],
+				"type": "group"
+			},
+			{
+				"_uid": "_332",
+				"color": "(0.9, 0.85, 0.6, 1.0)",
+				"name": "密卷",
+				"rows": [
+					{
+						"_uid": "_333",
+						"block_name": "when_press_input",
+						"children": [
+							{
+								"_uid": "_334",
+								"block_name": "if_condition",
+								"children": [
+									{
+										"_uid": "_335",
+										"block_name": "play_animation",
+										"children": [],
+										"exprs": {
+
+										},
+										"params": {
+											"anim_name": "scroll"
+										}
+									},
+									{
+										"_uid": "_336",
+										"block_name": "play_sound",
+										"children": [],
+										"exprs": {
+
+										},
+										"params": {
+											"isz": false,
+											"path": "res://assets/audio/通用音效/通灵.mp3",
+											"tag": "",
+											"volume": 0.400000095367432
+										}
+									}
+								],
+								"exprs": {
+									"condition": "now_animation() in \"idle,run\""
+								},
+								"params": {
+									"condition": true
+								}
+							},
+							{
+								"_uid": "_337",
+								"block_name": "if_condition",
+								"children": [
+									{
+										"_uid": "_338",
+										"block_name": "spawn_cancel_white",
+										"children": [],
+										"exprs": {
+
+										},
+										"params": {
+
+										}
+									},
+									{
+										"_uid": "_339",
+										"block_name": "play_animation",
+										"children": [],
+										"exprs": {
+
+										},
+										"params": {
+											"anim_name": "scroll"
+										}
+									},
+									{
+										"_uid": "_340",
+										"block_name": "play_sound",
+										"children": [],
+										"exprs": {
+
+										},
+										"params": {
+											"isz": false,
+											"path": "res://assets/audio/通用音效/通灵.mp3",
+											"tag": "",
+											"volume": 0.400000095367432
+										}
+									}
+								],
+								"exprs": {
+									"condition": "now_animation() in \"a1,a2,a3,a4\""
+								},
+								"params": {
+									"condition": true
+								}
+							}
+						],
+						"enabled": true,
+						"exprs": {
+
+						},
+						"id": 1065.0,
+						"params": {
+							"key": 5.0
+						}
+					},
+					{
+						"_uid": "_341",
+						"block_name": "when_animation_playing",
+						"children": [
+							{
+								"_uid": "_342",
+								"block_name": "if_condition",
+								"children": [
+									{
+										"_uid": "_343",
+										"block_name": "turn_by_input",
+										"children": [],
+										"exprs": {
+
+										},
+										"params": {
+
+										}
+									}
+								],
+								"exprs": {
+									"condition": "frame_idx == 0"
+								},
+								"params": {
+									"condition": true
+								}
+							}
+						],
+						"enabled": true,
+						"exprs": {
+
+						},
+						"id": 1066.0,
+						"params": {
+							"anim_name": "scroll",
+							"frame_type": "动画帧"
+						}
+					},
+					{
+						"_uid": "_344",
+						"block_name": "when_animation_exit",
+						"children": [
+							{
+								"_uid": "_345",
+								"block_name": "play_animation",
+								"children": [],
+								"exprs": {
+
+								},
+								"params": {
+									"anim_name": "idle"
+								}
+							}
+						],
+						"enabled": true,
+						"exprs": {
+
+						},
+						"id": 1067.0,
+						"params": {
+							"anim_name": "scroll"
+						}
+					}
+				],
+				"type": "group"
+			},
+			{
+				"_uid": "_346",
+				"color": "(0.9, 0.85, 0.6, 1.0)",
+				"name": "通灵",
+				"rows": [
+					{
+						"_uid": "_347",
+						"block_name": "when_press_input",
+						"children": [
+							{
+								"_uid": "_348",
+								"block_name": "if_condition",
+								"children": [
+									{
+										"_uid": "_349",
+										"block_name": "play_animation",
+										"children": [],
+										"exprs": {
+
+										},
+										"params": {
+											"anim_name": "summon"
+										}
+									},
+									{
+										"_uid": "_350",
+										"block_name": "play_sound",
+										"children": [],
+										"exprs": {
+
+										},
+										"params": {
+											"isz": false,
+											"path": "res://assets/audio/通用音效/通灵.mp3",
+											"tag": "",
+											"volume": 0.400000095367432
+										}
+									}
+								],
+								"exprs": {
+									"condition": "now_animation() in \"idle,run\""
+								},
+								"params": {
+									"condition": true
+								}
+							}
+						],
+						"enabled": true,
+						"exprs": {
+
+						},
+						"id": 1068.0,
+						"params": {
+							"key": 6.0
+						}
+					},
+					{
+						"_uid": "_351",
+						"block_name": "when_animation_playing",
+						"children": [
+							{
+								"_uid": "_352",
+								"block_name": "if_condition",
+								"children": [
+									{
+										"_uid": "_353",
+										"block_name": "turn_by_input",
+										"children": [],
+										"exprs": {
+
+										},
+										"params": {
+
+										}
+									}
+								],
+								"exprs": {
+									"condition": "frame_idx == 0"
+								},
+								"params": {
+									"condition": true
+								}
+							}
+						],
+						"enabled": true,
+						"exprs": {
+
+						},
+						"id": 1069.0,
+						"params": {
+							"anim_name": "summon",
+							"frame_type": "动画帧"
+						}
+					},
+					{
+						"_uid": "_354",
+						"block_name": "when_animation_exit",
+						"children": [
+							{
+								"_uid": "_355",
+								"block_name": "play_animation",
+								"children": [],
+								"exprs": {
+
+								},
+								"params": {
+									"anim_name": "idle"
+								}
+							}
+						],
+						"enabled": true,
+						"exprs": {
+
+						},
+						"id": 1070.0,
+						"params": {
+							"anim_name": "summon"
+						}
+					}
+				],
+				"type": "group"
+			},
+			{
+				"_uid": "_356",
+				"color": "(0.9, 0.85, 0.6, 1.0)",
+				"id": 1071.0,
+				"name": "替身",
+				"rows": [
+					{
+						"_uid": "_357",
+						"block_name": "when_press_input",
+						"children": [
+							{
+								"_uid": "_358",
+								"block_name": "if_condition",
+								"children": [
+									{
+										"_uid": "_359",
+										"block_name": "play_animation",
+										"children": [],
+										"exprs": {
+
+										},
+										"params": {
+											"anim_name": "substitution"
+										}
+									}
+								],
+								"enabled": false,
+								"exprs": {
+									"condition": "now_animation() in \"downed,launch1,launch2,launch_e,launched,stun1,stun2,stun3,stun4\""
+								},
+								"params": {
+									"condition": true
+								}
+							},
+							{
+								"_uid": "_360",
+								"block_name": "set_cd",
+								"children": [],
+								"exprs": {
+
+								},
+								"params": {
+									"cd": 2.0,
+									"cd_id": 4.0,
+									"slot_id": 4.0
+								}
+							}
+						],
+						"enabled": true,
+						"exprs": {
+
+						},
+						"id": 1072.0,
+						"params": {
+							"key": 4.0
+						}
+					},
+					{
+						"_uid": "_361",
+						"block_name": "when_animation_playing",
+						"children": [
+							{
+								"_uid": "_362",
+								"block_name": "if_condition",
+								"children": [
+									{
+										"_uid": "_363",
+										"block_name": "play_voice",
+										"children": [],
+										"exprs": {
+
+										},
+										"params": {
+											"isz": false,
+											"path": "res://assets/audio/通用音效/替身.mp3",
+											"tag": "",
+											"volume": 0.400000095367432
+										}
+									}
+								],
+								"exprs": {
+									"condition": "frame_idx == 0"
+								},
+								"params": {
+									"condition": true
+								}
+							}
+						],
+						"enabled": true,
+						"exprs": {
+
+						},
+						"id": 1074.0,
+						"params": {
+							"anim_name": "substitution",
+							"frame_type": "动画帧"
+						}
+					}
+				],
+				"type": "group"
+			},
+			{
+				"_uid": "_364",
+				"color": "(0.9, 0.85, 0.6, 1.0)",
+				"enabled": false,
+				"id": 1075.0,
+				"name": "子技能2",
+				"rows": [
+					{
+						"_uid": "_365",
+						"block_name": "when_press_input",
+						"children": [],
+						"enabled": true,
+						"exprs": {
+
+						},
+						"id": 1076.0,
+						"params": {
+							"key": 8.0
+						}
+					}
+				],
+				"type": "group"
+			}
+		]
+	},
+	"run_mode": "both",
+	"ui_state": {
+		"col_collapsed": {
+			"_1": true,
+			"_10": false,
+			"_100": true,
+			"_101": false,
+			"_102": false,
+			"_103": true,
+			"_104": true,
+			"_105": true,
+			"_106": true,
+			"_107": false,
+			"_108": true,
+			"_109": false,
+			"_11": true,
+			"_110": true,
+			"_111": true,
+			"_112": false,
+			"_113": true,
+			"_114": false,
+			"_115": true,
+			"_116": true,
+			"_117": true,
+			"_118": true,
+			"_119": true,
+			"_12": true,
+			"_120": true,
+			"_121": false,
+			"_122": true,
+			"_123": true,
+			"_124": false,
+			"_125": true,
+			"_126": false,
+			"_127": true,
+			"_128": true,
+			"_129": true,
+			"_13": true,
+			"_130": true,
+			"_131": false,
+			"_132": false,
+			"_133": false,
+			"_134": false,
+			"_135": false,
+			"_136": false,
+			"_137": false,
+			"_138": true,
+			"_139": true,
+			"_140": false,
+			"_141": true,
+			"_142": true,
+			"_143": true,
+			"_144": true,
+			"_145": true,
+			"_146": true,
+			"_147": true,
+			"_148": true,
+			"_149": true,
+			"_15": false,
+			"_150": false,
+			"_151": true,
+			"_152": true,
+			"_153": true,
+			"_154": false,
+			"_155": true,
+			"_156": true,
+			"_157": true,
+			"_158": true,
+			"_159": false,
+			"_16": false,
+			"_160": true,
+			"_161": true,
+			"_162": true,
+			"_163": true,
+			"_164": true,
+			"_165": true,
+			"_166": true,
+			"_167": true,
+			"_168": true,
+			"_169": true,
+			"_17": false,
+			"_170": true,
+			"_171": false,
+			"_172": true,
+			"_173": true,
+			"_174": true,
+			"_175": true,
+			"_176": true,
+			"_177": false,
+			"_178": true,
+			"_179": true,
+			"_180": true,
+			"_181": false,
+			"_182": true,
+			"_183": true,
+			"_184": false,
+			"_185": true,
+			"_187": false,
+			"_188": false,
+			"_189": false,
+			"_19": true,
+			"_190": false,
+			"_191": false,
+			"_192": false,
+			"_193": false,
+			"_194": true,
+			"_195": true,
+			"_196": true,
+			"_197": false,
+			"_198": true,
+			"_199": true,
+			"_2": true,
+			"_20": false,
+			"_200": true,
+			"_201": true,
+			"_202": false,
+			"_203": false,
+			"_204": false,
+			"_205": true,
+			"_206": true,
+			"_207": false,
+			"_208": true,
+			"_209": true,
+			"_21": false,
+			"_210": true,
+			"_211": false,
+			"_212": true,
+			"_213": false,
+			"_214": true,
+			"_215": true,
+			"_216": true,
+			"_217": false,
+			"_218": false,
+			"_219": false,
+			"_22": false,
+			"_220": true,
+			"_221": true,
+			"_222": true,
+			"_223": false,
+			"_224": true,
+			"_225": true,
+			"_226": true,
+			"_227": false,
+			"_228": true,
+			"_229": true,
+			"_23": false,
+			"_230": true,
+			"_231": true,
+			"_232": true,
+			"_233": true,
+			"_234": true,
+			"_235": true,
+			"_236": true,
+			"_237": true,
+			"_238": true,
+			"_239": false,
+			"_24": false,
+			"_240": true,
+			"_241": true,
+			"_242": true,
+			"_243": true,
+			"_244": false,
+			"_245": true,
+			"_246": true,
+			"_247": true,
+			"_248": true,
+			"_249": false,
+			"_250": false,
+			"_251": true,
+			"_252": true,
+			"_253": true,
+			"_254": true,
+			"_255": false,
+			"_256": true,
+			"_257": true,
+			"_258": true,
+			"_259": true,
+			"_26": false,
+			"_260": true,
+			"_261": true,
+			"_262": true,
+			"_263": true,
+			"_264": false,
+			"_265": true,
+			"_266": true,
+			"_267": false,
+			"_268": true,
+			"_269": true,
+			"_27": false,
+			"_270": false,
+			"_271": false,
+			"_272": false,
+			"_274": true,
+			"_275": true,
+			"_276": true,
+			"_277": true,
+			"_278": true,
+			"_279": true,
+			"_28": true,
+			"_280": true,
+			"_281": true,
+			"_282": true,
+			"_283": true,
+			"_284": true,
+			"_285": true,
+			"_286": true,
+			"_287": true,
+			"_288": true,
+			"_289": false,
+			"_29": false,
+			"_290": true,
+			"_291": true,
+			"_292": true,
+			"_293": false,
+			"_294": true,
+			"_295": true,
+			"_296": true,
+			"_297": true,
+			"_298": true,
+			"_299": true,
+			"_3": false,
+			"_30": true,
+			"_300": true,
+			"_301": true,
+			"_302": true,
+			"_303": true,
+			"_304": true,
+			"_305": true,
+			"_306": true,
+			"_307": true,
+			"_308": true,
+			"_309": true,
+			"_31": true,
+			"_310": true,
+			"_311": true,
+			"_312": true,
+			"_313": true,
+			"_314": true,
+			"_315": true,
+			"_316": true,
+			"_317": true,
+			"_318": true,
+			"_319": true,
+			"_32": true,
+			"_320": true,
+			"_321": false,
+			"_322": true,
+			"_323": true,
+			"_324": false,
+			"_325": true,
+			"_326": false,
+			"_327": true,
+			"_328": false,
+			"_329": true,
+			"_33": true,
+			"_330": true,
+			"_331": true,
+			"_332": true,
+			"_333": true,
+			"_334": true,
+			"_335": true,
+			"_336": true,
+			"_337": false,
+			"_338": false,
+			"_339": false,
+			"_34": true,
+			"_340": false,
+			"_341": false,
+			"_342": true,
+			"_343": true,
+			"_344": false,
+			"_345": true,
+			"_346": true,
+			"_347": false,
+			"_348": false,
+			"_349": false,
+			"_35": true,
+			"_350": false,
+			"_351": false,
+			"_352": true,
+			"_353": true,
+			"_354": true,
+			"_355": true,
+			"_356": false,
+			"_357": true,
+			"_358": false,
+			"_359": false,
+			"_36": true,
+			"_360": true,
+			"_361": true,
+			"_362": true,
+			"_363": true,
+			"_364": true,
+			"_365": true,
+			"_37": true,
+			"_38": false,
+			"_39": false,
+			"_4": true,
+			"_40": true,
+			"_41": true,
+			"_42": true,
+			"_43": true,
+			"_44": true,
+			"_46": true,
+			"_47": false,
+			"_5": true,
+			"_50": true,
+			"_52": true,
+			"_53": true,
+			"_54": false,
+			"_55": true,
+			"_56": false,
+			"_57": true,
+			"_58": true,
+			"_59": true,
+			"_6": false,
+			"_60": false,
+			"_62": true,
+			"_63": true,
+			"_64": false,
+			"_65": false,
+			"_66": true,
+			"_67": true,
+			"_70": true,
+			"_71": true,
+			"_72": true,
+			"_73": true,
+			"_74": true,
+			"_75": true,
+			"_76": true,
+			"_77": false,
+			"_78": true,
+			"_79": true,
+			"_8": true,
+			"_80": false,
+			"_81": false,
+			"_82": false,
+			"_83": false,
+			"_84": true,
+			"_85": true,
+			"_86": false,
+			"_88": true,
+			"_89": false,
+			"_9": false,
+			"_90": false,
+			"_91": false,
+			"_92": false,
+			"_93": false,
+			"_94": false,
+			"_95": true,
+			"_96": true,
+			"_97": true,
+			"_98": true,
+			"_99": true
+		}
+	},
+	"version": 2
+}

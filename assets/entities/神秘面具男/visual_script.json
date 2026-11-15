@@ -141,7 +141,8 @@
 
 														},
 														"params": {
-															"anim_name": "a4"
+															"anim_name": "a4",
+															"start_frame": 0.0
 														}
 													},
 													{
@@ -202,7 +203,8 @@
 
 														},
 														"params": {
-															"anim_name": "a1"
+															"anim_name": "a1",
+															"start_frame": 0.0
 														}
 													}
 												],
@@ -321,7 +323,8 @@
 
 														},
 														"params": {
-															"anim_name": "scroll"
+															"anim_name": "scroll",
+															"start_frame": 0.0
 														}
 													}
 												],
@@ -379,7 +382,8 @@
 
 														},
 														"params": {
-															"anim_name": "a2"
+															"anim_name": "a2",
+															"start_frame": 0.0
 														}
 													}
 												],
@@ -421,7 +425,8 @@
 
 										},
 										"params": {
-											"anim_name": "idle"
+											"anim_name": "idle",
+											"start_frame": 0.0
 										}
 									}
 								],
@@ -446,12 +451,14 @@
 											"target": "target"
 										},
 										"params": {
+											"ar": 3.0,
 											"bs": 0.0,
 											"cotg": false,
 											"hst": 0.5,
 											"hurt": 55000.0,
 											"isgd": true,
 											"ish": false,
+											"knockback_model": "指数阻力",
 											"kr": 10.0,
 											"target": "",
 											"type": "push",
@@ -459,6 +466,11 @@
 												"x": 820.0,
 												"y": 0.0,
 												"z": 100.0
+											},
+											"va": {
+												"x": 0.0,
+												"y": 0.0,
+												"z": 0.0
 											}
 										}
 									}
@@ -484,12 +496,14 @@
 											"target": "target"
 										},
 										"params": {
+											"ar": 3.0,
 											"bs": 0.0,
 											"cotg": false,
 											"hst": 0.5,
 											"hurt": 20000.0,
 											"isgd": true,
 											"ish": false,
+											"knockback_model": "指数阻力",
 											"kr": 10.0,
 											"target": "",
 											"type": "push",
@@ -497,6 +511,11 @@
 												"x": 0.0,
 												"y": 0.0,
 												"z": 100.0
+											},
+											"va": {
+												"x": 0.0,
+												"y": 0.0,
+												"z": 0.0
 											}
 										}
 									}
@@ -690,7 +709,8 @@
 
 														},
 														"params": {
-															"anim_name": "a3"
+															"anim_name": "a3",
+															"start_frame": 0.0
 														}
 													}
 												],
@@ -732,7 +752,8 @@
 
 										},
 										"params": {
-											"anim_name": "idle"
+											"anim_name": "idle",
+											"start_frame": 0.0
 										}
 									}
 								],
@@ -757,12 +778,14 @@
 											"target": "target"
 										},
 										"params": {
+											"ar": 3.0,
 											"bs": 0.0,
 											"cotg": true,
 											"hst": 0.5,
 											"hurt": 65000.0,
 											"isgd": true,
 											"ish": false,
+											"knockback_model": "指数阻力",
 											"kr": 10.0,
 											"target": "",
 											"type": "push",
@@ -770,6 +793,11 @@
 												"x": 820.0,
 												"y": 0.0,
 												"z": 160.0
+											},
+											"va": {
+												"x": 0.0,
+												"y": 0.0,
+												"z": 0.0
 											}
 										}
 									},
@@ -808,12 +836,14 @@
 											"target": "target"
 										},
 										"params": {
+											"ar": 3.0,
 											"bs": 0.0,
 											"cotg": true,
 											"hst": 0.450000047683716,
 											"hurt": 65000.0,
 											"isgd": true,
 											"ish": false,
+											"knockback_model": "指数阻力",
 											"kr": 10.0,
 											"target": "",
 											"type": "push",
@@ -821,6 +851,11 @@
 												"x": -950.0,
 												"y": 0.0,
 												"z": 160.0
+											},
+											"va": {
+												"x": 0.0,
+												"y": 0.0,
+												"z": 0.0
 											}
 										}
 									},
@@ -1032,7 +1067,8 @@
 
 														},
 														"params": {
-															"anim_name": "a4"
+															"anim_name": "a4",
+															"start_frame": 0.0
 														}
 													}
 												],
@@ -1075,7 +1111,8 @@
 
 										},
 										"params": {
-											"anim_name": "idle"
+											"anim_name": "idle",
+											"start_frame": 0.0
 										}
 									}
 								],
@@ -1100,6 +1137,12 @@
 
 										},
 										"params": {
+											"color": {
+												"a": 1.0,
+												"b": 1.0,
+												"g": 1.0,
+												"r": 1.0
+											},
 											"text": "抓到你了......"
 										}
 									},
@@ -1158,11 +1201,13 @@
 											"cs": false,
 											"g": 700.0,
 											"kt": 0.0,
+											"mode": "fixed",
 											"pos": {
 												"x": 0.0,
 												"y": 1000.0,
 												"z": 0.0
 											},
+											"rani": "",
 											"rpos": {
 												"x": 0.0,
 												"y": 0.0,
@@ -1248,6 +1293,11 @@
 																"x": 0.0,
 																"y": 0.0,
 																"z": 0.0
+															},
+															"rotation": 0.0,
+															"scale": {
+																"x": 1.0,
+																"y": 1.0
 															}
 														}
 													},
@@ -1270,6 +1320,11 @@
 																		"x": 0.0,
 																		"y": 0.0,
 																		"z": 0.0
+																	},
+																	"rotation": 0.0,
+																	"scale": {
+																		"x": 1.0,
+																		"y": 1.0
 																	}
 																}
 															}
@@ -1301,6 +1356,11 @@
 																		"x": 0.0,
 																		"y": 0.0,
 																		"z": 0.0
+																	},
+																	"rotation": 0.0,
+																	"scale": {
+																		"x": 1.0,
+																		"y": 1.0
 																	}
 																}
 															}
@@ -1606,7 +1666,8 @@
 
 														},
 														"params": {
-															"anim_name": "idle"
+															"anim_name": "idle",
+															"start_frame": 0.0
 														}
 													}
 												],
@@ -1661,7 +1722,8 @@
 
 										},
 										"params": {
-											"anim_name": "idle"
+											"anim_name": "idle",
+											"start_frame": 0.0
 										}
 									}
 								],
@@ -1688,6 +1750,7 @@
 										},
 										"params": {
 											"d": 0.200000047683716,
+											"delay": 0.0,
 											"target": ""
 										}
 									},
@@ -1699,12 +1762,14 @@
 											"target": "target"
 										},
 										"params": {
+											"ar": 3.0,
 											"bs": 0.0,
 											"cotg": false,
 											"hst": 0.0,
 											"hurt": 65000.0,
 											"isgd": true,
 											"ish": true,
+											"knockback_model": "指数阻力",
 											"kr": 10.0,
 											"target": "",
 											"type": "launch",
@@ -1712,6 +1777,11 @@
 												"x": 800.0,
 												"y": 0.0,
 												"z": 180.0
+											},
+											"va": {
+												"x": 0.0,
+												"y": 0.0,
+												"z": 0.0
 											}
 										}
 									},
@@ -1792,7 +1862,8 @@
 
 												},
 												"params": {
-													"anim_name": "s1_2"
+													"anim_name": "s1_2",
+													"start_frame": 0.0
 												}
 											},
 											{
@@ -1882,7 +1953,8 @@
 
 												},
 												"params": {
-													"anim_name": "s1"
+													"anim_name": "s1",
+													"start_frame": 0.0
 												}
 											},
 											{
@@ -1940,7 +2012,8 @@
 
 												},
 												"params": {
-													"anim_name": "s1"
+													"anim_name": "s1",
+													"start_frame": 0.0
 												}
 											},
 											{
@@ -2005,7 +2078,8 @@
 
 								},
 								"params": {
-									"anim_name": "idle"
+									"anim_name": "idle",
+									"start_frame": 0.0
 								}
 							}
 						],
@@ -2099,7 +2173,8 @@
 
 												},
 												"params": {
-													"anim_name": "idle"
+													"anim_name": "idle",
+													"start_frame": 0.0
 												}
 											}
 										],
@@ -2149,7 +2224,8 @@
 
 												},
 												"params": {
-													"anim_name": "s1a"
+													"anim_name": "s1a",
+													"start_frame": 0.0
 												}
 											}
 										],
@@ -2352,7 +2428,8 @@
 
 								},
 								"params": {
-									"anim_name": "idle"
+									"anim_name": "idle",
+									"start_frame": 0.0
 								}
 							}
 						],
@@ -2377,6 +2454,12 @@
 
 								},
 								"params": {
+									"color": {
+										"a": 1.0,
+										"b": 1.0,
+										"g": 1.0,
+										"r": 1.0
+									},
 									"text": "抓到你了......"
 								}
 							},
@@ -2435,11 +2518,13 @@
 									"cs": false,
 									"g": 700.0,
 									"kt": 0.0,
+									"mode": "fixed",
 									"pos": {
 										"x": 0.0,
 										"y": 1000.0,
 										"z": 0.0
 									},
+									"rani": "",
 									"rpos": {
 										"x": 0.0,
 										"y": 0.0,
@@ -2525,6 +2610,11 @@
 														"x": 0.0,
 														"y": 0.0,
 														"z": 0.0
+													},
+													"rotation": 0.0,
+													"scale": {
+														"x": 1.0,
+														"y": 1.0
 													}
 												}
 											}
@@ -2555,6 +2645,11 @@
 														"x": 0.0,
 														"y": 0.0,
 														"z": 0.0
+													},
+													"rotation": 0.0,
+													"scale": {
+														"x": 1.0,
+														"y": 1.0
 													}
 												}
 											}
@@ -2756,7 +2851,8 @@
 
 								},
 								"params": {
-									"anim_name": "idle"
+									"anim_name": "idle",
+									"start_frame": 0.0
 								}
 							}
 						],
@@ -2797,12 +2893,14 @@
 											"target": "target"
 										},
 										"params": {
+											"ar": 3.0,
 											"bs": 0.0,
 											"cotg": true,
 											"hst": 0.0,
 											"hurt": 10000.0,
 											"isgd": true,
 											"ish": false,
+											"knockback_model": "指数阻力",
 											"kr": 10.0,
 											"target": "",
 											"type": "push",
@@ -2926,7 +3024,8 @@
 
 												},
 												"params": {
-													"anim_name": "s2_2"
+													"anim_name": "s2_2",
+													"start_frame": 0.0
 												}
 											},
 											{
@@ -3016,7 +3115,8 @@
 
 												},
 												"params": {
-													"anim_name": "s2"
+													"anim_name": "s2",
+													"start_frame": 0.0
 												}
 											},
 											{
@@ -3063,7 +3163,8 @@
 
 												},
 												"params": {
-													"anim_name": "s2"
+													"anim_name": "s2",
+													"start_frame": 0.0
 												}
 											},
 											{
@@ -3245,7 +3346,8 @@
 
 												},
 												"params": {
-													"anim_name": "s2a"
+													"anim_name": "s2a",
+													"start_frame": 0.0
 												}
 											}
 										],
@@ -3287,7 +3389,8 @@
 
 								},
 								"params": {
-									"anim_name": "idle"
+									"anim_name": "idle",
+									"start_frame": 0.0
 								}
 							}
 						],
@@ -3316,12 +3419,14 @@
 											"target": "target"
 										},
 										"params": {
+											"ar": 3.0,
 											"bs": 0.0,
 											"cotg": false,
 											"hst": 0.599999904632568,
 											"hurt": 150000.0,
 											"isgd": true,
 											"ish": false,
+											"knockback_model": "指数阻力",
 											"kr": 10.0,
 											"target": "",
 											"type": "push",
@@ -3329,6 +3434,11 @@
 												"x": 400.0,
 												"y": 0.0,
 												"z": 180.0
+											},
+											"va": {
+												"x": 0.0,
+												"y": 0.0,
+												"z": 0.0
 											}
 										}
 									},
@@ -3401,12 +3511,14 @@
 											"target": "target"
 										},
 										"params": {
+											"ar": 3.0,
 											"bs": 0.0,
 											"cotg": true,
 											"hst": 0.400000095367432,
 											"hurt": 50000.0,
 											"isgd": true,
 											"ish": false,
+											"knockback_model": "指数阻力",
 											"kr": 10.0,
 											"target": "",
 											"type": "launch",
@@ -3414,6 +3526,11 @@
 												"x": 0.0,
 												"y": 0.0,
 												"z": 350.0
+											},
+											"va": {
+												"x": 0.0,
+												"y": 0.0,
+												"z": 0.0
 											}
 										}
 									},
@@ -3598,6 +3715,12 @@
 
 								},
 								"params": {
+									"color": {
+										"a": 1.0,
+										"b": 1.0,
+										"g": 1.0,
+										"r": 1.0
+									},
 									"text": "你已无处可逃...."
 								}
 							},
@@ -3656,11 +3779,13 @@
 									"cs": false,
 									"g": 700.0,
 									"kt": 0.0,
+									"mode": "fixed",
 									"pos": {
 										"x": 0.0,
 										"y": 1000.0,
 										"z": 0.0
 									},
+									"rani": "",
 									"rpos": {
 										"x": 0.0,
 										"y": 0.0,
@@ -3746,6 +3871,11 @@
 														"x": 0.0,
 														"y": 0.0,
 														"z": 0.0
+													},
+													"rotation": 0.0,
+													"scale": {
+														"x": 1.0,
+														"y": 1.0
 													}
 												}
 											}
@@ -3776,6 +3906,11 @@
 														"x": 0.0,
 														"y": 0.0,
 														"z": 0.0
+													},
+													"rotation": 0.0,
+													"scale": {
+														"x": 1.0,
+														"y": 1.0
 													}
 												}
 											}
@@ -3846,7 +3981,8 @@
 
 								},
 								"params": {
-									"anim_name": "idle"
+									"anim_name": "idle",
+									"start_frame": 0.0
 								}
 							}
 						],
@@ -3964,6 +4100,12 @@
 
 								},
 								"params": {
+									"color": {
+										"a": 1.0,
+										"b": 1.0,
+										"g": 1.0,
+										"r": 1.0
+									},
 									"text": "消失吧..."
 								}
 							},
@@ -3975,12 +4117,14 @@
 									"target": "target"
 								},
 								"params": {
+									"ar": 3.0,
 									"bs": 0.0,
 									"cotg": true,
 									"hst": 0.0,
 									"hurt": 10000.0,
 									"isgd": true,
 									"ish": false,
+									"knockback_model": "指数阻力",
 									"kr": 10.0,
 									"target": "",
 									"type": "push",
@@ -3988,6 +4132,11 @@
 										"x": 0.0,
 										"y": 0.0,
 										"z": 150.0
+									},
+									"va": {
+										"x": 0.0,
+										"y": 0.0,
+										"z": 0.0
 									}
 								}
 							},
@@ -4025,12 +4174,14 @@
 									"target": "target"
 								},
 								"params": {
+									"ar": 3.0,
 									"bs": 0.0,
 									"cotg": true,
 									"hst": 0.0,
 									"hurt": 10000.0,
 									"isgd": true,
 									"ish": false,
+									"knockback_model": "指数阻力",
 									"kr": 10.0,
 									"target": "",
 									"type": "push",
@@ -4038,6 +4189,11 @@
 										"x": 0.0,
 										"y": 0.0,
 										"z": 150.0
+									},
+									"va": {
+										"x": 0.0,
+										"y": 0.0,
+										"z": 0.0
 									}
 								}
 							}
@@ -4063,12 +4219,14 @@
 									"target": "target"
 								},
 								"params": {
+									"ar": 3.0,
 									"bs": 0.0,
 									"cotg": true,
 									"hst": 0.0,
 									"hurt": 100000.0,
 									"isgd": true,
 									"ish": false,
+									"knockback_model": "指数阻力",
 									"kr": 10.0,
 									"target": "",
 									"type": "push",
@@ -4076,6 +4234,11 @@
 										"x": 0.0,
 										"y": 0.0,
 										"z": 150.0
+									},
+									"va": {
+										"x": 0.0,
+										"y": 0.0,
+										"z": 0.0
 									}
 								}
 							}
@@ -4101,12 +4264,14 @@
 									"target": "target"
 								},
 								"params": {
+									"ar": 3.0,
 									"bs": 0.0,
 									"cotg": true,
 									"hst": 0.0,
 									"hurt": 100000.0,
 									"isgd": true,
 									"ish": false,
+									"knockback_model": "指数阻力",
 									"kr": 10.0,
 									"target": "",
 									"type": "push",
@@ -4114,6 +4279,11 @@
 										"x": 0.0,
 										"y": 0.0,
 										"z": 150.0
+									},
+									"va": {
+										"x": 0.0,
+										"y": 0.0,
+										"z": 0.0
 									}
 								}
 							}
@@ -4143,12 +4313,14 @@
 											"target": "target"
 										},
 										"params": {
+											"ar": 3.0,
 											"bs": 0.0,
 											"cotg": true,
 											"hst": 0.0,
 											"hurt": 8000.0,
 											"isgd": true,
 											"ish": false,
+											"knockback_model": "指数阻力",
 											"kr": 10.0,
 											"target": "",
 											"type": "push",
@@ -4156,6 +4328,11 @@
 												"x": 0.0,
 												"y": 0.0,
 												"z": 100.0
+											},
+											"va": {
+												"x": 0.0,
+												"y": 0.0,
+												"z": 0.0
 											}
 										}
 									},
@@ -4213,7 +4390,8 @@
 
 										},
 										"params": {
-											"anim_name": "s3"
+											"anim_name": "s3",
+											"start_frame": 0.0
 										}
 									},
 									{
@@ -4298,12 +4476,14 @@
 											"target": "target"
 										},
 										"params": {
+											"ar": 3.0,
 											"bs": 0.0,
 											"cotg": true,
 											"hst": 0.0,
 											"hurt": 50000.0,
 											"isgd": true,
 											"ish": true,
+											"knockback_model": "指数阻力",
 											"kr": 10.0,
 											"target": "",
 											"type": "launch",
@@ -4311,6 +4491,11 @@
 												"x": 0.0,
 												"y": 0.0,
 												"z": 100.0
+											},
+											"va": {
+												"x": 0.0,
+												"y": 0.0,
+												"z": 0.0
 											}
 										}
 									},
@@ -4355,7 +4540,8 @@
 
 								},
 								"params": {
-									"anim_name": "idle"
+									"anim_name": "idle",
+									"start_frame": 0.0
 								}
 							}
 						],
@@ -4396,7 +4582,8 @@
 
 												},
 												"params": {
-													"anim_name": "s2d"
+													"anim_name": "s2d",
+													"start_frame": 0.0
 												}
 											}
 										],
@@ -4419,7 +4606,8 @@
 
 												},
 												"params": {
-													"anim_name": "a4d"
+													"anim_name": "a4d",
+													"start_frame": 0.0
 												}
 											}
 										],
@@ -4442,7 +4630,8 @@
 
 												},
 												"params": {
-													"anim_name": "s2d"
+													"anim_name": "s2d",
+													"start_frame": 0.0
 												}
 											}
 										],
@@ -4495,7 +4684,8 @@
 
 										},
 										"params": {
-											"anim_name": "scroll"
+											"anim_name": "scroll",
+											"start_frame": 0.0
 										}
 									},
 									{
@@ -4543,7 +4733,8 @@
 
 										},
 										"params": {
-											"anim_name": "scroll"
+											"anim_name": "scroll",
+											"start_frame": 0.0
 										}
 									},
 									{
@@ -4628,7 +4819,8 @@
 
 								},
 								"params": {
-									"anim_name": "idle"
+									"anim_name": "idle",
+									"start_frame": 0.0
 								}
 							}
 						],
@@ -4665,7 +4857,8 @@
 
 										},
 										"params": {
-											"anim_name": "summon"
+											"anim_name": "summon",
+											"start_frame": 0.0
 										}
 									},
 									{
@@ -4750,7 +4943,8 @@
 
 								},
 								"params": {
-									"anim_name": "idle"
+									"anim_name": "idle",
+									"start_frame": 0.0
 								}
 							}
 						],
@@ -4788,11 +4982,12 @@
 
 										},
 										"params": {
-											"anim_name": "substitution"
+											"anim_name": "substitution",
+											"start_frame": 0.0
 										}
 									}
 								],
-								"enabled": false,
+								"enabled": true,
 								"exprs": {
 									"condition": "now_animation() in \"downed,launch1,launch2,launch_e,launched,stun1,stun2,stun3,stun4\""
 								},
@@ -4896,24 +5091,24 @@
 	"ui_state": {
 		"col_collapsed": {
 			"_1": true,
-			"_10": false,
+			"_10": true,
 			"_100": true,
 			"_101": false,
 			"_102": false,
 			"_103": true,
 			"_104": true,
 			"_105": true,
-			"_106": true,
+			"_106": false,
 			"_107": false,
 			"_108": true,
 			"_109": false,
-			"_11": true,
+			"_11": false,
 			"_110": true,
 			"_111": true,
 			"_112": false,
 			"_113": true,
 			"_114": false,
-			"_115": true,
+			"_115": false,
 			"_116": true,
 			"_117": true,
 			"_118": true,
@@ -4931,9 +5126,9 @@
 			"_129": true,
 			"_13": true,
 			"_130": true,
-			"_131": false,
+			"_131": true,
 			"_132": false,
-			"_133": false,
+			"_133": true,
 			"_134": false,
 			"_135": false,
 			"_136": false,
@@ -4953,19 +5148,19 @@
 			"_15": false,
 			"_150": false,
 			"_151": true,
-			"_152": true,
+			"_152": false,
 			"_153": true,
 			"_154": false,
 			"_155": true,
 			"_156": true,
-			"_157": true,
-			"_158": true,
+			"_157": false,
+			"_158": false,
 			"_159": false,
 			"_16": false,
 			"_160": true,
 			"_161": true,
-			"_162": true,
-			"_163": true,
+			"_162": false,
+			"_163": false,
 			"_164": true,
 			"_165": true,
 			"_166": true,
@@ -5019,11 +5214,11 @@
 			"_210": true,
 			"_211": false,
 			"_212": true,
-			"_213": false,
+			"_213": true,
 			"_214": true,
 			"_215": true,
 			"_216": true,
-			"_217": false,
+			"_217": true,
 			"_218": false,
 			"_219": false,
 			"_22": false,
@@ -5080,7 +5275,7 @@
 			"_267": false,
 			"_268": true,
 			"_269": true,
-			"_27": false,
+			"_27": true,
 			"_270": false,
 			"_271": false,
 			"_272": false,
@@ -5175,23 +5370,23 @@
 			"_353": true,
 			"_354": true,
 			"_355": true,
-			"_356": false,
-			"_357": true,
+			"_356": true,
+			"_357": false,
 			"_358": false,
 			"_359": false,
 			"_36": true,
 			"_360": true,
-			"_361": true,
-			"_362": true,
+			"_361": false,
+			"_362": false,
 			"_363": true,
 			"_364": true,
 			"_365": true,
-			"_37": true,
+			"_37": false,
 			"_38": false,
 			"_39": false,
 			"_4": true,
 			"_40": true,
-			"_41": true,
+			"_41": false,
 			"_42": true,
 			"_43": true,
 			"_44": true,
@@ -5212,7 +5407,7 @@
 			"_62": true,
 			"_63": true,
 			"_64": false,
-			"_65": false,
+			"_65": true,
 			"_66": true,
 			"_67": true,
 			"_70": true,
@@ -5248,5 +5443,5 @@
 			"_99": true
 		}
 	},
-	"version": 2
+	"version": 3
 }
