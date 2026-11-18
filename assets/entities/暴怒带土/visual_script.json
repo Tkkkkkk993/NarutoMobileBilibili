@@ -1285,9 +1285,9 @@
 			"_57": true,
 			"_58": true,
 			"_61": false,
-			"_63": true,
-			"_77": true,
-			"_87": true
+			"_63": false,
+			"_77": false,
+			"_87": false
 		}
 	},
 	"version": 3

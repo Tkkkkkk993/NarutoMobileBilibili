@@ -84,7 +84,6 @@ func _physics_process(_delta):
 
 func start_battle():
 	logic_frame = 0
-	AudioManager.set_voice_pack("KirisameMarisa")
 	
 	if current_mode == GameMode.TEST:
 		print("测试模式")

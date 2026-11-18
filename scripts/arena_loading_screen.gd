@@ -74,7 +74,13 @@ func _build_load_list() -> Array:
 	# 预加载语音包音频文件
 	list += AudioManager.get_voice_pack_audio_paths()
 
-	return list
+	# 同一资源可能被双方角色或多个绑定共用，只排队一次。
+	var unique_list: Array = []
+	for path in list:
+		var normalized_path: String = str(path).simplify_path()
+		if not unique_list.has(normalized_path):
+			unique_list.append(normalized_path)
+	return unique_list
 
 func get_battle_icon_list(a: Array):
 	var b: Array
@@ -119,7 +125,7 @@ func get_entity_preload_resources(entity_name: String) -> Array:
 	# 转换相对路径为完整res://路径
 	for relative_path in data["preload"]:
 		var full_path = "res://assets/entities/%s/%s" % [entity_name, relative_path]
-		preload_list.append(full_path)
+		preload_list.append(full_path.simplify_path())
 
 	return preload_list
 

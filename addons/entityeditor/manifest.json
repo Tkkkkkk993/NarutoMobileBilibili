@@ -118,7 +118,7 @@
 		"对局配置": {
 			"path": "res://autoload/match_config.gd",
 			"project_id": "jrmd-editorv3-autoload-matchconfig",
-			"version": "1.1.0"
+			"version": "1.1.1"
 		},
 		"帧数据编辑器": {
 			"path": "res://addons/entityeditor/frame_editor.gd",

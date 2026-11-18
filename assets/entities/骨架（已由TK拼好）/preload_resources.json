@@ -1,0 +1,24 @@
+{
+	"preload": [
+		"../../audio/通用音效/替身.mp3",
+		"../../audio/通用音效/通灵.mp3",
+		"audio/attack/1.wav",
+		"audio/attack/2.wav",
+		"audio/attack/3.wav",
+		"audio/attack/a4_1.wav",
+		"audio/attack/a4_2.wav",
+		"audio/attack/a4_3.wav",
+		"audio/s1/3.wav",
+		"audio/s1/5.wav",
+		"audio/s2/5.wav",
+		"eff/a1/effects_base.tscn",
+		"eff/a2/effects_base.tscn",
+		"eff/a3/effects_base.tscn",
+		"eff/a4-1/effects_base.tscn",
+		"eff/s1/2/effects_base.tscn",
+		"sub/a4/2/entity.tscn",
+		"sub/a4/2/main.tres",
+		"sub/a4/3/entity.tscn",
+		"sub/a4/3/main.tres"
+	]
+}

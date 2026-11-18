@@ -4985,27 +4985,27 @@
 											"anim_name": "substitution",
 											"start_frame": 0.0
 										}
+									},
+									{
+										"_uid": "_360",
+										"block_name": "set_cd",
+										"children": [],
+										"exprs": {
+
+										},
+										"params": {
+											"cd": 2.0,
+											"cd_id": 4.0,
+											"slot_id": 4.0
+										}
 									}
 								],
 								"enabled": true,
 								"exprs": {
-									"condition": "now_animation() in \"downed,launch1,launch2,launch_e,launched,stun1,stun2,stun3,stun4\""
+									"condition": "now_animation() in \"idle,downed,launch1,launch2,launch_e,launched,stun1,stun2,stun3,stun4\""
 								},
 								"params": {
 									"condition": true
-								}
-							},
-							{
-								"_uid": "_360",
-								"block_name": "set_cd",
-								"children": [],
-								"exprs": {
-
-								},
-								"params": {
-									"cd": 2.0,
-									"cd_id": 4.0,
-									"slot_id": 4.0
 								}
 							}
 						],
@@ -5370,7 +5370,7 @@
 			"_353": true,
 			"_354": true,
 			"_355": true,
-			"_356": true,
+			"_356": false,
 			"_357": false,
 			"_358": false,
 			"_359": false,

@@ -2679,87 +2679,124 @@
 								"children": [
 									{
 										"_uid": "_204",
-										"block_name": "play_animation",
+										"block_name": "play_voice",
 										"children": [],
 										"exprs": {
 
 										},
+										"params": {
+											"isz": false,
+											"path": "res://assets/entities/骨架（已由TK拼好）/audio/s1/5.wav",
+											"tag": "",
+											"volume": 1.0
+										}
+									},
+									{
+										"_uid": "_205",
+										"block_name": "set_var_val",
+										"children": [],
+										"enabled": true,
+										"exprs": {
+
+										},
+										"id": 1075.0,
+										"params": {
+											"val": "1",
+											"var": "s1铠甲流程"
+										}
+									},
+									{
+										"_uid": "_206",
+										"block_name": "stop_freemove",
+										"children": [],
+										"enabled": true,
+										"exprs": {
+
+										},
+										"id": 1076.0,
+										"params": {
+
+										}
+									},
+									{
+										"_uid": "_207",
+										"block_name": "play_animation",
+										"children": [],
+										"enabled": true,
+										"exprs": {
+
+										},
+										"id": 1077.0,
 										"params": {
 											"anim_name": "s1",
 											"start_frame": 0.0
 										}
 									}
 								],
+								"enabled": true,
 								"exprs": {
-									"condition": "now_animation() in \"idle,a1,a2,a3\""
+									"condition": "now_animation() == \"idle\""
 								},
+								"id": 1078.0,
 								"params": {
 									"condition": true
 								}
-							}
-						],
-						"enabled": true,
-						"exprs": {
-
-						},
-						"id": 1065.0,
-						"params": {
-							"key": 1.0
-						}
-					},
-					{
-						"_uid": "_205",
-						"block_name": "when_animation_exit",
-						"children": [
-							{
-								"_uid": "_206",
-								"block_name": "play_animation",
-								"children": [],
-								"exprs": {
-
-								},
-								"params": {
-									"anim_name": "s1r",
-									"start_frame": 0.0
-								}
-							}
-						],
-						"enabled": true,
-						"exprs": {
-
-						},
-						"id": 1066.0,
-						"params": {
-							"anim_name": "s1"
-						}
-					},
-					{
-						"_uid": "_207",
-						"block_name": "when_animation_playing",
-						"children": [
+							},
 							{
 								"_uid": "_208",
-								"block_name": "if_condition",
+								"block_name": "else_if",
 								"children": [
 									{
 										"_uid": "_209",
-										"block_name": "play_animation",
+										"block_name": "play_voice",
 										"children": [],
 										"exprs": {
 
 										},
 										"params": {
-											"anim_name": "s1_run",
-											"start_frame": 0.0
+											"isz": false,
+											"path": "res://assets/entities/骨架（已由TK拼好）/audio/s1/5.wav",
+											"tag": "",
+											"volume": 1.0
 										}
 									},
 									{
 										"_uid": "_210",
-										"block_name": "start_freemove",
+										"block_name": "set_var_val",
 										"children": [],
+										"enabled": true,
 										"exprs": {
 
 										},
+										"id": 1079.0,
+										"params": {
+											"val": "1",
+											"var": "s1铠甲流程"
+										}
+									},
+									{
+										"_uid": "_211",
+										"block_name": "play_animation",
+										"children": [],
+										"enabled": true,
+										"exprs": {
+
+										},
+										"id": 1080.0,
+										"params": {
+											"anim_name": "s1_run_ready",
+											"start_frame": 0.0
+										}
+									},
+									{
+										"_uid": "_212",
+										"block_name": "start_freemove",
+										"children": [],
+										"enabled": true,
+										"exprs": {
+
+										},
+										"id": 1081.0,
 										"params": {
 											"v": {
 												"x": 700.0,
@@ -2768,80 +2805,26 @@
 										}
 									},
 									{
-										"_uid": "_211",
-										"block_name": "wait",
-										"children": [],
-										"exprs": {
-
-										},
-										"params": {
-											"duration": 3.0
-										}
-									},
-									{
-										"_uid": "_212",
-										"block_name": "stop_freemove",
-										"children": [],
-										"exprs": {
-
-										},
-										"params": {
-
-										}
-									},
-									{
 										"_uid": "_213",
-										"block_name": "play_animation",
+										"block_name": "turn_by_input",
 										"children": [],
+										"enabled": true,
 										"exprs": {
 
 										},
+										"id": 1082.0,
 										"params": {
-											"anim_name": "idle",
-											"start_frame": 0.0
+
 										}
 									}
 								],
+								"enabled": true,
 								"exprs": {
-									"condition": "is_moving()"
+									"condition": "now_animation() == \"run\""
 								},
+								"id": 1083.0,
 								"params": {
 									"condition": true
-								}
-							},
-							{
-								"_uid": "_214",
-								"block_name": "else_block",
-								"children": [
-									{
-										"_uid": "_215",
-										"block_name": "wait",
-										"children": [],
-										"exprs": {
-
-										},
-										"params": {
-											"duration": 3.0
-										}
-									},
-									{
-										"_uid": "_216",
-										"block_name": "play_animation",
-										"children": [],
-										"exprs": {
-
-										},
-										"params": {
-											"anim_name": "idle",
-											"start_frame": 0.0
-										}
-									}
-								],
-								"exprs": {
-
-								},
-								"params": {
-
 								}
 							}
 						],
@@ -2849,30 +2832,1210 @@
 						"exprs": {
 
 						},
-						"id": 1069.0,
+						"id": 1084.0,
 						"params": {
-							"anim_name": "s1r",
+							"key": 1.0
+						}
+					},
+					{
+						"_uid": "_214",
+						"block_name": "when_animation_exit",
+						"children": [
+							{
+								"_uid": "_215",
+								"block_name": "if_condition",
+								"children": [
+									{
+										"_uid": "_216",
+										"block_name": "if_condition",
+										"children": [
+											{
+												"_uid": "_217",
+												"block_name": "set_var_val",
+												"children": [],
+												"enabled": true,
+												"exprs": {
+
+												},
+												"id": 1141.0,
+												"params": {
+													"val": "0",
+													"var": "s1铠甲流程"
+												}
+											},
+											{
+												"_uid": "_218",
+												"block_name": "stop_freemove",
+												"children": [],
+												"enabled": true,
+												"exprs": {
+
+												},
+												"id": 1142.0,
+												"params": {
+
+												}
+											},
+											{
+												"_uid": "_219",
+												"block_name": "set_timer",
+												"children": [],
+												"enabled": true,
+												"exprs": {
+
+												},
+												"id": 1143.0,
+												"params": {
+													"cd": 0.0,
+													"cd_id": 1.0,
+													"cd_max": 3.0,
+													"slot_id": 1.0
+												}
+											},
+											{
+												"_uid": "_220",
+												"block_name": "turn_by_input",
+												"children": [],
+												"enabled": true,
+												"exprs": {
+
+												},
+												"id": 1144.0,
+												"params": {
+
+												}
+											},
+											{
+												"_uid": "_221",
+												"block_name": "play_animation",
+												"children": [],
+												"enabled": true,
+												"exprs": {
+
+												},
+												"id": 1145.0,
+												"params": {
+													"anim_name": "s1_attack",
+													"start_frame": 0.0
+												}
+											}
+										],
+										"enabled": true,
+										"exprs": {
+											"condition": "is_press_key(0)"
+										},
+										"id": 1146.0,
+										"params": {
+											"condition": true
+										}
+									},
+									{
+										"_uid": "_222",
+										"block_name": "else_block",
+										"children": [
+											{
+												"_uid": "_223",
+												"block_name": "stop_freemove",
+												"children": [],
+												"enabled": true,
+												"exprs": {
+
+												},
+												"id": 1085.0,
+												"params": {
+
+												}
+											},
+											{
+												"_uid": "_224",
+												"block_name": "set_timer",
+												"children": [],
+												"enabled": true,
+												"exprs": {
+
+												},
+												"id": 1086.0,
+												"params": {
+													"cd": 3.0,
+													"cd_id": 1.0,
+													"cd_max": 3.0,
+													"slot_id": 1.0
+												}
+											},
+											{
+												"_uid": "_225",
+												"block_name": "play_animation",
+												"children": [],
+												"enabled": true,
+												"exprs": {
+
+												},
+												"id": 1087.0,
+												"params": {
+													"anim_name": "s1r",
+													"start_frame": 0.0
+												}
+											}
+										],
+										"enabled": true,
+										"exprs": {
+
+										},
+										"id": 1147.0,
+										"params": {
+
+										}
+									}
+								],
+								"enabled": true,
+								"exprs": {
+									"condition": "now_animation() == \"s1\""
+								},
+								"id": 1088.0,
+								"params": {
+									"condition": true
+								}
+							}
+						],
+						"enabled": true,
+						"exprs": {
+
+						},
+						"id": 1089.0,
+						"params": {
+							"anim_name": "s1"
+						}
+					},
+					{
+						"_uid": "_226",
+						"block_name": "when_animation_exit",
+						"children": [
+							{
+								"_uid": "_227",
+								"block_name": "if_condition",
+								"children": [
+									{
+										"_uid": "_228",
+										"block_name": "stop_freemove",
+										"children": [],
+										"enabled": true,
+										"exprs": {
+
+										},
+										"id": 1090.0,
+										"params": {
+
+										}
+									},
+									{
+										"_uid": "_229",
+										"block_name": "set_timer",
+										"children": [],
+										"enabled": true,
+										"exprs": {
+
+										},
+										"id": 1091.0,
+										"params": {
+											"cd": 3.0,
+											"cd_id": 1.0,
+											"cd_max": 3.0,
+											"slot_id": 1.0
+										}
+									},
+									{
+										"_uid": "_230",
+										"block_name": "play_animation",
+										"children": [],
+										"enabled": true,
+										"exprs": {
+
+										},
+										"id": 1092.0,
+										"params": {
+											"anim_name": "s1r",
+											"start_frame": 0.0
+										}
+									}
+								],
+								"enabled": true,
+								"exprs": {
+									"condition": "now_animation() == \"s1_run_ready\""
+								},
+								"id": 1093.0,
+								"params": {
+									"condition": true
+								}
+							}
+						],
+						"enabled": true,
+						"exprs": {
+
+						},
+						"id": 1094.0,
+						"params": {
+							"anim_name": "s1_run_ready"
+						}
+					},
+					{
+						"_uid": "_231",
+						"block_name": "when_any_animation_frame_changed",
+						"children": [
+							{
+								"_uid": "_232",
+								"block_name": "if_condition",
+								"children": [
+									{
+										"_uid": "_233",
+										"block_name": "if_condition",
+										"children": [
+											{
+												"_uid": "_234",
+												"block_name": "if_condition",
+												"children": [
+													{
+														"_uid": "_235",
+														"block_name": "play_voice",
+														"children": [],
+														"exprs": {
+
+														},
+														"params": {
+															"isz": false,
+															"path": "res://assets/entities/骨架（已由TK拼好）/audio/s1/3.wav",
+															"tag": "",
+															"volume": 1.0
+														}
+													},
+													{
+														"_uid": "_236",
+														"block_name": "set_var_val",
+														"children": [],
+														"enabled": true,
+														"exprs": {
+
+														},
+														"id": 1119.0,
+														"params": {
+															"val": "0",
+															"var": "s1铠甲流程"
+														}
+													},
+													{
+														"_uid": "_237",
+														"block_name": "stop_freemove",
+														"children": [],
+														"enabled": true,
+														"exprs": {
+
+														},
+														"id": 1120.0,
+														"params": {
+
+														}
+													},
+													{
+														"_uid": "_238",
+														"block_name": "set_timer",
+														"children": [],
+														"enabled": true,
+														"exprs": {
+
+														},
+														"id": 1121.0,
+														"params": {
+															"cd": 0.0,
+															"cd_id": 1.0,
+															"cd_max": 3.0,
+															"slot_id": 1.0
+														}
+													},
+													{
+														"_uid": "_239",
+														"block_name": "turn_by_input",
+														"children": [],
+														"enabled": true,
+														"exprs": {
+
+														},
+														"id": 1122.0,
+														"params": {
+
+														}
+													},
+													{
+														"_uid": "_240",
+														"block_name": "play_animation",
+														"children": [],
+														"enabled": true,
+														"exprs": {
+
+														},
+														"id": 1123.0,
+														"params": {
+															"anim_name": "s1_attack",
+															"start_frame": 3.0
+														}
+													}
+												],
+												"enabled": true,
+												"exprs": {
+													"condition": "timer_alive(1) and is_press_key(0)"
+												},
+												"id": 1124.0,
+												"params": {
+													"condition": true
+												}
+											},
+											{
+												"_uid": "_241",
+												"block_name": "else_block",
+												"children": [
+													{
+														"_uid": "_242",
+														"block_name": "turn_by_input",
+														"children": [],
+														"enabled": true,
+														"exprs": {
+
+														},
+														"id": 1095.0,
+														"params": {
+
+														}
+													},
+													{
+														"_uid": "_243",
+														"block_name": "if_condition",
+														"children": [
+															{
+																"_uid": "_244",
+																"block_name": "if_condition",
+																"children": [
+																	{
+																		"_uid": "_245",
+																		"block_name": "play_animation",
+																		"children": [],
+																		"enabled": true,
+																		"exprs": {
+
+																		},
+																		"id": 1096.0,
+																		"params": {
+																			"anim_name": "s1_run",
+																			"start_frame": 0.0
+																		}
+																	},
+																	{
+																		"_uid": "_246",
+																		"block_name": "start_freemove",
+																		"children": [],
+																		"enabled": true,
+																		"exprs": {
+
+																		},
+																		"id": 1097.0,
+																		"params": {
+																			"v": {
+																				"x": 700.0,
+																				"y": 500.0
+																			}
+																		}
+																	}
+																],
+																"enabled": true,
+																"exprs": {
+																	"condition": "now_animation() != \"s1_run\""
+																},
+																"id": 1098.0,
+																"params": {
+																	"condition": true
+																}
+															}
+														],
+														"enabled": true,
+														"exprs": {
+															"condition": "(self_entity().input_left != self_entity().input_right) or (self_entity().input_up != self_entity().input_down)"
+														},
+														"id": 1099.0,
+														"params": {
+															"condition": true
+														}
+													},
+													{
+														"_uid": "_247",
+														"block_name": "else_block",
+														"children": [
+															{
+																"_uid": "_248",
+																"block_name": "if_condition",
+																"children": [
+																	{
+																		"_uid": "_249",
+																		"block_name": "stop_freemove",
+																		"children": [],
+																		"enabled": true,
+																		"exprs": {
+
+																		},
+																		"id": 1100.0,
+																		"params": {
+
+																		}
+																	},
+																	{
+																		"_uid": "_250",
+																		"block_name": "play_animation",
+																		"children": [],
+																		"enabled": true,
+																		"exprs": {
+
+																		},
+																		"id": 1101.0,
+																		"params": {
+																			"anim_name": "s1r",
+																			"start_frame": 0.0
+																		}
+																	}
+																],
+																"enabled": true,
+																"exprs": {
+																	"condition": "now_animation() != \"s1r\""
+																},
+																"id": 1102.0,
+																"params": {
+																	"condition": true
+																}
+															}
+														],
+														"enabled": true,
+														"exprs": {
+
+														},
+														"id": 1103.0,
+														"params": {
+
+														}
+													}
+												],
+												"enabled": true,
+												"exprs": {
+
+												},
+												"id": 1125.0,
+												"params": {
+
+												}
+											}
+										],
+										"enabled": true,
+										"exprs": {
+											"condition": "now_animation() in [\"s1r\", \"s1_run\"]"
+										},
+										"id": 1104.0,
+										"params": {
+											"condition": true
+										}
+									},
+									{
+										"_uid": "_251",
+										"block_name": "else_if",
+										"children": [
+											{
+												"_uid": "_252",
+												"block_name": "turn_by_input",
+												"children": [],
+												"enabled": true,
+												"exprs": {
+
+												},
+												"id": 1105.0,
+												"params": {
+
+												}
+											}
+										],
+										"enabled": true,
+										"exprs": {
+											"condition": "now_animation() == \"s1_run_ready\""
+										},
+										"id": 1106.0,
+										"params": {
+											"condition": true
+										}
+									},
+									{
+										"_uid": "_253",
+										"block_name": "else_if",
+										"children": [
+											{
+												"_uid": "_254",
+												"block_name": "set_var_val",
+												"children": [],
+												"enabled": true,
+												"exprs": {
+
+												},
+												"id": 1107.0,
+												"params": {
+													"val": "0",
+													"var": "s1铠甲流程"
+												}
+											},
+											{
+												"_uid": "_255",
+												"block_name": "stop_freemove",
+												"children": [],
+												"enabled": true,
+												"exprs": {
+
+												},
+												"id": 1108.0,
+												"params": {
+
+												}
+											},
+											{
+												"_uid": "_256",
+												"block_name": "set_timer",
+												"children": [],
+												"enabled": true,
+												"exprs": {
+
+												},
+												"id": 1109.0,
+												"params": {
+													"cd": 0.0,
+													"cd_id": 1.0,
+													"cd_max": 3.0,
+													"slot_id": 1.0
+												}
+											}
+										],
+										"enabled": true,
+										"exprs": {
+											"condition": "now_animation() != \"s1\""
+										},
+										"id": 1110.0,
+										"params": {
+											"condition": true
+										}
+									}
+								],
+								"enabled": true,
+								"exprs": {
+									"condition": "get_var(\"s1铠甲流程\") == 1"
+								},
+								"id": 1111.0,
+								"params": {
+									"condition": true
+								}
+							}
+						],
+						"enabled": true,
+						"exprs": {
+
+						},
+						"id": 1112.0,
+						"params": {
 							"frame_type": "动画帧"
+						}
+					},
+					{
+						"_uid": "_257",
+						"block_name": "when_timer_out",
+						"children": [
+							{
+								"_uid": "_258",
+								"block_name": "if_condition",
+								"children": [
+									{
+										"_uid": "_259",
+										"block_name": "set_var_val",
+										"children": [],
+										"enabled": true,
+										"exprs": {
+
+										},
+										"id": 1113.0,
+										"params": {
+											"val": "0",
+											"var": "s1铠甲流程"
+										}
+									},
+									{
+										"_uid": "_260",
+										"block_name": "stop_freemove",
+										"children": [],
+										"enabled": true,
+										"exprs": {
+
+										},
+										"id": 1114.0,
+										"params": {
+
+										}
+									},
+									{
+										"_uid": "_261",
+										"block_name": "if_condition",
+										"children": [
+											{
+												"_uid": "_262",
+												"block_name": "play_animation",
+												"children": [],
+												"enabled": true,
+												"exprs": {
+
+												},
+												"id": 1115.0,
+												"params": {
+													"anim_name": "idle",
+													"start_frame": 0.0
+												}
+											}
+										],
+										"enabled": true,
+										"exprs": {
+											"condition": "now_animation() in [\"s1r\", \"s1_run\"]"
+										},
+										"id": 1116.0,
+										"params": {
+											"condition": true
+										}
+									}
+								],
+								"enabled": true,
+								"exprs": {
+									"condition": "get_var(\"s1铠甲流程\") == 1"
+								},
+								"id": 1117.0,
+								"params": {
+									"condition": true
+								}
+							}
+						],
+						"enabled": true,
+						"exprs": {
+
+						},
+						"id": 1118.0,
+						"params": {
+							"cd_id": 1.0
+						}
+					},
+					{
+						"_uid": "_263",
+						"block_name": "when_animation_exit",
+						"children": [
+							{
+								"_uid": "_264",
+								"block_name": "stop_slide",
+								"children": [],
+								"enabled": true,
+								"exprs": {
+
+								},
+								"id": 1129.0,
+								"params": {
+
+								}
+							},
+							{
+								"_uid": "_265",
+								"block_name": "if_condition",
+								"children": [
+									{
+										"_uid": "_266",
+										"block_name": "play_animation",
+										"children": [],
+										"enabled": true,
+										"exprs": {
+
+										},
+										"id": 1126.0,
+										"params": {
+											"anim_name": "idle",
+											"start_frame": 0.0
+										}
+									}
+								],
+								"enabled": true,
+								"exprs": {
+									"condition": "now_animation() == \"s1_attack\""
+								},
+								"id": 1127.0,
+								"params": {
+									"condition": true
+								}
+							}
+						],
+						"enabled": true,
+						"exprs": {
+
+						},
+						"id": 1128.0,
+						"params": {
+							"anim_name": "s1_attack"
+						}
+					},
+					{
+						"_uid": "_267",
+						"block_name": "when_animation_playing",
+						"children": [
+							{
+								"_uid": "_268",
+								"block_name": "if_condition",
+								"children": [
+									{
+										"_uid": "_269",
+										"block_name": "if_condition",
+										"children": [
+											{
+												"_uid": "_270",
+												"block_name": "slide",
+												"children": [],
+												"enabled": true,
+												"exprs": {
+
+												},
+												"id": 1130.0,
+												"params": {
+													"g": 0.0,
+													"m": "facing",
+													"r": {
+														"x": 6.0,
+														"y": 0.0,
+														"z": 0.0
+													},
+													"v": {
+														"x": 7000.0,
+														"y": 0.0,
+														"z": 0.0
+													}
+												}
+											}
+										],
+										"enabled": true,
+										"exprs": {
+											"condition": "frame_idx == 3"
+										},
+										"id": 1131.0,
+										"params": {
+											"condition": true
+										}
+									},
+									{
+										"_uid": "_271",
+										"block_name": "if_condition",
+										"children": [
+											{
+												"_uid": "_272",
+												"block_name": "stop_slide",
+												"children": [],
+												"enabled": true,
+												"exprs": {
+
+												},
+												"id": 1132.0,
+												"params": {
+
+												}
+											}
+										],
+										"enabled": true,
+										"exprs": {
+											"condition": "frame_idx == 6"
+										},
+										"id": 1133.0,
+										"params": {
+											"condition": true
+										}
+									},
+									{
+										"_uid": "_273",
+										"block_name": "if_condition",
+										"children": [
+											{
+												"_uid": "_274",
+												"block_name": "if_condition",
+												"children": [
+													{
+														"_uid": "_275",
+														"block_name": "stop_slide",
+														"children": [],
+														"enabled": true,
+														"exprs": {
+
+														},
+														"id": 1134.0,
+														"params": {
+
+														}
+													},
+													{
+														"_uid": "_276",
+														"block_name": "spawn_cancel_white",
+														"children": [],
+														"enabled": true,
+														"exprs": {
+
+														},
+														"id": 1135.0,
+														"params": {
+
+														}
+													},
+													{
+														"_uid": "_277",
+														"block_name": "play_animation",
+														"children": [],
+														"enabled": true,
+														"exprs": {
+
+														},
+														"id": 1136.0,
+														"params": {
+															"anim_name": "idle",
+															"start_frame": 0.0
+														}
+													}
+												],
+												"enabled": true,
+												"exprs": {
+													"condition": "is_moving()"
+												},
+												"id": 1137.0,
+												"params": {
+													"condition": true
+												}
+											}
+										],
+										"enabled": true,
+										"exprs": {
+											"condition": "frame_idx >= 13"
+										},
+										"id": 1138.0,
+										"params": {
+											"condition": true
+										}
+									}
+								],
+								"enabled": true,
+								"exprs": {
+									"condition": "now_animation() == \"s1_attack\""
+								},
+								"id": 1139.0,
+								"params": {
+									"condition": true
+								}
+							}
+						],
+						"enabled": true,
+						"exprs": {
+
+						},
+						"id": 1140.0,
+						"params": {
+							"anim_name": "s1_attack",
+							"frame_type": "动画帧"
+						}
+					},
+					{
+						"_uid": "_278",
+						"block_name": "when_animation_playing",
+						"children": [
+							{
+								"_uid": "_279",
+								"block_name": "if_condition",
+								"children": [
+									{
+										"_uid": "_280",
+										"block_name": "if_condition",
+										"children": [
+											{
+												"_uid": "_281",
+												"block_name": "if_condition",
+												"children": [
+													{
+														"_uid": "_282",
+														"block_name": "set_var_val",
+														"children": [],
+														"enabled": true,
+														"exprs": {
+
+														},
+														"id": 1148.0,
+														"params": {
+															"val": "0",
+															"var": "s1铠甲流程"
+														}
+													},
+													{
+														"_uid": "_283",
+														"block_name": "stop_freemove",
+														"children": [],
+														"enabled": true,
+														"exprs": {
+
+														},
+														"id": 1149.0,
+														"params": {
+
+														}
+													},
+													{
+														"_uid": "_284",
+														"block_name": "set_timer",
+														"children": [],
+														"enabled": true,
+														"exprs": {
+
+														},
+														"id": 1150.0,
+														"params": {
+															"cd": 0.0,
+															"cd_id": 1.0,
+															"cd_max": 3.0,
+															"slot_id": 1.0
+														}
+													},
+													{
+														"_uid": "_285",
+														"block_name": "turn_by_input",
+														"children": [],
+														"enabled": true,
+														"exprs": {
+
+														},
+														"id": 1151.0,
+														"params": {
+
+														}
+													},
+													{
+														"_uid": "_286",
+														"block_name": "play_animation",
+														"children": [],
+														"enabled": true,
+														"exprs": {
+
+														},
+														"id": 1152.0,
+														"params": {
+															"anim_name": "s1_attack",
+															"start_frame": 3.0
+														}
+													}
+												],
+												"enabled": true,
+												"exprs": {
+													"condition": "is_press_key(0)"
+												},
+												"id": 1153.0,
+												"params": {
+													"condition": true
+												}
+											}
+										],
+										"enabled": true,
+										"exprs": {
+											"condition": "1 <= frame_idx <= 2"
+										},
+										"id": 1154.0,
+										"params": {
+											"condition": true
+										}
+									}
+								],
+								"enabled": true,
+								"exprs": {
+									"condition": "now_animation() == \"s1\""
+								},
+								"id": 1155.0,
+								"params": {
+									"condition": true
+								}
+							}
+						],
+						"enabled": true,
+						"exprs": {
+
+						},
+						"id": 1156.0,
+						"params": {
+							"anim_name": "s1",
+							"frame_type": "动画帧"
+						}
+					},
+					{
+						"_uid": "_287",
+						"block_name": "when_attack_box_hit",
+						"children": [
+							{
+								"_uid": "_288",
+								"block_name": "hit_entity",
+								"children": [],
+								"exprs": {
+									"target": "target"
+								},
+								"params": {
+									"ar": 1.0,
+									"bs": 0.0,
+									"cotg": true,
+									"hst": 0.5,
+									"hurt": 400000.0,
+									"isgd": true,
+									"ish": true,
+									"knockback_model": "指数阻力",
+									"kr": 10.0,
+									"target": "",
+									"type": "launch",
+									"v": {
+										"x": 300.0,
+										"y": 0.0,
+										"z": 500.0
+									},
+									"va": {
+										"x": 0.0,
+										"y": 0.0,
+										"z": 400.0
+									}
+								}
+							},
+							{
+								"_uid": "_289",
+								"block_name": "hit_stop_entity",
+								"children": [],
+								"enabled": true,
+								"exprs": {
+									"target": "target"
+								},
+								"id": 1160.0,
+								"params": {
+									"d": 0.299999952316284,
+									"delay": 0.04,
+									"target": ""
+								}
+							}
+						],
+						"enabled": true,
+						"exprs": {
+
+						},
+						"id": 1157.0,
+						"params": {
+							"abox_name": "s1_attack"
+						}
+					},
+					{
+						"_uid": "_290",
+						"block_name": "when_attack_box_hit",
+						"children": [
+							{
+								"_uid": "_291",
+								"block_name": "hit_entity",
+								"children": [],
+								"exprs": {
+									"target": "target"
+								},
+								"params": {
+									"ar": 1.0,
+									"bs": 0.0,
+									"cotg": true,
+									"hst": 0.5,
+									"hurt": 60000.0,
+									"isgd": true,
+									"ish": false,
+									"knockback_model": "指数阻力",
+									"kr": 10.0,
+									"target": "",
+									"type": "launch",
+									"v": {
+										"x": 0.0,
+										"y": 0.0,
+										"z": 500.0
+									},
+									"va": {
+										"x": 0.0,
+										"y": 0.0,
+										"z": 400.0
+									}
+								}
+							}
+						],
+						"enabled": true,
+						"exprs": {
+
+						},
+						"id": 1158.0,
+						"params": {
+							"abox_name": "s1"
+						}
+					},
+					{
+						"_uid": "_292",
+						"block_name": "when_attack_box_hit",
+						"children": [
+							{
+								"_uid": "_293",
+								"block_name": "hit_entity",
+								"children": [],
+								"exprs": {
+									"target": "target"
+								},
+								"params": {
+									"ar": 1.0,
+									"bs": 0.0,
+									"cotg": true,
+									"hst": 0.5,
+									"hurt": 60000.0,
+									"isgd": true,
+									"ish": false,
+									"knockback_model": "指数阻力",
+									"kr": 10.0,
+									"target": "",
+									"type": "launch",
+									"v": {
+										"x": 0.0,
+										"y": 0.0,
+										"z": 500.0
+									},
+									"va": {
+										"x": 0.0,
+										"y": 0.0,
+										"z": 400.0
+									}
+								}
+							}
+						],
+						"enabled": true,
+						"exprs": {
+
+						},
+						"id": 1159.0,
+						"params": {
+							"abox_name": "s1_run_ready"
 						}
 					}
 				],
 				"type": "group"
 			},
 			{
-				"_uid": "_217",
+				"_uid": "_294",
 				"color": "(0.9, 0.85, 0.6, 1.0)",
 				"name": "s2",
 				"rows": [
 					{
-						"_uid": "_218",
+						"_uid": "_295",
 						"block_name": "when_press_input",
 						"children": [
 							{
-								"_uid": "_219",
+								"_uid": "_296",
 								"block_name": "if_condition",
 								"children": [
 									{
-										"_uid": "_220",
+										"_uid": "_297",
 										"block_name": "play_animation",
 										"children": [],
 										"exprs": {
@@ -2884,7 +4047,7 @@
 										}
 									},
 									{
-										"_uid": "_221",
+										"_uid": "_298",
 										"block_name": "set_cd",
 										"children": [],
 										"enabled": false,
@@ -2898,11 +4061,11 @@
 										}
 									},
 									{
-										"_uid": "_222",
+										"_uid": "_299",
 										"block_name": "if_condition",
 										"children": [
 											{
-												"_uid": "_223",
+												"_uid": "_300",
 												"block_name": "execute_code",
 												"children": [],
 												"exprs": {
@@ -2913,7 +4076,7 @@
 												}
 											},
 											{
-												"_uid": "_224",
+												"_uid": "_301",
 												"block_name": "set_charging",
 												"children": [],
 												"exprs": {
@@ -2942,7 +4105,7 @@
 								}
 							},
 							{
-								"_uid": "_226",
+								"_uid": "_302",
 								"block_name": "change_ultimate_point",
 								"children": [],
 								"enabled": false,
@@ -2964,11 +4127,11 @@
 						}
 					},
 					{
-						"_uid": "_227",
+						"_uid": "_303",
 						"block_name": "when_animation_exit",
 						"children": [
 							{
-								"_uid": "_228",
+								"_uid": "_304",
 								"block_name": "play_animation",
 								"children": [],
 								"exprs": {
@@ -2990,15 +4153,15 @@
 						}
 					},
 					{
-						"_uid": "_229",
+						"_uid": "_305",
 						"block_name": "when_animation_playing",
 						"children": [
 							{
-								"_uid": "_230",
+								"_uid": "_306",
 								"block_name": "if_condition",
 								"children": [
 									{
-										"_uid": "_231",
+										"_uid": "_307",
 										"block_name": "play_voice",
 										"children": [],
 										"exprs": {
@@ -3034,16 +4197,16 @@
 				"type": "group"
 			},
 			{
-				"_uid": "_232",
+				"_uid": "_308",
 				"color": "(0.9, 0.85, 0.6, 1.0)",
 				"name": "通灵",
 				"rows": [
 					{
-						"_uid": "_233",
+						"_uid": "_309",
 						"block_name": "when_press_input",
 						"children": [
 							{
-								"_uid": "_234",
+								"_uid": "_310",
 								"block_name": "play_animation",
 								"children": [],
 								"exprs": {
@@ -3065,15 +4228,15 @@
 						}
 					},
 					{
-						"_uid": "_235",
+						"_uid": "_311",
 						"block_name": "when_animation_playing",
 						"children": [
 							{
-								"_uid": "_236",
+								"_uid": "_312",
 								"block_name": "if_condition",
 								"children": [
 									{
-										"_uid": "_237",
+										"_uid": "_313",
 										"block_name": "turn_by_input",
 										"children": [],
 										"exprs": {
@@ -3084,7 +4247,7 @@
 										}
 									},
 									{
-										"_uid": "_238",
+										"_uid": "_314",
 										"block_name": "play_voice",
 										"children": [],
 										"exprs": {
@@ -3117,11 +4280,11 @@
 						}
 					},
 					{
-						"_uid": "_239",
+						"_uid": "_315",
 						"block_name": "when_animation_exit",
 						"children": [
 							{
-								"_uid": "_240",
+								"_uid": "_316",
 								"block_name": "play_animation",
 								"children": [],
 								"exprs": {
@@ -3146,16 +4309,16 @@
 				"type": "group"
 			},
 			{
-				"_uid": "_241",
+				"_uid": "_317",
 				"color": "(0.9, 0.85, 0.6, 1.0)",
 				"name": "密卷",
 				"rows": [
 					{
-						"_uid": "_242",
+						"_uid": "_318",
 						"block_name": "when_press_input",
 						"children": [
 							{
-								"_uid": "_243",
+								"_uid": "_319",
 								"block_name": "play_animation",
 								"children": [],
 								"exprs": {
@@ -3177,15 +4340,15 @@
 						}
 					},
 					{
-						"_uid": "_244",
+						"_uid": "_320",
 						"block_name": "when_animation_playing",
 						"children": [
 							{
-								"_uid": "_245",
+								"_uid": "_321",
 								"block_name": "if_condition",
 								"children": [
 									{
-										"_uid": "_246",
+										"_uid": "_322",
 										"block_name": "turn_by_input",
 										"children": [],
 										"exprs": {
@@ -3196,7 +4359,7 @@
 										}
 									},
 									{
-										"_uid": "_247",
+										"_uid": "_323",
 										"block_name": "play_voice",
 										"children": [],
 										"exprs": {
@@ -3229,11 +4392,11 @@
 						}
 					},
 					{
-						"_uid": "_248",
+						"_uid": "_324",
 						"block_name": "when_animation_exit",
 						"children": [
 							{
-								"_uid": "_249",
+								"_uid": "_325",
 								"block_name": "play_animation",
 								"children": [],
 								"exprs": {
@@ -3258,20 +4421,20 @@
 				"type": "group"
 			},
 			{
-				"_uid": "_250",
+				"_uid": "_326",
 				"color": "(0.9, 0.85, 0.6, 1.0)",
 				"name": "替身",
 				"rows": [
 					{
-						"_uid": "_251",
+						"_uid": "_327",
 						"block_name": "when_animation_playing",
 						"children": [
 							{
-								"_uid": "_252",
+								"_uid": "_328",
 								"block_name": "if_condition",
 								"children": [
 									{
-										"_uid": "_253",
+										"_uid": "_329",
 										"block_name": "play_voice",
 										"children": [],
 										"exprs": {
@@ -3304,11 +4467,11 @@
 						}
 					},
 					{
-						"_uid": "_254",
+						"_uid": "_330",
 						"block_name": "when_press_input",
 						"children": [
 							{
-								"_uid": "_255",
+								"_uid": "_331",
 								"block_name": "set_cd",
 								"children": [],
 								"exprs": {
@@ -3361,7 +4524,7 @@
 			"_117": false,
 			"_118": true,
 			"_119": true,
-			"_12": false,
+			"_12": true,
 			"_120": false,
 			"_121": false,
 			"_122": true,
@@ -3451,14 +4614,14 @@
 			"_2": false,
 			"_20": false,
 			"_200": true,
-			"_201": true,
-			"_202": false,
+			"_201": false,
+			"_202": true,
 			"_203": false,
 			"_204": true,
 			"_205": true,
 			"_206": true,
 			"_207": true,
-			"_208": true,
+			"_208": false,
 			"_209": false,
 			"_21": true,
 			"_210": true,
@@ -3475,17 +4638,17 @@
 			"_220": true,
 			"_221": false,
 			"_222": true,
-			"_223": true,
-			"_224": false,
+			"_223": false,
+			"_224": true,
 			"_225": true,
-			"_226": false,
+			"_226": true,
 			"_227": false,
 			"_228": false,
 			"_229": true,
 			"_23": false,
-			"_230": true,
+			"_230": false,
 			"_231": true,
-			"_232": true,
+			"_232": false,
 			"_233": true,
 			"_234": false,
 			"_235": true,
@@ -3494,30 +4657,98 @@
 			"_238": true,
 			"_239": true,
 			"_24": true,
-			"_240": true,
-			"_241": true,
+			"_240": false,
+			"_241": false,
 			"_242": true,
+			"_243": true,
 			"_244": true,
 			"_245": true,
 			"_246": true,
 			"_247": true,
-			"_248": true,
+			"_248": false,
 			"_249": true,
 			"_25": true,
 			"_250": true,
 			"_251": true,
 			"_253": true,
 			"_254": true,
-			"_255": true,
+			"_255": false,
+			"_256": true,
+			"_257": true,
 			"_26": true,
+			"_260": true,
+			"_261": true,
+			"_263": true,
+			"_264": true,
+			"_265": false,
+			"_267": true,
+			"_268": false,
+			"_269": true,
 			"_27": true,
+			"_270": true,
+			"_271": true,
+			"_272": true,
+			"_273": false,
+			"_275": true,
+			"_276": false,
+			"_277": false,
+			"_278": true,
+			"_279": true,
 			"_28": false,
+			"_280": true,
+			"_282": true,
+			"_283": true,
+			"_284": true,
+			"_285": false,
+			"_286": true,
+			"_287": false,
+			"_288": true,
+			"_289": true,
 			"_29": true,
+			"_290": false,
+			"_291": true,
+			"_292": false,
+			"_293": true,
+			"_294": true,
+			"_295": true,
+			"_297": true,
+			"_298": true,
+			"_299": true,
 			"_3": true,
 			"_30": true,
+			"_300": true,
+			"_301": true,
+			"_302": true,
+			"_303": true,
+			"_304": true,
+			"_305": true,
+			"_306": true,
+			"_307": true,
+			"_308": true,
+			"_309": true,
 			"_31": false,
+			"_310": true,
+			"_311": true,
+			"_312": true,
+			"_313": true,
+			"_314": true,
+			"_315": true,
+			"_316": true,
+			"_317": true,
+			"_318": true,
+			"_319": true,
 			"_32": false,
+			"_320": true,
+			"_321": true,
+			"_322": true,
+			"_323": true,
+			"_324": true,
+			"_325": true,
+			"_326": true,
+			"_327": true,
+			"_329": true,
 			"_33": true,
+			"_330": true,
 			"_34": false,
 			"_35": true,
 			"_36": true,
@@ -3533,7 +4764,7 @@
 			"_45": true,
 			"_46": false,
 			"_47": true,
-			"_48": true,
+			"_48": false,
 			"_49": true,
 			"_5": true,
 			"_50": true,

@@ -295,6 +295,17 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
+"texture": ExtResource("67_texture")
+}, {
+"duration": 1.0,
+"texture": ExtResource("66_texture")
+}],
+"loop": false,
+"name": &"substitution ",
+"speed": 6.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": ExtResource("66_texture")
 }, {
 "duration": 2.0,
@@ -314,9 +325,9 @@ script = ExtResource("2_script")
 [node name="AnimatedSprite2D" parent="Visuals" parent_id_path=PackedInt32Array(599763896) index="0" unique_id=318864051]
 scale = Vector2(1.2, 1.2)
 sprite_frames = SubResource("SpriteFrames_obito")
-animation = &"a4"
+animation = &"substitution "
 autoplay = "idle"
-frame = 17
+frame = 1
 frame_progress = 1.0
 
 [node name="HitboxArea1" parent="Visuals/AnimatedSprite2D" index="0" unique_id=265941509]

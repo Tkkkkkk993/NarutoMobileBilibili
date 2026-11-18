@@ -1,0 +1,24 @@
+{
+	"preload": [
+		"../../audio/通用音效/替身.mp3",
+		"../../audio/通用音效/通灵.mp3",
+		"../骨架（已由TK拼好）/eff/a1/effects_base.tscn",
+		"audio/1a.MP3",
+		"audio/2a.MP3",
+		"audio/3a吸收.MP3",
+		"audio/3a吸收命中.MP3",
+		"audio/4a.MP3",
+		"audio/s1.MP3",
+		"audio/s1_2.MP3",
+		"audio/s2.MP3",
+		"audio/s2_2.MP3",
+		"火球/entity.tscn",
+		"火球/main.tres",
+		"虎皮4a(1)特效/a1/effects_base.tscn",
+		"虎皮4a(1)特效/effects_base.tscn",
+		"虎皮4a(1)特效/s1_2/effects_base.tscn",
+		"虎皮4a(1)特效/s2特效/effects_base.tscn",
+		"虎皮4a(1)特效/反过来的（放出特效）/effects_base.tscn",
+		"虎皮4a(1)特效/起爆符爆炸/effects_base.tscn"
+	]
+}
