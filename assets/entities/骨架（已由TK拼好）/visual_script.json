@@ -948,12 +948,12 @@
 												"params": {
 													"color": {
 														"a": 1.0,
-														"b": 0.0,
-														"g": 0.0270589180290699,
-														"r": 0.247395813465118
+														"b": 0.043749988079071,
+														"g": 0.149999976158142,
+														"r": 1.0
 													},
-													"fade": 0.5,
-													"hold": 0.0
+													"fade": 0.299999952316284,
+													"hold": 0.299999952316284
 												}
 											},
 											{
@@ -972,7 +972,7 @@
 
 										},
 										"params": {
-											"n": 5.0
+											"n": 2.0
 										}
 									}
 								],
@@ -3482,6 +3482,32 @@
 										"children": [
 											{
 												"_uid": "_262",
+												"block_name": "create_effect_copy",
+												"children": [],
+												"enabled": true,
+												"exprs": {
+													"target": "self_entity()"
+												},
+												"params": {
+													"auto_flip_by_facing": true,
+													"data": "",
+													"dir": true,
+													"name": "骨架_s1_铠甲消散",
+													"pos": {
+														"x": 0.0,
+														"y": 1.0,
+														"z": -156.0
+													},
+													"rotation": 0.0,
+													"scale": {
+														"x": 1.2,
+														"y": 1.2
+													},
+													"target": ""
+												}
+											},
+											{
+												"_uid": "_263",
 												"block_name": "play_animation",
 												"children": [],
 												"enabled": true,
@@ -3525,11 +3551,11 @@
 						}
 					},
 					{
-						"_uid": "_263",
+						"_uid": "_264",
 						"block_name": "when_animation_exit",
 						"children": [
 							{
-								"_uid": "_264",
+								"_uid": "_265",
 								"block_name": "stop_slide",
 								"children": [],
 								"enabled": true,
@@ -3542,11 +3568,11 @@
 								}
 							},
 							{
-								"_uid": "_265",
+								"_uid": "_266",
 								"block_name": "if_condition",
 								"children": [
 									{
-										"_uid": "_266",
+										"_uid": "_267",
 										"block_name": "play_animation",
 										"children": [],
 										"enabled": true,
@@ -3580,19 +3606,78 @@
 						}
 					},
 					{
-						"_uid": "_267",
-						"block_name": "when_animation_playing",
-						"children": [
+						"_uid": "_268",
+						"color": "(0.9, 0.85, 0.6, 1.0)",
+						"name": "27～31帧点普攻 → A4第一段",
+						"rows": [
 							{
-								"_uid": "_268",
-								"block_name": "if_condition",
+								"_uid": "_269",
+								"block_name": "when_animation_playing",
 								"children": [
 									{
-										"_uid": "_269",
+										"_uid": "_270",
 										"block_name": "if_condition",
 										"children": [
 											{
-												"_uid": "_270",
+												"_uid": "_271",
+												"block_name": "play_animation",
+												"children": [],
+												"exprs": {
+
+												},
+												"params": {
+													"anim_name": "a4_1",
+													"start_frame": 0.0
+												}
+											}
+										],
+										"exprs": {
+											"condition": "27 <= now_animation_frame_idx() and now_animation_frame_idx() <= 31 and is_press_key(0) and not get_var(\"s1上一拍普攻按下\")"
+										},
+										"params": {
+											"condition": true
+										}
+									},
+									{
+										"_uid": "_272",
+										"block_name": "set_var_val",
+										"children": [],
+										"exprs": {
+											"val": "is_press_key(0)"
+										},
+										"params": {
+											"val": "0",
+											"var": "s1上一拍普攻按下"
+										}
+									}
+								],
+								"enabled": true,
+								"exprs": {
+
+								},
+								"id": 1161.0,
+								"params": {
+									"anim_name": "s1_attack",
+									"frame_type": "物理帧"
+								}
+							}
+						],
+						"type": "group"
+					},
+					{
+						"_uid": "_273",
+						"block_name": "when_animation_playing",
+						"children": [
+							{
+								"_uid": "_274",
+								"block_name": "if_condition",
+								"children": [
+									{
+										"_uid": "_275",
+										"block_name": "if_condition",
+										"children": [
+											{
+												"_uid": "_276",
 												"block_name": "slide",
 												"children": [],
 												"enabled": true,
@@ -3626,11 +3711,11 @@
 										}
 									},
 									{
-										"_uid": "_271",
+										"_uid": "_277",
 										"block_name": "if_condition",
 										"children": [
 											{
-												"_uid": "_272",
+												"_uid": "_278",
 												"block_name": "stop_slide",
 												"children": [],
 												"enabled": true,
@@ -3653,15 +3738,15 @@
 										}
 									},
 									{
-										"_uid": "_273",
+										"_uid": "_279",
 										"block_name": "if_condition",
 										"children": [
 											{
-												"_uid": "_274",
+												"_uid": "_280",
 												"block_name": "if_condition",
 												"children": [
 													{
-														"_uid": "_275",
+														"_uid": "_281",
 														"block_name": "stop_slide",
 														"children": [],
 														"enabled": true,
@@ -3674,7 +3759,7 @@
 														}
 													},
 													{
-														"_uid": "_276",
+														"_uid": "_282",
 														"block_name": "spawn_cancel_white",
 														"children": [],
 														"enabled": true,
@@ -3687,7 +3772,7 @@
 														}
 													},
 													{
-														"_uid": "_277",
+														"_uid": "_283",
 														"block_name": "play_animation",
 														"children": [],
 														"enabled": true,
@@ -3719,6 +3804,31 @@
 										"params": {
 											"condition": true
 										}
+									},
+									{
+										"_uid": "_284",
+										"block_name": "if_condition",
+										"children": [
+											{
+												"_uid": "_285",
+												"block_name": "spawn_cancel_white",
+												"children": [],
+												"exprs": {
+
+												},
+												"params": {
+
+												}
+											}
+										],
+										"enabled": true,
+										"exprs": {
+											"condition": "frame_idx == 27"
+										},
+										"id": 1133.0,
+										"params": {
+											"condition": true
+										}
 									}
 								],
 								"enabled": true,
@@ -3742,23 +3852,23 @@
 						}
 					},
 					{
-						"_uid": "_278",
+						"_uid": "_286",
 						"block_name": "when_animation_playing",
 						"children": [
 							{
-								"_uid": "_279",
+								"_uid": "_287",
 								"block_name": "if_condition",
 								"children": [
 									{
-										"_uid": "_280",
+										"_uid": "_288",
 										"block_name": "if_condition",
 										"children": [
 											{
-												"_uid": "_281",
+												"_uid": "_289",
 												"block_name": "if_condition",
 												"children": [
 													{
-														"_uid": "_282",
+														"_uid": "_290",
 														"block_name": "set_var_val",
 														"children": [],
 														"enabled": true,
@@ -3772,7 +3882,7 @@
 														}
 													},
 													{
-														"_uid": "_283",
+														"_uid": "_291",
 														"block_name": "stop_freemove",
 														"children": [],
 														"enabled": true,
@@ -3785,7 +3895,7 @@
 														}
 													},
 													{
-														"_uid": "_284",
+														"_uid": "_292",
 														"block_name": "set_timer",
 														"children": [],
 														"enabled": true,
@@ -3801,7 +3911,7 @@
 														}
 													},
 													{
-														"_uid": "_285",
+														"_uid": "_293",
 														"block_name": "turn_by_input",
 														"children": [],
 														"enabled": true,
@@ -3814,7 +3924,7 @@
 														}
 													},
 													{
-														"_uid": "_286",
+														"_uid": "_294",
 														"block_name": "play_animation",
 														"children": [],
 														"enabled": true,
@@ -3869,11 +3979,11 @@
 						}
 					},
 					{
-						"_uid": "_287",
+						"_uid": "_295",
 						"block_name": "when_attack_box_hit",
 						"children": [
 							{
-								"_uid": "_288",
+								"_uid": "_296",
 								"block_name": "hit_entity",
 								"children": [],
 								"exprs": {
@@ -3904,7 +4014,7 @@
 								}
 							},
 							{
-								"_uid": "_289",
+								"_uid": "_297",
 								"block_name": "hit_stop_entity",
 								"children": [],
 								"enabled": true,
@@ -3929,11 +4039,11 @@
 						}
 					},
 					{
-						"_uid": "_290",
+						"_uid": "_298",
 						"block_name": "when_attack_box_hit",
 						"children": [
 							{
-								"_uid": "_291",
+								"_uid": "_299",
 								"block_name": "hit_entity",
 								"children": [],
 								"exprs": {
@@ -3974,11 +4084,11 @@
 						}
 					},
 					{
-						"_uid": "_292",
+						"_uid": "_300",
 						"block_name": "when_attack_box_hit",
 						"children": [
 							{
-								"_uid": "_293",
+								"_uid": "_301",
 								"block_name": "hit_entity",
 								"children": [],
 								"exprs": {
@@ -4022,20 +4132,20 @@
 				"type": "group"
 			},
 			{
-				"_uid": "_294",
+				"_uid": "_302",
 				"color": "(0.9, 0.85, 0.6, 1.0)",
 				"name": "s2",
 				"rows": [
 					{
-						"_uid": "_295",
+						"_uid": "_303",
 						"block_name": "when_press_input",
 						"children": [
 							{
-								"_uid": "_296",
+								"_uid": "_304",
 								"block_name": "if_condition",
 								"children": [
 									{
-										"_uid": "_297",
+										"_uid": "_305",
 										"block_name": "play_animation",
 										"children": [],
 										"exprs": {
@@ -4047,7 +4157,7 @@
 										}
 									},
 									{
-										"_uid": "_298",
+										"_uid": "_306",
 										"block_name": "set_cd",
 										"children": [],
 										"enabled": false,
@@ -4061,11 +4171,11 @@
 										}
 									},
 									{
-										"_uid": "_299",
+										"_uid": "_307",
 										"block_name": "if_condition",
 										"children": [
 											{
-												"_uid": "_300",
+												"_uid": "_308",
 												"block_name": "execute_code",
 												"children": [],
 												"exprs": {
@@ -4076,7 +4186,7 @@
 												}
 											},
 											{
-												"_uid": "_301",
+												"_uid": "_309",
 												"block_name": "set_charging",
 												"children": [],
 												"exprs": {
@@ -4105,7 +4215,7 @@
 								}
 							},
 							{
-								"_uid": "_302",
+								"_uid": "_310",
 								"block_name": "change_ultimate_point",
 								"children": [],
 								"enabled": false,
@@ -4127,11 +4237,11 @@
 						}
 					},
 					{
-						"_uid": "_303",
+						"_uid": "_311",
 						"block_name": "when_animation_exit",
 						"children": [
 							{
-								"_uid": "_304",
+								"_uid": "_312",
 								"block_name": "play_animation",
 								"children": [],
 								"exprs": {
@@ -4153,15 +4263,15 @@
 						}
 					},
 					{
-						"_uid": "_305",
+						"_uid": "_313",
 						"block_name": "when_animation_playing",
 						"children": [
 							{
-								"_uid": "_306",
+								"_uid": "_314",
 								"block_name": "if_condition",
 								"children": [
 									{
-										"_uid": "_307",
+										"_uid": "_315",
 										"block_name": "play_voice",
 										"children": [],
 										"exprs": {
@@ -4197,16 +4307,16 @@
 				"type": "group"
 			},
 			{
-				"_uid": "_308",
+				"_uid": "_316",
 				"color": "(0.9, 0.85, 0.6, 1.0)",
 				"name": "通灵",
 				"rows": [
 					{
-						"_uid": "_309",
+						"_uid": "_317",
 						"block_name": "when_press_input",
 						"children": [
 							{
-								"_uid": "_310",
+								"_uid": "_318",
 								"block_name": "play_animation",
 								"children": [],
 								"exprs": {
@@ -4228,15 +4338,15 @@
 						}
 					},
 					{
-						"_uid": "_311",
+						"_uid": "_319",
 						"block_name": "when_animation_playing",
 						"children": [
 							{
-								"_uid": "_312",
+								"_uid": "_320",
 								"block_name": "if_condition",
 								"children": [
 									{
-										"_uid": "_313",
+										"_uid": "_321",
 										"block_name": "turn_by_input",
 										"children": [],
 										"exprs": {
@@ -4247,7 +4357,7 @@
 										}
 									},
 									{
-										"_uid": "_314",
+										"_uid": "_322",
 										"block_name": "play_voice",
 										"children": [],
 										"exprs": {
@@ -4280,11 +4390,11 @@
 						}
 					},
 					{
-						"_uid": "_315",
+						"_uid": "_323",
 						"block_name": "when_animation_exit",
 						"children": [
 							{
-								"_uid": "_316",
+								"_uid": "_324",
 								"block_name": "play_animation",
 								"children": [],
 								"exprs": {
@@ -4309,16 +4419,16 @@
 				"type": "group"
 			},
 			{
-				"_uid": "_317",
+				"_uid": "_325",
 				"color": "(0.9, 0.85, 0.6, 1.0)",
 				"name": "密卷",
 				"rows": [
 					{
-						"_uid": "_318",
+						"_uid": "_326",
 						"block_name": "when_press_input",
 						"children": [
 							{
-								"_uid": "_319",
+								"_uid": "_327",
 								"block_name": "play_animation",
 								"children": [],
 								"exprs": {
@@ -4340,15 +4450,15 @@
 						}
 					},
 					{
-						"_uid": "_320",
+						"_uid": "_328",
 						"block_name": "when_animation_playing",
 						"children": [
 							{
-								"_uid": "_321",
+								"_uid": "_329",
 								"block_name": "if_condition",
 								"children": [
 									{
-										"_uid": "_322",
+										"_uid": "_330",
 										"block_name": "turn_by_input",
 										"children": [],
 										"exprs": {
@@ -4359,7 +4469,7 @@
 										}
 									},
 									{
-										"_uid": "_323",
+										"_uid": "_331",
 										"block_name": "play_voice",
 										"children": [],
 										"exprs": {
@@ -4392,11 +4502,77 @@
 						}
 					},
 					{
-						"_uid": "_324",
+						"_uid": "_332",
+						"block_name": "when_animation_playing",
+						"children": [
+							{
+								"_uid": "_333",
+								"block_name": "if_condition",
+								"children": [
+									{
+										"_uid": "_334",
+										"block_name": "if_condition",
+										"children": [
+											{
+												"_uid": "_344",
+												"block_name": "spawn_cancel_white",
+												"children": [],
+												"exprs": {
+
+												},
+												"params": {
+
+												}
+											},
+											{
+												"_uid": "_335",
+												"block_name": "play_animation",
+												"children": [],
+												"enabled": true,
+												"exprs": {
+
+												},
+												"id": 1136.0,
+												"params": {
+													"anim_name": "idle",
+													"start_frame": 0.0
+												}
+											}
+										],
+										"enabled": true,
+										"exprs": {
+											"condition": "is_moving()"
+										},
+										"id": 1137.0,
+										"params": {
+											"condition": true
+										}
+									}
+								],
+								"exprs": {
+									"condition": "frame_idx >= 1 and now_animation_frame_idx() + self_entity().animated_sprite.frame_progress >= 1.0"
+								},
+								"params": {
+									"condition": true
+								}
+							}
+						],
+						"enabled": true,
+						"exprs": {
+
+						},
+						"id": 1162.0,
+						"params": {
+							"anim_name": "scroll",
+							"frame_type": "物理帧"
+						}
+					},
+					{
+						"_uid": "_336",
 						"block_name": "when_animation_exit",
 						"children": [
 							{
-								"_uid": "_325",
+								"_uid": "_337",
 								"block_name": "play_animation",
 								"children": [],
 								"exprs": {
@@ -4421,20 +4597,20 @@
 				"type": "group"
 			},
 			{
-				"_uid": "_326",
+				"_uid": "_338",
 				"color": "(0.9, 0.85, 0.6, 1.0)",
 				"name": "替身",
 				"rows": [
 					{
-						"_uid": "_327",
+						"_uid": "_339",
 						"block_name": "when_animation_playing",
 						"children": [
 							{
-								"_uid": "_328",
+								"_uid": "_340",
 								"block_name": "if_condition",
 								"children": [
 									{
-										"_uid": "_329",
+										"_uid": "_341",
 										"block_name": "play_voice",
 										"children": [],
 										"exprs": {
@@ -4467,11 +4643,11 @@
 						}
 					},
 					{
-						"_uid": "_330",
+						"_uid": "_342",
 						"block_name": "when_press_input",
 						"children": [
 							{
-								"_uid": "_331",
+								"_uid": "_343",
 								"block_name": "set_cd",
 								"children": [],
 								"exprs": {
@@ -4511,7 +4687,7 @@
 			"_105": false,
 			"_106": false,
 			"_107": true,
-			"_108": false,
+			"_108": true,
 			"_109": true,
 			"_11": false,
 			"_110": false,
@@ -4521,7 +4697,7 @@
 			"_114": true,
 			"_115": true,
 			"_116": true,
-			"_117": false,
+			"_117": true,
 			"_118": true,
 			"_119": true,
 			"_12": true,
@@ -4605,6 +4781,7 @@
 			"_190": true,
 			"_191": false,
 			"_192": false,
+			"_193": false,
 			"_194": true,
 			"_195": true,
 			"_196": false,
@@ -4612,7 +4789,7 @@
 			"_198": false,
 			"_199": false,
 			"_2": false,
-			"_20": false,
+			"_20": true,
 			"_200": true,
 			"_201": false,
 			"_202": true,
@@ -4629,7 +4806,7 @@
 			"_212": true,
 			"_213": true,
 			"_214": true,
-			"_215": true,
+			"_215": false,
 			"_216": true,
 			"_217": true,
 			"_218": true,
@@ -4637,7 +4814,7 @@
 			"_22": true,
 			"_220": true,
 			"_221": false,
-			"_222": true,
+			"_222": false,
 			"_223": false,
 			"_224": true,
 			"_225": true,
@@ -4675,42 +4852,45 @@
 			"_255": false,
 			"_256": true,
 			"_257": true,
+			"_258": true,
 			"_26": true,
 			"_260": true,
-			"_261": true,
+			"_261": false,
 			"_263": true,
 			"_264": true,
 			"_265": false,
 			"_267": true,
-			"_268": false,
-			"_269": true,
+			"_268": true,
+			"_269": false,
 			"_27": true,
-			"_270": true,
+			"_270": false,
 			"_271": true,
 			"_272": true,
-			"_273": false,
-			"_275": true,
+			"_273": true,
+			"_274": false,
+			"_275": false,
 			"_276": false,
 			"_277": false,
 			"_278": true,
-			"_279": true,
+			"_279": false,
 			"_28": false,
 			"_280": true,
 			"_282": true,
 			"_283": true,
-			"_284": true,
+			"_284": false,
 			"_285": false,
 			"_286": true,
-			"_287": false,
+			"_287": true,
 			"_288": true,
 			"_289": true,
 			"_29": true,
-			"_290": false,
+			"_290": true,
 			"_291": true,
-			"_292": false,
+			"_292": true,
 			"_293": true,
 			"_294": true,
 			"_295": true,
+			"_296": true,
 			"_297": true,
 			"_298": true,
 			"_299": true,
@@ -4726,7 +4906,7 @@
 			"_307": true,
 			"_308": true,
 			"_309": true,
-			"_31": false,
+			"_31": true,
 			"_310": true,
 			"_311": true,
 			"_312": true,
@@ -4743,13 +4923,26 @@
 			"_322": true,
 			"_323": true,
 			"_324": true,
-			"_325": true,
-			"_326": true,
+			"_325": false,
+			"_326": false,
 			"_327": true,
+			"_328": false,
 			"_329": true,
 			"_33": true,
 			"_330": true,
+			"_331": true,
+			"_332": false,
+			"_333": false,
+			"_334": false,
+			"_335": true,
+			"_336": true,
+			"_337": true,
+			"_338": true,
+			"_339": true,
 			"_34": false,
+			"_341": true,
+			"_342": true,
+			"_343": true,
 			"_35": true,
 			"_36": true,
 			"_37": true,
@@ -4764,7 +4957,7 @@
 			"_45": true,
 			"_46": false,
 			"_47": true,
-			"_48": false,
+			"_48": true,
 			"_49": true,
 			"_5": true,
 			"_50": true,
@@ -4785,24 +4978,23 @@
 			"_64": true,
 			"_65": true,
 			"_66": true,
-			"_67": true,
-			"_68": false,
+			"_67": false,
+			"_68": true,
 			"_69": true,
 			"_7": false,
 			"_70": false,
-			"_71": true,
-			"_72": true,
-			"_73": false,
+			"_72": false,
+			"_73": true,
 			"_74": false,
 			"_75": false,
 			"_76": true,
-			"_77": false,
+			"_77": true,
 			"_78": false,
 			"_79": true,
 			"_8": false,
-			"_80": true,
+			"_80": false,
 			"_81": false,
-			"_82": true,
+			"_82": false,
 			"_83": true,
 			"_84": true,
 			"_85": false,

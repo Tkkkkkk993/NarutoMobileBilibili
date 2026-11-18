@@ -1,0 +1,130 @@
+[gd_scene format=3 uid="uid://cis867lrntg4h"]
+
+[ext_resource type="PackedScene" uid="uid://c5eauk5i5s64k" path="res://assets/entities/base/effects/effects_base.tscn" id="1_base"]
+[ext_resource type="Texture2D" uid="uid://cw2g7tue3jmwe" path="res://assets/entities/骨架（已由TK拼好）/eff/s1/n/1.png" id="tex_1"]
+[ext_resource type="Texture2D" uid="uid://byxggx3yagbw4" path="res://assets/entities/骨架（已由TK拼好）/eff/s1/n/2.png" id="tex_2"]
+[ext_resource type="Texture2D" uid="uid://gkg50tkxpbg" path="res://assets/entities/骨架（已由TK拼好）/eff/s1/n/3.png" id="tex_3"]
+[ext_resource type="Texture2D" uid="uid://1ohfhil8pn12" path="res://assets/entities/骨架（已由TK拼好）/eff/s1/n/4.png" id="tex_4"]
+[ext_resource type="Texture2D" uid="uid://ctko83rgwlb0m" path="res://assets/entities/骨架（已由TK拼好）/eff/s1/n/5.png" id="tex_5"]
+[ext_resource type="Texture2D" uid="uid://3ke0a63sgp7e" path="res://assets/entities/骨架（已由TK拼好）/eff/s1/n/6.png" id="tex_6"]
+[ext_resource type="Texture2D" uid="uid://blleq6f4i8y62" path="res://assets/entities/骨架（已由TK拼好）/eff/s1/n/7.png" id="tex_7"]
+[ext_resource type="Texture2D" uid="uid://bbao6mfkxaimf" path="res://assets/entities/骨架（已由TK拼好）/eff/s1/n/8.png" id="tex_8"]
+[ext_resource type="Texture2D" uid="uid://dpcy55sws33xr" path="res://assets/entities/骨架（已由TK拼好）/eff/s1/n/9.png" id="tex_9"]
+[ext_resource type="Texture2D" uid="uid://d4a24ge8q2g5x" path="res://assets/entities/骨架（已由TK拼好）/eff/s1/n/10.png" id="tex_10"]
+[ext_resource type="Texture2D" uid="uid://b36hvluqcxsti" path="res://assets/entities/骨架（已由TK拼好）/eff/s1/n/11.png" id="tex_11"]
+[ext_resource type="Texture2D" uid="uid://6bff4re8hec6" path="res://assets/entities/骨架（已由TK拼好）/eff/s1/n/12.png" id="tex_12"]
+[ext_resource type="Texture2D" uid="uid://88wopw6re3tm" path="res://assets/entities/骨架（已由TK拼好）/eff/s1/n/13.png" id="tex_13"]
+[ext_resource type="Texture2D" uid="uid://lqvly2s6r8mw" path="res://assets/entities/骨架（已由TK拼好）/eff/s1/n/14.png" id="tex_14"]
+[ext_resource type="Texture2D" uid="uid://dmwmojogus7p5" path="res://assets/entities/骨架（已由TK拼好）/eff/s1/n/15.png" id="tex_15"]
+[ext_resource type="Texture2D" uid="uid://dbi5s88573gvh" path="res://assets/entities/骨架（已由TK拼好）/eff/s1/n/16.png" id="tex_16"]
+[ext_resource type="Texture2D" uid="uid://88ivlq4gyf5l" path="res://assets/entities/骨架（已由TK拼好）/eff/s1/n/17.png" id="tex_17"]
+[ext_resource type="Texture2D" uid="uid://bgge5yl6wfk7y" path="res://assets/entities/骨架（已由TK拼好）/eff/s1/n/18.png" id="tex_18"]
+[ext_resource type="Texture2D" uid="uid://c1cqe8ilix13n" path="res://assets/entities/骨架（已由TK拼好）/eff/s1/n/19.png" id="tex_19"]
+[ext_resource type="Texture2D" uid="uid://b7hef347pgi8x" path="res://assets/entities/骨架（已由TK拼好）/eff/s1/n/20.png" id="tex_20"]
+[ext_resource type="Texture2D" uid="uid://sm8j2tiqe4cn" path="res://assets/entities/骨架（已由TK拼好）/eff/s1/n/21.png" id="tex_21"]
+[ext_resource type="Texture2D" uid="uid://2q1r1rf0pyja" path="res://assets/entities/骨架（已由TK拼好）/eff/s1/n/22.png" id="tex_22"]
+[ext_resource type="Texture2D" uid="uid://dxf0d3fvy2ahi" path="res://assets/entities/骨架（已由TK拼好）/eff/s1/n/23.png" id="tex_23"]
+[ext_resource type="Texture2D" uid="uid://bvu1qwgvatwil" path="res://assets/entities/骨架（已由TK拼好）/eff/s1/n/24.png" id="tex_24"]
+[ext_resource type="Texture2D" uid="uid://c0iiaspjdq47v" path="res://assets/entities/骨架（已由TK拼好）/eff/s1/n/25.png" id="tex_25"]
+[ext_resource type="Texture2D" uid="uid://cchb681xpx4lh" path="res://assets/entities/骨架（已由TK拼好）/eff/s1/n/26.png" id="tex_26"]
+[ext_resource type="Texture2D" uid="uid://btvaqds1alti6" path="res://assets/entities/骨架（已由TK拼好）/eff/s1/n/27.png" id="tex_27"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_dissolve"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("tex_1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("tex_2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("tex_3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("tex_4")
+}, {
+"duration": 1.0,
+"texture": ExtResource("tex_5")
+}, {
+"duration": 1.0,
+"texture": ExtResource("tex_6")
+}, {
+"duration": 1.0,
+"texture": ExtResource("tex_7")
+}, {
+"duration": 1.0,
+"texture": ExtResource("tex_8")
+}, {
+"duration": 1.0,
+"texture": ExtResource("tex_9")
+}, {
+"duration": 1.0,
+"texture": ExtResource("tex_10")
+}, {
+"duration": 1.0,
+"texture": ExtResource("tex_11")
+}, {
+"duration": 1.0,
+"texture": ExtResource("tex_12")
+}, {
+"duration": 1.0,
+"texture": ExtResource("tex_13")
+}, {
+"duration": 1.0,
+"texture": ExtResource("tex_14")
+}, {
+"duration": 1.0,
+"texture": ExtResource("tex_15")
+}, {
+"duration": 1.0,
+"texture": ExtResource("tex_16")
+}, {
+"duration": 1.0,
+"texture": ExtResource("tex_17")
+}, {
+"duration": 1.0,
+"texture": ExtResource("tex_18")
+}, {
+"duration": 1.0,
+"texture": ExtResource("tex_19")
+}, {
+"duration": 1.0,
+"texture": ExtResource("tex_20")
+}, {
+"duration": 1.0,
+"texture": ExtResource("tex_21")
+}, {
+"duration": 1.0,
+"texture": ExtResource("tex_22")
+}, {
+"duration": 1.0,
+"texture": ExtResource("tex_23")
+}, {
+"duration": 1.0,
+"texture": ExtResource("tex_24")
+}, {
+"duration": 1.0,
+"texture": ExtResource("tex_25")
+}, {
+"duration": 1.0,
+"texture": ExtResource("tex_26")
+}, {
+"duration": 1.0,
+"texture": ExtResource("tex_27")
+}],
+"loop": false,
+"name": &"s1_armor_dissolve",
+"speed": 36.0
+}]
+
+[node name="EffectsBase" unique_id=2072265898 instance=ExtResource("1_base")]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." index="0" unique_id=52969736]
+sprite_frames = SubResource("SpriteFrames_dissolve")
+animation = &"s1_armor_dissolve"
+autoplay = "s1_armor_dissolve"
+frame = 26
+frame_progress = 1.0
+
+[connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animation_finished"]

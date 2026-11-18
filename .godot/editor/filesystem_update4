@@ -1,1 +1,4 @@
-res://scripts/arena_loading_screen.gd
+res://assets/entities/骨架（已由TK拼好）/entity.gd
+res://assets/entities/骨架（已由TK拼好）/eff/s1/n/effects_base.tscn
+res://shader/entity_animated_sprite_shader.gdshader
+res://shader/color_filter.gdshader
