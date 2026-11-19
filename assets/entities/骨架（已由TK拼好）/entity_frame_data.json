@@ -10508,6 +10508,197 @@
 				]
 			}
 		},
+		"s1r_over": {
+			"0": {
+				"anchor_point": {
+					"x": -34.4366645812988,
+					"y": 116.78010559082
+				},
+				"frame_index": 0,
+				"hitboxes_data": [
+					{
+						"area_name": "HitboxArea1",
+						"position": {
+							"x": -26.2590026855469,
+							"y": -71.1955261230469
+						},
+						"rotation": 0.0,
+						"scale": {
+							"x": 1.0,
+							"y": 1.0
+						},
+						"shape_type": "rectangle",
+						"size": {
+							"height": 48.7498016357422,
+							"width": 65.0229339599609
+						},
+						"visible": true
+					},
+					{
+						"area_name": "HitboxArea2",
+						"position": {
+							"x": -29.4156799316406,
+							"y": -2.23411560058594
+						},
+						"rotation": 0.0,
+						"scale": {
+							"x": 1.0,
+							"y": 1.0
+						},
+						"shape_type": "rectangle",
+						"size": {
+							"height": 87.87109375,
+							"width": 85.4716796875
+						},
+						"visible": true
+					},
+					{
+						"area_name": "HitboxArea3",
+						"position": {
+							"x": -36.8112869262695,
+							"y": 81.7815933227539
+						},
+						"rotation": 0.0,
+						"scale": {
+							"x": 1.0,
+							"y": 1.0
+						},
+						"shape_type": "rectangle",
+						"size": {
+							"height": 83.8831939697266,
+							"width": 85.521240234375
+						},
+						"visible": true
+					}
+				]
+			},
+			"1": {
+				"anchor_point": {
+					"x": -34.4366645812988,
+					"y": 116.78010559082
+				},
+				"frame_index": 1,
+				"hitboxes_data": [
+					{
+						"area_name": "HitboxArea1",
+						"position": {
+							"x": -26.2590026855469,
+							"y": -71.1955261230469
+						},
+						"rotation": 0.0,
+						"scale": {
+							"x": 1.0,
+							"y": 1.0
+						},
+						"shape_type": "rectangle",
+						"size": {
+							"height": 48.7498016357422,
+							"width": 65.0229339599609
+						},
+						"visible": true
+					},
+					{
+						"area_name": "HitboxArea2",
+						"position": {
+							"x": -29.4156799316406,
+							"y": -2.23411560058594
+						},
+						"rotation": 0.0,
+						"scale": {
+							"x": 1.0,
+							"y": 1.0
+						},
+						"shape_type": "rectangle",
+						"size": {
+							"height": 87.87109375,
+							"width": 85.4716796875
+						},
+						"visible": true
+					},
+					{
+						"area_name": "HitboxArea3",
+						"position": {
+							"x": -36.8112869262695,
+							"y": 81.7815933227539
+						},
+						"rotation": 0.0,
+						"scale": {
+							"x": 1.0,
+							"y": 1.0
+						},
+						"shape_type": "rectangle",
+						"size": {
+							"height": 83.8831939697266,
+							"width": 85.521240234375
+						},
+						"visible": true
+					}
+				]
+			},
+			"2": {
+				"anchor_point": {
+					"x": -34.4366645812988,
+					"y": 116.78010559082
+				},
+				"frame_index": 2,
+				"hitboxes_data": [
+					{
+						"area_name": "HitboxArea1",
+						"position": {
+							"x": -26.2590026855469,
+							"y": -71.1955261230469
+						},
+						"rotation": 0.0,
+						"scale": {
+							"x": 1.0,
+							"y": 1.0
+						},
+						"shape_type": "rectangle",
+						"size": {
+							"height": 48.7498016357422,
+							"width": 65.0229339599609
+						},
+						"visible": true
+					},
+					{
+						"area_name": "HitboxArea2",
+						"position": {
+							"x": -29.4156799316406,
+							"y": -2.23411560058594
+						},
+						"rotation": 0.0,
+						"scale": {
+							"x": 1.0,
+							"y": 1.0
+						},
+						"shape_type": "rectangle",
+						"size": {
+							"height": 87.87109375,
+							"width": 85.4716796875
+						},
+						"visible": true
+					},
+					{
+						"area_name": "HitboxArea3",
+						"position": {
+							"x": -36.8112869262695,
+							"y": 81.7815933227539
+						},
+						"rotation": 0.0,
+						"scale": {
+							"x": 1.0,
+							"y": 1.0
+						},
+						"shape_type": "rectangle",
+						"size": {
+							"height": 83.8831939697266,
+							"width": 85.521240234375
+						},
+						"visible": true
+					}
+				]
+			}
+		},
 		"s1r": {
 			"0": {
 				"anchor_point": {
@@ -12487,6 +12678,10 @@
 		"s1_run_ready": {
 			"x": 17.7999992370605,
 			"y": 108.5
+		},
+		"s1r_over": {
+			"x": -34.4366645812988,
+			"y": 116.78010559082
 		},
 		"s1r": {
 			"x": 34.0999984741211,

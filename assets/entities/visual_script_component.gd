@@ -956,7 +956,7 @@ func _vs_fire_event(event_name: String, context: Dictionary = {}, filter_block_i
 func _vs_execute_event_children(children: Array, source_row: Dictionary, context: Dictionary):
 	var i = 0
 	while i < children.size():
-		if _entity._is_quitting: return
+		if _entity._is_quitting or _entity.is_queued_for_deletion(): return
 		var child = children[i]
 		if not bool(child.get("enabled", true)):
 			var bname = str(child.get("block_name", ""))
@@ -3315,9 +3315,15 @@ func _tween_entity_property(target, p: Dictionary, use_aura: bool):
 		"modulate:a":
 			var src = host.modulate
 			var dst = Color(src.r, src.g, src.b, to_val)
-			var tween = target.create_tween()
+			var tween: Tween = target.create_tween()
 			tween.tween_property(host, "modulate", dst, dur).set_delay(delay).set_trans(trans_type).set_ease(ease_type)
+			var cancel_on_exit := func():
+				tween.kill()
+				tween.finished.emit()
+			target.tree_exiting.connect(cancel_on_exit, CONNECT_ONE_SHOT)
 			await tween.finished
+			if is_instance_valid(target) and target.tree_exiting.is_connected(cancel_on_exit):
+				target.tree_exiting.disconnect(cancel_on_exit)
 		"rotation":
 			var tween = target.create_tween()
 			tween.tween_property(host, "rotation", deg_to_rad(to_val), dur).set_delay(delay).set_trans(trans_type).set_ease(ease_type)

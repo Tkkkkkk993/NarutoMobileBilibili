@@ -7,5 +7,19 @@ func _ready():
 
 func _post_init():
 	play_animation("idle")
-	await get_tree().create_timer(10.0).timeout
-	die()
+	_apply_frame_data_forced("idle", 0)
+	_process_effect_bindings("idle", 0)
+
+func _process(delta):
+	super._process(delta)
+	if shadow_node and visuals_node:
+		shadow_node.self_modulate.a = visuals_node.modulate.a
+
+func die():
+	if is_queued_for_deletion():
+		return
+	if is_instance_valid(parent_entity):
+		var owner_script := parent_entity.get_node_or_null("VisualScriptComponent") as VisualScriptComponent
+		if owner_script and is_same(owner_script._vs_get_variable("刀实体"), self):
+			owner_script._vs_set_variable("刀实体", false)
+	super.die()

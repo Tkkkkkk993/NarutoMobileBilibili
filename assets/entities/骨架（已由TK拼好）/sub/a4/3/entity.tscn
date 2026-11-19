@@ -2,41 +2,41 @@
 
 [ext_resource type="PackedScene" uid="uid://gkn20f0aex3q" path="res://assets/entities/base/animated_sprite_2d_entity.tscn" id="1_268hd"]
 [ext_resource type="Script" uid="uid://ctebxnk4bwwob" path="res://assets/entities/骨架（已由TK拼好）/sub/a4/3/entity.gd" id="2_jp7eg"]
-[ext_resource type="Texture2D" uid="uid://c6fecpuwtguup" path="res://assets/entities/骨架（已由TK拼好）/特效/a4-3-1/1.png" id="3_qm2vr"]
-[ext_resource type="Texture2D" uid="uid://cov4b30ytrqey" path="res://assets/entities/骨架（已由TK拼好）/特效/a4-3-1/2.png" id="4_0ie7l"]
-[ext_resource type="Texture2D" uid="uid://itilaa86dqdn" path="res://assets/entities/骨架（已由TK拼好）/特效/a4-3-1/29.png" id="4_slp8g"]
-[ext_resource type="Texture2D" uid="uid://c17evhxlhth6u" path="res://assets/entities/骨架（已由TK拼好）/特效/a4-3-1/3.png" id="5_w2bhh"]
-[ext_resource type="Texture2D" uid="uid://cli5rmvut662h" path="res://assets/entities/骨架（已由TK拼好）/特效/a4-3-1/4.png" id="6_c3ach"]
-[ext_resource type="Texture2D" uid="uid://bed2unsiy3r3" path="res://assets/entities/骨架（已由TK拼好）/特效/a4-3-1/5.png" id="7_if1np"]
-[ext_resource type="Texture2D" uid="uid://c66lrs1n2ti5h" path="res://assets/entities/骨架（已由TK拼好）/特效/a4-3-1/6.png" id="8_dd658"]
-[ext_resource type="Texture2D" uid="uid://cwoxyu4ydaknx" path="res://assets/entities/骨架（已由TK拼好）/特效/a4-3-1/7.png" id="9_tfqi0"]
-[ext_resource type="Texture2D" uid="uid://pqjx1yahwpty" path="res://assets/entities/骨架（已由TK拼好）/特效/a4-3-1/8.png" id="10_qdpm3"]
-[ext_resource type="Texture2D" uid="uid://t2438dncy20x" path="res://assets/entities/骨架（已由TK拼好）/特效/a4-3-1/9.png" id="11_k7tiq"]
-[ext_resource type="Texture2D" uid="uid://d15irxlioolce" path="res://assets/entities/骨架（已由TK拼好）/特效/a4-3-1/10.png" id="12_2g5lg"]
-[ext_resource type="Texture2D" uid="uid://c5sx173v12tcr" path="res://assets/entities/骨架（已由TK拼好）/特效/a4-3-1/11.png" id="13_q3lng"]
-[ext_resource type="Texture2D" uid="uid://dt3e07qtxtlsr" path="res://assets/entities/骨架（已由TK拼好）/特效/a4-3-1/12.png" id="14_4a1d5"]
-[ext_resource type="Texture2D" uid="uid://bdbqyx8pjdm2a" path="res://assets/entities/骨架（已由TK拼好）/特效/a4-3-1/13.png" id="15_m8evs"]
-[ext_resource type="Texture2D" uid="uid://d0ebduriip5a7" path="res://assets/entities/骨架（已由TK拼好）/特效/a4-3-1/14.png" id="16_x8rrs"]
-[ext_resource type="Texture2D" uid="uid://d0wnttrgfaksd" path="res://assets/entities/骨架（已由TK拼好）/特效/a4-3-1/15.png" id="17_8w5vv"]
-[ext_resource type="Texture2D" uid="uid://k2jockc83cvq" path="res://assets/entities/骨架（已由TK拼好）/特效/a4-3-1/16.png" id="18_qstyj"]
-[ext_resource type="Texture2D" uid="uid://0811ddmhog66" path="res://assets/entities/骨架（已由TK拼好）/特效/a4-3-1/17.png" id="19_icvvr"]
-[ext_resource type="Texture2D" uid="uid://bfoxe6rau6maa" path="res://assets/entities/骨架（已由TK拼好）/特效/a4-3-1/18.png" id="20_neq53"]
-[ext_resource type="Texture2D" uid="uid://psl3k1itj8s0" path="res://assets/entities/骨架（已由TK拼好）/特效/a4-3-1/19.png" id="21_ua0ud"]
-[ext_resource type="Texture2D" uid="uid://volne1hwosiu" path="res://assets/entities/骨架（已由TK拼好）/特效/a4-3-1/20.png" id="22_i6fdg"]
-[ext_resource type="Texture2D" uid="uid://kajpbb6ot5c6" path="res://assets/entities/骨架（已由TK拼好）/特效/a4-3-1/21.png" id="23_xdlf5"]
-[ext_resource type="Texture2D" uid="uid://c07lmg7qtkvn6" path="res://assets/entities/骨架（已由TK拼好）/特效/a4-3-1/22.png" id="24_o6r40"]
-[ext_resource type="Texture2D" uid="uid://blu3iecmncq2p" path="res://assets/entities/骨架（已由TK拼好）/特效/a4-3-1/23.png" id="25_6exr0"]
-[ext_resource type="Texture2D" uid="uid://dutp6j5ddaie5" path="res://assets/entities/骨架（已由TK拼好）/特效/a4-3-1/24.png" id="26_tgd3c"]
-[ext_resource type="Texture2D" uid="uid://b5174m1vgt3uw" path="res://assets/entities/骨架（已由TK拼好）/特效/a4-3-1/25.png" id="27_chk4h"]
-[ext_resource type="Texture2D" uid="uid://d12nnhu63wyxj" path="res://assets/entities/骨架（已由TK拼好）/特效/a4-3-1/26.png" id="28_iejyq"]
-[ext_resource type="Texture2D" uid="uid://d2reja27x75r3" path="res://assets/entities/骨架（已由TK拼好）/特效/a4-3-1/27.png" id="29_m2rn1"]
-[ext_resource type="Texture2D" uid="uid://cpd1ur0exomgj" path="res://assets/entities/骨架（已由TK拼好）/特效/a4-3-1/28.png" id="30_bw74x"]
+[ext_resource type="Texture2D" uid="uid://ua6wekaouinw" path="res://assets/entities/骨架（已由TK拼好）/eff/a4-3-1/1.png" id="3_0ie7l"]
+[ext_resource type="Texture2D" uid="uid://dubyv6p4cux3k" path="res://assets/entities/骨架（已由TK拼好）/eff/a4-3-1/2.png" id="4_w2bhh"]
+[ext_resource type="Texture2D" uid="uid://bihm6iy80jvmv" path="res://assets/entities/骨架（已由TK拼好）/eff/a4-3-1/3.png" id="5_c3ach"]
+[ext_resource type="Texture2D" uid="uid://dhitu32ktuvg5" path="res://assets/entities/骨架（已由TK拼好）/eff/a4-3-1/4.png" id="6_if1np"]
+[ext_resource type="Texture2D" uid="uid://d2bvdv57ch5kp" path="res://assets/entities/骨架（已由TK拼好）/eff/a4-3-1/5.png" id="7_dd658"]
+[ext_resource type="Texture2D" uid="uid://jk1ntwivodkq" path="res://assets/entities/骨架（已由TK拼好）/eff/a4-3-1/6.png" id="8_tfqi0"]
+[ext_resource type="Texture2D" uid="uid://b3bg7bo62iejp" path="res://assets/entities/骨架（已由TK拼好）/eff/a4-3-1/7.png" id="9_qdpm3"]
+[ext_resource type="Texture2D" uid="uid://db4h4y2x3jho" path="res://assets/entities/骨架（已由TK拼好）/eff/a4-3-1/8.png" id="10_k7tiq"]
+[ext_resource type="Texture2D" uid="uid://cn1glnjnw3rgd" path="res://assets/entities/骨架（已由TK拼好）/eff/a4-3-1/9.png" id="11_2g5lg"]
+[ext_resource type="Texture2D" uid="uid://2uynbqb7w83f" path="res://assets/entities/骨架（已由TK拼好）/eff/a4-3-1/10.png" id="12_q3lng"]
+[ext_resource type="Texture2D" uid="uid://bmce8i2mbgw0b" path="res://assets/entities/骨架（已由TK拼好）/eff/a4-3-1/11.png" id="13_4a1d5"]
+[ext_resource type="Texture2D" uid="uid://4au7o5ox5def" path="res://assets/entities/骨架（已由TK拼好）/eff/a4-3-1/12.png" id="14_m8evs"]
+[ext_resource type="Texture2D" uid="uid://ccvqm1013a2jo" path="res://assets/entities/骨架（已由TK拼好）/eff/a4-3-1/13.png" id="15_x8rrs"]
+[ext_resource type="Texture2D" uid="uid://dq4l0l8icgy85" path="res://assets/entities/骨架（已由TK拼好）/eff/a4-3-1/14.png" id="16_8w5vv"]
+[ext_resource type="Texture2D" uid="uid://csnlgdu1sqb1h" path="res://assets/entities/骨架（已由TK拼好）/eff/a4-3-1/15.png" id="17_qstyj"]
+[ext_resource type="Texture2D" uid="uid://ccmkb3fcxj2ce" path="res://assets/entities/骨架（已由TK拼好）/eff/a4-3-1/16.png" id="18_icvvr"]
+[ext_resource type="Texture2D" uid="uid://d16btfkk0ga06" path="res://assets/entities/骨架（已由TK拼好）/eff/a4-3-1/17.png" id="19_neq53"]
+[ext_resource type="Texture2D" uid="uid://wnewtgb4qk6t" path="res://assets/entities/骨架（已由TK拼好）/eff/a4-3-1/18.png" id="20_ua0ud"]
+[ext_resource type="Texture2D" uid="uid://d2la64jme8pww" path="res://assets/entities/骨架（已由TK拼好）/eff/a4-3-1/19.png" id="21_i6fdg"]
+[ext_resource type="Texture2D" uid="uid://dy2tu0x32c4f2" path="res://assets/entities/骨架（已由TK拼好）/eff/a4-3-1/20.png" id="22_xdlf5"]
+[ext_resource type="Texture2D" uid="uid://br27w7t75fi20" path="res://assets/entities/骨架（已由TK拼好）/eff/a4-3-1/21.png" id="23_o6r40"]
+[ext_resource type="Texture2D" uid="uid://corl5jtsknyan" path="res://assets/entities/骨架（已由TK拼好）/eff/a4-3-1/22.png" id="24_6exr0"]
+[ext_resource type="Texture2D" uid="uid://b44l2e8tp8dtq" path="res://assets/entities/骨架（已由TK拼好）/eff/a4-3-1/23.png" id="25_tgd3c"]
+[ext_resource type="Texture2D" uid="uid://dt28o32ahehdl" path="res://assets/entities/骨架（已由TK拼好）/eff/a4-3-1/24.png" id="26_chk4h"]
+[ext_resource type="Texture2D" uid="uid://b5ajgvwlrwk0u" path="res://assets/entities/骨架（已由TK拼好）/eff/a4-3-1/25.png" id="27_iejyq"]
+[ext_resource type="Texture2D" uid="uid://q2yht3o2b60l" path="res://assets/entities/骨架（已由TK拼好）/eff/a4-3-1/26.png" id="28_m2rn1"]
+[ext_resource type="Texture2D" uid="uid://b3e5yi00a11rb" path="res://assets/entities/骨架（已由TK拼好）/eff/a4-3-1/27.png" id="29_bw74x"]
+[ext_resource type="Texture2D" uid="uid://pwxdxpd122iw" path="res://assets/entities/骨架（已由TK拼好）/eff/a4-3-1/28.png" id="30_qeqsn"]
+[ext_resource type="Texture2D" uid="uid://dbhydpd1ntxg2" path="res://assets/entities/骨架（已由TK拼好）/eff/a4-3-1/29.png" id="31_6l56w"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_jp7eg"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("3_qm2vr")
+"texture": ExtResource("3_0ie7l")
 }],
 "loop": false,
 "name": &"attack",
@@ -44,91 +44,91 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("3_qm2vr")
+"texture": ExtResource("3_0ie7l")
 }, {
 "duration": 1.0,
-"texture": ExtResource("4_0ie7l")
+"texture": ExtResource("4_w2bhh")
 }, {
 "duration": 1.0,
-"texture": ExtResource("5_w2bhh")
+"texture": ExtResource("5_c3ach")
 }, {
 "duration": 1.0,
-"texture": ExtResource("6_c3ach")
+"texture": ExtResource("6_if1np")
 }, {
 "duration": 1.0,
-"texture": ExtResource("7_if1np")
+"texture": ExtResource("7_dd658")
 }, {
 "duration": 1.0,
-"texture": ExtResource("8_dd658")
+"texture": ExtResource("8_tfqi0")
 }, {
 "duration": 1.0,
-"texture": ExtResource("9_tfqi0")
+"texture": ExtResource("9_qdpm3")
 }, {
 "duration": 1.0,
-"texture": ExtResource("10_qdpm3")
+"texture": ExtResource("10_k7tiq")
 }, {
 "duration": 1.0,
-"texture": ExtResource("11_k7tiq")
+"texture": ExtResource("11_2g5lg")
 }, {
 "duration": 1.0,
-"texture": ExtResource("12_2g5lg")
+"texture": ExtResource("12_q3lng")
 }, {
 "duration": 1.0,
-"texture": ExtResource("13_q3lng")
+"texture": ExtResource("13_4a1d5")
 }, {
 "duration": 1.0,
-"texture": ExtResource("14_4a1d5")
+"texture": ExtResource("14_m8evs")
 }, {
 "duration": 1.0,
-"texture": ExtResource("15_m8evs")
+"texture": ExtResource("15_x8rrs")
 }, {
 "duration": 1.0,
-"texture": ExtResource("16_x8rrs")
+"texture": ExtResource("16_8w5vv")
 }, {
 "duration": 1.0,
-"texture": ExtResource("17_8w5vv")
+"texture": ExtResource("17_qstyj")
 }, {
 "duration": 1.0,
-"texture": ExtResource("18_qstyj")
+"texture": ExtResource("18_icvvr")
 }, {
 "duration": 1.0,
-"texture": ExtResource("19_icvvr")
+"texture": ExtResource("19_neq53")
 }, {
 "duration": 1.0,
-"texture": ExtResource("20_neq53")
+"texture": ExtResource("20_ua0ud")
 }, {
 "duration": 1.0,
-"texture": ExtResource("21_ua0ud")
+"texture": ExtResource("21_i6fdg")
 }, {
 "duration": 1.0,
-"texture": ExtResource("22_i6fdg")
+"texture": ExtResource("22_xdlf5")
 }, {
 "duration": 1.0,
-"texture": ExtResource("23_xdlf5")
+"texture": ExtResource("23_o6r40")
 }, {
 "duration": 1.0,
-"texture": ExtResource("24_o6r40")
+"texture": ExtResource("24_6exr0")
 }, {
 "duration": 1.0,
-"texture": ExtResource("25_6exr0")
+"texture": ExtResource("25_tgd3c")
 }, {
 "duration": 1.0,
-"texture": ExtResource("26_tgd3c")
+"texture": ExtResource("26_chk4h")
 }, {
 "duration": 1.0,
-"texture": ExtResource("27_chk4h")
+"texture": ExtResource("27_iejyq")
 }, {
 "duration": 1.0,
-"texture": ExtResource("28_iejyq")
+"texture": ExtResource("28_m2rn1")
 }, {
 "duration": 1.0,
-"texture": ExtResource("29_m2rn1")
+"texture": ExtResource("29_bw74x")
 }, {
 "duration": 1.0,
-"texture": ExtResource("30_bw74x")
+"texture": ExtResource("30_qeqsn")
 }, {
 "duration": 1.0,
-"texture": ExtResource("4_slp8g")
+"texture": ExtResource("31_6l56w")
 }],
 "loop": true,
 "name": &"detect",
@@ -136,91 +136,91 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("3_qm2vr")
+"texture": ExtResource("3_0ie7l")
 }, {
 "duration": 1.0,
-"texture": ExtResource("4_0ie7l")
+"texture": ExtResource("4_w2bhh")
 }, {
 "duration": 1.0,
-"texture": ExtResource("5_w2bhh")
+"texture": ExtResource("5_c3ach")
 }, {
 "duration": 1.0,
-"texture": ExtResource("6_c3ach")
+"texture": ExtResource("6_if1np")
 }, {
 "duration": 1.0,
-"texture": ExtResource("7_if1np")
+"texture": ExtResource("7_dd658")
 }, {
 "duration": 1.0,
-"texture": ExtResource("8_dd658")
+"texture": ExtResource("8_tfqi0")
 }, {
 "duration": 1.0,
-"texture": ExtResource("9_tfqi0")
+"texture": ExtResource("9_qdpm3")
 }, {
 "duration": 1.0,
-"texture": ExtResource("10_qdpm3")
+"texture": ExtResource("10_k7tiq")
 }, {
 "duration": 1.0,
-"texture": ExtResource("11_k7tiq")
+"texture": ExtResource("11_2g5lg")
 }, {
 "duration": 1.0,
-"texture": ExtResource("12_2g5lg")
+"texture": ExtResource("12_q3lng")
 }, {
 "duration": 1.0,
-"texture": ExtResource("13_q3lng")
+"texture": ExtResource("13_4a1d5")
 }, {
 "duration": 1.0,
-"texture": ExtResource("14_4a1d5")
+"texture": ExtResource("14_m8evs")
 }, {
 "duration": 1.0,
-"texture": ExtResource("15_m8evs")
+"texture": ExtResource("15_x8rrs")
 }, {
 "duration": 1.0,
-"texture": ExtResource("16_x8rrs")
+"texture": ExtResource("16_8w5vv")
 }, {
 "duration": 1.0,
-"texture": ExtResource("17_8w5vv")
+"texture": ExtResource("17_qstyj")
 }, {
 "duration": 1.0,
-"texture": ExtResource("18_qstyj")
+"texture": ExtResource("18_icvvr")
 }, {
 "duration": 1.0,
-"texture": ExtResource("19_icvvr")
+"texture": ExtResource("19_neq53")
 }, {
 "duration": 1.0,
-"texture": ExtResource("20_neq53")
+"texture": ExtResource("20_ua0ud")
 }, {
 "duration": 1.0,
-"texture": ExtResource("21_ua0ud")
+"texture": ExtResource("21_i6fdg")
 }, {
 "duration": 1.0,
-"texture": ExtResource("22_i6fdg")
+"texture": ExtResource("22_xdlf5")
 }, {
 "duration": 1.0,
-"texture": ExtResource("23_xdlf5")
+"texture": ExtResource("23_o6r40")
 }, {
 "duration": 1.0,
-"texture": ExtResource("24_o6r40")
+"texture": ExtResource("24_6exr0")
 }, {
 "duration": 1.0,
-"texture": ExtResource("25_6exr0")
+"texture": ExtResource("25_tgd3c")
 }, {
 "duration": 1.0,
-"texture": ExtResource("26_tgd3c")
+"texture": ExtResource("26_chk4h")
 }, {
 "duration": 1.0,
-"texture": ExtResource("27_chk4h")
+"texture": ExtResource("27_iejyq")
 }, {
 "duration": 1.0,
-"texture": ExtResource("28_iejyq")
+"texture": ExtResource("28_m2rn1")
 }, {
 "duration": 1.0,
-"texture": ExtResource("29_m2rn1")
+"texture": ExtResource("29_bw74x")
 }, {
 "duration": 1.0,
-"texture": ExtResource("30_bw74x")
+"texture": ExtResource("30_qeqsn")
 }, {
 "duration": 1.0,
-"texture": ExtResource("4_slp8g")
+"texture": ExtResource("31_6l56w")
 }],
 "loop": true,
 "name": &"idle",
@@ -229,12 +229,14 @@ animations = [{
 
 [node name="Entity" unique_id=1152390372 instance=ExtResource("1_268hd")]
 script = ExtResource("2_jp7eg")
+debug_show_hitboxes = false
+debug_show_attack_boxes = false
 
 [node name="Aura" parent="Shadow" parent_id_path=PackedInt32Array(1440136799) index="0" unique_id=199583354]
 visible = false
 
 [node name="AnimatedSprite2D" parent="Visuals" parent_id_path=PackedInt32Array(599763896) index="0" unique_id=318864051]
-scale = Vector2(0.295, 0.295)
+scale = Vector2(0.44, 0.44)
 sprite_frames = SubResource("SpriteFrames_jp7eg")
 animation = &"detect"
 autoplay = "idle"

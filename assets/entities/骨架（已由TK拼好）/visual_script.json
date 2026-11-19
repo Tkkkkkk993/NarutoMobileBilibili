@@ -610,7 +610,7 @@
 								"params": {
 									"ar": 3.0,
 									"bs": 0.0,
-									"cotg": true,
+									"cotg": false,
 									"hst": 0.400000095367432,
 									"hurt": 35000.0,
 									"isgd": true,
@@ -618,16 +618,16 @@
 									"knockback_model": "指数阻力",
 									"kr": 10.0,
 									"target": "",
-									"type": "launch",
+									"type": "push",
 									"v": {
-										"x": 1200.0,
+										"x": 400.0,
 										"y": 0.0,
 										"z": 180.0
 									},
 									"va": {
 										"x": 0.0,
 										"y": 0.0,
-										"z": 0.0
+										"z": 200.0
 									}
 								}
 							}
@@ -835,14 +835,14 @@
 									"target": "",
 									"type": "push",
 									"v": {
-										"x": 800.0,
+										"x": 500.0,
 										"y": 0.0,
 										"z": 150.0
 									},
 									"va": {
 										"x": 0.0,
 										"y": 0.0,
-										"z": 0.0
+										"z": 150.0
 									}
 								}
 							}
@@ -1130,14 +1130,14 @@
 									"target": "",
 									"type": "push",
 									"v": {
-										"x": 2100.0,
+										"x": 1000.0,
 										"y": 0.0,
 										"z": 200.0
 									},
 									"va": {
 										"x": 0.0,
 										"y": 0.0,
-										"z": 0.0
+										"z": 200.0
 									}
 								}
 							}
@@ -2731,6 +2731,17 @@
 											"anim_name": "s1",
 											"start_frame": 0.0
 										}
+									},
+									{
+										"_uid": "_208",
+										"block_name": "spawn_cancel_white",
+										"children": [],
+										"exprs": {
+
+										},
+										"params": {
+
+										}
 									}
 								],
 								"enabled": true,
@@ -2743,11 +2754,11 @@
 								}
 							},
 							{
-								"_uid": "_208",
+								"_uid": "_209",
 								"block_name": "else_if",
 								"children": [
 									{
-										"_uid": "_209",
+										"_uid": "_210",
 										"block_name": "play_voice",
 										"children": [],
 										"exprs": {
@@ -2761,7 +2772,7 @@
 										}
 									},
 									{
-										"_uid": "_210",
+										"_uid": "_211",
 										"block_name": "set_var_val",
 										"children": [],
 										"enabled": true,
@@ -2775,7 +2786,7 @@
 										}
 									},
 									{
-										"_uid": "_211",
+										"_uid": "_212",
 										"block_name": "play_animation",
 										"children": [],
 										"enabled": true,
@@ -2789,7 +2800,7 @@
 										}
 									},
 									{
-										"_uid": "_212",
+										"_uid": "_213",
 										"block_name": "start_freemove",
 										"children": [],
 										"enabled": true,
@@ -2805,7 +2816,7 @@
 										}
 									},
 									{
-										"_uid": "_213",
+										"_uid": "_214",
 										"block_name": "turn_by_input",
 										"children": [],
 										"enabled": true,
@@ -2813,6 +2824,17 @@
 
 										},
 										"id": 1082.0,
+										"params": {
+
+										}
+									},
+									{
+										"_uid": "_215",
+										"block_name": "spawn_cancel_white",
+										"children": [],
+										"exprs": {
+
+										},
 										"params": {
 
 										}
@@ -2838,19 +2860,19 @@
 						}
 					},
 					{
-						"_uid": "_214",
+						"_uid": "_216",
 						"block_name": "when_animation_exit",
 						"children": [
 							{
-								"_uid": "_215",
+								"_uid": "_217",
 								"block_name": "if_condition",
 								"children": [
 									{
-										"_uid": "_216",
+										"_uid": "_218",
 										"block_name": "if_condition",
 										"children": [
 											{
-												"_uid": "_217",
+												"_uid": "_219",
 												"block_name": "set_var_val",
 												"children": [],
 												"enabled": true,
@@ -2864,7 +2886,7 @@
 												}
 											},
 											{
-												"_uid": "_218",
+												"_uid": "_220",
 												"block_name": "stop_freemove",
 												"children": [],
 												"enabled": true,
@@ -2877,7 +2899,7 @@
 												}
 											},
 											{
-												"_uid": "_219",
+												"_uid": "_221",
 												"block_name": "set_timer",
 												"children": [],
 												"enabled": true,
@@ -2893,7 +2915,7 @@
 												}
 											},
 											{
-												"_uid": "_220",
+												"_uid": "_222",
 												"block_name": "turn_by_input",
 												"children": [],
 												"enabled": true,
@@ -2906,7 +2928,7 @@
 												}
 											},
 											{
-												"_uid": "_221",
+												"_uid": "_223",
 												"block_name": "play_animation",
 												"children": [],
 												"enabled": true,
@@ -2930,11 +2952,11 @@
 										}
 									},
 									{
-										"_uid": "_222",
+										"_uid": "_224",
 										"block_name": "else_block",
 										"children": [
 											{
-												"_uid": "_223",
+												"_uid": "_225",
 												"block_name": "stop_freemove",
 												"children": [],
 												"enabled": true,
@@ -2947,7 +2969,7 @@
 												}
 											},
 											{
-												"_uid": "_224",
+												"_uid": "_226",
 												"block_name": "set_timer",
 												"children": [],
 												"enabled": true,
@@ -2963,7 +2985,7 @@
 												}
 											},
 											{
-												"_uid": "_225",
+												"_uid": "_227",
 												"block_name": "play_animation",
 												"children": [],
 												"enabled": true,
@@ -3007,15 +3029,15 @@
 						}
 					},
 					{
-						"_uid": "_226",
+						"_uid": "_228",
 						"block_name": "when_animation_exit",
 						"children": [
 							{
-								"_uid": "_227",
+								"_uid": "_229",
 								"block_name": "if_condition",
 								"children": [
 									{
-										"_uid": "_228",
+										"_uid": "_230",
 										"block_name": "stop_freemove",
 										"children": [],
 										"enabled": true,
@@ -3028,7 +3050,7 @@
 										}
 									},
 									{
-										"_uid": "_229",
+										"_uid": "_231",
 										"block_name": "set_timer",
 										"children": [],
 										"enabled": true,
@@ -3044,7 +3066,7 @@
 										}
 									},
 									{
-										"_uid": "_230",
+										"_uid": "_232",
 										"block_name": "play_animation",
 										"children": [],
 										"enabled": true,
@@ -3078,23 +3100,23 @@
 						}
 					},
 					{
-						"_uid": "_231",
+						"_uid": "_233",
 						"block_name": "when_any_animation_frame_changed",
 						"children": [
 							{
-								"_uid": "_232",
+								"_uid": "_234",
 								"block_name": "if_condition",
 								"children": [
 									{
-										"_uid": "_233",
+										"_uid": "_235",
 										"block_name": "if_condition",
 										"children": [
 											{
-												"_uid": "_234",
+												"_uid": "_236",
 												"block_name": "if_condition",
 												"children": [
 													{
-														"_uid": "_235",
+														"_uid": "_237",
 														"block_name": "play_voice",
 														"children": [],
 														"exprs": {
@@ -3108,7 +3130,7 @@
 														}
 													},
 													{
-														"_uid": "_236",
+														"_uid": "_238",
 														"block_name": "set_var_val",
 														"children": [],
 														"enabled": true,
@@ -3122,7 +3144,7 @@
 														}
 													},
 													{
-														"_uid": "_237",
+														"_uid": "_239",
 														"block_name": "stop_freemove",
 														"children": [],
 														"enabled": true,
@@ -3135,7 +3157,7 @@
 														}
 													},
 													{
-														"_uid": "_238",
+														"_uid": "_240",
 														"block_name": "set_timer",
 														"children": [],
 														"enabled": true,
@@ -3151,7 +3173,7 @@
 														}
 													},
 													{
-														"_uid": "_239",
+														"_uid": "_241",
 														"block_name": "turn_by_input",
 														"children": [],
 														"enabled": true,
@@ -3164,7 +3186,7 @@
 														}
 													},
 													{
-														"_uid": "_240",
+														"_uid": "_242",
 														"block_name": "play_animation",
 														"children": [],
 														"enabled": true,
@@ -3188,11 +3210,11 @@
 												}
 											},
 											{
-												"_uid": "_241",
+												"_uid": "_243",
 												"block_name": "else_block",
 												"children": [
 													{
-														"_uid": "_242",
+														"_uid": "_244",
 														"block_name": "turn_by_input",
 														"children": [],
 														"enabled": true,
@@ -3205,15 +3227,15 @@
 														}
 													},
 													{
-														"_uid": "_243",
+														"_uid": "_245",
 														"block_name": "if_condition",
 														"children": [
 															{
-																"_uid": "_244",
+																"_uid": "_246",
 																"block_name": "if_condition",
 																"children": [
 																	{
-																		"_uid": "_245",
+																		"_uid": "_247",
 																		"block_name": "play_animation",
 																		"children": [],
 																		"enabled": true,
@@ -3227,7 +3249,7 @@
 																		}
 																	},
 																	{
-																		"_uid": "_246",
+																		"_uid": "_248",
 																		"block_name": "start_freemove",
 																		"children": [],
 																		"enabled": true,
@@ -3263,15 +3285,15 @@
 														}
 													},
 													{
-														"_uid": "_247",
+														"_uid": "_249",
 														"block_name": "else_block",
 														"children": [
 															{
-																"_uid": "_248",
+																"_uid": "_250",
 																"block_name": "if_condition",
 																"children": [
 																	{
-																		"_uid": "_249",
+																		"_uid": "_251",
 																		"block_name": "stop_freemove",
 																		"children": [],
 																		"enabled": true,
@@ -3284,7 +3306,7 @@
 																		}
 																	},
 																	{
-																		"_uid": "_250",
+																		"_uid": "_252",
 																		"block_name": "play_animation",
 																		"children": [],
 																		"enabled": true,
@@ -3338,11 +3360,11 @@
 										}
 									},
 									{
-										"_uid": "_251",
+										"_uid": "_253",
 										"block_name": "else_if",
 										"children": [
 											{
-												"_uid": "_252",
+												"_uid": "_254",
 												"block_name": "turn_by_input",
 												"children": [],
 												"enabled": true,
@@ -3365,11 +3387,11 @@
 										}
 									},
 									{
-										"_uid": "_253",
+										"_uid": "_255",
 										"block_name": "else_if",
 										"children": [
 											{
-												"_uid": "_254",
+												"_uid": "_256",
 												"block_name": "set_var_val",
 												"children": [],
 												"enabled": true,
@@ -3383,7 +3405,7 @@
 												}
 											},
 											{
-												"_uid": "_255",
+												"_uid": "_257",
 												"block_name": "stop_freemove",
 												"children": [],
 												"enabled": true,
@@ -3396,7 +3418,7 @@
 												}
 											},
 											{
-												"_uid": "_256",
+												"_uid": "_258",
 												"block_name": "set_timer",
 												"children": [],
 												"enabled": true,
@@ -3442,15 +3464,15 @@
 						}
 					},
 					{
-						"_uid": "_257",
+						"_uid": "_259",
 						"block_name": "when_timer_out",
 						"children": [
 							{
-								"_uid": "_258",
+								"_uid": "_260",
 								"block_name": "if_condition",
 								"children": [
 									{
-										"_uid": "_259",
+										"_uid": "_261",
 										"block_name": "set_var_val",
 										"children": [],
 										"enabled": true,
@@ -3464,7 +3486,7 @@
 										}
 									},
 									{
-										"_uid": "_260",
+										"_uid": "_262",
 										"block_name": "stop_freemove",
 										"children": [],
 										"enabled": true,
@@ -3477,11 +3499,11 @@
 										}
 									},
 									{
-										"_uid": "_261",
+										"_uid": "_263",
 										"block_name": "if_condition",
 										"children": [
 											{
-												"_uid": "_262",
+												"_uid": "_264",
 												"block_name": "create_effect_copy",
 												"children": [],
 												"enabled": true,
@@ -3507,17 +3529,59 @@
 												}
 											},
 											{
-												"_uid": "_263",
-												"block_name": "play_animation",
-												"children": [],
+												"_uid": "_265",
+												"block_name": "if_condition",
+												"children": [
+													{
+														"_uid": "_266",
+														"block_name": "play_animation",
+														"children": [],
+														"enabled": true,
+														"exprs": {
+
+														},
+														"id": 1115.0,
+														"params": {
+															"anim_name": "s1r_over",
+															"start_frame": 0.0
+														}
+													}
+												],
+												"enabled": true,
+												"exprs": {
+													"condition": "now_animation() == \"s1r\""
+												},
+												"id": 1164.0,
+												"params": {
+													"condition": true
+												}
+											},
+											{
+												"_uid": "_267",
+												"block_name": "else_block",
+												"children": [
+													{
+														"_uid": "_268",
+														"block_name": "play_animation",
+														"children": [],
+														"enabled": true,
+														"exprs": {
+
+														},
+														"id": 1163.0,
+														"params": {
+															"anim_name": "idle",
+															"start_frame": 0.0
+														}
+													}
+												],
 												"enabled": true,
 												"exprs": {
 
 												},
-												"id": 1115.0,
+												"id": 1165.0,
 												"params": {
-													"anim_name": "idle",
-													"start_frame": 0.0
+
 												}
 											}
 										],
@@ -3551,11 +3615,53 @@
 						}
 					},
 					{
-						"_uid": "_264",
+						"_uid": "_269",
 						"block_name": "when_animation_exit",
 						"children": [
 							{
-								"_uid": "_265",
+								"_uid": "_270",
+								"block_name": "if_condition",
+								"children": [
+									{
+										"_uid": "_271",
+										"block_name": "play_animation",
+										"children": [],
+										"enabled": true,
+										"exprs": {
+
+										},
+										"id": 1168.0,
+										"params": {
+											"anim_name": "idle",
+											"start_frame": 0.0
+										}
+									}
+								],
+								"enabled": true,
+								"exprs": {
+									"condition": "now_animation() == \"s1r_over\""
+								},
+								"id": 1167.0,
+								"params": {
+									"condition": true
+								}
+							}
+						],
+						"enabled": true,
+						"exprs": {
+
+						},
+						"id": 1166.0,
+						"params": {
+							"anim_name": "s1r_over"
+						}
+					},
+					{
+						"_uid": "_272",
+						"block_name": "when_animation_exit",
+						"children": [
+							{
+								"_uid": "_273",
 								"block_name": "stop_slide",
 								"children": [],
 								"enabled": true,
@@ -3568,11 +3674,11 @@
 								}
 							},
 							{
-								"_uid": "_266",
+								"_uid": "_274",
 								"block_name": "if_condition",
 								"children": [
 									{
-										"_uid": "_267",
+										"_uid": "_275",
 										"block_name": "play_animation",
 										"children": [],
 										"enabled": true,
@@ -3606,20 +3712,20 @@
 						}
 					},
 					{
-						"_uid": "_268",
+						"_uid": "_276",
 						"color": "(0.9, 0.85, 0.6, 1.0)",
 						"name": "27～31帧点普攻 → A4第一段",
 						"rows": [
 							{
-								"_uid": "_269",
+								"_uid": "_277",
 								"block_name": "when_animation_playing",
 								"children": [
 									{
-										"_uid": "_270",
+										"_uid": "_278",
 										"block_name": "if_condition",
 										"children": [
 											{
-												"_uid": "_271",
+												"_uid": "_279",
 												"block_name": "play_animation",
 												"children": [],
 												"exprs": {
@@ -3639,7 +3745,7 @@
 										}
 									},
 									{
-										"_uid": "_272",
+										"_uid": "_280",
 										"block_name": "set_var_val",
 										"children": [],
 										"exprs": {
@@ -3665,19 +3771,19 @@
 						"type": "group"
 					},
 					{
-						"_uid": "_273",
+						"_uid": "_281",
 						"block_name": "when_animation_playing",
 						"children": [
 							{
-								"_uid": "_274",
+								"_uid": "_282",
 								"block_name": "if_condition",
 								"children": [
 									{
-										"_uid": "_275",
+										"_uid": "_283",
 										"block_name": "if_condition",
 										"children": [
 											{
-												"_uid": "_276",
+												"_uid": "_284",
 												"block_name": "slide",
 												"children": [],
 												"enabled": true,
@@ -3711,11 +3817,11 @@
 										}
 									},
 									{
-										"_uid": "_277",
+										"_uid": "_285",
 										"block_name": "if_condition",
 										"children": [
 											{
-												"_uid": "_278",
+												"_uid": "_286",
 												"block_name": "stop_slide",
 												"children": [],
 												"enabled": true,
@@ -3738,15 +3844,15 @@
 										}
 									},
 									{
-										"_uid": "_279",
+										"_uid": "_287",
 										"block_name": "if_condition",
 										"children": [
 											{
-												"_uid": "_280",
+												"_uid": "_288",
 												"block_name": "if_condition",
 												"children": [
 													{
-														"_uid": "_281",
+														"_uid": "_289",
 														"block_name": "stop_slide",
 														"children": [],
 														"enabled": true,
@@ -3759,7 +3865,7 @@
 														}
 													},
 													{
-														"_uid": "_282",
+														"_uid": "_290",
 														"block_name": "spawn_cancel_white",
 														"children": [],
 														"enabled": true,
@@ -3772,7 +3878,7 @@
 														}
 													},
 													{
-														"_uid": "_283",
+														"_uid": "_291",
 														"block_name": "play_animation",
 														"children": [],
 														"enabled": true,
@@ -3806,11 +3912,11 @@
 										}
 									},
 									{
-										"_uid": "_284",
+										"_uid": "_292",
 										"block_name": "if_condition",
 										"children": [
 											{
-												"_uid": "_285",
+												"_uid": "_293",
 												"block_name": "spawn_cancel_white",
 												"children": [],
 												"exprs": {
@@ -3852,23 +3958,23 @@
 						}
 					},
 					{
-						"_uid": "_286",
+						"_uid": "_294",
 						"block_name": "when_animation_playing",
 						"children": [
 							{
-								"_uid": "_287",
+								"_uid": "_295",
 								"block_name": "if_condition",
 								"children": [
 									{
-										"_uid": "_288",
+										"_uid": "_296",
 										"block_name": "if_condition",
 										"children": [
 											{
-												"_uid": "_289",
+												"_uid": "_297",
 												"block_name": "if_condition",
 												"children": [
 													{
-														"_uid": "_290",
+														"_uid": "_298",
 														"block_name": "set_var_val",
 														"children": [],
 														"enabled": true,
@@ -3882,7 +3988,7 @@
 														}
 													},
 													{
-														"_uid": "_291",
+														"_uid": "_299",
 														"block_name": "stop_freemove",
 														"children": [],
 														"enabled": true,
@@ -3895,7 +4001,7 @@
 														}
 													},
 													{
-														"_uid": "_292",
+														"_uid": "_300",
 														"block_name": "set_timer",
 														"children": [],
 														"enabled": true,
@@ -3911,7 +4017,7 @@
 														}
 													},
 													{
-														"_uid": "_293",
+														"_uid": "_301",
 														"block_name": "turn_by_input",
 														"children": [],
 														"enabled": true,
@@ -3924,7 +4030,7 @@
 														}
 													},
 													{
-														"_uid": "_294",
+														"_uid": "_302",
 														"block_name": "play_animation",
 														"children": [],
 														"enabled": true,
@@ -3979,11 +4085,11 @@
 						}
 					},
 					{
-						"_uid": "_295",
+						"_uid": "_303",
 						"block_name": "when_attack_box_hit",
 						"children": [
 							{
-								"_uid": "_296",
+								"_uid": "_304",
 								"block_name": "hit_entity",
 								"children": [],
 								"exprs": {
@@ -4014,7 +4120,7 @@
 								}
 							},
 							{
-								"_uid": "_297",
+								"_uid": "_305",
 								"block_name": "hit_stop_entity",
 								"children": [],
 								"enabled": true,
@@ -4039,11 +4145,11 @@
 						}
 					},
 					{
-						"_uid": "_298",
+						"_uid": "_306",
 						"block_name": "when_attack_box_hit",
 						"children": [
 							{
-								"_uid": "_299",
+								"_uid": "_307",
 								"block_name": "hit_entity",
 								"children": [],
 								"exprs": {
@@ -4084,11 +4190,11 @@
 						}
 					},
 					{
-						"_uid": "_300",
+						"_uid": "_308",
 						"block_name": "when_attack_box_hit",
 						"children": [
 							{
-								"_uid": "_301",
+								"_uid": "_309",
 								"block_name": "hit_entity",
 								"children": [],
 								"exprs": {
@@ -4132,20 +4238,20 @@
 				"type": "group"
 			},
 			{
-				"_uid": "_302",
+				"_uid": "_310",
 				"color": "(0.9, 0.85, 0.6, 1.0)",
 				"name": "s2",
 				"rows": [
 					{
-						"_uid": "_303",
+						"_uid": "_311",
 						"block_name": "when_press_input",
 						"children": [
 							{
-								"_uid": "_304",
+								"_uid": "_312",
 								"block_name": "if_condition",
 								"children": [
 									{
-										"_uid": "_305",
+										"_uid": "_313",
 										"block_name": "play_animation",
 										"children": [],
 										"exprs": {
@@ -4157,7 +4263,7 @@
 										}
 									},
 									{
-										"_uid": "_306",
+										"_uid": "_314",
 										"block_name": "set_cd",
 										"children": [],
 										"enabled": false,
@@ -4171,11 +4277,11 @@
 										}
 									},
 									{
-										"_uid": "_307",
+										"_uid": "_315",
 										"block_name": "if_condition",
 										"children": [
 											{
-												"_uid": "_308",
+												"_uid": "_316",
 												"block_name": "execute_code",
 												"children": [],
 												"exprs": {
@@ -4186,7 +4292,7 @@
 												}
 											},
 											{
-												"_uid": "_309",
+												"_uid": "_317",
 												"block_name": "set_charging",
 												"children": [],
 												"exprs": {
@@ -4215,7 +4321,7 @@
 								}
 							},
 							{
-								"_uid": "_310",
+								"_uid": "_318",
 								"block_name": "change_ultimate_point",
 								"children": [],
 								"enabled": false,
@@ -4237,11 +4343,11 @@
 						}
 					},
 					{
-						"_uid": "_311",
+						"_uid": "_319",
 						"block_name": "when_animation_exit",
 						"children": [
 							{
-								"_uid": "_312",
+								"_uid": "_320",
 								"block_name": "play_animation",
 								"children": [],
 								"exprs": {
@@ -4263,15 +4369,15 @@
 						}
 					},
 					{
-						"_uid": "_313",
+						"_uid": "_321",
 						"block_name": "when_animation_playing",
 						"children": [
 							{
-								"_uid": "_314",
+								"_uid": "_322",
 								"block_name": "if_condition",
 								"children": [
 									{
-										"_uid": "_315",
+										"_uid": "_323",
 										"block_name": "play_voice",
 										"children": [],
 										"exprs": {
@@ -4307,16 +4413,16 @@
 				"type": "group"
 			},
 			{
-				"_uid": "_316",
+				"_uid": "_324",
 				"color": "(0.9, 0.85, 0.6, 1.0)",
 				"name": "通灵",
 				"rows": [
 					{
-						"_uid": "_317",
+						"_uid": "_325",
 						"block_name": "when_press_input",
 						"children": [
 							{
-								"_uid": "_318",
+								"_uid": "_326",
 								"block_name": "play_animation",
 								"children": [],
 								"exprs": {
@@ -4338,15 +4444,15 @@
 						}
 					},
 					{
-						"_uid": "_319",
+						"_uid": "_327",
 						"block_name": "when_animation_playing",
 						"children": [
 							{
-								"_uid": "_320",
+								"_uid": "_328",
 								"block_name": "if_condition",
 								"children": [
 									{
-										"_uid": "_321",
+										"_uid": "_329",
 										"block_name": "turn_by_input",
 										"children": [],
 										"exprs": {
@@ -4357,7 +4463,7 @@
 										}
 									},
 									{
-										"_uid": "_322",
+										"_uid": "_330",
 										"block_name": "play_voice",
 										"children": [],
 										"exprs": {
@@ -4390,11 +4496,11 @@
 						}
 					},
 					{
-						"_uid": "_323",
+						"_uid": "_331",
 						"block_name": "when_animation_exit",
 						"children": [
 							{
-								"_uid": "_324",
+								"_uid": "_332",
 								"block_name": "play_animation",
 								"children": [],
 								"exprs": {
@@ -4419,16 +4525,16 @@
 				"type": "group"
 			},
 			{
-				"_uid": "_325",
+				"_uid": "_333",
 				"color": "(0.9, 0.85, 0.6, 1.0)",
 				"name": "密卷",
 				"rows": [
 					{
-						"_uid": "_326",
+						"_uid": "_334",
 						"block_name": "when_press_input",
 						"children": [
 							{
-								"_uid": "_327",
+								"_uid": "_335",
 								"block_name": "play_animation",
 								"children": [],
 								"exprs": {
@@ -4450,15 +4556,15 @@
 						}
 					},
 					{
-						"_uid": "_328",
+						"_uid": "_336",
 						"block_name": "when_animation_playing",
 						"children": [
 							{
-								"_uid": "_329",
+								"_uid": "_337",
 								"block_name": "if_condition",
 								"children": [
 									{
-										"_uid": "_330",
+										"_uid": "_338",
 										"block_name": "turn_by_input",
 										"children": [],
 										"exprs": {
@@ -4469,7 +4575,7 @@
 										}
 									},
 									{
-										"_uid": "_331",
+										"_uid": "_339",
 										"block_name": "play_voice",
 										"children": [],
 										"exprs": {
@@ -4502,19 +4608,19 @@
 						}
 					},
 					{
-						"_uid": "_332",
+						"_uid": "_340",
 						"block_name": "when_animation_playing",
 						"children": [
 							{
-								"_uid": "_333",
+								"_uid": "_341",
 								"block_name": "if_condition",
 								"children": [
 									{
-										"_uid": "_334",
+										"_uid": "_342",
 										"block_name": "if_condition",
 										"children": [
 											{
-												"_uid": "_344",
+												"_uid": "_343",
 												"block_name": "spawn_cancel_white",
 												"children": [],
 												"exprs": {
@@ -4525,7 +4631,7 @@
 												}
 											},
 											{
-												"_uid": "_335",
+												"_uid": "_344",
 												"block_name": "play_animation",
 												"children": [],
 												"enabled": true,
@@ -4568,11 +4674,11 @@
 						}
 					},
 					{
-						"_uid": "_336",
+						"_uid": "_345",
 						"block_name": "when_animation_exit",
 						"children": [
 							{
-								"_uid": "_337",
+								"_uid": "_346",
 								"block_name": "play_animation",
 								"children": [],
 								"exprs": {
@@ -4597,20 +4703,20 @@
 				"type": "group"
 			},
 			{
-				"_uid": "_338",
+				"_uid": "_347",
 				"color": "(0.9, 0.85, 0.6, 1.0)",
 				"name": "替身",
 				"rows": [
 					{
-						"_uid": "_339",
+						"_uid": "_348",
 						"block_name": "when_animation_playing",
 						"children": [
 							{
-								"_uid": "_340",
+								"_uid": "_349",
 								"block_name": "if_condition",
 								"children": [
 									{
-										"_uid": "_341",
+										"_uid": "_350",
 										"block_name": "play_voice",
 										"children": [],
 										"exprs": {
@@ -4643,11 +4749,11 @@
 						}
 					},
 					{
-						"_uid": "_342",
+						"_uid": "_351",
 						"block_name": "when_press_input",
 						"children": [
 							{
-								"_uid": "_343",
+								"_uid": "_352",
 								"block_name": "set_cd",
 								"children": [],
 								"exprs": {
@@ -4699,11 +4805,11 @@
 			"_116": true,
 			"_117": true,
 			"_118": true,
-			"_119": true,
+			"_119": false,
 			"_12": true,
 			"_120": false,
 			"_121": false,
-			"_122": true,
+			"_122": false,
 			"_123": false,
 			"_124": false,
 			"_125": false,
@@ -4716,7 +4822,7 @@
 			"_131": false,
 			"_132": false,
 			"_133": true,
-			"_134": false,
+			"_134": true,
 			"_135": false,
 			"_136": false,
 			"_137": true,
@@ -4724,7 +4830,7 @@
 			"_139": false,
 			"_14": false,
 			"_140": true,
-			"_141": false,
+			"_141": true,
 			"_142": false,
 			"_143": false,
 			"_144": false,
@@ -4763,7 +4869,7 @@
 			"_174": false,
 			"_175": true,
 			"_176": true,
-			"_177": false,
+			"_177": true,
 			"_178": false,
 			"_179": false,
 			"_18": false,
@@ -4820,7 +4926,7 @@
 			"_225": true,
 			"_226": true,
 			"_227": false,
-			"_228": false,
+			"_228": true,
 			"_229": true,
 			"_23": false,
 			"_230": false,
@@ -4853,28 +4959,31 @@
 			"_256": true,
 			"_257": true,
 			"_258": true,
+			"_259": false,
 			"_26": true,
-			"_260": true,
+			"_260": false,
 			"_261": false,
-			"_263": true,
+			"_263": false,
 			"_264": true,
 			"_265": false,
-			"_267": true,
+			"_266": true,
+			"_267": false,
 			"_268": true,
 			"_269": false,
 			"_27": true,
-			"_270": false,
+			"_270": true,
 			"_271": true,
 			"_272": true,
 			"_273": true,
 			"_274": false,
-			"_275": false,
+			"_275": true,
 			"_276": false,
 			"_277": false,
 			"_278": true,
 			"_279": false,
 			"_28": false,
 			"_280": true,
+			"_281": false,
 			"_282": true,
 			"_283": true,
 			"_284": false,
@@ -4940,10 +5049,16 @@
 			"_338": true,
 			"_339": true,
 			"_34": false,
+			"_340": true,
 			"_341": true,
 			"_342": true,
 			"_343": true,
+			"_345": true,
+			"_346": true,
+			"_347": true,
+			"_348": true,
 			"_35": true,
+			"_351": true,
 			"_36": true,
 			"_37": true,
 			"_38": true,
@@ -4957,7 +5072,7 @@
 			"_45": true,
 			"_46": false,
 			"_47": true,
-			"_48": true,
+			"_48": false,
 			"_49": true,
 			"_5": true,
 			"_50": true,
@@ -4974,11 +5089,11 @@
 			"_60": true,
 			"_61": true,
 			"_62": true,
-			"_63": true,
+			"_63": false,
 			"_64": true,
 			"_65": true,
 			"_66": true,
-			"_67": false,
+			"_67": true,
 			"_68": true,
 			"_69": true,
 			"_7": false,
@@ -4992,11 +5107,11 @@
 			"_78": false,
 			"_79": true,
 			"_8": false,
-			"_80": false,
+			"_80": true,
 			"_81": false,
 			"_82": false,
 			"_83": true,
-			"_84": true,
+			"_84": false,
 			"_85": false,
 			"_86": true,
 			"_87": true,

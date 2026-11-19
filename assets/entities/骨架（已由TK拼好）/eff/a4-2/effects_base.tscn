@@ -1,0 +1,51 @@
+[gd_scene format=3 uid="uid://b0ykdadk0vdvq"]
+
+[ext_resource type="PackedScene" uid="uid://c5eauk5i5s64k" path="res://assets/entities/base/effects/effects_base.tscn" id="1_base"]
+[ext_resource type="Texture2D" uid="uid://bagmb6mhim18" path="res://assets/entities/骨架（已由TK拼好）/eff/a4-2/1.png" id="tex_1"]
+[ext_resource type="Texture2D" uid="uid://f26kd2f8n8u1" path="res://assets/entities/骨架（已由TK拼好）/eff/a4-2/2.png" id="tex_2"]
+[ext_resource type="Texture2D" uid="uid://boh4wcj3fn8sy" path="res://assets/entities/骨架（已由TK拼好）/eff/a4-2/3.png" id="tex_3"]
+[ext_resource type="Texture2D" uid="uid://wbucrxlx6ckh" path="res://assets/entities/骨架（已由TK拼好）/eff/a4-2/4.png" id="tex_4"]
+[ext_resource type="Texture2D" uid="uid://cnn6ofbvtjqba" path="res://assets/entities/骨架（已由TK拼好）/eff/a4-2/5.png" id="tex_5"]
+[ext_resource type="Texture2D" uid="uid://d1mitjqpo5od4" path="res://assets/entities/骨架（已由TK拼好）/eff/a4-2/6.png" id="tex_6"]
+
+[sub_resource type="CanvasItemMaterial" id="Material_lightning"]
+blend_mode = 1
+
+[sub_resource type="SpriteFrames" id="Frames_lightning"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("tex_1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("tex_2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("tex_3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("tex_4")
+}, {
+"duration": 1.0,
+"texture": ExtResource("tex_5")
+}, {
+"duration": 1.0,
+"texture": ExtResource("tex_6")
+}],
+"loop": false,
+"name": &"a4_2_lightning",
+"speed": 12.0
+}]
+
+[node name="EffectsBase" unique_id=825506651 instance=ExtResource("1_base")]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." index="0" unique_id=1318434526]
+material = SubResource("Material_lightning")
+sprite_frames = SubResource("Frames_lightning")
+animation = &"a4_2_lightning"
+autoplay = "a4_2_lightning"
+frame = 5
+frame_progress = 1.0
+offset = Vector2(-2, -270)
+
+[connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animation_finished"]

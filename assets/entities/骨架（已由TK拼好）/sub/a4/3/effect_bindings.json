@@ -1,0 +1,23 @@
+{
+	"bindings": [
+		{
+			"anim": "attack",
+			"auto_flip_by_facing": false,
+			"effect_name": "雷球爆炸",
+			"flip_h": false,
+			"follow_entity": true,
+			"follow_facing": false,
+			"frame": 0.0,
+			"id": "eb_a4_orb_burst",
+			"pool_size": 1.0,
+			"pooled": false,
+			"rotation": 0.0,
+			"scale_x": 3.001,
+			"scale_y": 3.001,
+			"scene_path": "res://assets/entities/骨架（已由TK拼好）/eff/a4-3-2/effects_base.tscn",
+			"x": -0.460000607859001,
+			"y": 1.19999633138832,
+			"z_offset": 1.0
+		}
+	]
+}

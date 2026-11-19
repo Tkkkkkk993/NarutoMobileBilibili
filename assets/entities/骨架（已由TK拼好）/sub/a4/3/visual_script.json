@@ -18,18 +18,6 @@
 							"val": "0",
 							"var": "状态"
 						}
-					},
-					{
-						"_uid": "_3",
-						"block_name": "set_var_val",
-						"children": [],
-						"exprs": {
-							"val": "latest_non_player_entity(\"扎刀\")"
-						},
-						"params": {
-							"val": "",
-							"var": "目标"
-						}
 					}
 				],
 				"enabled": true,
@@ -42,23 +30,23 @@
 				}
 			},
 			{
-				"_uid": "_4",
+				"_uid": "_3",
 				"block_name": "when_frame_changed",
 				"children": [
 					{
-						"_uid": "_5",
+						"_uid": "_4",
 						"block_name": "if_condition",
 						"children": [
 							{
-								"_uid": "_6",
+								"_uid": "_5",
 								"block_name": "if_condition",
 								"children": [
 									{
-										"_uid": "_7",
+										"_uid": "_6",
 										"block_name": "set_var_val",
 										"children": [],
 										"exprs": {
-											"val": "Vector2(目标.position_3d.x,目标.position_3d.y)"
+											"val": "self_entity().get_blade_target().get_2d_pos()"
 										},
 										"params": {
 											"val": "",
@@ -66,23 +54,11 @@
 										}
 									},
 									{
-										"_uid": "_8",
+										"_uid": "_7",
 										"block_name": "set_var_val",
 										"children": [],
 										"exprs": {
-											"val": "self_entity().position_3d"
-										},
-										"params": {
-											"val": "",
-											"var": "我位置"
-										}
-									},
-									{
-										"_uid": "_9",
-										"block_name": "set_var_val",
-										"children": [],
-										"exprs": {
-											"val": "sqrt((目标位置2D.x -我位置.x)*(目标位置2D.x -我位置.x)+(目标位置2D.y -我位置.y)*(目标位置2D.y -我位置.y))"
+											"val": "目标位置2D.distance_to(self_entity().get_2d_pos())"
 										},
 										"params": {
 											"val": "",
@@ -90,11 +66,11 @@
 										}
 									},
 									{
-										"_uid": "_10",
+										"_uid": "_8",
 										"block_name": "if_condition",
 										"children": [
 											{
-												"_uid": "_11",
+												"_uid": "_9",
 												"block_name": "set_var_val",
 												"children": [],
 												"exprs": {
@@ -106,15 +82,23 @@
 												}
 											},
 											{
-												"_uid": "_12",
+												"_uid": "_10",
 												"block_name": "play_animation",
 												"children": [],
 												"exprs": {
 
 												},
 												"params": {
-													"anim_name": "attack"
+													"anim_name": "attack",
+													"start_frame": 0.0
 												}
+											},
+											{
+												"_uid": "_25",
+												"block_name": "die_entity",
+												"children": [],
+												"exprs": {"target": "self_entity().get_blade_target()"},
+												"params": {"target": ""}
 											}
 										],
 										"exprs": {
@@ -125,26 +109,40 @@
 										}
 									},
 									{
-										"_uid": "_13",
+										"_uid": "_11",
 										"block_name": "else_block",
 										"children": [
 											{
-												"_uid": "_14",
-												"block_name": "play_animation",
-												"children": [],
-												"exprs": {
+												"_uid": "_12",
+												"block_name": "if_condition",
+												"children": [
+													{
+														"_uid": "_13",
+														"block_name": "play_animation",
+														"children": [],
+														"exprs": {
 
+														},
+														"params": {
+															"anim_name": "detect",
+															"start_frame": 0.0
+														}
+													}
+												],
+												"exprs": {
+													"condition": "now_animation() != \"detect\""
 												},
 												"params": {
-													"anim_name": "detect"
+													"condition": true
 												}
 											},
 											{
-												"_uid": "_15",
+												"_uid": "_14",
 												"block_name": "move_toward_2d_point",
 												"children": [],
 												"exprs": {
-													"point": "目标位置2D"
+													"point": "目标位置2D",
+													"speed": "minf(1000.0, 距离 / self_entity().get_physics_process_delta_time())"
 												},
 												"params": {
 													"point": {
@@ -164,7 +162,31 @@
 									}
 								],
 								"exprs": {
-									"condition": "get_var(\"状态\") == 0"
+									"condition": "is_instance_valid(self_entity().get_blade_target())"
+								},
+								"params": {
+									"condition": true
+								}
+							},
+							{
+								"_uid": "_15",
+								"block_name": "else_if",
+								"children": [
+									{
+										"_uid": "_16",
+										"block_name": "play_animation",
+										"children": [],
+										"exprs": {
+
+										},
+										"params": {
+											"anim_name": "idle",
+											"start_frame": 0.0
+										}
+									}
+								],
+								"exprs": {
+									"condition": "now_animation() == \"detect\""
 								},
 								"params": {
 									"condition": true
@@ -172,34 +194,10 @@
 							}
 						],
 						"exprs": {
-							"condition": "get_var(\"目标\")"
+							"condition": "get_var(\"状态\") == 0"
 						},
 						"params": {
 							"condition": true
-						}
-					},
-					{
-						"_uid": "_16",
-						"block_name": "else_block",
-						"children": [
-							{
-								"_uid": "_17",
-								"block_name": "set_var_val",
-								"children": [],
-								"exprs": {
-									"val": "latest_non_player_entity(\"扎刀\")"
-								},
-								"params": {
-									"val": "",
-									"var": "目标"
-								}
-							}
-						],
-						"exprs": {
-
-						},
-						"params": {
-
 						}
 					}
 				],
@@ -214,30 +212,43 @@
 				}
 			},
 			{
-				"_uid": "_18",
+				"_uid": "_17",
 				"block_name": "when_attack_box_hit",
 				"children": [
 					{
-						"_uid": "_19",
-						"block_name": "set_var_val",
-						"children": [],
-						"exprs": {
+						"_uid": "_18",
+						"block_name": "if_condition",
+						"children": [
+							{
+								"_uid": "_19",
+								"block_name": "set_var_val",
+								"children": [],
+								"exprs": {
 
+								},
+								"params": {
+									"val": "1",
+									"var": "状态"
+								}
+							},
+							{
+								"_uid": "_20",
+								"block_name": "play_animation",
+								"children": [],
+								"exprs": {
+
+								},
+								"params": {
+									"anim_name": "attack",
+									"start_frame": 0.0
+								}
+							}
+						],
+						"exprs": {
+							"condition": "now_animation() == \"detect\""
 						},
 						"params": {
-							"val": "1",
-							"var": "状态"
-						}
-					},
-					{
-						"_uid": "_20",
-						"block_name": "play_animation",
-						"children": [],
-						"exprs": {
-
-						},
-						"params": {
-							"anim_name": "attack"
+							"condition": true
 						}
 					}
 				],
@@ -262,12 +273,14 @@
 							"target": "target"
 						},
 						"params": {
+							"ar": 3.0,
 							"bs": 0.0,
 							"cotg": true,
 							"hst": 0.0,
 							"hurt": 45000.0,
 							"isgd": true,
 							"ish": false,
+							"knockback_model": "指数阻力",
 							"kr": 10.0,
 							"target": "",
 							"type": "launch",
@@ -275,6 +288,11 @@
 								"x": 0.0,
 								"y": 0.0,
 								"z": 400.0
+							},
+							"va": {
+								"x": 0.0,
+								"y": 0.0,
+								"z": 0.0
 							}
 						}
 					}
@@ -318,9 +336,14 @@
 	"run_mode": "both",
 	"ui_state": {
 		"col_collapsed": {
+			"_1": true,
+			"_17": true,
 			"_20": true,
-			"_21": false
+			"_21": true,
+			"_23": true,
+			"_3": false,
+			"_4": false
 		}
 	},
-	"version": 2
+	"version": 3
 }

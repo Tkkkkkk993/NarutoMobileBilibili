@@ -844,6 +844,20 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
+"texture": ExtResource("137_h1uvw")
+}, {
+"duration": 1.0,
+"texture": ExtResource("138_txebj")
+}, {
+"duration": 1.0,
+"texture": ExtResource("139_02ash")
+}],
+"loop": false,
+"name": &"s1r_over",
+"speed": 12.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": ExtResource("101_3fu3o")
 }, {
 "duration": 1.0,
@@ -947,14 +961,15 @@ animations = [{
 
 [node name="Entity" unique_id=1152390372 instance=ExtResource("1_abljq")]
 script = ExtResource("2_0nraj")
+debug_show_hitboxes = false
 debug_show_attack_boxes = false
 
 [node name="AnimatedSprite2D" parent="Visuals" parent_id_path=PackedInt32Array(599763896) index="0" unique_id=318864051]
 position = Vector2(0, -6.5000176)
 scale = Vector2(1.2, 1.2)
 sprite_frames = SubResource("SpriteFrames_q5mhs")
-animation = &"s1_run_ready"
-frame = 5
+animation = &"s1r_over"
+frame = 2
 frame_progress = 1.0
 
 [node name="HitboxArea2" type="Area2D" parent="Visuals/AnimatedSprite2D" index="1" unique_id=1473240358]

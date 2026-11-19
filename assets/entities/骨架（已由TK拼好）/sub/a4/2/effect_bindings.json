@@ -1,0 +1,23 @@
+{
+	"bindings": [
+		{
+			"anim": "idle",
+			"auto_flip_by_facing": true,
+			"effect_name": "a4_2_扎刀雷霆",
+			"flip_h": false,
+			"follow_entity": true,
+			"follow_facing": true,
+			"frame": 0.0,
+			"id": "eb_a4_2_ground_lightning",
+			"pool_size": 1,
+			"pooled": false,
+			"rotation": 0.0,
+			"scale_x": 1.501,
+			"scale_y": 1.501,
+			"scene_path": "res://assets/entities/骨架（已由TK拼好）/eff/a4-2/effects_base.tscn",
+			"x": 0.0,
+			"y": 46.0,
+			"z_offset": 0.0
+		}
+	]
+}

@@ -3,6 +3,12 @@ shader_type canvas_item;
 uniform float whitening : hint_range(0.0, 1.0) = 0.0;
 uniform vec4 self_modulate = vec4(1.0);
 
+varying float canvas_opacity;
+
+void vertex() {
+	canvas_opacity = COLOR.a;
+}
+
 void fragment() {
 	vec4 tex_color = texture(TEXTURE, UV);
 
@@ -15,6 +21,7 @@ void fragment() {
 
 	// 处理 Godot 预乘 Alpha，防止半透明边缘变黑/变暗
 	result.rgb *= result.a;
+	result.a *= canvas_opacity;
 
 	COLOR = result;
 }

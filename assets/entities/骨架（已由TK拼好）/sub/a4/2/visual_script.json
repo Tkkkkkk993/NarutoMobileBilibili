@@ -1,0 +1,63 @@
+{
+	"blocks": [],
+	"editor_mode": 1,
+	"events": {
+		"rows": [
+			{
+				"_uid": "_1",
+				"name": "刀的寿命与渐隐",
+				"rows": [
+					{
+						"_uid": "_2",
+						"block_name": "when_entity_create",
+						"children": [
+							{
+								"_uid": "_3",
+								"block_name": "tween_property",
+								"children": [],
+								"exprs": {
+									"target": "self_entity()"
+								},
+								"params": {
+									"delay": 7.0,
+									"dur": 1.0,
+									"ease": "线性",
+									"prop": "modulate:a",
+									"target": "",
+									"to": 0.0
+								}
+							},
+							{
+								"_uid": "_4",
+								"block_name": "die",
+								"children": [],
+								"exprs": {
+
+								},
+								"params": {
+
+								}
+							}
+						],
+						"enabled": true,
+						"exprs": {
+
+						},
+						"id": 1000.0,
+						"params": {
+
+						}
+					}
+				],
+				"type": "group"
+			}
+		]
+	},
+	"run_mode": "events_only",
+	"ui_state": {
+		"col_collapsed": {
+			"_2": false
+		}
+	},
+	"version": 3
+}
