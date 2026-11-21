@@ -181,6 +181,45 @@
 [ext_resource type="Texture2D" uid="uid://dtuym4cishd3b" path="res://assets/entities/骨架（已由TK拼好）/s1/s1_attack/39.png" id="142_gqy2w"]
 [ext_resource type="Texture2D" uid="uid://dsl3iqcct2a18" path="res://assets/entities/骨架（已由TK拼好）/s1/s1_attack/40.png" id="143_mj3n3"]
 [ext_resource type="Texture2D" uid="uid://bkd0d6jg777mb" path="res://assets/entities/骨架（已由TK拼好）/s1/s1_attack/41.png" id="144_1g2j1"]
+[ext_resource type="Texture2D" uid="uid://dhlskxvpmwsyx" path="res://assets/entities/骨架（已由TK拼好）/jumpin/41.png" id="eagle_beat"]
+[ext_resource type="Texture2D" uid="uid://mtouxeych171" path="res://assets/entities/骨架（已由TK拼好）/jumpin/40.png" id="eagle_glide"]
+[ext_resource type="Texture2D" uid="uid://c3ssn5qiun0xl" path="res://assets/entities/骨架（已由TK拼好）/jumpin/1.png" id="jumpin_1"]
+[ext_resource type="Texture2D" uid="uid://cs115o8iyvn8t" path="res://assets/entities/骨架（已由TK拼好）/jumpin/2.png" id="jumpin_2"]
+[ext_resource type="Texture2D" uid="uid://cg3mwmm2y445i" path="res://assets/entities/骨架（已由TK拼好）/jumpin/3.png" id="jumpin_3"]
+[ext_resource type="Texture2D" uid="uid://dchnvmi7nuycp" path="res://assets/entities/骨架（已由TK拼好）/jumpin/4.png" id="jumpin_4"]
+[ext_resource type="Texture2D" uid="uid://blnxei4g0ypax" path="res://assets/entities/骨架（已由TK拼好）/jumpin/5.png" id="jumpin_5"]
+[ext_resource type="Texture2D" uid="uid://cqflm43h358s4" path="res://assets/entities/骨架（已由TK拼好）/jumpin/6.png" id="jumpin_6"]
+[ext_resource type="Texture2D" uid="uid://db3184wc2ikwk" path="res://assets/entities/骨架（已由TK拼好）/jumpin/7.png" id="jumpin_7"]
+[ext_resource type="Texture2D" uid="uid://swjpaiwf7k1t" path="res://assets/entities/骨架（已由TK拼好）/jumpin/8.png" id="jumpin_8"]
+[ext_resource type="Texture2D" uid="uid://bpvcw0ghe46he" path="res://assets/entities/骨架（已由TK拼好）/jumpin/9.png" id="jumpin_9"]
+[ext_resource type="Texture2D" uid="uid://bygn8ghibtqc8" path="res://assets/entities/骨架（已由TK拼好）/jumpin/10.png" id="jumpin_10"]
+[ext_resource type="Texture2D" uid="uid://s5kbd8vln16a" path="res://assets/entities/骨架（已由TK拼好）/jumpin/11.png" id="jumpin_11"]
+[ext_resource type="Texture2D" uid="uid://clbpm2a1hqkvh" path="res://assets/entities/骨架（已由TK拼好）/jumpin/12.png" id="jumpin_12"]
+[ext_resource type="Texture2D" uid="uid://csbejf8wej8mw" path="res://assets/entities/骨架（已由TK拼好）/jumpin/13.png" id="jumpin_13"]
+[ext_resource type="Texture2D" uid="uid://5wvgvncoo535" path="res://assets/entities/骨架（已由TK拼好）/jumpin/14.png" id="jumpin_14"]
+[ext_resource type="Texture2D" uid="uid://7hcu0rnr7qh6" path="res://assets/entities/骨架（已由TK拼好）/jumpin/15.png" id="jumpin_15"]
+[ext_resource type="Texture2D" uid="uid://bdxklxosecmla" path="res://assets/entities/骨架（已由TK拼好）/jumpin/16.png" id="jumpin_16"]
+[ext_resource type="Texture2D" uid="uid://du6cybf5fv44b" path="res://assets/entities/骨架（已由TK拼好）/jumpin/17.png" id="jumpin_17"]
+[ext_resource type="Texture2D" uid="uid://cltaqdg40b20l" path="res://assets/entities/骨架（已由TK拼好）/jumpin/18.png" id="jumpin_18"]
+[ext_resource type="Texture2D" uid="uid://b1eiqlf48k56f" path="res://assets/entities/骨架（已由TK拼好）/jumpin/19.png" id="jumpin_19"]
+[ext_resource type="Texture2D" uid="uid://cqqq2pcucofx4" path="res://assets/entities/骨架（已由TK拼好）/jumpin/20.png" id="jumpin_20"]
+[ext_resource type="Texture2D" uid="uid://bdh2liwhj1kun" path="res://assets/entities/骨架（已由TK拼好）/jumpin/21.png" id="jumpin_21"]
+[ext_resource type="Texture2D" uid="uid://befjuqqq7siqx" path="res://assets/entities/骨架（已由TK拼好）/jumpin/22.png" id="jumpin_22"]
+[ext_resource type="Texture2D" uid="uid://dhnpjhg5tiv81" path="res://assets/entities/骨架（已由TK拼好）/jumpin/23.png" id="jumpin_23"]
+[ext_resource type="Texture2D" uid="uid://bgrsupe1kcej3" path="res://assets/entities/骨架（已由TK拼好）/jumpin/24.png" id="jumpin_24"]
+[ext_resource type="Texture2D" uid="uid://bs03s0r6ere0b" path="res://assets/entities/骨架（已由TK拼好）/jumpin/25.png" id="jumpin_25"]
+[ext_resource type="Texture2D" uid="uid://c6mnm0gs1y2cm" path="res://assets/entities/骨架（已由TK拼好）/jumpin/26.png" id="jumpin_26"]
+[ext_resource type="Texture2D" uid="uid://b5m86g8qv54gu" path="res://assets/entities/骨架（已由TK拼好）/jumpin/27.png" id="jumpin_27"]
+[ext_resource type="Texture2D" uid="uid://cnwlis7vxoxon" path="res://assets/entities/骨架（已由TK拼好）/jumpin/28.png" id="jumpin_28"]
+[ext_resource type="Texture2D" uid="uid://dk7alhq2go62u" path="res://assets/entities/骨架（已由TK拼好）/jumpin/29.png" id="jumpin_29"]
+[ext_resource type="Texture2D" uid="uid://yuh0ebs8ypmj" path="res://assets/entities/骨架（已由TK拼好）/jumpin/30.png" id="jumpin_30"]
+[ext_resource type="Texture2D" uid="uid://cbs3t5hoao5gi" path="res://assets/entities/骨架（已由TK拼好）/jumpin/31.png" id="jumpin_31"]
+[ext_resource type="Texture2D" uid="uid://cbm7533nqjb7f" path="res://assets/entities/骨架（已由TK拼好）/jumpin/32.png" id="jumpin_32"]
+[ext_resource type="Texture2D" uid="uid://dqad1gk7pgjp1" path="res://assets/entities/骨架（已由TK拼好）/jumpin/33.png" id="jumpin_33"]
+[ext_resource type="Texture2D" uid="uid://doji46us1o6hx" path="res://assets/entities/骨架（已由TK拼好）/jumpin/34.png" id="jumpin_34"]
+[ext_resource type="Texture2D" uid="uid://b55oqs1dy6ump" path="res://assets/entities/骨架（已由TK拼好）/jumpin/35.png" id="jumpin_35"]
+[ext_resource type="Texture2D" uid="uid://cerapt427qp4o" path="res://assets/entities/骨架（已由TK拼好）/jumpin/36.png" id="jumpin_36"]
+[ext_resource type="Texture2D" uid="uid://dqkgc4tnlamsu" path="res://assets/entities/骨架（已由TK拼好）/jumpin/37.png" id="jumpin_37"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_q5mhs"]
 animations = [{
@@ -208,7 +247,7 @@ animations = [{
 }],
 "loop": false,
 "name": &"a1",
-"speed": 12.0
+"speed": 16.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -234,7 +273,7 @@ animations = [{
 }],
 "loop": false,
 "name": &"a2",
-"speed": 12.0
+"speed": 16.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -278,7 +317,7 @@ animations = [{
 }],
 "loop": false,
 "name": &"a3",
-"speed": 12.0
+"speed": 16.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -322,7 +361,7 @@ animations = [{
 }],
 "loop": false,
 "name": &"a4_1",
-"speed": 12.0
+"speed": 16.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -348,7 +387,7 @@ animations = [{
 }],
 "loop": false,
 "name": &"a4_1E",
-"speed": 12.0
+"speed": 16.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -383,7 +422,7 @@ animations = [{
 }],
 "loop": false,
 "name": &"a4_2",
-"speed": 12.0
+"speed": 16.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -417,7 +456,7 @@ animations = [{
 }],
 "loop": false,
 "name": &"a4_3A",
-"speed": 12.0
+"speed": 16.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -461,7 +500,7 @@ animations = [{
 }],
 "loop": false,
 "name": &"a4_3B",
-"speed": 12.0
+"speed": 16.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -547,6 +586,122 @@ animations = [{
 "speed": 5.0
 }, {
 "frames": [{
+"duration": 3.0,
+"texture": ExtResource("jumpin_1")
+}, {
+"duration": 2.0,
+"texture": ExtResource("jumpin_2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("jumpin_3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("jumpin_4")
+}, {
+"duration": 1.0,
+"texture": ExtResource("jumpin_5")
+}, {
+"duration": 1.0,
+"texture": ExtResource("jumpin_6")
+}, {
+"duration": 1.0,
+"texture": ExtResource("jumpin_7")
+}, {
+"duration": 1.0,
+"texture": ExtResource("jumpin_8")
+}, {
+"duration": 1.0,
+"texture": ExtResource("jumpin_9")
+}, {
+"duration": 1.0,
+"texture": ExtResource("jumpin_10")
+}, {
+"duration": 1.0,
+"texture": ExtResource("jumpin_11")
+}, {
+"duration": 1.0,
+"texture": ExtResource("jumpin_12")
+}, {
+"duration": 1.0,
+"texture": ExtResource("jumpin_13")
+}, {
+"duration": 1.0,
+"texture": ExtResource("jumpin_14")
+}, {
+"duration": 1.0,
+"texture": ExtResource("jumpin_15")
+}, {
+"duration": 1.0,
+"texture": ExtResource("jumpin_16")
+}, {
+"duration": 1.0,
+"texture": ExtResource("jumpin_17")
+}, {
+"duration": 1.0,
+"texture": ExtResource("jumpin_18")
+}, {
+"duration": 1.0,
+"texture": ExtResource("jumpin_19")
+}, {
+"duration": 1.0,
+"texture": ExtResource("jumpin_20")
+}, {
+"duration": 1.0,
+"texture": ExtResource("jumpin_21")
+}, {
+"duration": 1.0,
+"texture": ExtResource("jumpin_22")
+}, {
+"duration": 1.0,
+"texture": ExtResource("jumpin_23")
+}, {
+"duration": 1.0,
+"texture": ExtResource("jumpin_24")
+}, {
+"duration": 1.0,
+"texture": ExtResource("jumpin_25")
+}, {
+"duration": 1.0,
+"texture": ExtResource("jumpin_26")
+}, {
+"duration": 1.0,
+"texture": ExtResource("jumpin_27")
+}, {
+"duration": 1.0,
+"texture": ExtResource("jumpin_28")
+}, {
+"duration": 1.0,
+"texture": ExtResource("jumpin_29")
+}, {
+"duration": 1.0,
+"texture": ExtResource("jumpin_30")
+}, {
+"duration": 1.0,
+"texture": ExtResource("jumpin_31")
+}, {
+"duration": 1.0,
+"texture": ExtResource("jumpin_32")
+}, {
+"duration": 1.0,
+"texture": ExtResource("jumpin_33")
+}, {
+"duration": 1.0,
+"texture": ExtResource("jumpin_34")
+}, {
+"duration": 1.0,
+"texture": ExtResource("jumpin_35")
+}, {
+"duration": 1.0,
+"texture": ExtResource("jumpin_36")
+}, {
+"duration": 1.0,
+"texture": ExtResource("jumpin_37")
+}],
+"loop": false,
+"name": &"jumpin",
+"speed": 18.0
+}, {
+"frames": [{
 "duration": 1.0,
 "texture": ExtResource("13_2qcc3")
 }],
@@ -622,7 +777,7 @@ animations = [{
 }],
 "loop": false,
 "name": &"s1",
-"speed": 12.0
+"speed": 16.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -750,7 +905,7 @@ animations = [{
 }],
 "loop": false,
 "name": &"s1_attack",
-"speed": 12.0
+"speed": 16.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -782,7 +937,7 @@ animations = [{
 }],
 "loop": true,
 "name": &"s1_run",
-"speed": 12.0
+"speed": 16.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -840,7 +995,7 @@ animations = [{
 }],
 "loop": true,
 "name": &"s1r",
-"speed": 12.0
+"speed": 16.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -854,7 +1009,7 @@ animations = [{
 }],
 "loop": false,
 "name": &"s1r_over",
-"speed": 12.0
+"speed": 16.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -883,7 +1038,7 @@ animations = [{
 }],
 "loop": false,
 "name": &"s2_1",
-"speed": 12.0
+"speed": 16.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -959,8 +1114,25 @@ animations = [{
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_3jhxi"]
 
+[sub_resource type="SpriteFrames" id="Frames_entry_eagle"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("eagle_glide")
+}, {
+"duration": 1.0,
+"texture": ExtResource("eagle_beat")
+}],
+"loop": true,
+"name": &"default",
+"speed": 6.0
+}]
+
 [node name="Entity" unique_id=1152390372 instance=ExtResource("1_abljq")]
 script = ExtResource("2_0nraj")
+entry_fly_distance = 300.0
+entry_fly_height = 300.0
+entry_leap_lift = 100.0
 debug_show_hitboxes = false
 debug_show_attack_boxes = false
 
@@ -968,7 +1140,7 @@ debug_show_attack_boxes = false
 position = Vector2(0, -6.5000176)
 scale = Vector2(1.2, 1.2)
 sprite_frames = SubResource("SpriteFrames_q5mhs")
-animation = &"s1r_over"
+animation = &"scroll"
 frame = 2
 frame_progress = 1.0
 
@@ -985,3 +1157,9 @@ collision_mask = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Visuals/AnimatedSprite2D/HitboxArea3" index="0" unique_id=409145147]
 shape = SubResource("RectangleShape2D_3jhxi")
+
+[node name="EntryEagle" type="AnimatedSprite2D" parent="Visuals/AnimatedSprite2D" index="3" unique_id=78936772]
+visible = false
+show_behind_parent = true
+sprite_frames = SubResource("Frames_entry_eagle")
+frame_progress = 0.6281467

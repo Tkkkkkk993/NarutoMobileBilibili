@@ -1,5 +1,12 @@
 {
 	"animation_data": {
+		"jumpin": {
+			"0": {
+				"anchor_point": {"x": 30.0, "y": 86.0},
+				"frame_index": 0,
+				"hitboxes_data": []
+			}
+		},
 		"a1": {
 			"0": {
 				"anchor_point": {

@@ -5,5 +5,6 @@
 [resource]
 script = ExtResource("1_ra5w2")
 entity_name = "骨架（已由TK拼好）"
+custom_entry = "jumpin"
 floder_path = "res://assets/entities/骨架（已由TK拼好）/"
 metadata/_custom_type_script = "uid://cm7ar1dcvtpvt"

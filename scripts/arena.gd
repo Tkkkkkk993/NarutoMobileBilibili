@@ -29,6 +29,8 @@ func _ready() -> void:
 	$Main/Background.add_child(background_instance)
 	
 	if MatchConfig.current_mode == MatchConfig.GameMode.TEST:
+		var reset_to_spawn := MatchConfig.test_reset_pending
+		MatchConfig.test_reset_pending = false
 		fight_ui.get_node("RoundsNumber").visible = false
 		timer.visible = false
 		fight_ui.get_node("P1_Info/Avatar2").visible = false
@@ -52,6 +54,9 @@ func _ready() -> void:
 						player2 = e
 			await get_tree().process_frame
 		$CanvasLayer/AnimationPlayer.play("Start")
+		if reset_to_spawn:
+			player1.cancel_entry()
+			player2.cancel_entry()
 		
 		await get_tree().process_frame
 		var entry_ended: bool = false
@@ -208,10 +213,34 @@ func _process(delta: float) -> void:
 			battle_started = false
 
 func _input(event: InputEvent):
+	if MatchConfig.current_mode == MatchConfig.GameMode.TEST:
+		if event.is_action_pressed("test_reset_arena", false, true):
+			get_viewport().set_input_as_handled()
+			if not MatchConfig.test_reset_pending:
+				MatchConfig.test_reset_pending = true
+				_reset_test_arena.call_deferred()
+			return
+		if event.is_action_pressed("test_replay_jumpin", false, true):
+			get_viewport().set_input_as_handled()
+			var actor := entitys.get_node_or_null(MatchConfig.current_controller_name) as EntityBase
+			if is_instance_valid(actor) and actor.load_done and actor.can_play_animation("jumpin") and actor.hp > 0:
+				actor.cancel_entry()
+				actor.stop_slide()
+				actor.clear_temporary_status()
+				actor.set_entry_state(EntityBase.EntryAction.CUSTOM, "jumpin")
+			return
 	match status:
 		STATUS.RESULT:
 			if event is InputEventMouseButton and event.pressed or event is InputEventKey and event.pressed:
 				get_tree().change_scene_to_file("res://scenes/main_menu.tscn")
+
+func _reset_test_arena():
+	MatchConfig.clear_round_carry()
+	MatchConfig.logic_frame = 0
+	var result := get_tree().reload_current_scene()
+	if result != OK:
+		MatchConfig.test_reset_pending = false
+		push_error("测试场复位失败：%s" % error_string(result))
 
 func decide_winner():
 	status = STATUS.IDLE

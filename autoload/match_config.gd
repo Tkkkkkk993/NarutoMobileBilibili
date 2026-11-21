@@ -11,6 +11,7 @@ var current_controller_name: String = "Player1":
 			controller_changed.emit(value)
 
 var current_mode: GameMode = GameMode.PLAYER_VS_CPU
+var test_reset_pending := false
 
 ## 调试总开关。
 ## 关闭后实体不再绘制受击框、攻击框、信息点与 Z 深度标签，也不再输出任何调试 print，
@@ -141,6 +142,9 @@ func reset_match():
 	selected_stage = ""
 	current_round = 1
 	current_map = maps.pick_random()
+	clear_round_carry()
+
+func clear_round_carry():
 	p1_carry_hp = -1
 	p1_carry_hp_max = -1
 	p2_carry_hp = -1

@@ -1,9 +1,5 @@
-res://assets/entities/骨架（已由TK拼好）/sub/a4/3/entity.tscn
+res://assets/entities/骨架（已由TK拼好）/entity.gd
+res://autoload/match_config.gd
+res://assets/entities/骨架（已由TK拼好）/entity.tscn
 res://shader/entity_animated_sprite_shader.gdshader
 res://shader/color_filter.gdshader
-res://assets/entities/骨架（已由TK拼好）/entity.tscn
-res://assets/entities/骨架（已由TK拼好）/sub/a4/3/entity.gd
-res://assets/entities/骨架（已由TK拼好）/eff/a4-3-2/effects_base.tscn
-res://assets/entities/visual_script_component.gd
-res://assets/entities/骨架（已由TK拼好）/sub/a4/2/entity.gd
-res://assets/entities/骨架（已由TK拼好）/eff/a4-2/effects_base.tscn
